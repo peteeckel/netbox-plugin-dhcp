@@ -7,11 +7,21 @@ from netbox.forms import (
     NetBoxModelImportForm,
     NetBoxModelForm,
 )
-from utilities.forms.fields import TagFilterField
-from utilities.forms.rendering import FieldSet
+from utilities.forms.fields import (
+    TagFilterField,
+    DynamicModelChoiceField,
+    DynamicModelMultipleChoiceField,
+    CSVChoiceField,
+    CSVModelChoiceField,
+)
+from utilities.forms.rendering import FieldSet, TabbedGroups
+from utilities.forms import add_blank_choice
 
-from netbox_dhcp.models import DHCPServer
+from dcim.models import Device
+from virtualization.models import VirtualMachine
 
+from netbox_dhcp.models import DHCPServer, DHCPCluster
+from netbox_dhcp.choices import DHCPServerStatusChoices
 
 __all__ = (
     "DHCPServerForm",
@@ -28,19 +38,71 @@ class DHCPServerForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "status",
+            "dhcp_cluster",
+            "device",
+            "virtual_machine",
         )
 
     fieldsets = (
         FieldSet(
             "name",
             "description",
+            "status",
+            "dhcp_cluster",
             name=_("DHCP Server"),
+        ),
+        FieldSet(
+            TabbedGroups(
+                FieldSet("device", name=_("Physical")),
+                FieldSet("virtual_machine", name=_("Virtual")),
+            ),
+            name=_("Assignment"),
         ),
         FieldSet(
             "tags",
             name=_("Tags"),
         ),
     )
+
+    status = forms.ChoiceField(
+        choices=DHCPServerStatusChoices,
+        required=False,
+        label=_("Status"),
+    )
+    dhcp_cluster = DynamicModelChoiceField(
+        queryset=DHCPCluster.objects.all(),
+        required=False,
+        quick_add=True,
+        label=_("DHCP Cluster"),
+    )
+
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        label=_("Device"),
+        selector=True,
+    )
+    virtual_machine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        label=_("Virtual Machine"),
+        selector=True,
+    )
+
+    def clean(self, *args, **kwargs):
+        super().clean(*args, **kwargs)
+
+        if self.cleaned_data["virtual_machine"] and self.cleaned_data["device"]:
+            error_text = _(
+                "Cannot assign a device and a virtual machine to a DHCP server."
+            )
+            raise forms.ValidationError(
+                {
+                    "device": error_text,
+                    "virtual_machine": error_text,
+                }
+            )
 
 
 class DHCPServerFilterForm(NetBoxModelFilterSetForm):
@@ -55,7 +117,17 @@ class DHCPServerFilterForm(NetBoxModelFilterSetForm):
         FieldSet(
             "name",
             "description",
+            "status",
+            "dhcp_cluster",
             name=_("DHCP Server"),
+        ),
+        FieldSet(
+            "device",
+            name=_("DCIM"),
+        ),
+        FieldSet(
+            "virtual_machine",
+            name=_("Virtualization"),
         ),
     )
 
@@ -66,6 +138,27 @@ class DHCPServerFilterForm(NetBoxModelFilterSetForm):
     description = forms.CharField(
         required=False,
         label=_("Description"),
+    )
+    status = forms.MultipleChoiceField(
+        choices=DHCPServerStatusChoices,
+        required=False,
+        label=_("Status"),
+    )
+    dhcp_cluster_id = DynamicModelMultipleChoiceField(
+        queryset=DHCPCluster.objects.all(),
+        required=False,
+        label=_("DHCP Cluster"),
+    )
+
+    device_id = DynamicModelMultipleChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        label=_("Device"),
+    )
+    virtual_machine_id = DynamicModelMultipleChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        label=_("Virtual Machine"),
     )
 
     tag = TagFilterField(DHCPServer)
@@ -78,8 +171,46 @@ class DHCPServerImportForm(NetBoxModelImportForm):
         fields = (
             "name",
             "description",
+            "status",
+            "dhcp_cluster",
+            "device",
+            "virtual_machine",
             "tags",
         )
+
+    status = CSVChoiceField(
+        choices=DHCPServerStatusChoices,
+        required=False,
+        label=_("Status"),
+    )
+    dhcp_cluster = CSVModelChoiceField(
+        queryset=DHCPCluster.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("DHCP cluster %(value)s not found"),
+        },
+        label=_("DHCP Cluster"),
+    )
+
+    device = CSVModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Device %(value)s not found"),
+        },
+        label=_("Device"),
+    )
+    virtual_machine = CSVModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Virtual machine %(value)s not found"),
+        },
+        label=_("Virtual Machine"),
+    )
 
 
 class DHCPServerBulkEditForm(NetBoxModelBulkEditForm):
@@ -88,13 +219,28 @@ class DHCPServerBulkEditForm(NetBoxModelBulkEditForm):
     fieldsets = (
         FieldSet(
             "description",
+            "status",
+            "dhcp_cluster",
             name=_("DHCP Server"),
         ),
     )
 
-    nullable_fields = ("description",)
+    nullable_fields = (
+        "description",
+        "dhcp_cluster",
+    )
 
     description = forms.CharField(
         required=False,
         label=_("Description"),
+    )
+    status = forms.ChoiceField(
+        choices=add_blank_choice(DHCPServerStatusChoices),
+        required=False,
+        label=_("Status"),
+    )
+    dhcp_cluster = DynamicModelChoiceField(
+        queryset=DHCPCluster.objects.all(),
+        required=False,
+        label=_("DHCP Cluster"),
     )

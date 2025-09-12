@@ -7,10 +7,12 @@ from netbox.forms import (
     NetBoxModelImportForm,
     NetBoxModelForm,
 )
-from utilities.forms.fields import TagFilterField
+from utilities.forms.fields import TagFilterField, CSVChoiceField
 from utilities.forms.rendering import FieldSet
+from utilities.forms import add_blank_choice
 
 from netbox_dhcp.models import DHCPCluster
+from netbox_dhcp.choices import DHCPClusterStatusChoices
 
 
 __all__ = (
@@ -28,12 +30,14 @@ class DHCPClusterForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "status",
         )
 
     fieldsets = (
         FieldSet(
             "name",
             "description",
+            "status",
             name=_("DHCP Cluster"),
         ),
         FieldSet(
@@ -55,6 +59,7 @@ class DHCPClusterFilterForm(NetBoxModelFilterSetForm):
         FieldSet(
             "name",
             "description",
+            "status",
             name=_("DHCP Cluster"),
         ),
     )
@@ -67,6 +72,11 @@ class DHCPClusterFilterForm(NetBoxModelFilterSetForm):
         required=False,
         label=_("Description"),
     )
+    status = forms.MultipleChoiceField(
+        choices=DHCPClusterStatusChoices,
+        required=False,
+        label=_("Status"),
+    )
 
     tag = TagFilterField(DHCPCluster)
 
@@ -78,8 +88,15 @@ class DHCPClusterImportForm(NetBoxModelImportForm):
         fields = (
             "name",
             "description",
+            "status",
             "tags",
         )
+
+    status = CSVChoiceField(
+        choices=DHCPClusterStatusChoices,
+        required=False,
+        label=_("Status"),
+    )
 
 
 class DHCPClusterBulkEditForm(NetBoxModelBulkEditForm):
@@ -88,6 +105,7 @@ class DHCPClusterBulkEditForm(NetBoxModelBulkEditForm):
     fieldsets = (
         FieldSet(
             "description",
+            "status",
             name=_("DHCP Cluster"),
         ),
     )
@@ -97,4 +115,9 @@ class DHCPClusterBulkEditForm(NetBoxModelBulkEditForm):
     description = forms.CharField(
         required=False,
         label=_("Description"),
+    )
+    status = forms.ChoiceField(
+        choices=add_blank_choice(DHCPClusterStatusChoices),
+        required=False,
+        label=_("Status"),
     )

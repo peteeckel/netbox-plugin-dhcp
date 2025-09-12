@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
+from netbox_dhcp.choices import DHCPClusterStatusChoices
+
 
 __all__ = (
     "DHCPCluster",
@@ -17,6 +19,12 @@ class DHCPCluster(NetBoxModel):
         verbose_name_plural = _("DHCP Clusters")
 
         ordering = ("name",)
+
+    clone_fields = (
+        "name",
+        "description",
+        "status",
+    )
 
     def __str__(self):
         return str(self.name)
@@ -32,6 +40,16 @@ class DHCPCluster(NetBoxModel):
         blank=True,
         max_length=200,
     )
+    status = models.CharField(
+        verbose_name=_("Status"),
+        max_length=50,
+        choices=DHCPClusterStatusChoices,
+        default=DHCPClusterStatusChoices.STATUS_ACTIVE,
+        blank=True,
+    )
+
+    def get_status_color(self):
+        return DHCPClusterStatusChoices.colors.get(self.status)
 
 
 @register_search

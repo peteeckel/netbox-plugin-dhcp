@@ -1,8 +1,11 @@
+import django_filters
+
 from django.db.models import Q
 
 from netbox.filtersets import NetBoxModelFilterSet
 
 from netbox_dhcp.models import DHCPCluster
+from netbox_dhcp.choices import DHCPClusterStatusChoices
 
 
 __all__ = ("DHCPClusterFilterSet",)
@@ -16,7 +19,12 @@ class DHCPClusterFilterSet(NetBoxModelFilterSet):
             "id",
             "name",
             "description",
+            "status",
         )
+
+    status = django_filters.MultipleChoiceFilter(
+        choices=DHCPClusterStatusChoices,
+    )
 
     def search(self, queryset, name, value):
         if not value.strip():

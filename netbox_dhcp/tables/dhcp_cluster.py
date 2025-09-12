@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, TagColumn
+from netbox.tables import NetBoxTable, TagColumn, ChoiceFieldColumn
 
 from netbox_dhcp.models import DHCPCluster
 
@@ -15,11 +15,17 @@ class DHCPClusterTable(NetBoxTable):
 
         fields = ("description",)
 
-        default_columns = ("name",)
+        default_columns = (
+            "name",
+            "status",
+        )
 
     name = tables.Column(
         verbose_name=_("Name"),
         linkify=True,
+    )
+    status = ChoiceFieldColumn(
+        verbose_name=_("Status"),
     )
 
     tags = TagColumn(

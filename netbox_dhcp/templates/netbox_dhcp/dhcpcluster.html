@@ -17,6 +17,10 @@
                         <td style="word-break:break-all;">{{ object.description }}</td>
                     </tr>
                     {% endif %}
+                    <tr>
+                        <th scope="row">{% trans "Status" %}</th>
+                        <td>{% badge object.get_status_display bg_color=object.get_status_color %}</td>
+                    </tr>
                 </table>
             </div>
             {% include 'inc/panels/custom_fields.html' %}
