@@ -1,0 +1,118 @@
+{% extends 'generic/object.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">{% trans "Client Class" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Name" %}</th>
+                        <td>{{ object.name }}</td>
+                    </tr>
+                    {% if object.description %}
+                    <tr>
+                        <th scope="row">{% trans "Description" %}</th>
+                        <td style="word-break:break-all;">{{ object.description }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if object.comment %}
+                    <tr>
+                        <th scope="row">{% trans "Comment" %}</th>
+                        <td style="word-break:break-all;">{{ object.comment }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+            <div class="card">
+                <h5 class="card-header">{% trans "Evaluation" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Test" %}</th>
+                        <td style="word-break:break-all;">{{ object.test }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Template Test" %}</th>
+                        <td style="word-break:break-all;">{{ object.template_test }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Only if required" %}</th>
+                        <td>{% checkmark object.only_if_required %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Only in additional list" %}</th>
+                        <td>{% checkmark object.only_in_additional_list %}</td>
+                    </tr>
+                </table>
+            </div>
+            {% include 'inc/panels/custom_fields.html' %}
+        </div>
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">{% trans "Common" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "User Context" %}</th>
+                        <td>
+                            {% if object.user_context %}
+                                <pre>{{ object.user_context|json }}</pre>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Valid Lifetime" %}</th>
+                        <td>{{ object.valid_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Minimum Valid Lifetime" %}</th>
+                        <td>{{ object.min_valid_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Maximum Valid Lifetime" %}</th>
+                        <td>{{ object.max_valid_lifetime }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card">
+                <h5 class="card-header">{% trans "IPv4" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Next Server" %}</th>
+                        <td>{{ object.valid_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Server Hostname" %}</th>
+                        <td>{{ object.min_valid_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Boot File Name" %}</th>
+                        <td>{{ object.max_valid_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Offer Lifetime" %}</th>
+                        <td>{{ object.offer_lifetime }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card">
+                <h5 class="card-header">{% trans "IPv6" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Preferred Lifetime" %}</th>
+                        <td>{{ object.preferred_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Minimum Preferred Lifetime" %}</th>
+                        <td>{{ object.min_preferred_lifetime }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Maximum Preferred Lifetime" %}</th>
+                        <td>{{ object.max_preferred_lifetime }}</td>
+                    </tr>
+                </table>
+            </div>
+            {% include 'inc/panels/tags.html' %}
+        </div>
+    </div>
+{% endblock %}
