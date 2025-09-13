@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
+from netbox_dhcp.mixins import IPv4ModelFields, CommonModelFields
+
 
 __all__ = (
     "ClientClass",
@@ -11,7 +13,7 @@ __all__ = (
 )
 
 
-class ClientClass(NetBoxModel):
+class ClientClass(IPv4ModelFields, CommonModelFields, NetBoxModel):
     class Meta:
         verbose_name = _("Client Class")
         verbose_name_plural = _("Client Classes")
@@ -55,40 +57,6 @@ class ClientClass(NetBoxModel):
         ),
         default=True,
     )
-    # IPv4 only
-    next_server = models.CharField(
-        verbose_name=_("Next Server"),
-        blank=True,
-        max_length=255,
-    )
-    # IPv4 only
-    server_hostname = models.CharField(
-        verbose_name=_("Server Hostname"),
-        blank=True,
-        max_length=255,
-    )
-    # IPv4 only
-    boot_file_name = models.CharField(
-        verbose_name=_("Boot File Name"),
-        blank=True,
-        max_length=255,
-    )
-    user_context = models.JSONField(
-        verbose_name=_("User Context"),
-        blank=True,
-        default=dict,
-    )
-    comment = models.CharField(
-        verbose_name=_("Comment"),
-        blank=True,
-        max_length=255,
-    )
-    # IPv4 only
-    offer_lifetime = models.PositiveIntegerField(
-        verbose_name=_("Offer Lifetime"),
-        null=True,
-        blank=True,
-    )
     valid_lifetime = models.PositiveIntegerField(
         verbose_name=_("Valid Lifetime"),
         null=True,
@@ -122,14 +90,6 @@ class ClientClass(NetBoxModel):
         null=True,
         blank=True,
     )
-
-
-# +
-# TODO
-#
-#     option_def_list    (IPv4 only)
-#     option_data_list
-# -
 
 
 @register_search
