@@ -72,6 +72,12 @@ class ClientClass(IPv4ModelFields, CommonModelFields, NetBoxModel):
         null=True,
         blank=True,
     )
+    # IPv4 only
+    offer_lifetime = models.PositiveIntegerField(
+        verbose_name=_("Offer Lifetime"),
+        null=True,
+        blank=True,
+    )
     # IPv6 only
     preferred_lifetime = models.PositiveIntegerField(
         verbose_name=_("Preferred Lifetime"),

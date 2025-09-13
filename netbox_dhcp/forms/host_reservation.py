@@ -7,10 +7,21 @@ from netbox.forms import (
     NetBoxModelImportForm,
     NetBoxModelForm,
 )
-from utilities.forms.fields import TagFilterField
+from utilities.forms.fields import (
+    TagFilterField,
+    DynamicModelChoiceField,
+    DynamicModelMultipleChoiceField,
+    CSVModelChoiceField,
+    CSVModelMultipleChoiceField,
+)
 from utilities.forms.rendering import FieldSet
 
-from netbox_dhcp.models import HostReservation
+from ipam.models import IPAddress, Prefix
+from ipam.choices import IPAddressFamilyChoices
+from dcim.models import MACAddress
+
+from netbox_dhcp.models import HostReservation, ClientClass
+from netbox_dhcp.mixins import IPv4FilterSetForm, IPv4BulkEditForm
 
 
 __all__ = (
@@ -28,6 +39,22 @@ class HostReservationForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "duid",
+            "hw_address",
+            "circuit_id",
+            "client_id",
+            "flex_id",
+            "client_classes",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "hostname",
+            "ipv4_address",
+            "ipv6_addresses",
+            "ipv6_prefixes",
+            "excluded_ipv6_prefixes",
+            "user_context",
+            "comment",
         )
 
     fieldsets = (
@@ -37,13 +64,88 @@ class HostReservationForm(NetBoxModelForm):
             name=_("Host Reservation"),
         ),
         FieldSet(
+            "duid",
+            "hw_address",
+            "circuit_id",
+            "client_id",
+            "flex_id",
+            "client_classes",
+            name=_("Selection"),
+        ),
+        FieldSet(
+            "ipv4_address",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            name=_("IPv4"),
+        ),
+        FieldSet(
+            "ipv6_addresses",
+            "ipv6_prefixes",
+            "excluded_ipv6_prefixes",
+            name=_("IPv6"),
+        ),
+        FieldSet(
+            "hostname",
+            "user_context",
+            "comment",
+            name=_("Assignment"),
+        ),
+        FieldSet(
             "tags",
             name=_("Tags"),
         ),
     )
 
+    hw_address = DynamicModelChoiceField(
+        queryset=MACAddress.objects.all(),
+        required=False,
+        quick_add=True,
+        selector=True,
+        label=_("Hardware Address"),
+    )
 
-class HostReservationFilterForm(NetBoxModelFilterSetForm):
+    ipv4_address = DynamicModelChoiceField(
+        queryset=IPAddress.objects.filter(
+            address__family=IPAddressFamilyChoices.FAMILY_4
+        ),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_4},
+        required=False,
+        selector=True,
+        label=_("IPv4 Address"),
+    )
+    ipv6_addresses = DynamicModelMultipleChoiceField(
+        queryset=IPAddress.objects.filter(
+            address__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        required=False,
+        selector=True,
+        label=_("IPv6 Addresses"),
+    )
+    ipv6_prefixes = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        context={
+            "depth": None,
+        },
+        required=False,
+        selector=True,
+        label=_("IPv6 Prefixes"),
+    )
+    excluded_ipv6_prefixes = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        context={
+            "depth": None,
+        },
+        required=False,
+        selector=True,
+        label=_("Excluded IPv6 Prefixes"),
+    )
+
+
+class HostReservationFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
     model = HostReservation
 
     fieldsets = (
@@ -57,6 +159,33 @@ class HostReservationFilterForm(NetBoxModelFilterSetForm):
             "description",
             name=_("Host Reservation"),
         ),
+        FieldSet(
+            "duid",
+            "hw_address_id",
+            "circuit_id",
+            "client_id",
+            "flex_id",
+            "client_class_id",
+            name=_("Selection"),
+        ),
+        FieldSet(
+            "ipv4_address_id",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            name=_("IPv4"),
+        ),
+        FieldSet(
+            "ipv6_address_id",
+            "ipv6_prefix_id",
+            "excluded_ipv6_prefix_id",
+            name=_("IPv6"),
+        ),
+        FieldSet(
+            "hostname",
+            "comment",
+            name=_("Assignment"),
+        ),
     )
 
     name = forms.CharField(
@@ -66,6 +195,75 @@ class HostReservationFilterForm(NetBoxModelFilterSetForm):
     description = forms.CharField(
         required=False,
         label=_("Description"),
+    )
+
+    duid = forms.CharField(
+        required=False,
+        label=_("DUID"),
+    )
+    hw_address_id = DynamicModelMultipleChoiceField(
+        queryset=MACAddress.objects.all(),
+        required=False,
+        selector=True,
+        label=_("Hardware Address"),
+    )
+    circuit_id = forms.CharField(
+        required=False,
+        label=_("Circuit ID"),
+    )
+    client_id = forms.CharField(
+        required=False,
+        label=_("Client ID"),
+    )
+    flex_id = forms.CharField(
+        required=False,
+        label=_("Flex ID"),
+    )
+    client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Class"),
+    )
+
+    hostname = forms.CharField(
+        required=False,
+        label=_("Host Name"),
+    )
+    ipv4_address_id = DynamicModelMultipleChoiceField(
+        queryset=IPAddress.objects.filter(
+            address__family=IPAddressFamilyChoices.FAMILY_4
+        ),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_4},
+        required=False,
+        selector=True,
+        label=_("IPv4 Address"),
+    )
+    ipv6_address_id = DynamicModelMultipleChoiceField(
+        queryset=IPAddress.objects.filter(
+            address__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        required=False,
+        selector=True,
+        label=_("IPv6 Address"),
+    )
+    ipv6_prefix_id = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        required=False,
+        selector=True,
+        label=_("IPv6 Prefix"),
+    )
+    excluded_ipv6_prefix_id = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        required=False,
+        selector=True,
+        label=_("Excluded IPv6 Prefix"),
+    )
+    comment = forms.CharField(
+        required=False,
+        label=_("Comment"),
     )
 
     tag = TagFilterField(HostReservation)
@@ -78,11 +276,88 @@ class HostReservationImportForm(NetBoxModelImportForm):
         fields = (
             "name",
             "description",
+            "duid",
+            "hw_address",
+            "circuit_id",
+            "client_id",
+            "flex_id",
+            "client_classes",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "hostname",
+            "ipv4_address",
+            "ipv6_addresses",
+            "ipv6_prefixes",
+            "excluded_ipv6_prefixes",
+            "user_context",
+            "comment",
             "tags",
         )
 
+    hw_address = CSVModelChoiceField(
+        queryset=MACAddress.objects.all(),
+        required=False,
+        to_field_name="mac_address",
+        help_text=_("Hardware address in xx:xx:xx:xx:xx:xx format"),
+        error_messages={
+            "invalid_choice": _("Hardware address %(value)s not found"),
+        },
+        label=_("Hardware Address"),
+    )
+    client_classes = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Client Classes"),
+    )
 
-class HostReservationBulkEditForm(NetBoxModelBulkEditForm):
+    ipv4_address = CSVModelChoiceField(
+        queryset=IPAddress.objects.filter(
+            address__family=IPAddressFamilyChoices.FAMILY_4
+        ),
+        required=False,
+        to_field_name="address",
+        error_messages={
+            "invalid_choice": _("IPv4 address %(value)s not found"),
+        },
+        label=_("IPv4 Address"),
+    )
+    ipv6_addresses = CSVModelMultipleChoiceField(
+        queryset=IPAddress.objects.filter(
+            address__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        required=False,
+        to_field_name="address",
+        error_messages={
+            "invalid_choice": _("IPv6 address %(value)s not found"),
+        },
+        label=_("IPv6 Addresses"),
+    )
+    ipv6_prefixes = CSVModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        required=False,
+        to_field_name="prefix",
+        error_messages={
+            "invalid_choice": _("IPv6 prefix %(value)s not found"),
+        },
+        label=_("IPv6 Prefixes"),
+    )
+    excluded_ipv6_prefixes = CSVModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        required=False,
+        to_field_name="prefix",
+        error_messages={
+            "invalid_choice": _("IPv6 prefix %(value)s not found"),
+        },
+        label=_("Excluded IPv6 Prefixes"),
+    )
+
+
+class HostReservationBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
     model = HostReservation
 
     fieldsets = (
@@ -90,11 +365,94 @@ class HostReservationBulkEditForm(NetBoxModelBulkEditForm):
             "description",
             name=_("Host Reservation"),
         ),
+        FieldSet(
+            "circuit_id",
+            "flex_id",
+            "client_classes",
+            name=_("Selection"),
+        ),
+        FieldSet(
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            name=_("IPv4"),
+        ),
+        FieldSet(
+            "ipv6_prefixes",
+            "excluded_ipv6_prefixes",
+            name=_("IPv6"),
+        ),
+        FieldSet(
+            "user_context",
+            "comment",
+            name=_("Assignment"),
+        ),
+        FieldSet(
+            "tags",
+            name=_("Tags"),
+        ),
     )
 
-    nullable_fields = ("description",)
+    nullable_fields = (
+        "description",
+        "flex_id",
+        "client_classes",
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+        "ipv6_prefixes",
+        "excluded_ipv6_prefixes",
+        "user_context",
+        "comment",
+    )
 
     description = forms.CharField(
         required=False,
         label=_("Description"),
+    )
+
+    circuit_id = forms.CharField(
+        required=False,
+        label=_("Circuit ID"),
+    )
+    flex_id = forms.CharField(
+        required=False,
+        label=_("Flex ID"),
+    )
+    client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Class"),
+    )
+
+    next_server = forms.CharField(
+        required=False,
+        label=_("Next Server"),
+    )
+    server_hostname = forms.CharField(
+        required=False,
+        label=_("Server Host Name"),
+    )
+    boot_file_name = forms.CharField(
+        required=False,
+        label=_("Boot File Name"),
+    )
+
+    ipv6_prefixes = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        required=False,
+        selector=True,
+        label=_("IPv6 Prefixes"),
+    )
+    excluded_ipv6_prefixes = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={"family": IPAddressFamilyChoices.FAMILY_6},
+        required=False,
+        selector=True,
+        label=_("Excluded IPv6 Prefixes"),
+    )
+    comment = forms.CharField(
+        required=False,
+        label=_("Comment"),
     )

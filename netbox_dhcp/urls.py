@@ -28,7 +28,7 @@ urlpatterns = (
         include(get_model_urls("netbox_dhcp", "ddns")),
     ),
     path(
-        "hostreservations",
+        "hostreservations/",
         include(get_model_urls("netbox_dhcp", "hostreservation", detail=False)),
     ),
     path(

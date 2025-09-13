@@ -26,11 +26,6 @@ class IPv4ModelFields(models.Model):
         blank=True,
         max_length=255,
     )
-    offer_lifetime = models.PositiveIntegerField(
-        verbose_name=_("Offer Lifetime"),
-        null=True,
-        blank=True,
-    )
 
 
 class CommonModelFields(models.Model):
