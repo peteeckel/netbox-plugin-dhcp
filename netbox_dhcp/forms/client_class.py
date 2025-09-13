@@ -12,6 +12,7 @@ from utilities.forms.rendering import FieldSet
 from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 
 from netbox_dhcp.models import ClientClass
+from netbox_dhcp.mixins import IPv4FilterSetForm, IPv4BulkEditForm
 
 
 __all__ = (
@@ -88,7 +89,7 @@ class ClientClassForm(NetBoxModelForm):
     )
 
 
-class ClientClassFilterForm(NetBoxModelFilterSetForm):
+class ClientClassFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
     model = ClientClass
 
     fieldsets = (
@@ -139,6 +140,10 @@ class ClientClassFilterForm(NetBoxModelFilterSetForm):
         required=False,
         label=_("Test"),
     )
+    template_test = forms.CharField(
+        required=False,
+        label=_("Template Test"),
+    )
     only_if_required = forms.NullBooleanField(
         required=False,
         label=_("Only if required"),
@@ -149,10 +154,7 @@ class ClientClassFilterForm(NetBoxModelFilterSetForm):
         label=_("Only in additional list"),
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
-    test = forms.CharField(
-        required=False,
-        label=_("Test"),
-    )
+
     valid_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
@@ -165,22 +167,12 @@ class ClientClassFilterForm(NetBoxModelFilterSetForm):
         required=False,
         min_value=1,
     )
-    next_server = forms.CharField(
-        required=False,
-        label=_("Next Server"),
-    )
-    server_hostname = forms.CharField(
-        required=False,
-        label=_("Server Hostname"),
-    )
-    boot_file_name = forms.CharField(
-        required=False,
-        label=_("Boot File Name"),
-    )
+
     offer_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
     )
+
     preferred_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
@@ -224,7 +216,7 @@ class ClientClassImportForm(NetBoxModelImportForm):
         )
 
 
-class ClientClassBulkEditForm(NetBoxModelBulkEditForm):
+class ClientClassBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
     model = ClientClass
 
     fieldsets = (
@@ -284,6 +276,7 @@ class ClientClassBulkEditForm(NetBoxModelBulkEditForm):
         required=False,
         label=_("Description"),
     )
+
     test = forms.CharField(
         required=False,
         max_length=255,
@@ -304,10 +297,12 @@ class ClientClassBulkEditForm(NetBoxModelBulkEditForm):
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
         label=_("Only in additional list"),
     )
+
     offer_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
     )
+
     valid_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
@@ -320,18 +315,7 @@ class ClientClassBulkEditForm(NetBoxModelBulkEditForm):
         required=False,
         min_value=1,
     )
-    next_server = forms.CharField(
-        required=False,
-        label=_("Next Server"),
-    )
-    server_hostname = forms.CharField(
-        required=False,
-        label=_("Server Hostname"),
-    )
-    boot_file_name = forms.CharField(
-        required=False,
-        label=_("Boot File Name"),
-    )
+
     preferred_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
