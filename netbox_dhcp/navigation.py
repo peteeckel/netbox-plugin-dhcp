@@ -189,5 +189,5 @@ menu = PluginMenu(
             ),
         ),
     ),
-    icon_class="mdi mdi-domain",
+    icon_class="mdi mdi-ethernet",
 )
