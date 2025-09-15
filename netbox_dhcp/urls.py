@@ -68,6 +68,14 @@ urlpatterns = (
         include(get_model_urls("netbox_dhcp", "pdpool")),
     ),
     path(
+        "pools/",
+        include(get_model_urls("netbox_dhcp", "pool", detail=False)),
+    ),
+    path(
+        "pools/<int:pk>/",
+        include(get_model_urls("netbox_dhcp", "pool")),
+    ),
+    path(
         "sharednetworks/",
         include(get_model_urls("netbox_dhcp", "sharednetwork", detail=False)),
     ),

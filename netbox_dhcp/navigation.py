@@ -166,6 +166,26 @@ pd_pool_menu_item = PluginMenuItem(
     ),
 )
 
+pool_menu_item = PluginMenuItem(
+    link="plugins:netbox_dhcp:pool_list",
+    link_text=_("Address Pools"),
+    permissions=["netbox_dhcp.pool_view"],
+    buttons=(
+        PluginMenuButton(
+            "plugins:netbox_dhcp:pool_add",
+            _("Add"),
+            "mdi mdi-plus-thick",
+            permissions=["netbox_dhcp.add_pool"],
+        ),
+        PluginMenuButton(
+            "plugins:netbox_dhcp:pool_bulk_import",
+            _("Import"),
+            "mdi mdi-upload",
+            permissions=["netbox_dhcp.add_pool"],
+        ),
+    ),
+)
+
 
 menu = PluginMenu(
     label=_("DHCP"),
@@ -185,6 +205,7 @@ menu = PluginMenu(
                 host_reservation_menu_item,
                 shared_netwok_menu_item,
                 pd_pool_menu_item,
+                pool_menu_item,
                 subnet_menu_item,
             ),
         ),

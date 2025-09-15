@@ -10,6 +10,7 @@ from netbox_dhcp.api.serializers import (
     HostReservationSerializer,
     OptionSerializer,
     PDPoolSerializer,
+    PoolSerializer,
     SharedNetworkSerializer,
     SubnetSerializer,
 )
@@ -21,6 +22,7 @@ from netbox_dhcp.filtersets import (
     HostReservationFilterSet,
     OptionFilterSet,
     PDPoolFilterSet,
+    PoolFilterSet,
     SharedNetworkFilterSet,
     SubnetFilterSet,
 )
@@ -32,6 +34,7 @@ from netbox_dhcp.models import (
     HostReservation,
     Option,
     PDPool,
+    Pool,
     SharedNetwork,
     Subnet,
 )
@@ -82,6 +85,12 @@ class PDPoolViewSet(NetBoxModelViewSet):
     queryset = PDPool.objects.all()
     serializer_class = PDPoolSerializer
     filterset_class = PDPoolFilterSet
+
+
+class PoolViewSet(NetBoxModelViewSet):
+    queryset = Pool.objects.all()
+    serializer_class = PoolSerializer
+    filterset_class = PoolFilterSet
 
 
 class SharedNetworkViewSet(NetBoxModelViewSet):
