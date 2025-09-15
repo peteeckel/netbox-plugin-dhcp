@@ -21,6 +21,11 @@
                         <th scope="row">{% trans "IP Range" %}</th>
                         <td>{{ object.ip_range|linkify|placeholder }}</td>
                     </tr>
+                </table>
+            </div>
+            <div class="card">
+                <h5 class="card-header">{% trans "Selection" %}</h5>
+                <table class="table table-hover attr-table">
                     <tr>
                         <th scope="row">{% trans "Client Class" %}</th>
                         <td>{{ object.client_class|linkify|placeholder }}</td>
@@ -37,6 +42,9 @@
                     </tr>
                 </table>
             </div>
+            {% include 'inc/panels/custom_fields.html' %}
+        </div>
+        <div class="col col-md-6">
             <div class="card">
                 <h5 class="card-header">{% trans "Assignment" %}</h5>
                 <table class="table table-hover attr-table">
@@ -54,9 +62,6 @@
                     </tr>
                 </table>
             </div>
-            {% include 'inc/panels/custom_fields.html' %}
-        </div>
-        <div class="col col-md-6">
             {% include 'inc/panels/tags.html' %}
         </div>
     </div>
