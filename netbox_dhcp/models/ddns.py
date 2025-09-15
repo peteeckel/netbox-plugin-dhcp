@@ -18,6 +18,11 @@ class DDNS(NetBoxModel):
 
         ordering = ("name",)
 
+    clone_fields = (
+        "name",
+        "description",
+    )
+
     def __str__(self):
         return str(self.name)
 

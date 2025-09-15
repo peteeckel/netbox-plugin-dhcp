@@ -21,6 +21,14 @@ class Pool(CommonModelFields, PoolModelFields, NetBoxModel):
 
         ordering = ("name",)
 
+    clone_fields = (
+        "name",
+        "description",
+        "client_class",
+        "require_client_classes",
+        "comment",
+    )
+
     def __str__(self):
         return str(self.name)
 

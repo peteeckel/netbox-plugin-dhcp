@@ -23,6 +23,16 @@ class HostReservation(IPv4ModelFields, CommonModelFields, NetBoxModel):
 
         ordering = ("name",)
 
+    clone_fields = (
+        "name",
+        "description",
+        "circuit_id",
+        "flex_id",
+        "hostname",
+        "client_classes",
+        "comment",
+    )
+
     def __str__(self):
         return str(self.name)
 
