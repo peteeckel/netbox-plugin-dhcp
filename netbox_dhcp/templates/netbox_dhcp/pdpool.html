@@ -17,11 +17,59 @@
                         <td style="word-break:break-all;">{{ object.description }}</td>
                     </tr>
                     {% endif %}
+                    <tr>
+                        <th scope="row">{% trans "IPv6 Prefix" %}</th>
+                        <td>{{ object.prefix|linkify|placeholder }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Delegated Length" %}</th>
+                        <td>{{ object.delegated_length }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Excluded IPv6 Prefix" %}</th>
+                        <td>{{ object.excluded_prefix|linkify|placeholder }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card">
+                <h5 class="card-header">{% trans "Selection" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Client Class" %}</th>
+                        <td>{{ object.client_class|linkify|placeholder }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Require Client Classes" %}</th>
+                        <td>
+                            <table>
+                                {% for require_client_class in object.require_client_classes.all %}
+                                    <tr><td>{{ require_client_class|linkify|placeholder }}</td></tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
                 </table>
             </div>
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">{% trans "Assignment" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "User Context" %}</th>
+                        <td>
+                            {% if object.user_context %}
+                                <pre>{{ object.user_context|json }}</pre>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Comment" %}</th>
+                        <td>{{ object.comment }}</td>
+                    </tr>
+                </table>
+            </div>
             {% include 'inc/panels/tags.html' %}
         </div>
     </div>
