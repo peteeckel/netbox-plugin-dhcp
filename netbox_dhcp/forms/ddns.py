@@ -28,6 +28,7 @@ class DDNSForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "tags",
         )
 
     fieldsets = (

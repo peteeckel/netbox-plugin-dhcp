@@ -46,6 +46,7 @@ class ClientClassForm(NetBoxModelForm):
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "tags",
         )
 
     fieldsets = (

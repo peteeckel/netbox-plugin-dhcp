@@ -28,6 +28,7 @@ class SubnetForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "tags",
         )
 
     fieldsets = (

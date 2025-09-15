@@ -41,6 +41,7 @@ class PoolForm(NetBoxModelForm):
             "require_client_classes",
             "user_context",
             "comment",
+            "tags",
         )
 
     fieldsets = (

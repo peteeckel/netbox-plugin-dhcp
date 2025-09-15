@@ -55,6 +55,7 @@ class HostReservationForm(NetBoxModelForm):
             "excluded_ipv6_prefixes",
             "user_context",
             "comment",
+            "tags",
         )
 
     fieldsets = (

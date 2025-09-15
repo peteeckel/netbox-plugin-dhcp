@@ -31,6 +31,7 @@ class DHCPClusterForm(NetBoxModelForm):
             "name",
             "description",
             "status",
+            "tags",
         )
 
     fieldsets = (

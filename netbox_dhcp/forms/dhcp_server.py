@@ -42,6 +42,7 @@ class DHCPServerForm(NetBoxModelForm):
             "dhcp_cluster",
             "device",
             "virtual_machine",
+            "tags",
         )
 
     fieldsets = (

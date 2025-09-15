@@ -28,6 +28,7 @@ class OptionForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "tags",
         )
 
     fieldsets = (

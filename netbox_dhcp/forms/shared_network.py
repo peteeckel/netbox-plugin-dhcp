@@ -28,6 +28,7 @@ class SharedNetworkForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "tags",
         )
 
     fieldsets = (
