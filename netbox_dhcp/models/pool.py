@@ -5,7 +5,7 @@ from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import IPRange
 
-from netbox_dhcp.mixins import CommonModelFields
+from netbox_dhcp.mixins import CommonModelFields, PoolModelFields
 
 
 __all__ = (
@@ -14,7 +14,7 @@ __all__ = (
 )
 
 
-class Pool(CommonModelFields, NetBoxModel):
+class Pool(CommonModelFields, PoolModelFields, NetBoxModel):
     class Meta:
         verbose_name = _("Address Pool")
         verbose_name_plural = _("Address Pools")
@@ -40,21 +40,6 @@ class Pool(CommonModelFields, NetBoxModel):
         to=IPRange,
         related_name="netbox_dhcp_pool",
         on_delete=models.PROTECT,
-    )
-
-    client_class = models.ForeignKey(
-        verbose_name=_("Client Class"),
-        to="ClientClass",
-        related_name="pool",
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-    require_client_classes = models.ManyToManyField(
-        verbose_name=_("Require Client Classes"),
-        to="ClientClass",
-        related_name="require_pools",
-        blank=True,
     )
 
 

@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 __all__ = (
     "IPv4ModelFields",
     "CommonModelFields",
+    "PoolModelFields",
 )
 
 
@@ -44,4 +45,24 @@ class CommonModelFields(models.Model):
         verbose_name=_("Comment"),
         blank=True,
         max_length=255,
+    )
+
+
+class PoolModelFields(models.Model):
+    class Meta:
+        abstract = True
+
+    client_class = models.ForeignKey(
+        verbose_name=_("Client Class"),
+        to="ClientClass",
+        related_name="%(class)s",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    require_client_classes = models.ManyToManyField(
+        verbose_name=_("Require Client Classes"),
+        to="ClientClass",
+        related_name="require_%(class)ss",
+        blank=True,
     )
