@@ -131,10 +131,6 @@ class ClientClassFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
             "max_preferred_lifetime",
             name=_("IPv6"),
         ),
-        FieldSet(
-            "tags",
-            name=_("Tags"),
-        ),
     )
 
     test = forms.CharField(
