@@ -18,6 +18,10 @@
                     </tr>
                     {% endif %}
                     <tr>
+                        <th scope="row">{% trans "Pool ID" %}</th>
+                        <td>{{ object.pool_id }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "IP Range" %}</th>
                         <td>{{ object.ip_range|linkify|placeholder }}</td>
                     </tr>
@@ -27,6 +31,16 @@
                 <h5 class="card-header">{% trans "Selection" %}</h5>
                 <table class="table table-hover attr-table">
                     <tr>
+                        <th scope="row">{% trans "Client Classes" %}</th>
+                        <td>
+                            <table>
+                                {% for class in object.client_classes.all %}
+                                    <tr><td>{{ class|linkify|placeholder }}</td></tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "Client Class" %}</th>
                         <td>{{ object.client_class|linkify|placeholder }}</td>
                     </tr>
@@ -34,8 +48,18 @@
                         <th scope="row">{% trans "Require Client Classes" %}</th>
                         <td>
                             <table>
-                                {% for require_client_class in object.require_client_classes.all %}
-                                    <tr><td>{{ require_client_class|linkify|placeholder }}</td></tr>
+                                {% for class in object.require_client_classes.all %}
+                                    <tr><td>{{ class|linkify|placeholder }}</td></tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Evaluate Additional Classes" %}</th>
+                        <td>
+                            <table>
+                                {% for class in object.evaluate_additional_classes.all %}
+                                    <tr><td>{{ class|linkify|placeholder }}</td></tr>
                                 {% endfor %}
                             </table>
                         </td>
