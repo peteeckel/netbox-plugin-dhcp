@@ -8,13 +8,14 @@ from dcim.models import MACAddress
 from ipam.models import IPAddress, Prefix
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import HostReservation, ClientClass
+from netbox_dhcp.models import HostReservation
 
+from .mixins import NetworkClientClassesMixin
 
 __all__ = ("HostReservationFilterSet",)
 
 
-class HostReservationFilterSet(NetBoxModelFilterSet):
+class HostReservationFilterSet(NetworkClientClassesMixin, NetBoxModelFilterSet):
     class Meta:
         model = HostReservation
 
@@ -37,17 +38,6 @@ class HostReservationFilterSet(NetBoxModelFilterSet):
         queryset=MACAddress.objects.all(),
         field_name="hw_address",
         label=_("Hardware Address ID"),
-    )
-    client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_classes",
-        label=_("Client Class ID"),
-    )
-    client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_classes__name",
-        to_field_name="name",
-        label=_("Client Class"),
     )
 
     ipv4_address_id = django_filters.ModelMultipleChoiceFilter(

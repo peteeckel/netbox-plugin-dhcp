@@ -6,13 +6,19 @@ from django.db.models import Q
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import IPRange
 
-from netbox_dhcp.models import Pool, ClientClass
+from netbox_dhcp.models import Pool
 
+from .mixins import (
+    ClientClassMixin,
+)
 
 __all__ = ("PoolFilterSet",)
 
 
-class PoolFilterSet(NetBoxModelFilterSet):
+class PoolFilterSet(
+    ClientClassMixin,
+    NetBoxModelFilterSet,
+):
     class Meta:
         model = Pool
 
@@ -27,28 +33,6 @@ class PoolFilterSet(NetBoxModelFilterSet):
         queryset=IPRange.objects.all(),
         field_name="ip_range",
         label=_("IP Range"),
-    )
-    client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_class__name",
-        to_field_name="name",
-        label=_("Client Class"),
-    )
-    client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_class",
-        label=_("Client Class ID"),
-    )
-    require_client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="require_client_classes__name",
-        to_field_name="name",
-        label=_("Required Client Class"),
-    )
-    require_client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="require_client_classes",
-        label=_("Required Client Class ID"),
     )
 
     def search(self, queryset, name, value):

@@ -12,7 +12,7 @@ from utilities.forms.rendering import FieldSet
 from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 
 from netbox_dhcp.models import ClientClass
-from netbox_dhcp.mixins import IPv4FilterSetForm, IPv4BulkEditForm
+from .mixins import IPv4FilterSetForm, IPv4BulkEditForm
 
 
 __all__ = (

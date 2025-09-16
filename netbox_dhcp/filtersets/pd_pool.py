@@ -6,13 +6,21 @@ from django.db.models import Q
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import Prefix
 
-from netbox_dhcp.models import PDPool, ClientClass
+from netbox_dhcp.models import PDPool
 
+from .mixins import (
+    NetworkClientClassesMixin,
+    ClientClassMixin,
+)
 
 __all__ = ("PDPoolFilterSet",)
 
 
-class PDPoolFilterSet(NetBoxModelFilterSet):
+class PDPoolFilterSet(
+    NetworkClientClassesMixin,
+    ClientClassMixin,
+    NetBoxModelFilterSet,
+):
     class Meta:
         model = PDPool
 
@@ -33,28 +41,6 @@ class PDPoolFilterSet(NetBoxModelFilterSet):
         queryset=Prefix.objects.all(),
         field_name="excluded_prefix",
         label=_("Excluded IPv6 Prefix"),
-    )
-    client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_class__name",
-        to_field_name="name",
-        label=_("Client Class"),
-    )
-    client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_class",
-        label=_("Client Class ID"),
-    )
-    require_client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="require_client_classes__name",
-        to_field_name="name",
-        label=_("Required Client Class"),
-    )
-    require_client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="require_client_classes",
-        label=_("Required Client Class ID"),
     )
 
     def search(self, queryset, name, value):

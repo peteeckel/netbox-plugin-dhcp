@@ -21,7 +21,7 @@ from ipam.choices import IPAddressFamilyChoices
 from dcim.models import MACAddress
 
 from netbox_dhcp.models import HostReservation, ClientClass
-from netbox_dhcp.mixins import IPv4FilterSetForm, IPv4BulkEditForm
+from .mixins import IPv4FilterSetForm, IPv4BulkEditForm
 
 
 __all__ = (
