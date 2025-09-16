@@ -50,8 +50,10 @@ class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelF
             "name",
             "description",
             "ip_range",
+            "client_classes",
             "client_class",
             "require_client_classes",
+            "evaluate_additional_classes",
             "user_context",
             "comment",
             "tags",
@@ -65,8 +67,10 @@ class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelF
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
+            "client_classes",
             "client_class",
             "require_client_classes",
+            "evaluate_additional_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -111,8 +115,10 @@ class PoolFilterForm(
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
+            "network_client_class_id",
             "client_class_id",
             "require_client_class_id",
+            "evaluate_additional_class_id",
             name=_("Selection"),
         ),
         FieldSet(

@@ -127,14 +127,16 @@ class PDPoolFilterForm(
         FieldSet(
             "name",
             "description",
-            "prefix",
+            "prefix_id",
             "delegated_length",
-            "excluded_prefix",
+            "excluded_prefix_id",
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
-            "client_class",
-            "require_client_classes",
+            "network_client_class_id",
+            "client_class_id",
+            "require_client_class_id",
+            "evaluate_additional_class_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -179,8 +181,12 @@ class PDPoolImportForm(
             "name",
             "description",
             "prefix",
+            "delegated_length",
             "excluded_prefix",
+            "client_classes",
+            "client_class",
             "require_client_classes",
+            "evaluate_additional_classes",
             "user_context",
             "comment",
             "tags",
@@ -224,7 +230,9 @@ class PDPoolBulkEditForm(
         ),
         FieldSet(
             "client_class",
+            "client_classes",
             "require_client_classes",
+            "evaluate_additional_classes",
             name=_("Selection"),
         ),
         FieldSet(
