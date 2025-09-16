@@ -1,9 +1,10 @@
-from django.db import models
+# from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
+from .mixins import NetBoxDHCPMixin
 
 __all__ = (
     "Subnet",
@@ -11,7 +12,7 @@ __all__ = (
 )
 
 
-class Subnet(NetBoxModel):
+class Subnet(NetBoxDHCPMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Subnet")
         verbose_name_plural = _("Subnets")
@@ -21,21 +22,6 @@ class Subnet(NetBoxModel):
     clone_fields = (
         "name",
         "description",
-    )
-
-    def __str__(self):
-        return str(self.name)
-
-    name = models.CharField(
-        verbose_name=_("Name"),
-        unique=True,
-        max_length=255,
-        db_collation="natural_sort",
-    )
-    description = models.CharField(
-        verbose_name=_("Description"),
-        blank=True,
-        max_length=200,
     )
 
 

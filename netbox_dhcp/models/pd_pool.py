@@ -9,7 +9,11 @@ from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
 
-from netbox_dhcp.mixins import PoolModelFields, CommonModelFields
+from .mixins import (
+    NetBoxDHCPMixin,
+    ClientClassMixin,
+    ContextCommentMixin,
+)
 
 __all__ = (
     "PDPool",
@@ -17,7 +21,7 @@ __all__ = (
 )
 
 
-class PDPool(PoolModelFields, CommonModelFields, NetBoxModel):
+class PDPool(NetBoxDHCPMixin, ClientClassMixin, ContextCommentMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Prefix Delegation Pool")
         verbose_name_plural = _("Prefix Delegation Pools")
@@ -33,19 +37,10 @@ class PDPool(PoolModelFields, CommonModelFields, NetBoxModel):
         "comment",
     )
 
-    def __str__(self):
-        return str(self.name)
-
-    name = models.CharField(
-        verbose_name=_("Name"),
-        unique=True,
-        max_length=255,
-        db_collation="natural_sort",
-    )
-    description = models.CharField(
-        verbose_name=_("Description"),
+    pool_id = models.PositiveIntegerField(
+        verbose_name=_("Pool ID"),
         blank=True,
-        max_length=200,
+        null=True,
     )
     prefix = models.ForeignKey(
         verbose_name=_("IPv6 Prefix"),

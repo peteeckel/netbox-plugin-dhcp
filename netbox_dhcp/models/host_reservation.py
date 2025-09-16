@@ -7,8 +7,12 @@ from netbox.search import SearchIndex, register_search
 from dcim.models import MACAddress
 from ipam.models import IPAddress, Prefix
 
-from netbox_dhcp.mixins import IPv4ModelFields, CommonModelFields
-
+from .mixins import (
+    NetBoxDHCPMixin,
+    IPv4BootMixin,
+    ContextCommentMixin,
+    ClientClassesMixin,
+)
 
 __all__ = (
     "HostReservation",
@@ -16,7 +20,13 @@ __all__ = (
 )
 
 
-class HostReservation(IPv4ModelFields, CommonModelFields, NetBoxModel):
+class HostReservation(
+    NetBoxDHCPMixin,
+    IPv4BootMixin,
+    ContextCommentMixin,
+    ClientClassesMixin,
+    NetBoxModel,
+):
     class Meta:
         verbose_name = _("Host Reservation")
         verbose_name_plural = _("Host Reservations")
@@ -33,27 +43,11 @@ class HostReservation(IPv4ModelFields, CommonModelFields, NetBoxModel):
         "comment",
     )
 
-    def __str__(self):
-        return str(self.name)
-
-    name = models.CharField(
-        verbose_name=_("Name"),
-        unique=True,
-        max_length=255,
-        db_collation="natural_sort",
-    )
-    description = models.CharField(
-        verbose_name=_("Description"),
-        blank=True,
-        max_length=255,
-    )
-
     duid = models.CharField(
         verbose_name=_("DUID"),
         blank=True,
         max_length=255,
     )
-    # IPv4 only
     hw_address = models.ForeignKey(
         verbose_name=_("Hardware Address"),
         to=MACAddress,
@@ -61,6 +55,11 @@ class HostReservation(IPv4ModelFields, CommonModelFields, NetBoxModel):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
+    )
+    flex_id = models.CharField(
+        verbose_name=_("Flex ID"),
+        blank=True,
+        max_length=255,
     )
     # IPv4 only
     circuit_id = models.CharField(
@@ -71,11 +70,6 @@ class HostReservation(IPv4ModelFields, CommonModelFields, NetBoxModel):
     # IPv4 only
     client_id = models.CharField(
         verbose_name=_("Client ID"),
-        blank=True,
-        max_length=255,
-    )
-    flex_id = models.CharField(
-        verbose_name=_("Flex ID"),
         blank=True,
         max_length=255,
     )
@@ -107,13 +101,6 @@ class HostReservation(IPv4ModelFields, CommonModelFields, NetBoxModel):
         verbose_name=_("Excluded IPv6 Prefixes"),
         to=Prefix,
         related_name="netbox_dhcp_excluded_ipv6_host_reservations",
-    )
-
-    client_classes = models.ManyToManyField(
-        verbose_name=_("Client Classes"),
-        to="ClientClass",
-        related_name="host_reservations",
-        blank=True,
     )
 
 

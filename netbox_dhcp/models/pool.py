@@ -5,8 +5,11 @@ from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import IPRange
 
-from netbox_dhcp.mixins import CommonModelFields, PoolModelFields
-
+from .mixins import (
+    NetBoxDHCPMixin,
+    ClientClassMixin,
+    ContextCommentMixin,
+)
 
 __all__ = (
     "Pool",
@@ -14,7 +17,12 @@ __all__ = (
 )
 
 
-class Pool(CommonModelFields, PoolModelFields, NetBoxModel):
+class Pool(
+    NetBoxDHCPMixin,
+    ClientClassMixin,
+    ContextCommentMixin,
+    NetBoxModel,
+):
     class Meta:
         verbose_name = _("Address Pool")
         verbose_name_plural = _("Address Pools")
@@ -29,19 +37,10 @@ class Pool(CommonModelFields, PoolModelFields, NetBoxModel):
         "comment",
     )
 
-    def __str__(self):
-        return str(self.name)
-
-    name = models.CharField(
-        verbose_name=_("Name"),
-        unique=True,
-        max_length=255,
-        db_collation="natural_sort",
-    )
-    description = models.CharField(
-        verbose_name=_("Description"),
+    pool_id = models.PositiveIntegerField(
+        verbose_name=_("Pool ID"),
         blank=True,
-        max_length=200,
+        null=True,
     )
     ip_range = models.ForeignKey(
         verbose_name=_("IP Range"),
