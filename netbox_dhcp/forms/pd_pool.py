@@ -194,7 +194,7 @@ class PDPoolImportForm(
 
     prefix = CSVModelChoiceField(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
-        required=False,
+        required=True,
         to_field_name="prefix",
         error_messages={
             "invalid_choice": _("IPv6 prefix %(value)s not found"),
