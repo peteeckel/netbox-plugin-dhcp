@@ -14,6 +14,11 @@ from utilities.forms import add_blank_choice
 from netbox_dhcp.models import DHCPCluster
 from netbox_dhcp.choices import DHCPClusterStatusChoices
 
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+)
+
 
 __all__ = (
     "DHCPClusterForm",
@@ -48,7 +53,7 @@ class DHCPClusterForm(NetBoxModelForm):
     )
 
 
-class DHCPClusterFilterForm(NetBoxModelFilterSetForm):
+class DHCPClusterFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
     model = DHCPCluster
 
     fieldsets = (
@@ -65,14 +70,6 @@ class DHCPClusterFilterForm(NetBoxModelFilterSetForm):
         ),
     )
 
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     status = forms.MultipleChoiceField(
         choices=DHCPClusterStatusChoices,
         required=False,
@@ -100,7 +97,7 @@ class DHCPClusterImportForm(NetBoxModelImportForm):
     )
 
 
-class DHCPClusterBulkEditForm(NetBoxModelBulkEditForm):
+class DHCPClusterBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditForm):
     model = DHCPCluster
 
     fieldsets = (
@@ -113,10 +110,6 @@ class DHCPClusterBulkEditForm(NetBoxModelBulkEditForm):
 
     nullable_fields = ("description",)
 
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     status = forms.ChoiceField(
         choices=add_blank_choice(DHCPClusterStatusChoices),
         required=False,

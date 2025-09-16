@@ -20,8 +20,19 @@ from ipam.models import IPAddress, Prefix
 from ipam.choices import IPAddressFamilyChoices
 from dcim.models import MACAddress
 
-from netbox_dhcp.models import HostReservation, ClientClass
-from .mixins import IPv4FilterSetForm, IPv4BulkEditForm
+from netbox_dhcp.models import HostReservation
+
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    IPv4BootFilterFormMixin,
+    NetworkClientClassesFilterFormMixin,
+    NetworkClientClassesImportFormMixin,
+    ContextCommentFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    IPv4BootBulkEditFormMixin,
+    ContextCommentBulkEditFormMixin,
+    NetworkClientClassesBulkEditFormMixin,
+)
 
 
 __all__ = (
@@ -146,7 +157,13 @@ class HostReservationForm(NetBoxModelForm):
     )
 
 
-class HostReservationFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
+class HostReservationFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    IPv4BootFilterFormMixin,
+    NetworkClientClassesFilterFormMixin,
+    ContextCommentFilterFormMixin,
+    NetBoxModelFilterSetForm,
+):
     model = HostReservation
 
     fieldsets = (
@@ -189,15 +206,6 @@ class HostReservationFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
         ),
     )
 
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
-
     duid = forms.CharField(
         required=False,
         label=_("DUID"),
@@ -219,11 +227,6 @@ class HostReservationFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
     flex_id = forms.CharField(
         required=False,
         label=_("Flex ID"),
-    )
-    client_class_id = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class"),
     )
 
     hostname = forms.CharField(
@@ -262,15 +265,14 @@ class HostReservationFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
         selector=True,
         label=_("Excluded IPv6 Prefix"),
     )
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
-    )
 
     tag = TagFilterField(HostReservation)
 
 
-class HostReservationImportForm(NetBoxModelImportForm):
+class HostReservationImportForm(
+    NetworkClientClassesImportFormMixin,
+    NetBoxModelImportForm,
+):
     class Meta:
         model = HostReservation
 
@@ -305,15 +307,6 @@ class HostReservationImportForm(NetBoxModelImportForm):
             "invalid_choice": _("Hardware address %(value)s not found"),
         },
         label=_("Hardware Address"),
-    )
-    client_classes = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Client Classes"),
     )
 
     ipv4_address = CSVModelChoiceField(
@@ -358,7 +351,13 @@ class HostReservationImportForm(NetBoxModelImportForm):
     )
 
 
-class HostReservationBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
+class HostReservationBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    IPv4BootBulkEditFormMixin,
+    ContextCommentBulkEditFormMixin,
+    NetworkClientClassesBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
     model = HostReservation
 
     fieldsets = (
@@ -407,11 +406,6 @@ class HostReservationBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
         "comment",
     )
 
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
-
     circuit_id = forms.CharField(
         required=False,
         label=_("Circuit ID"),
@@ -419,24 +413,6 @@ class HostReservationBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
     flex_id = forms.CharField(
         required=False,
         label=_("Flex ID"),
-    )
-    client_class_id = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class"),
-    )
-
-    next_server = forms.CharField(
-        required=False,
-        label=_("Next Server"),
-    )
-    server_hostname = forms.CharField(
-        required=False,
-        label=_("Server Host Name"),
-    )
-    boot_file_name = forms.CharField(
-        required=False,
-        label=_("Boot File Name"),
     )
 
     ipv6_prefixes = DynamicModelMultipleChoiceField(
@@ -452,8 +428,4 @@ class HostReservationBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
         required=False,
         selector=True,
         label=_("Excluded IPv6 Prefixes"),
-    )
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
     )

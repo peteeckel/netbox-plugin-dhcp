@@ -1,13 +1,77 @@
 from django import forms
 from django.utils.translation import gettext as _
 
+from utilities.forms.fields import (
+    DynamicModelChoiceField,
+    DynamicModelMultipleChoiceField,
+    CSVModelChoiceField,
+    CSVModelMultipleChoiceField,
+)
+
+from netbox_dhcp.models import ClientClass
+
 __all__ = (
-    "IPv4FilterSetForm",
-    "IPv4BulkEditForm",
+    "NetworkClientClassesFormMixin",
+    "ClientClassFormMixin",
+    "NetBoxDHCPFilterFormMixin",
+    "IPv4BootFilterFormMixin",
+    "ValidLifetimeFilterFormMixin",
+    "OfferLifetimeFilterFormMixin",
+    "PreferredLifetimeFilterFormMixin",
+    "NetworkClientClassesFilterFormMixin",
+    "ClientClassFilterFormMixin",
+    "ContextCommentFilterFormMixin",
+    "NetworkClientClassesImportFormMixin",
+    "ClientClassImportFormMixin",
+    "NetBoxDHCPBulkEditFormMixin",
+    "IPv4BootBulkEditFormMixin",
+    "ValidLifetimeBulkEditFormMixin",
+    "OfferLifetimeBulkEditFormMixin",
+    "PreferredLifetimeBulkEditFormMixin",
+    "NetworkClientClassesBulkEditFormMixin",
+    "ClientClassBulkEditFormMixin",
+    "ContextCommentBulkEditFormMixin",
 )
 
 
-class IPv4FilterSetForm(forms.Form):
+class NetworkClientClassesFormMixin(forms.Form):
+    client_classes = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Classes"),
+    )
+
+
+class ClientClassFormMixin(forms.Form):
+    client_class = DynamicModelChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Class"),
+    )
+    require_client_classes = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Require Client Classes"),
+    )
+    evaluate_additional_classes = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Evaluate Additional Classes"),
+    )
+
+
+class NetBoxDHCPFilterFormMixin(forms.Form):
+    name = forms.CharField(
+        required=False,
+        label=_("Name"),
+    )
+    description = forms.CharField(
+        required=False,
+        label=_("Description"),
+    )
+
+
+class IPv4BootFilterFormMixin(forms.Form):
     next_server = forms.CharField(
         required=False,
         label=_("Next Server"),
@@ -22,7 +86,133 @@ class IPv4FilterSetForm(forms.Form):
     )
 
 
-class IPv4BulkEditForm(forms.Form):
+class ValidLifetimeFilterFormMixin(forms.Form):
+    valid_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Valid Lifetime"),
+    )
+    min_valid_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Minimum Valid Lifetime"),
+    )
+    max_valid_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Maximum Valid Lifetime"),
+    )
+
+
+class OfferLifetimeFilterFormMixin(forms.Form):
+    offer_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Offer Lifetime"),
+    )
+
+
+class PreferredLifetimeFilterFormMixin(forms.Form):
+    preferred_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Preferred Lifetime"),
+    )
+    min_preferred_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Minimum Preferred Lifetime"),
+    )
+    max_preferred_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Maximum Preferred Lifetime"),
+    )
+
+
+class NetworkClientClassesFilterFormMixin(forms.Form):
+    network_client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Classes"),
+    )
+
+
+class ClientClassFilterFormMixin(forms.Form):
+    client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Class"),
+    )
+    require_client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Require Client Classes"),
+    )
+    evaluate_additional_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Evaluate Additional Classes"),
+    )
+
+
+class ContextCommentFilterFormMixin(forms.Form):
+    comment = forms.CharField(
+        required=False,
+        label=_("Comment"),
+    )
+
+
+class NetworkClientClassesImportFormMixin(forms.Form):
+    client_classes = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Client Classes"),
+    )
+
+
+class ClientClassImportFormMixin(forms.Form):
+    client_class = CSVModelChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Client Class"),
+    )
+    require_client_classes = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Require Client Classes"),
+    )
+    evaluate_additional_classes = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Require Client Classes"),
+    )
+
+
+class NetBoxDHCPBulkEditFormMixin(forms.Form):
+    description = forms.CharField(
+        required=False,
+        label=_("Description"),
+    )
+
+
+class IPv4BootBulkEditFormMixin(forms.Form):
     next_server = forms.CharField(
         required=False,
         label=_("Next Server"),
@@ -34,4 +224,89 @@ class IPv4BulkEditForm(forms.Form):
     boot_file_name = forms.CharField(
         required=False,
         label=_("Boot File Name"),
+    )
+
+
+class ValidLifetimeBulkEditFormMixin(forms.Form):
+    valid_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Valid Lifetime"),
+    )
+    min_valid_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Minimum Valid Lifetime"),
+    )
+    max_valid_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Maximum Valid Lifetime"),
+    )
+
+
+class OfferLifetimeBulkEditFormMixin(forms.Form):
+    offer_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Offer Lifetime"),
+    )
+
+
+class PreferredLifetimeBulkEditFormMixin(forms.Form):
+    preferred_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Preferred Lifetime"),
+    )
+    min_preferred_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Minimum Preferred Lifetime"),
+    )
+    max_preferred_lifetime = forms.IntegerField(
+        required=False,
+        min_value=1,
+        label=_("Maximum Preferred Lifetime"),
+    )
+
+
+class NetworkClientClassesBulkEditFormMixin(forms.Form):
+    client_classes = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        selector=True,
+        label=_("Client Classes"),
+    )
+
+
+class ClientClassBulkEditFormMixin(forms.Form):
+    client_class = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        selector=True,
+        label=_("Client Class"),
+    )
+    require_client_classes = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        selector=True,
+        label=_("Require Client Classes"),
+    )
+    evaluate_additional_classes = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        selector=True,
+        label=_("Evaluate Additional Classes"),
+    )
+
+
+class ContextCommentBulkEditFormMixin(forms.Form):
+    user_context = forms.JSONField(
+        required=False,
+        label=_("User Context"),
+    )
+    comment = forms.CharField(
+        required=False,
+        label=_("Comment"),
     )

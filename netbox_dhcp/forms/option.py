@@ -12,6 +12,11 @@ from utilities.forms.rendering import FieldSet
 
 from netbox_dhcp.models import Option
 
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+)
+
 
 __all__ = (
     "OptionForm",
@@ -44,7 +49,7 @@ class OptionForm(NetBoxModelForm):
     )
 
 
-class OptionFilterForm(NetBoxModelFilterSetForm):
+class OptionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
     model = Option
 
     fieldsets = (
@@ -58,15 +63,6 @@ class OptionFilterForm(NetBoxModelFilterSetForm):
             "description",
             name=_("Option"),
         ),
-    )
-
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
     )
 
     tag = TagFilterField(Option)
@@ -83,7 +79,7 @@ class OptionImportForm(NetBoxModelImportForm):
         )
 
 
-class OptionBulkEditForm(NetBoxModelBulkEditForm):
+class OptionBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditForm):
     model = Option
 
     fieldsets = (
@@ -94,8 +90,3 @@ class OptionBulkEditForm(NetBoxModelBulkEditForm):
     )
 
     nullable_fields = ("description",)
-
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )

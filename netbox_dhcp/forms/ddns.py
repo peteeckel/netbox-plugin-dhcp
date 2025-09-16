@@ -12,6 +12,11 @@ from utilities.forms.rendering import FieldSet
 
 from netbox_dhcp.models import DDNS
 
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+)
+
 
 __all__ = (
     "DDNSForm",
@@ -44,7 +49,7 @@ class DDNSForm(NetBoxModelForm):
     )
 
 
-class DDNSFilterForm(NetBoxModelFilterSetForm):
+class DDNSFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
     model = DDNS
 
     fieldsets = (
@@ -58,15 +63,6 @@ class DDNSFilterForm(NetBoxModelFilterSetForm):
             "description",
             name=_("Dynamic DNS"),
         ),
-    )
-
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
     )
 
     tag = TagFilterField(DDNS)
@@ -83,7 +79,7 @@ class DDNSImportForm(NetBoxModelImportForm):
         )
 
 
-class DDNSBulkEditForm(NetBoxModelBulkEditForm):
+class DDNSBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditForm):
     model = DDNS
 
     fieldsets = (
@@ -94,8 +90,3 @@ class DDNSBulkEditForm(NetBoxModelBulkEditForm):
     )
 
     nullable_fields = ("description",)
-
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )

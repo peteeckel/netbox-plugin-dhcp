@@ -12,13 +12,26 @@ from utilities.forms.fields import (
     DynamicModelChoiceField,
     DynamicModelMultipleChoiceField,
     CSVModelChoiceField,
-    CSVModelMultipleChoiceField,
-    JSONField,
 )
 from utilities.forms.rendering import FieldSet
 from ipam.models import IPRange
 
-from netbox_dhcp.models import Pool, ClientClass
+from netbox_dhcp.models import Pool
+
+from .mixins import (
+    NetworkClientClassesFormMixin,
+    ClientClassFormMixin,
+    NetBoxDHCPFilterFormMixin,
+    NetworkClientClassesFilterFormMixin,
+    ClientClassFilterFormMixin,
+    ContextCommentFilterFormMixin,
+    NetworkClientClassesImportFormMixin,
+    ClientClassImportFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    NetworkClientClassesBulkEditFormMixin,
+    ClientClassBulkEditFormMixin,
+    ContextCommentBulkEditFormMixin,
+)
 
 
 __all__ = (
@@ -29,7 +42,7 @@ __all__ = (
 )
 
 
-class PoolForm(NetBoxModelForm):
+class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelForm):
     class Meta:
         model = Pool
 
@@ -74,19 +87,15 @@ class PoolForm(NetBoxModelForm):
         selector=True,
         label=_("IP Range"),
     )
-    client_class = DynamicModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class"),
-    )
-    require_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Require Client Classes"),
-    )
 
 
-class PoolFilterForm(NetBoxModelFilterSetForm):
+class PoolFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    NetworkClientClassesFilterFormMixin,
+    ClientClassFilterFormMixin,
+    ContextCommentFilterFormMixin,
+    NetBoxModelFilterSetForm,
+):
     model = Pool
 
     fieldsets = (
@@ -112,39 +121,20 @@ class PoolFilterForm(NetBoxModelFilterSetForm):
         ),
     )
 
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     ip_range_id = DynamicModelMultipleChoiceField(
         queryset=IPRange.objects.all(),
         required=False,
         label=_("IP Range"),
     )
-    client_class_id = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class"),
-    )
-    require_client_class_id = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Require Client Class"),
-    )
-
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
-    )
 
     tag = TagFilterField(Pool)
 
 
-class PoolImportForm(NetBoxModelImportForm):
+class PoolImportForm(
+    NetworkClientClassesImportFormMixin,
+    ClientClassImportFormMixin,
+    NetBoxModelImportForm,
+):
     class Meta:
         model = Pool
 
@@ -168,27 +158,15 @@ class PoolImportForm(NetBoxModelImportForm):
         },
         label=_("IP Ramhe"),
     )
-    client_class = CSVModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Client Classes"),
-    )
-    require_client_classes = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Require Client Classes"),
-    )
 
 
-class PoolBulkEditForm(NetBoxModelBulkEditForm):
+class PoolBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    NetworkClientClassesBulkEditFormMixin,
+    ClientClassBulkEditFormMixin,
+    ContextCommentBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
     model = Pool
 
     fieldsets = (
@@ -214,30 +192,4 @@ class PoolBulkEditForm(NetBoxModelBulkEditForm):
         "require_client_classes",
         "user_context",
         "comment",
-    )
-
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
-    client_class = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        selector=True,
-        label=_("Client Class"),
-    )
-    require_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        selector=True,
-        label=_("Require Client Classes"),
-    )
-
-    user_context = JSONField(
-        required=False,
-        label=_("User Context"),
-    )
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
     )

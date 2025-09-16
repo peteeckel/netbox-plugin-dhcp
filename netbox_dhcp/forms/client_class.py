@@ -12,7 +12,18 @@ from utilities.forms.rendering import FieldSet
 from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 
 from netbox_dhcp.models import ClientClass
-from .mixins import IPv4FilterSetForm, IPv4BulkEditForm
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    IPv4BootFilterFormMixin,
+    ValidLifetimeFilterFormMixin,
+    OfferLifetimeFilterFormMixin,
+    PreferredLifetimeFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    IPv4BootBulkEditFormMixin,
+    ValidLifetimeBulkEditFormMixin,
+    OfferLifetimeBulkEditFormMixin,
+    PreferredLifetimeBulkEditFormMixin,
+)
 
 
 __all__ = (
@@ -90,7 +101,14 @@ class ClientClassForm(NetBoxModelForm):
     )
 
 
-class ClientClassFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
+class ClientClassFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    IPv4BootFilterFormMixin,
+    ValidLifetimeFilterFormMixin,
+    OfferLifetimeFilterFormMixin,
+    PreferredLifetimeFilterFormMixin,
+    NetBoxModelFilterSetForm,
+):
     model = ClientClass
 
     fieldsets = (
@@ -152,37 +170,6 @@ class ClientClassFilterForm(IPv4FilterSetForm, NetBoxModelFilterSetForm):
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
 
-    valid_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    min_valid_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    max_valid_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-
-    offer_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-
-    preferred_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    min_preferred_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    max_preferred_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-
     tag = TagFilterField(ClientClass)
 
 
@@ -213,7 +200,14 @@ class ClientClassImportForm(NetBoxModelImportForm):
         )
 
 
-class ClientClassBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
+class ClientClassBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    IPv4BootBulkEditFormMixin,
+    ValidLifetimeBulkEditFormMixin,
+    OfferLifetimeBulkEditFormMixin,
+    PreferredLifetimeBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
     model = ClientClass
 
     fieldsets = (
@@ -269,11 +263,6 @@ class ClientClassBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
         "max_preferred_lifetime",
     )
 
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
-
     test = forms.CharField(
         required=False,
         max_length=255,
@@ -293,35 +282,4 @@ class ClientClassBulkEditForm(IPv4BulkEditForm, NetBoxModelBulkEditForm):
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
         label=_("Only in additional list"),
-    )
-
-    offer_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-
-    valid_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    min_valid_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    max_valid_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-
-    preferred_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    min_preferred_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
-    )
-    max_preferred_lifetime = forms.IntegerField(
-        required=False,
-        min_value=1,
     )

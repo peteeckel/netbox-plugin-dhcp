@@ -23,6 +23,12 @@ from virtualization.models import VirtualMachine
 from netbox_dhcp.models import DHCPServer, DHCPCluster
 from netbox_dhcp.choices import DHCPServerStatusChoices
 
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+)
+
+
 __all__ = (
     "DHCPServerForm",
     "DHCPServerFilterForm",
@@ -106,7 +112,7 @@ class DHCPServerForm(NetBoxModelForm):
             )
 
 
-class DHCPServerFilterForm(NetBoxModelFilterSetForm):
+class DHCPServerFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
     model = DHCPServer
 
     fieldsets = (
@@ -132,14 +138,6 @@ class DHCPServerFilterForm(NetBoxModelFilterSetForm):
         ),
     )
 
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     status = forms.MultipleChoiceField(
         choices=DHCPServerStatusChoices,
         required=False,
@@ -214,7 +212,7 @@ class DHCPServerImportForm(NetBoxModelImportForm):
     )
 
 
-class DHCPServerBulkEditForm(NetBoxModelBulkEditForm):
+class DHCPServerBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditForm):
     model = DHCPServer
 
     fieldsets = (
@@ -231,10 +229,6 @@ class DHCPServerBulkEditForm(NetBoxModelBulkEditForm):
         "dhcp_cluster",
     )
 
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     status = forms.ChoiceField(
         choices=add_blank_choice(DHCPServerStatusChoices),
         required=False,

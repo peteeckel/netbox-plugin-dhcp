@@ -12,14 +12,27 @@ from utilities.forms.fields import (
     DynamicModelChoiceField,
     DynamicModelMultipleChoiceField,
     CSVModelChoiceField,
-    CSVModelMultipleChoiceField,
-    JSONField,
 )
 from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import PDPool, ClientClass
+from netbox_dhcp.models import PDPool
+
+from .mixins import (
+    NetworkClientClassesFormMixin,
+    ClientClassFormMixin,
+    NetBoxDHCPFilterFormMixin,
+    NetworkClientClassesFilterFormMixin,
+    ClientClassFilterFormMixin,
+    ContextCommentFilterFormMixin,
+    NetworkClientClassesImportFormMixin,
+    ClientClassImportFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    NetworkClientClassesBulkEditFormMixin,
+    ClientClassBulkEditFormMixin,
+    ContextCommentBulkEditFormMixin,
+)
 
 
 __all__ = (
@@ -30,7 +43,7 @@ __all__ = (
 )
 
 
-class PDPoolForm(NetBoxModelForm):
+class PDPoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelForm):
     class Meta:
         model = PDPool
 
@@ -40,8 +53,10 @@ class PDPoolForm(NetBoxModelForm):
             "prefix",
             "delegated_length",
             "excluded_prefix",
+            "client_classes",
             "client_class",
             "require_client_classes",
+            "evaluate_additional_classes",
             "user_context",
             "comment",
             "tags",
@@ -57,8 +72,10 @@ class PDPoolForm(NetBoxModelForm):
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
+            "client_classes",
             "client_class",
             "require_client_classes",
+            "evaluate_additional_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -90,19 +107,15 @@ class PDPoolForm(NetBoxModelForm):
         selector=True,
         label=_("Excluded IPv6 Prefix"),
     )
-    client_class = DynamicModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class"),
-    )
-    require_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Require Client Classes"),
-    )
 
 
-class PDPoolFilterForm(NetBoxModelFilterSetForm):
+class PDPoolFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    NetworkClientClassesFilterFormMixin,
+    ClientClassFilterFormMixin,
+    ContextCommentFilterFormMixin,
+    NetBoxModelFilterSetForm,
+):
     model = PDPool
 
     fieldsets = (
@@ -130,14 +143,6 @@ class PDPoolFilterForm(NetBoxModelFilterSetForm):
         ),
     )
 
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     prefix_id = DynamicModelMultipleChoiceField(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
         query_params={
@@ -158,26 +163,15 @@ class PDPoolFilterForm(NetBoxModelFilterSetForm):
         required=False,
         label=_("Excluded IPv6 Prefix"),
     )
-    client_class_id = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class"),
-    )
-    require_client_class_id = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Require Client Class"),
-    )
-
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
-    )
 
     tag = TagFilterField(PDPool)
 
 
-class PDPoolImportForm(NetBoxModelImportForm):
+class PDPoolImportForm(
+    NetworkClientClassesImportFormMixin,
+    ClientClassImportFormMixin,
+    NetBoxModelImportForm,
+):
     class Meta:
         model = PDPool
 
@@ -210,27 +204,15 @@ class PDPoolImportForm(NetBoxModelImportForm):
         },
         label=_("Excluded IPv6 Prefix"),
     )
-    client_class = CSVModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Client Classes"),
-    )
-    require_client_classes = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Require Client Classes"),
-    )
 
 
-class PDPoolBulkEditForm(NetBoxModelBulkEditForm):
+class PDPoolBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    NetworkClientClassesBulkEditFormMixin,
+    ClientClassBulkEditFormMixin,
+    ContextCommentBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
     model = PDPool
 
     fieldsets = (
@@ -259,38 +241,14 @@ class PDPoolBulkEditForm(NetBoxModelBulkEditForm):
     nullable_fields = (
         "description",
         "client_class",
+        "client_classes",
         "require_client_classes",
+        "evaluate_additional_classes",
         "user_context",
         "comment",
     )
 
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )
     delegated_length = forms.CharField(
         required=False,
         label=_("Delegated Length"),
-    )
-
-    client_class = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        selector=True,
-        label=_("Client Class"),
-    )
-    require_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        selector=True,
-        label=_("Require Client Classes"),
-    )
-
-    user_context = JSONField(
-        required=False,
-        label=_("User Context"),
-    )
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
     )
