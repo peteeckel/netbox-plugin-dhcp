@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<tr>
+    <th scope="row">{% trans "User Context" %}</th>
+    <td>
+        {% if object.user_context %}
+            <pre>{{ object.user_context|json }}</pre>
+        {% endif %}
+    </td>
+</tr>
+<tr>
+    <th scope="row">{% trans "Comment" %}</th>
+    <td style="word-break:break-all;">{{ object.comment }}</td>
+</tr>

@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<tr>
+    <th scope="row">{% trans "Offer Lifetime" %}</th>
+    <td>{{ object.offer_lifetime }}</td>
+</tr>
+<tr>
+    <th scope="row">{% trans "Valid Lifetime" %}</th>
+    <td>{{ object.valid_lifetime }}</td>
+</tr>
+<tr>
+    <th scope="row">{% trans "Minimum Valid Lifetime" %}</th>
+    <td>{{ object.min_valid_lifetime }}</td>
+</tr>
+<tr>
+    <th scope="row">{% trans "Maximum Valid Lifetime" %}</th>
+    <td>{{ object.max_valid_lifetime }}</td>
+</tr>

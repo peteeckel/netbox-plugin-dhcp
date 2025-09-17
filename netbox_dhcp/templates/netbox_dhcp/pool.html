@@ -7,16 +7,7 @@
             <div class="card">
                 <h5 class="card-header">{% trans "Address Pool" %}</h5>
                 <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "Name" %}</th>
-                        <td>{{ object.name }}</td>
-                    </tr>
-                    {% if object.description %}
-                    <tr>
-                        <th scope="row">{% trans "Description" %}</th>
-                        <td style="word-break:break-all;">{{ object.description }}</td>
-                    </tr>
-                    {% endif %}
+                    {% include './inc/name_description_fields.html' %}
                     <tr>
                         <th scope="row">{% trans "Pool ID" %}</th>
                         <td>{{ object.pool_id }}</td>
@@ -30,40 +21,8 @@
             <div class="card">
                 <h5 class="card-header">{% trans "Selection" %}</h5>
                 <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "Client Classes" %}</th>
-                        <td>
-                            <table>
-                                {% for class in object.client_classes.all %}
-                                    <tr><td>{{ class|linkify|placeholder }}</td></tr>
-                                {% endfor %}
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Client Class" %}</th>
-                        <td>{{ object.client_class|linkify|placeholder }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Require Client Classes" %}</th>
-                        <td>
-                            <table>
-                                {% for class in object.require_client_classes.all %}
-                                    <tr><td>{{ class|linkify|placeholder }}</td></tr>
-                                {% endfor %}
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Evaluate Additional Classes" %}</th>
-                        <td>
-                            <table>
-                                {% for class in object.evaluate_additional_classes.all %}
-                                    <tr><td>{{ class|linkify|placeholder }}</td></tr>
-                                {% endfor %}
-                            </table>
-                        </td>
-                    </tr>
+                    {% include './inc/client_classes_field.html' %}
+                    {% include './inc/client_class_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/custom_fields.html' %}
@@ -72,18 +31,7 @@
             <div class="card">
                 <h5 class="card-header">{% trans "Assignment" %}</h5>
                 <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "User Context" %}</th>
-                        <td>
-                            {% if object.user_context %}
-                                <pre>{{ object.user_context|json }}</pre>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Comment" %}</th>
-                        <td>{{ object.comment }}</td>
-                    </tr>
+                    {% include './inc/context_comment_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}

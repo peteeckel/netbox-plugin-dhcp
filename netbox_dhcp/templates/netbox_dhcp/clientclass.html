@@ -7,22 +7,7 @@
             <div class="card">
                 <h5 class="card-header">{% trans "Client Class" %}</h5>
                 <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "Name" %}</th>
-                        <td>{{ object.name }}</td>
-                    </tr>
-                    {% if object.description %}
-                    <tr>
-                        <th scope="row">{% trans "Description" %}</th>
-                        <td style="word-break:break-all;">{{ object.description }}</td>
-                    </tr>
-                    {% endif %}
-                    {% if object.comment %}
-                    <tr>
-                        <th scope="row">{% trans "Comment" %}</th>
-                        <td style="word-break:break-all;">{{ object.comment }}</td>
-                    </tr>
-                    {% endif %}
+                    {% include './inc/name_description_fields.html' %}
                 </table>
             </div>
             <div class="card">
@@ -46,70 +31,16 @@
                     </tr>
                 </table>
             </div>
+            {% include './inc/bootp_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">
             <div class="card">
-                <h5 class="card-header">{% trans "Common" %}</h5>
+                <h5 class="card-header">{% trans "Assignment" %}</h5>
                 <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "User Context" %}</th>
-                        <td>
-                            {% if object.user_context %}
-                                <pre>{{ object.user_context|json }}</pre>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Valid Lifetime" %}</th>
-                        <td>{{ object.valid_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Minimum Valid Lifetime" %}</th>
-                        <td>{{ object.min_valid_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Maximum Valid Lifetime" %}</th>
-                        <td>{{ object.max_valid_lifetime }}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="card">
-                <h5 class="card-header">{% trans "IPv4" %}</h5>
-                <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "Next Server" %}</th>
-                        <td>{{ object.valid_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Server Hostname" %}</th>
-                        <td>{{ object.min_valid_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Boot File Name" %}</th>
-                        <td>{{ object.max_valid_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Offer Lifetime" %}</th>
-                        <td>{{ object.offer_lifetime }}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="card">
-                <h5 class="card-header">{% trans "IPv6" %}</h5>
-                <table class="table table-hover attr-table">
-                    <tr>
-                        <th scope="row">{% trans "Preferred Lifetime" %}</th>
-                        <td>{{ object.preferred_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Minimum Preferred Lifetime" %}</th>
-                        <td>{{ object.min_preferred_lifetime }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Maximum Preferred Lifetime" %}</th>
-                        <td>{{ object.max_preferred_lifetime }}</td>
-                    </tr>
+                    {% include './inc/context_comment_fields.html' %}
+                    {% include './inc/lifetime_fields.html' %}
+                    {% include './inc/ipv6_lifetime_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}

@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<div class="card">
+    <h5 class="card-header">{% trans "BOOTP" %}</h5>
+    <table class="table table-hover attr-table">
+        <tr>
+            <th scope="row">{% trans "Next Server" %}</th>
+            <td>{{ object.next_server }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Server Hostname" %}</th>
+            <td>{{ object.server_hostname }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Boot File Name" %}</th>
+            <td>{{ object.boot_file_name }}</td>
+        </tr>
+    </table>
+</div>
