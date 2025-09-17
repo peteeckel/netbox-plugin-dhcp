@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% if object.client_classes.exists %}
+<div class="card">
+    <h5 class="card-header">{% trans "Client Class Definitions" %}</h5>
+    <table class="table table-hover attr-table">
+        <tr>
+            <td>
+                <table>
+                    {% for class in object.client_classes.all %}
+                        <tr><td>{{ class|linkify|placeholder }}</td></tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endif %}

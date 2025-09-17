@@ -33,9 +33,6 @@
                         <th scope="row">{% trans "Flex ID" %}</th>
                         <td>{{ object.flex_id }}</td>
                     </tr>
-                    <tr>
-                        {% include './inc/client_classes_field.html' %}
-                    </tr>
                 </table>
             </div>
             {% include './inc/bootp_card.html' %}
@@ -84,6 +81,7 @@
                         </td>
                     </tr>
                     {% include './inc/context_comment_fields.html' %}
+                    {% include './inc/client_class_assignment_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}

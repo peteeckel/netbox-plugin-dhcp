@@ -11,7 +11,7 @@
                 </table>
             </div>
             <div class="card">
-                <h5 class="card-header">{% trans "Evaluation" %}</h5>
+                <h5 class="card-header">{% trans "Selection" %}</h5>
                 <table class="table table-hover attr-table">
                     <tr>
                         <th scope="row">{% trans "Test" %}</th>
@@ -38,9 +38,9 @@
             <div class="card">
                 <h5 class="card-header">{% trans "Assignment" %}</h5>
                 <table class="table table-hover attr-table">
-                    {% include './inc/context_comment_fields.html' %}
                     {% include './inc/lifetime_fields.html' %}
                     {% include './inc/ipv6_lifetime_fields.html' %}
+                    {% include './inc/context_comment_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}

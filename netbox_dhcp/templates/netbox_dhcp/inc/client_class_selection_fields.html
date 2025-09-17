@@ -6,6 +6,7 @@
 </tr>
 <tr>
     <th scope="row">{% trans "Require Client Classes" %}</th>
+    {% if object.require_client_classes.exists %}
     <td>
         <table>
             {% for class in object.require_client_classes.all %}
@@ -13,14 +14,7 @@
             {% endfor %}
         </table>
     </td>
-</tr>
-<tr>
-    <th scope="row">{% trans "Evaluate Additional Classes" %}</th>
-    <td>
-        <table>
-            {% for class in object.evaluate_additional_classes.all %}
-                <tr><td>{{ class|linkify|placeholder }}</td></tr>
-            {% endfor %}
-        </table>
-    </td>
+    {% else %}
+    <td>{{ ''|placeholder }}</td>
+    {% endif %}
 </tr>
