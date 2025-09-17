@@ -81,26 +81,23 @@ class HostReservationForm(NetBoxModelForm):
             "circuit_id",
             "client_id",
             "flex_id",
-            "client_classes",
             name=_("Selection"),
         ),
         FieldSet(
-            "ipv4_address",
             "next_server",
             "server_hostname",
             "boot_file_name",
-            name=_("IPv4"),
+            name=_("BOOTP"),
         ),
         FieldSet(
+            "ipv4_address",
             "ipv6_addresses",
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            name=_("IPv6"),
-        ),
-        FieldSet(
             "hostname",
             "user_context",
             "comment",
+            "client_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -187,19 +184,16 @@ class HostReservationFilterForm(
             name=_("Selection"),
         ),
         FieldSet(
-            "ipv4_address_id",
             "next_server",
             "server_hostname",
             "boot_file_name",
-            name=_("IPv4"),
+            name=_("BOOTP"),
         ),
         FieldSet(
+            "ipv4_address_id",
             "ipv6_address_id",
             "ipv6_prefix_id",
             "excluded_ipv6_prefix_id",
-            name=_("IPv6"),
-        ),
-        FieldSet(
             "hostname",
             "comment",
             name=_("Assignment"),
@@ -368,23 +362,20 @@ class HostReservationBulkEditForm(
         FieldSet(
             "circuit_id",
             "flex_id",
-            "client_classes",
             name=_("Selection"),
         ),
         FieldSet(
             "next_server",
             "server_hostname",
             "boot_file_name",
-            name=_("IPv4"),
+            name=_("BOOTP"),
         ),
         FieldSet(
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            name=_("IPv6"),
-        ),
-        FieldSet(
             "user_context",
             "comment",
+            "client_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -396,7 +387,6 @@ class HostReservationBulkEditForm(
     nullable_fields = (
         "description",
         "flex_id",
-        "client_classes",
         "next_server",
         "server_hostname",
         "boot_file_name",
@@ -404,6 +394,7 @@ class HostReservationBulkEditForm(
         "excluded_ipv6_prefixes",
         "user_context",
         "comment",
+        "client_classes",
     )
 
     circuit_id = forms.CharField(

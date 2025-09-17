@@ -64,7 +64,6 @@ class ClientClassForm(NetBoxModelForm):
         FieldSet(
             "name",
             "description",
-            "comment",
             name=_("Client Class"),
         ),
         FieldSet(
@@ -72,27 +71,25 @@ class ClientClassForm(NetBoxModelForm):
             "template_test",
             "only_if_required",
             "only_in_additional_list",
-            name=_("Evaluation"),
-        ),
-        FieldSet(
-            "user_context",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            name=_("Common"),
+            name=_("Selection"),
         ),
         FieldSet(
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "offer_lifetime",
-            name=_("IPv4"),
+            name=_("BOOTP"),
         ),
         FieldSet(
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
-            name=_("IPv6"),
+            "user_context",
+            "comment",
+            name=_("Assignment"),
         ),
         FieldSet(
             "tags",
@@ -120,7 +117,6 @@ class ClientClassFilterForm(
         FieldSet(
             "name",
             "description",
-            "comment",
             name=_("Client Class"),
         ),
         FieldSet(
@@ -128,26 +124,24 @@ class ClientClassFilterForm(
             "template_test",
             "only_if_required",
             "only_in_additional_list",
-            name=_("Evaluation"),
-        ),
-        FieldSet(
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            name=_("Common"),
+            name=_("Selection"),
         ),
         FieldSet(
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "offer_lifetime",
-            name=_("IPv4"),
+            name=_("BOOTP"),
         ),
         FieldSet(
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
-            name=_("IPv6"),
+            "comment",
+            name=_("Assignment"),
         ),
     )
 
@@ -213,7 +207,6 @@ class ClientClassBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
-            "comment",
             name=_("Client Class"),
         ),
         FieldSet(
@@ -221,27 +214,25 @@ class ClientClassBulkEditForm(
             "template_test",
             "only_if_required",
             "only_in_additional_list",
-            name=_("Evaluation"),
-        ),
-        FieldSet(
-            "user_context",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            name=_("Common"),
+            name=_("Selection"),
         ),
         FieldSet(
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "offer_lifetime",
-            name=_("IPv4"),
+            name=_("BOOTP"),
         ),
         FieldSet(
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
-            name=_("IPv6"),
+            "user_context",
+            "comment",
+            name=_("Assignment"),
         ),
     )
 

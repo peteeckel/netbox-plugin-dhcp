@@ -64,18 +64,21 @@ class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelF
             "name",
             "description",
             "ip_range",
-            name=_("Prefix Delegation Pool"),
+            name=_("Address Pool"),
         ),
         FieldSet(
             "client_classes",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
             "client_class",
             "require_client_classes",
-            "evaluate_additional_classes",
             name=_("Selection"),
         ),
         FieldSet(
             "user_context",
             "comment",
+            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -112,17 +115,20 @@ class PoolFilterForm(
             "name",
             "description",
             "ip_range_id",
-            name=_("Prefix Delegation Pool"),
+            name=_("Address Pool"),
         ),
         FieldSet(
             "network_client_class_id",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
             "client_class_id",
             "require_client_class_id",
-            "evaluate_additional_class_id",
             name=_("Selection"),
         ),
         FieldSet(
             "comment",
+            "evaluate_additional_class_id",
             name=_("Assignment"),
         ),
     )
@@ -178,7 +184,11 @@ class PoolBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
-            name=_("Prefix Delegation Pool"),
+            name=_("Address Pool"),
+        ),
+        FieldSet(
+            "client_classes",
+            name=_("Client Class Definitions"),
         ),
         FieldSet(
             "client_class",
@@ -188,14 +198,17 @@ class PoolBulkEditForm(
         FieldSet(
             "user_context",
             "comment",
+            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
     )
 
     nullable_fields = (
         "description",
+        "client_classes",
         "client_class",
         "require_client_classes",
+        "evaluate_additional_classes",
         "user_context",
         "comment",
     )

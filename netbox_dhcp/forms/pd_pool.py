@@ -73,14 +73,17 @@ class PDPoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxMode
         ),
         FieldSet(
             "client_classes",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
             "client_class",
             "require_client_classes",
-            "evaluate_additional_classes",
             name=_("Selection"),
         ),
         FieldSet(
             "user_context",
             "comment",
+            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -134,13 +137,16 @@ class PDPoolFilterForm(
         ),
         FieldSet(
             "network_client_class_id",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
             "client_class_id",
             "require_client_class_id",
-            "evaluate_additional_class_id",
             name=_("Selection"),
         ),
         FieldSet(
             "comment",
+            "evaluate_additional_class_id",
             name=_("Assignment"),
         ),
     )
@@ -229,15 +235,18 @@ class PDPoolBulkEditForm(
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
-            "client_class",
             "client_classes",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
+            "client_class",
             "require_client_classes",
-            "evaluate_additional_classes",
             name=_("Selection"),
         ),
         FieldSet(
             "user_context",
             "comment",
+            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
         FieldSet(
