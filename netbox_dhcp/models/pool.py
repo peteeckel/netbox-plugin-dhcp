@@ -6,9 +6,9 @@ from netbox.search import SearchIndex, register_search
 from ipam.models import IPRange
 
 from .mixins import (
-    NetBoxDHCPMixin,
-    ClientClassMixin,
-    ContextCommentMixin,
+    NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
+    ContextCommentModelMixin,
 )
 
 __all__ = (
@@ -18,9 +18,9 @@ __all__ = (
 
 
 class Pool(
-    NetBoxDHCPMixin,
-    ClientClassMixin,
-    ContextCommentMixin,
+    NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
+    ContextCommentModelMixin,
     NetBoxModel,
 ):
     class Meta:

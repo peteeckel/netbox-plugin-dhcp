@@ -8,10 +8,10 @@ from dcim.models import MACAddress
 from ipam.models import IPAddress, Prefix
 
 from .mixins import (
-    NetBoxDHCPMixin,
-    IPv4BootMixin,
-    ContextCommentMixin,
-    ClientClassesMixin,
+    NetBoxDHCPModelMixin,
+    BOOTPModelMixin,
+    ContextCommentModelMixin,
+    ClientClassesModelMixin,
 )
 
 __all__ = (
@@ -21,10 +21,10 @@ __all__ = (
 
 
 class HostReservation(
-    NetBoxDHCPMixin,
-    IPv4BootMixin,
-    ContextCommentMixin,
-    ClientClassesMixin,
+    NetBoxDHCPModelMixin,
+    BOOTPModelMixin,
+    ContextCommentModelMixin,
+    ClientClassesModelMixin,
     NetBoxModel,
 ):
     class Meta:

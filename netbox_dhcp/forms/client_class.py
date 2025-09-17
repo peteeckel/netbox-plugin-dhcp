@@ -14,12 +14,12 @@ from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 from netbox_dhcp.models import ClientClass
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
-    IPv4BootFilterFormMixin,
+    BOOTPFilterFormMixin,
     ValidLifetimeFilterFormMixin,
     OfferLifetimeFilterFormMixin,
     PreferredLifetimeFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    IPv4BootBulkEditFormMixin,
+    BOOTPBulkEditFormMixin,
     ValidLifetimeBulkEditFormMixin,
     OfferLifetimeBulkEditFormMixin,
     PreferredLifetimeBulkEditFormMixin,
@@ -103,7 +103,7 @@ class ClientClassForm(NetBoxModelForm):
 
 class ClientClassFilterForm(
     NetBoxDHCPFilterFormMixin,
-    IPv4BootFilterFormMixin,
+    BOOTPFilterFormMixin,
     ValidLifetimeFilterFormMixin,
     OfferLifetimeFilterFormMixin,
     PreferredLifetimeFilterFormMixin,
@@ -202,7 +202,7 @@ class ClientClassImportForm(NetBoxModelImportForm):
 
 class ClientClassBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    IPv4BootBulkEditFormMixin,
+    BOOTPBulkEditFormMixin,
     ValidLifetimeBulkEditFormMixin,
     OfferLifetimeBulkEditFormMixin,
     PreferredLifetimeBulkEditFormMixin,

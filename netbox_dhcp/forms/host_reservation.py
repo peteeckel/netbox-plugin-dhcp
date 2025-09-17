@@ -24,12 +24,12 @@ from netbox_dhcp.models import HostReservation
 
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
-    IPv4BootFilterFormMixin,
+    BOOTPFilterFormMixin,
     NetworkClientClassesFilterFormMixin,
     NetworkClientClassesImportFormMixin,
     ContextCommentFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    IPv4BootBulkEditFormMixin,
+    BOOTPBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
     NetworkClientClassesBulkEditFormMixin,
 )
@@ -159,7 +159,7 @@ class HostReservationForm(NetBoxModelForm):
 
 class HostReservationFilterForm(
     NetBoxDHCPFilterFormMixin,
-    IPv4BootFilterFormMixin,
+    BOOTPFilterFormMixin,
     NetworkClientClassesFilterFormMixin,
     ContextCommentFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -353,7 +353,7 @@ class HostReservationImportForm(
 
 class HostReservationBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    IPv4BootBulkEditFormMixin,
+    BOOTPBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
     NetworkClientClassesBulkEditFormMixin,
     NetBoxModelBulkEditForm,

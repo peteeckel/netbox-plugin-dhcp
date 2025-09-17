@@ -7,7 +7,7 @@ from netbox.search import SearchIndex, register_search
 from netbox_dhcp.choices import DHCPClusterStatusChoices
 
 from .mixins import (
-    NetBoxDHCPMixin,
+    NetBoxDHCPModelMixin,
 )
 
 __all__ = (
@@ -16,7 +16,7 @@ __all__ = (
 )
 
 
-class DHCPCluster(NetBoxDHCPMixin, NetBoxModel):
+class DHCPCluster(NetBoxDHCPModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("DHCP Cluster")
         verbose_name_plural = _("DHCP Clusters")

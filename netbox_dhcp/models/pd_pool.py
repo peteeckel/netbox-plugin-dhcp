@@ -10,9 +10,9 @@ from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
 
 from .mixins import (
-    NetBoxDHCPMixin,
-    ClientClassMixin,
-    ContextCommentMixin,
+    NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
+    ContextCommentModelMixin,
 )
 
 __all__ = (
@@ -21,7 +21,12 @@ __all__ = (
 )
 
 
-class PDPool(NetBoxDHCPMixin, ClientClassMixin, ContextCommentMixin, NetBoxModel):
+class PDPool(
+    NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
+    ContextCommentModelMixin,
+    NetBoxModel,
+):
     class Meta:
         verbose_name = _("Prefix Delegation Pool")
         verbose_name_plural = _("Prefix Delegation Pools")

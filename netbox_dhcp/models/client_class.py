@@ -5,12 +5,12 @@ from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
 from .mixins import (
-    NetBoxDHCPMixin,
-    IPv4BootMixin,
-    ValidLifetimeMixin,
-    PreferredLifetimeMixin,
-    OfferLifetimeMixin,
-    ContextCommentMixin,
+    NetBoxDHCPModelMixin,
+    BOOTPModelMixin,
+    ValidLifetimeModelMixin,
+    PreferredLifetimeModelMixin,
+    OfferLifetimeModelMixin,
+    ContextCommentModelMixin,
 )
 
 __all__ = (
@@ -20,12 +20,12 @@ __all__ = (
 
 
 class ClientClass(
-    NetBoxDHCPMixin,
-    IPv4BootMixin,
-    ValidLifetimeMixin,
-    PreferredLifetimeMixin,
-    OfferLifetimeMixin,
-    ContextCommentMixin,
+    NetBoxDHCPModelMixin,
+    BOOTPModelMixin,
+    ValidLifetimeModelMixin,
+    PreferredLifetimeModelMixin,
+    OfferLifetimeModelMixin,
+    ContextCommentModelMixin,
     NetBoxModel,
 ):
     class Meta:

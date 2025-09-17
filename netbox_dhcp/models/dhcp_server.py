@@ -10,7 +10,7 @@ from virtualization.models import VirtualMachine
 from netbox_dhcp.choices import DHCPServerStatusChoices
 
 from .mixins import (
-    NetBoxDHCPMixin,
+    NetBoxDHCPModelMixin,
 )
 
 __all__ = (
@@ -19,7 +19,7 @@ __all__ = (
 )
 
 
-class DHCPServer(NetBoxDHCPMixin, NetBoxModel):
+class DHCPServer(NetBoxDHCPModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("DHCP Server")
         verbose_name_plural = _("DHCP Servers")

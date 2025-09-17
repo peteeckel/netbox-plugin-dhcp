@@ -4,7 +4,7 @@ from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
 from .mixins import (
-    NetBoxDHCPMixin,
+    NetBoxDHCPModelMixin,
 )
 
 __all__ = (
@@ -13,7 +13,7 @@ __all__ = (
 )
 
 
-class DDNS(NetBoxDHCPMixin, NetBoxModel):
+class DDNS(NetBoxDHCPModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Dynamic DNS Server")
         verbose_name_plural = _("Dynamic DNS Servers")

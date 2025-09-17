@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from .mixins import NetBoxDHCPMixin
+from .mixins import NetBoxDHCPModelMixin
 
 __all__ = (
     "SharedNetwork",
@@ -12,7 +12,7 @@ __all__ = (
 )
 
 
-class SharedNetwork(NetBoxDHCPMixin, NetBoxModel):
+class SharedNetwork(NetBoxDHCPModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Shared Network")
         verbose_name_plural = _("Shared Networks")

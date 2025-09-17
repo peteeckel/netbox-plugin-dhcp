@@ -14,7 +14,7 @@ __all__ = (
     "NetworkClientClassesFormMixin",
     "ClientClassFormMixin",
     "NetBoxDHCPFilterFormMixin",
-    "IPv4BootFilterFormMixin",
+    "BOOTPFilterFormMixin",
     "ValidLifetimeFilterFormMixin",
     "OfferLifetimeFilterFormMixin",
     "PreferredLifetimeFilterFormMixin",
@@ -24,7 +24,7 @@ __all__ = (
     "NetworkClientClassesImportFormMixin",
     "ClientClassImportFormMixin",
     "NetBoxDHCPBulkEditFormMixin",
-    "IPv4BootBulkEditFormMixin",
+    "BOOTPBulkEditFormMixin",
     "ValidLifetimeBulkEditFormMixin",
     "OfferLifetimeBulkEditFormMixin",
     "PreferredLifetimeBulkEditFormMixin",
@@ -71,7 +71,7 @@ class NetBoxDHCPFilterFormMixin(forms.Form):
     )
 
 
-class IPv4BootFilterFormMixin(forms.Form):
+class BOOTPFilterFormMixin(forms.Form):
     next_server = forms.CharField(
         required=False,
         label=_("Next Server"),
@@ -212,7 +212,7 @@ class NetBoxDHCPBulkEditFormMixin(forms.Form):
     )
 
 
-class IPv4BootBulkEditFormMixin(forms.Form):
+class BOOTPBulkEditFormMixin(forms.Form):
     next_server = forms.CharField(
         required=False,
         label=_("Next Server"),

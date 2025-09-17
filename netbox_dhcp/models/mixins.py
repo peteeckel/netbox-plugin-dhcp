@@ -7,19 +7,19 @@ from netbox_dhcp.choices import (
 )
 
 __all__ = (
-    "NetBoxDHCPMixin",
-    "IPv4BootMixin",
-    "ContextCommentMixin",
-    "ClientClassesMixin",
-    "ClientClassMixin",
-    "ValidLifetimeMixin",
-    "PreferredLifetimeMixin",
-    "OfferLifetimeMixin",
-    "DDNSUpdateMixin",
+    "NetBoxDHCPModelMixin",
+    "BOOTPModelMixin",
+    "ContextCommentModelMixin",
+    "ClientClassesModelMixin",
+    "ClientClassModelMixin",
+    "ValidLifetimeModelMixin",
+    "PreferredLifetimeModelMixin",
+    "OfferLifetimeModelMixin",
+    "DDNSUpdateModelMixin",
 )
 
 
-class NetBoxDHCPMixin(models.Model):
+class NetBoxDHCPModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -39,7 +39,7 @@ class NetBoxDHCPMixin(models.Model):
         return str(self.name)
 
 
-class IPv4BootMixin(models.Model):
+class BOOTPModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -60,7 +60,7 @@ class IPv4BootMixin(models.Model):
     )
 
 
-class ContextCommentMixin(models.Model):
+class ContextCommentModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -76,7 +76,7 @@ class ContextCommentMixin(models.Model):
     )
 
 
-class ClientClassesMixin(models.Model):
+class ClientClassesModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -88,7 +88,7 @@ class ClientClassesMixin(models.Model):
     )
 
 
-class ClientClassMixin(ClientClassesMixin):
+class ClientClassModelMixin(ClientClassesModelMixin):
     class Meta:
         abstract = True
 
@@ -114,7 +114,7 @@ class ClientClassMixin(ClientClassesMixin):
     )
 
 
-class ValidLifetimeMixin(models.Model):
+class ValidLifetimeModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -135,7 +135,7 @@ class ValidLifetimeMixin(models.Model):
     )
 
 
-class PreferredLifetimeMixin(models.Model):
+class PreferredLifetimeModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -156,7 +156,7 @@ class PreferredLifetimeMixin(models.Model):
     )
 
 
-class OfferLifetimeMixin(models.Model):
+class OfferLifetimeModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -167,7 +167,7 @@ class OfferLifetimeMixin(models.Model):
     )
 
 
-class DDNSUpdateMixin(models.Model):
+class DDNSUpdateModelMixin(models.Model):
     class Meta:
         abstract = True
 

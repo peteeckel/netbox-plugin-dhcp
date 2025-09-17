@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from .mixins import NetBoxDHCPMixin
+from .mixins import NetBoxDHCPModelMixin
 
 __all__ = (
     "Option",
@@ -12,7 +12,7 @@ __all__ = (
 )
 
 
-class Option(NetBoxDHCPMixin, NetBoxModel):
+class Option(NetBoxDHCPModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Option")
         verbose_name_plural = _("Options")
