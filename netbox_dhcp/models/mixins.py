@@ -10,7 +10,8 @@ __all__ = (
     "NetBoxDHCPModelMixin",
     "BOOTPModelMixin",
     "ContextCommentModelMixin",
-    "ClientClassesModelMixin",
+    "ClientClassAssignmentModelMixin",
+    "ClientClassDefinitionModelMixin",
     "ClientClassModelMixin",
     "ValidLifetimeModelMixin",
     "PreferredLifetimeModelMixin",
@@ -76,19 +77,31 @@ class ContextCommentModelMixin(models.Model):
     )
 
 
-class ClientClassesModelMixin(models.Model):
+class ClientClassAssignmentModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    client_classes = models.ManyToManyField(
+    assign_client_classes = models.ManyToManyField(
         verbose_name=_("Client Classes"),
         to="ClientClass",
-        related_name="%(class)ss",
+        related_name="assign_%(class)s",
         blank=True,
     )
 
 
-class ClientClassModelMixin(ClientClassesModelMixin):
+class ClientClassDefinitionModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    client_class_definitions = models.ManyToManyField(
+        verbose_name=_("Client Class Definitions"),
+        to="ClientClass",
+        related_name="definition_%(class)s",
+        blank=True,
+    )
+
+
+class ClientClassModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -100,8 +113,8 @@ class ClientClassModelMixin(ClientClassesModelMixin):
         null=True,
         on_delete=models.SET_NULL,
     )
-    require_client_classes = models.ManyToManyField(
-        verbose_name=_("Require Client Classes"),
+    required_client_classes = models.ManyToManyField(
+        verbose_name=_("Required Client Classes"),
         to="ClientClass",
         related_name="require_%(class)ss",
         blank=True,

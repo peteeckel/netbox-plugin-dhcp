@@ -19,7 +19,7 @@ class HostReservationTable(NetBoxTable):
             "circuit_id",
             "client_id",
             "flex_id",
-            "client_classes",
+            "client_class_definitions",
             "next_server",
             "server_hostname",
             "boot_file_name",

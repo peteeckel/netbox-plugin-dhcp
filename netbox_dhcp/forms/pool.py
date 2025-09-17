@@ -19,16 +19,16 @@ from ipam.models import IPRange
 from netbox_dhcp.models import Pool
 
 from .mixins import (
-    NetworkClientClassesFormMixin,
+    ClientClassDefinitionFormMixin,
     ClientClassFormMixin,
     NetBoxDHCPFilterFormMixin,
-    NetworkClientClassesFilterFormMixin,
+    ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
     ContextCommentFilterFormMixin,
-    NetworkClientClassesImportFormMixin,
+    ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    NetworkClientClassesBulkEditFormMixin,
+    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
 )
@@ -42,7 +42,7 @@ __all__ = (
 )
 
 
-class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelForm):
+class PoolForm(ClientClassDefinitionFormMixin, ClientClassFormMixin, NetBoxModelForm):
     class Meta:
         model = Pool
 
@@ -50,9 +50,9 @@ class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelF
             "name",
             "description",
             "ip_range",
-            "client_classes",
+            "client_class_definitions",
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             "evaluate_additional_classes",
             "user_context",
             "comment",
@@ -67,12 +67,12 @@ class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelF
             name=_("Address Pool"),
         ),
         FieldSet(
-            "client_classes",
+            "client_class_definitions",
             name=_("Client Class Definitions"),
         ),
         FieldSet(
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -98,7 +98,7 @@ class PoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelF
 
 class PoolFilterForm(
     NetBoxDHCPFilterFormMixin,
-    NetworkClientClassesFilterFormMixin,
+    ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
     ContextCommentFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -143,7 +143,7 @@ class PoolFilterForm(
 
 
 class PoolImportForm(
-    NetworkClientClassesImportFormMixin,
+    ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -155,7 +155,7 @@ class PoolImportForm(
             "description",
             "ip_range",
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             "user_context",
             "comment",
             "tags",
@@ -174,7 +174,7 @@ class PoolImportForm(
 
 class PoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    NetworkClientClassesBulkEditFormMixin,
+    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
     NetBoxModelBulkEditForm,
@@ -187,12 +187,12 @@ class PoolBulkEditForm(
             name=_("Address Pool"),
         ),
         FieldSet(
-            "client_classes",
+            "client_class_definitions",
             name=_("Client Class Definitions"),
         ),
         FieldSet(
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -205,9 +205,9 @@ class PoolBulkEditForm(
 
     nullable_fields = (
         "description",
-        "client_classes",
+        "client_class_definitions",
         "client_class",
-        "require_client_classes",
+        "required_client_classes",
         "evaluate_additional_classes",
         "user_context",
         "comment",

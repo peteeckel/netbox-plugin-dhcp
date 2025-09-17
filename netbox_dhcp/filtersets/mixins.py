@@ -4,27 +4,27 @@ from django.utils.translation import gettext as _
 from netbox_dhcp.models import ClientClass
 
 __all__ = (
-    "NetworkClientClassesMixin",
-    "ClientClassMixin",
+    "ClientClassDefinitionFilterMixin",
+    "ClientClassFilterMixin",
 )
 
 
-class NetworkClientClassesMixin:
-    network_client_class = django_filters.ModelMultipleChoiceFilter(
+class ClientClassDefinitionFilterMixin:
+    client_class_definition = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
-        field_name="client_classes__name",
+        field_name="client_class_definitions__name",
         to_field_name="name",
-        label=_("Network Client Class"),
+        label=_("Client Class Definition"),
     )
-    network_client_class_id = django_filters.ModelMultipleChoiceFilter(
+    client_class_definition_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
-        field_name="client_classes",
-        label=_("Network Client Class ID"),
+        field_name="client_class_definitions",
+        label=_("Client Class Definition ID"),
     )
 
 
-class ClientClassMixin:
-    client_class = django_filters.ModelMultipleChoiceFilter(
+class ClientClassFilterMixin:
+    client_class_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="client_class__name",
         to_field_name="name",
@@ -37,13 +37,13 @@ class ClientClassMixin:
     )
     require_client_class = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
-        field_name="require_client_classes__name",
+        field_name="required_client_classes__name",
         to_field_name="name",
         label=_("Require Client Class"),
     )
     require_client_class_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
-        field_name="require_client_classes",
+        field_name="required_client_classes",
         label=_("Require Client Class ID"),
     )
     evaluate_additional_class = django_filters.ModelMultipleChoiceFilter(

@@ -9,16 +9,16 @@ from ipam.models import Prefix
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
-    NetworkClientClassesMixin,
-    ClientClassMixin,
+    ClientClassDefinitionFilterMixin,
+    ClientClassFilterMixin,
 )
 
 __all__ = ("PDPoolFilterSet",)
 
 
 class PDPoolFilterSet(
-    NetworkClientClassesMixin,
-    ClientClassMixin,
+    ClientClassDefinitionFilterMixin,
+    ClientClassFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:

@@ -6,11 +6,19 @@ from ipam.api.serializers import IPRangeSerializer
 from netbox_dhcp.models import Pool
 from ..nested_serializers import NestedClientClassSerializer
 
+from .mixins import (
+    ClientClassDefinitionSerializerMixin,
+    ClientClassSerializerMixin,
+)
 
 __all__ = ("PoolSerializer",)
 
 
-class PoolSerializer(NetBoxModelSerializer):
+class PoolSerializer(
+    ClientClassDefinitionSerializerMixin,
+    ClientClassSerializerMixin,
+    NetBoxModelSerializer,
+):
     class Meta:
         model = Pool
 
@@ -22,7 +30,7 @@ class PoolSerializer(NetBoxModelSerializer):
             "description",
             "ip_range",
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             "user_context",
             "comment",
         )
@@ -51,29 +59,39 @@ class PoolSerializer(NetBoxModelSerializer):
         read_only=False,
         required=False,
     )
-    require_client_classes = NestedClientClassSerializer(
-        nested=True,
-        many=True,
-        read_only=False,
-        required=False,
-    )
 
     def create(self, validated_data):
-        require_client_classes = validated_data.pop("require_client_classes", None)
+        client_class_definitions = validated_data.pop("client_class_definitions", None)
+        required_client_classes = validated_data.pop("required_client_classes", None)
+        evaluate_additional_classes = validated_data.pop(
+            "evaluate_additional_classes", None
+        )
 
         pool = super().create(validated_data)
 
-        if require_client_classes is not None:
-            pool.require_client_classes.set(require_client_classes)
+        if client_class_definitions is not None:
+            pool.client_class_definitions.set(client_class_definitions)
+        if required_client_classes is not None:
+            pool.required_client_classes.set(required_client_classes)
+        if evaluate_additional_classes is not None:
+            pool.evaluate_additional_classes.set(evaluate_additional_classes)
 
         return pool
 
     def update(self, instance, validated_data):
-        require_client_classes = validated_data.pop("require_client_classes", None)
+        client_class_definitions = validated_data.pop("client_class_definitions", None)
+        required_client_classes = validated_data.pop("required_client_classes", None)
+        evaluate_additional_classes = validated_data.pop(
+            "evaluate_additional_classes", None
+        )
 
         pool = super().update(instance, validated_data)
 
-        if require_client_classes is not None:
-            pool.require_client_classes.set(require_client_classes)
+        if client_class_definitions is not None:
+            pool.client_class_definitions.set(client_class_definitions)
+        if required_client_classes is not None:
+            pool.required_client_classes.set(required_client_classes)
+        if evaluate_additional_classes is not None:
+            pool.evaluate_additional_classes.set(evaluate_additional_classes)
 
         return pool

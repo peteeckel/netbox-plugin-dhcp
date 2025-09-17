@@ -10,12 +10,15 @@ from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import HostReservation
 
-from .mixins import NetworkClientClassesMixin
+from .mixins import ClientClassDefinitionFilterMixin
 
 __all__ = ("HostReservationFilterSet",)
 
 
-class HostReservationFilterSet(NetworkClientClassesMixin, NetBoxModelFilterSet):
+class HostReservationFilterSet(
+    ClientClassDefinitionFilterMixin,
+    NetBoxModelFilterSet,
+):
     class Meta:
         model = HostReservation
 

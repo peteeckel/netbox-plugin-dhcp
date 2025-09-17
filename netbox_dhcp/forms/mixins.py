@@ -11,31 +11,39 @@ from utilities.forms.fields import (
 from netbox_dhcp.models import ClientClass
 
 __all__ = (
-    "NetworkClientClassesFormMixin",
+    "ClientClassDefinitionFormMixin",
     "ClientClassFormMixin",
     "NetBoxDHCPFilterFormMixin",
     "BOOTPFilterFormMixin",
     "ValidLifetimeFilterFormMixin",
     "OfferLifetimeFilterFormMixin",
     "PreferredLifetimeFilterFormMixin",
-    "NetworkClientClassesFilterFormMixin",
+    "ClientClassDefinitionFormMixin",
     "ClientClassFilterFormMixin",
     "ContextCommentFilterFormMixin",
-    "NetworkClientClassesImportFormMixin",
+    "ClientClassDefinitionImportFormMixin",
     "ClientClassImportFormMixin",
     "NetBoxDHCPBulkEditFormMixin",
     "BOOTPBulkEditFormMixin",
     "ValidLifetimeBulkEditFormMixin",
     "OfferLifetimeBulkEditFormMixin",
     "PreferredLifetimeBulkEditFormMixin",
-    "NetworkClientClassesBulkEditFormMixin",
+    "ClientClassDefinitionBulkEditFormMixin",
     "ClientClassBulkEditFormMixin",
     "ContextCommentBulkEditFormMixin",
 )
 
 
-class NetworkClientClassesFormMixin(forms.Form):
-    client_classes = DynamicModelMultipleChoiceField(
+class ClientClassDefinitionFormMixin(forms.Form):
+    client_class_definitions = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Class Definitions"),
+    )
+
+
+class ClientClassAssignmentFormMixin(forms.Form):
+    assign_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         label=_("Client Classes"),
@@ -48,10 +56,10 @@ class ClientClassFormMixin(forms.Form):
         required=False,
         label=_("Client Class"),
     )
-    require_client_classes = DynamicModelMultipleChoiceField(
+    required_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        label=_("Require Client Classes"),
+        label=_("Required Client Classes"),
     )
     evaluate_additional_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
@@ -130,11 +138,19 @@ class PreferredLifetimeFilterFormMixin(forms.Form):
     )
 
 
-class NetworkClientClassesFilterFormMixin(forms.Form):
-    network_client_class_id = DynamicModelMultipleChoiceField(
+class ClientClassAssignmentFilterFormMixin(forms.Form):
+    assign_client_class_id = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         label=_("Client Classes"),
+    )
+
+
+class ClientClassDefinitionFilterFormMixin(forms.Form):
+    network_client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Class Definitions"),
     )
 
 
@@ -147,7 +163,7 @@ class ClientClassFilterFormMixin(forms.Form):
     require_client_class_id = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        label=_("Require Client Classes"),
+        label=_("Required Client Classes"),
     )
     evaluate_additional_class_id = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
@@ -163,15 +179,27 @@ class ContextCommentFilterFormMixin(forms.Form):
     )
 
 
-class NetworkClientClassesImportFormMixin(forms.Form):
-    client_classes = CSVModelMultipleChoiceField(
+class ClientClassAssignmentImportFormMixin(forms.Form):
+    assign_client_classes = CSVModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         to_field_name="name",
         error_messages={
             "invalid_choice": _("Client class %(value)s not found"),
         },
-        label=_("Client Classes"),
+        label=_("Assign Client Classes"),
+    )
+
+
+class ClientClassDefinitionImportFormMixin(forms.Form):
+    client_class_definitions = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Client Class Definitions"),
     )
 
 
@@ -185,14 +213,14 @@ class ClientClassImportFormMixin(forms.Form):
         },
         label=_("Client Class"),
     )
-    require_client_classes = CSVModelMultipleChoiceField(
+    required_client_classes = CSVModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         to_field_name="name",
         error_messages={
             "invalid_choice": _("Client class %(value)s not found"),
         },
-        label=_("Require Client Classes"),
+        label=_("Required Client Classes"),
     )
     evaluate_additional_classes = CSVModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
@@ -201,7 +229,7 @@ class ClientClassImportFormMixin(forms.Form):
         error_messages={
             "invalid_choice": _("Client class %(value)s not found"),
         },
-        label=_("Require Client Classes"),
+        label=_("Required Client Classes"),
     )
 
 
@@ -271,12 +299,21 @@ class PreferredLifetimeBulkEditFormMixin(forms.Form):
     )
 
 
-class NetworkClientClassesBulkEditFormMixin(forms.Form):
-    client_classes = DynamicModelMultipleChoiceField(
+class ClientClassAssignmentBulkEditFormMixin(forms.Form):
+    assign_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         selector=True,
         label=_("Client Classes"),
+    )
+
+
+class ClientClassDefinitionBulkEditFormMixin(forms.Form):
+    client_class_definitions = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        selector=True,
+        label=_("Client Class Definitions"),
     )
 
 
@@ -287,11 +324,11 @@ class ClientClassBulkEditFormMixin(forms.Form):
         selector=True,
         label=_("Client Class"),
     )
-    require_client_classes = DynamicModelMultipleChoiceField(
+    required_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         selector=True,
-        label=_("Require Client Classes"),
+        label=_("Required Client Classes"),
     )
     evaluate_additional_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),

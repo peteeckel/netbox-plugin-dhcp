@@ -2,10 +2,10 @@
 
 <tr>
     <th scope="row">{% trans "Client Classes" %}</th>
-    {% if object.client_classes.exists %}
+    {% if object.assign_client_classes.exists %}
     <td>
         <table>
-            {% for class in object.client_classes.all %}
+            {% for class in object.assign_client_classes.all %}
                 <tr><td>{{ class|linkify|placeholder }}</td></tr>
             {% endfor %}
         </table>

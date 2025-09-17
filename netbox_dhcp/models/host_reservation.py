@@ -11,7 +11,7 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
     ContextCommentModelMixin,
-    ClientClassesModelMixin,
+    ClientClassAssignmentModelMixin,
 )
 
 __all__ = (
@@ -24,7 +24,7 @@ class HostReservation(
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
     ContextCommentModelMixin,
-    ClientClassesModelMixin,
+    ClientClassAssignmentModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -39,7 +39,7 @@ class HostReservation(
         "circuit_id",
         "flex_id",
         "hostname",
-        "client_classes",
+        "assign_client_classes",
         "comment",
     )
 

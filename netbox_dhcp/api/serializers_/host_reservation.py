@@ -6,13 +6,14 @@ from ipam.api.serializers import IPAddressSerializer, PrefixSerializer
 
 from netbox_dhcp.models import HostReservation
 
-from ..nested_serializers import NestedClientClassSerializer
-
+from .mixins import ClientClassAssignmentSerializerMixin
 
 __all__ = ("HostReservationSerializer",)
 
 
-class HostReservationSerializer(NetBoxModelSerializer):
+class HostReservationSerializer(
+    ClientClassAssignmentSerializerMixin, NetBoxModelSerializer
+):
     class Meta:
         model = HostReservation
 
@@ -37,7 +38,7 @@ class HostReservationSerializer(NetBoxModelSerializer):
             "ipv6_addresses",
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            "client_classes",
+            "assign_client_classes",
         )
 
         brief_fields = (
@@ -61,14 +62,6 @@ class HostReservationSerializer(NetBoxModelSerializer):
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:hostreservation-detail"
-    )
-
-    client_classes = NestedClientClassSerializer(
-        many=True,
-        nested=True,
-        read_only=False,
-        required=False,
-        help_text=_("Client classes to be used for subnet selection in shared subnets"),
     )
 
     ipv4_address = IPAddressSerializer(
@@ -100,15 +93,15 @@ class HostReservationSerializer(NetBoxModelSerializer):
     )
 
     def create(self, validated_data):
-        client_classes = validated_data.pop("client_classes", None)
+        assign_client_classes = validated_data.pop("assign_client_classes", None)
         ipv6_addresses = validated_data.pop("ipv6_addresses", None)
         ipv6_prefixes = validated_data.pop("ipv6_prefixes", None)
         excluded_ipv6_prefixes = validated_data.pop("excluded_ipv6_prefixes", None)
 
         host_reservation = super().create(validated_data)
 
-        if client_classes is not None:
-            host_reservation.client_classes.set(client_classes)
+        if assign_client_classes is not None:
+            host_reservation.assign_client_classes.set(assign_client_classes)
         if ipv6_addresses is not None:
             host_reservation.ipv6_addresses.set(ipv6_addresses)
         if ipv6_prefixes is not None:
@@ -119,15 +112,15 @@ class HostReservationSerializer(NetBoxModelSerializer):
         return host_reservation
 
     def update(self, instance, validated_data):
-        client_classes = validated_data.pop("client_classes", None)
+        assign_client_classes = validated_data.pop("assign_client_classes", None)
         ipv6_addresses = validated_data.pop("ipv6_addresses", None)
         ipv6_prefixes = validated_data.pop("ipv6_prefixes", None)
         excluded_ipv6_prefixes = validated_data.pop("excluded_ipv6_prefixes", None)
 
         host_reservation = super().update(instance, validated_data)
 
-        if client_classes is not None:
-            host_reservation.client_classes.set(client_classes)
+        if assign_client_classes is not None:
+            host_reservation.assign_client_classes.set(assign_client_classes)
         if ipv6_addresses is not None:
             host_reservation.ipv6_addresses.set(ipv6_addresses)
         if ipv6_prefixes is not None:

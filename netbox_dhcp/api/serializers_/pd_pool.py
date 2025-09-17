@@ -5,11 +5,19 @@ from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import PDPool
 
+from .mixins import (
+    ClientClassDefinitionSerializerMixin,
+    ClientClassSerializerMixin,
+)
 
 __all__ = ("PDPoolSerializer",)
 
 
-class PDPoolSerializer(NetBoxModelSerializer):
+class PDPoolSerializer(
+    ClientClassDefinitionSerializerMixin,
+    ClientClassSerializerMixin,
+    NetBoxModelSerializer,
+):
     class Meta:
         model = PDPool
 
@@ -20,10 +28,13 @@ class PDPoolSerializer(NetBoxModelSerializer):
             "name",
             "description",
             "prefix",
+            "client_class_definitions",
+            "required_client_classes",
             "delegated_length",
             "excluded_prefix",
             "user_context",
             "comment",
+            "evaluate_additional_classes",
             "tags",
         )
 
@@ -49,3 +60,39 @@ class PDPoolSerializer(NetBoxModelSerializer):
         read_only=False,
         required=False,
     )
+
+    def create(self, validated_data):
+        client_class_definitions = validated_data.pop("client_class_definitions", None)
+        required_client_classes = validated_data.pop("required_client_classes", None)
+        evaluate_additional_classes = validated_data.pop(
+            "evaluate_additional_classes", None
+        )
+
+        pd_pool = super().create(validated_data)
+
+        if client_class_definitions is not None:
+            pd_pool.client_class_definitions.set(client_class_definitions)
+        if required_client_classes is not None:
+            pd_pool.required_client_classes.set(required_client_classes)
+        if evaluate_additional_classes is not None:
+            pd_pool.evaluate_additional_classes.set(evaluate_additional_classes)
+
+        return pd_pool
+
+    def update(self, instance, validated_data):
+        client_class_definitions = validated_data.pop("client_class_definitions", None)
+        required_client_classes = validated_data.pop("required_client_classes", None)
+        evaluate_additional_classes = validated_data.pop(
+            "evaluate_additional_classes", None
+        )
+
+        pd_pool = super().update(instance, validated_data)
+
+        if client_class_definitions is not None:
+            pd_pool.client_class_definitions.set(client_class_definitions)
+        if required_client_classes is not None:
+            pd_pool.required_client_classes.set(required_client_classes)
+        if evaluate_additional_classes is not None:
+            pd_pool.evaluate_additional_classes.set(evaluate_additional_classes)
+
+        return pd_pool

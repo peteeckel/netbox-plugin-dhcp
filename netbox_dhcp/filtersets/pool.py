@@ -9,14 +9,16 @@ from ipam.models import IPRange
 from netbox_dhcp.models import Pool
 
 from .mixins import (
-    ClientClassMixin,
+    ClientClassDefinitionFilterMixin,
+    ClientClassFilterMixin,
 )
 
 __all__ = ("PoolFilterSet",)
 
 
 class PoolFilterSet(
-    ClientClassMixin,
+    ClientClassDefinitionFilterMixin,
+    ClientClassFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:

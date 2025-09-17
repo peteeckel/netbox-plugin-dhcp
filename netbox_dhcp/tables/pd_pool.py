@@ -18,10 +18,12 @@ class PDPoolTable(NetBoxTable):
             "prefix",
             "delegated_length",
             "excluded_prefix",
+            "client_class_definitions",
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             "user_context",
             "comment",
+            "evaluate_additional_classes",
             "tags",
         )
 
@@ -44,12 +46,20 @@ class PDPoolTable(NetBoxTable):
         verbose_name=_("Excluded IPv6 Prefix"),
         linkify=True,
     )
+    client_class_definitions = tables.Column(
+        verbose_name=_("Client Class Definitions"),
+        linkify=True,
+    )
     client_class = tables.Column(
         verbose_name=_("Client Class"),
         linkify=True,
     )
-    require_client_classes = tables.ManyToManyColumn(
-        verbose_name=_("Require Client Classes"),
+    required_client_classes = tables.ManyToManyColumn(
+        verbose_name=_("Required Client Classes"),
+        linkify_item=True,
+    )
+    evaluate_additional_classes = tables.ManyToManyColumn(
+        verbose_name=_("Evaluate Additional Classes"),
         linkify_item=True,
     )
 

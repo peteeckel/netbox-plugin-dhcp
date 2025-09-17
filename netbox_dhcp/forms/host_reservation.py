@@ -23,15 +23,15 @@ from dcim.models import MACAddress
 from netbox_dhcp.models import HostReservation
 
 from .mixins import (
-    NetBoxDHCPFilterFormMixin,
+    BOOTPBulkEditFormMixin,
     BOOTPFilterFormMixin,
-    NetworkClientClassesFilterFormMixin,
-    NetworkClientClassesImportFormMixin,
+    ClientClassAssignmentBulkEditFormMixin,
+    ClientClassAssignmentFilterFormMixin,
+    ClientClassAssignmentImportFormMixin,
+    ContextCommentBulkEditFormMixin,
     ContextCommentFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    BOOTPBulkEditFormMixin,
-    ContextCommentBulkEditFormMixin,
-    NetworkClientClassesBulkEditFormMixin,
+    NetBoxDHCPFilterFormMixin,
 )
 
 
@@ -55,7 +55,6 @@ class HostReservationForm(NetBoxModelForm):
             "circuit_id",
             "client_id",
             "flex_id",
-            "client_classes",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -66,6 +65,7 @@ class HostReservationForm(NetBoxModelForm):
             "excluded_ipv6_prefixes",
             "user_context",
             "comment",
+            "assign_client_classes",
             "tags",
         )
 
@@ -97,7 +97,7 @@ class HostReservationForm(NetBoxModelForm):
             "hostname",
             "user_context",
             "comment",
-            "client_classes",
+            "assign_client_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -157,7 +157,7 @@ class HostReservationForm(NetBoxModelForm):
 class HostReservationFilterForm(
     NetBoxDHCPFilterFormMixin,
     BOOTPFilterFormMixin,
-    NetworkClientClassesFilterFormMixin,
+    ClientClassAssignmentFilterFormMixin,
     ContextCommentFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
@@ -196,6 +196,7 @@ class HostReservationFilterForm(
             "excluded_ipv6_prefix_id",
             "hostname",
             "comment",
+            "assign_client_classes",
             name=_("Assignment"),
         ),
     )
@@ -264,7 +265,7 @@ class HostReservationFilterForm(
 
 
 class HostReservationImportForm(
-    NetworkClientClassesImportFormMixin,
+    ClientClassAssignmentImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -278,7 +279,6 @@ class HostReservationImportForm(
             "circuit_id",
             "client_id",
             "flex_id",
-            "client_classes",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -289,6 +289,7 @@ class HostReservationImportForm(
             "excluded_ipv6_prefixes",
             "user_context",
             "comment",
+            "assign_client_classes",
             "tags",
         )
 
@@ -349,7 +350,7 @@ class HostReservationBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
-    NetworkClientClassesBulkEditFormMixin,
+    ClientClassAssignmentBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = HostReservation
@@ -375,7 +376,7 @@ class HostReservationBulkEditForm(
             "excluded_ipv6_prefixes",
             "user_context",
             "comment",
-            "client_classes",
+            "assign_client_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -394,7 +395,7 @@ class HostReservationBulkEditForm(
         "excluded_ipv6_prefixes",
         "user_context",
         "comment",
-        "client_classes",
+        "assign_client_classes",
     )
 
     circuit_id = forms.CharField(

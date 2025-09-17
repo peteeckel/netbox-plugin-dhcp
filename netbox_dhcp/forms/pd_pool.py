@@ -20,16 +20,16 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
-    NetworkClientClassesFormMixin,
+    ClientClassDefinitionFormMixin,
     ClientClassFormMixin,
     NetBoxDHCPFilterFormMixin,
-    NetworkClientClassesFilterFormMixin,
+    ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
     ContextCommentFilterFormMixin,
-    NetworkClientClassesImportFormMixin,
+    ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    NetworkClientClassesBulkEditFormMixin,
+    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
 )
@@ -43,7 +43,7 @@ __all__ = (
 )
 
 
-class PDPoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxModelForm):
+class PDPoolForm(ClientClassDefinitionFormMixin, ClientClassFormMixin, NetBoxModelForm):
     class Meta:
         model = PDPool
 
@@ -53,9 +53,9 @@ class PDPoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxMode
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            "client_classes",
+            "client_class_definitions",
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             "evaluate_additional_classes",
             "user_context",
             "comment",
@@ -72,12 +72,12 @@ class PDPoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxMode
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
-            "client_classes",
+            "client_class_definitions",
             name=_("Client Class Definitions"),
         ),
         FieldSet(
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -114,7 +114,7 @@ class PDPoolForm(NetworkClientClassesFormMixin, ClientClassFormMixin, NetBoxMode
 
 class PDPoolFilterForm(
     NetBoxDHCPFilterFormMixin,
-    NetworkClientClassesFilterFormMixin,
+    ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
     ContextCommentFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -176,7 +176,7 @@ class PDPoolFilterForm(
 
 
 class PDPoolImportForm(
-    NetworkClientClassesImportFormMixin,
+    ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -189,9 +189,9 @@ class PDPoolImportForm(
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            "client_classes",
+            "client_class_definitions",
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             "evaluate_additional_classes",
             "user_context",
             "comment",
@@ -220,7 +220,7 @@ class PDPoolImportForm(
 
 class PDPoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    NetworkClientClassesBulkEditFormMixin,
+    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     ContextCommentBulkEditFormMixin,
     NetBoxModelBulkEditForm,
@@ -235,12 +235,12 @@ class PDPoolBulkEditForm(
             name=_("Prefix Delegation Pool"),
         ),
         FieldSet(
-            "client_classes",
+            "client_class_definitions",
             name=_("Client Class Definitions"),
         ),
         FieldSet(
             "client_class",
-            "require_client_classes",
+            "required_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -258,8 +258,8 @@ class PDPoolBulkEditForm(
     nullable_fields = (
         "description",
         "client_class",
-        "client_classes",
-        "require_client_classes",
+        "client_class_definitions",
+        "required_client_classes",
         "evaluate_additional_classes",
         "user_context",
         "comment",
