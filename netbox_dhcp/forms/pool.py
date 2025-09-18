@@ -20,10 +20,6 @@ from netbox_dhcp.models import Pool
 
 from .mixins import (
     ClientClassBulkEditFormMixin,
-    ClientClassDefinitionBulkEditFormMixin,
-    ClientClassDefinitionFilterFormMixin,
-    ClientClassDefinitionFormMixin,
-    ClientClassDefinitionImportFormMixin,
     ClientClassFilterFormMixin,
     ClientClassFormMixin,
     ClientClassImportFormMixin,
@@ -42,7 +38,7 @@ __all__ = (
 )
 
 
-class PoolForm(ClientClassDefinitionFormMixin, ClientClassFormMixin, NetBoxModelForm):
+class PoolForm(ClientClassFormMixin, NetBoxModelForm,):
     class Meta:
         model = Pool
 
@@ -98,7 +94,6 @@ class PoolForm(ClientClassDefinitionFormMixin, ClientClassFormMixin, NetBoxModel
 
 class PoolFilterForm(
     NetBoxDHCPFilterFormMixin,
-    ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
     CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -143,7 +138,6 @@ class PoolFilterForm(
 
 
 class PoolImportForm(
-    ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -174,7 +168,6 @@ class PoolImportForm(
 
 class PoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     CommonBulkEditFormMixin,
     NetBoxModelBulkEditForm,

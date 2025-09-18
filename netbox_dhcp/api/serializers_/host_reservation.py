@@ -12,7 +12,7 @@ __all__ = ("HostReservationSerializer",)
 
 
 class HostReservationSerializer(
-    ClientClassAssignmentSerializerMixin, NetBoxModelSerializer
+    ClientClassAssignmentSerializerMixin, NetBoxModelSerializer,
 ):
     class Meta:
         model = HostReservation

@@ -30,7 +30,7 @@ class ClientClassDefinitionSerializerMixin:
     )
 
 
-class ClientClassSerializerMixin:
+class ClientClassSerializerMixin(ClientClassDefinitionSerializerMixin):
     client_class = NestedClientClassSerializer(
         nested=True,
         read_only=False,

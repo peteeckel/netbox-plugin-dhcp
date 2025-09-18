@@ -9,7 +9,6 @@ from ipam.models import Prefix
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
-    ClientClassDefinitionFilterMixin,
     ClientClassFilterMixin,
 )
 
@@ -17,7 +16,6 @@ __all__ = ("PDPoolFilterSet",)
 
 
 class PDPoolFilterSet(
-    ClientClassDefinitionFilterMixin,
     ClientClassFilterMixin,
     NetBoxModelFilterSet,
 ):

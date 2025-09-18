@@ -6,7 +6,6 @@ from ipam.api.serializers import PrefixSerializer
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
-    ClientClassDefinitionSerializerMixin,
     ClientClassSerializerMixin,
 )
 
@@ -14,7 +13,6 @@ __all__ = ("PDPoolSerializer",)
 
 
 class PDPoolSerializer(
-    ClientClassDefinitionSerializerMixin,
     ClientClassSerializerMixin,
     NetBoxModelSerializer,
 ):

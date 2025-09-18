@@ -11,7 +11,6 @@ from ipam.models import Prefix
 
 from .mixins import (
     NetBoxDHCPModelMixin,
-    ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
     CommonModelMixin,
 )
@@ -24,7 +23,6 @@ __all__ = (
 
 class PDPool(
     NetBoxDHCPModelMixin,
-    ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
     CommonModelMixin,
     NetBoxModel,

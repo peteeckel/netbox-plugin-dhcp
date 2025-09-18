@@ -7,7 +7,6 @@ from ipam.models import IPRange
 
 from .mixins import (
     NetBoxDHCPModelMixin,
-    ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
     CommonModelMixin,
 )
@@ -20,7 +19,6 @@ __all__ = (
 
 class Pool(
     NetBoxDHCPModelMixin,
-    ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
     CommonModelMixin,
     NetBoxModel,

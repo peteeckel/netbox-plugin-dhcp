@@ -102,7 +102,7 @@ class ClientClassDefinitionModelMixin(models.Model):
     )
 
 
-class ClientClassModelMixin(models.Model):
+class ClientClassModelMixin(ClientClassDefinitionModelMixin):
     class Meta:
         abstract = True
 

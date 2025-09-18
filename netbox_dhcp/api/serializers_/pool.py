@@ -7,7 +7,6 @@ from netbox_dhcp.models import Pool
 from ..nested_serializers import NestedClientClassSerializer
 
 from .mixins import (
-    ClientClassDefinitionSerializerMixin,
     ClientClassSerializerMixin,
 )
 
@@ -15,7 +14,6 @@ __all__ = ("PoolSerializer",)
 
 
 class PoolSerializer(
-    ClientClassDefinitionSerializerMixin,
     ClientClassSerializerMixin,
     NetBoxModelSerializer,
 ):

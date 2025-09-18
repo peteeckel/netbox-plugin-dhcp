@@ -4,9 +4,24 @@ from django.utils.translation import gettext as _
 from netbox_dhcp.models import ClientClass
 
 __all__ = (
+    "ClientClassAssignmentFilterMixin",
     "ClientClassDefinitionFilterMixin",
     "ClientClassFilterMixin",
 )
+
+
+class ClientClassAssignmentFilterMixin:
+    assign_client_class = django_filters.ModelMultipleChoiceFilter(
+        queryset=ClientClass.objects.all(),
+        field_name="assign_client_classes__name",
+        to_field_name="name",
+        label=_("Assign Client Class"),
+    )
+    assign_client_class_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=ClientClass.objects.all(),
+        field_name="assign_client_classes",
+        label=_("Assign Client Class ID"),
+    )
 
 
 class ClientClassDefinitionFilterMixin:
@@ -23,7 +38,7 @@ class ClientClassDefinitionFilterMixin:
     )
 
 
-class ClientClassFilterMixin:
+class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
     client_class_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="client_class__name",

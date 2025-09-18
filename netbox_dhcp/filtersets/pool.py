@@ -9,7 +9,6 @@ from ipam.models import IPRange
 from netbox_dhcp.models import Pool
 
 from .mixins import (
-    ClientClassDefinitionFilterMixin,
     ClientClassFilterMixin,
 )
 
@@ -17,7 +16,6 @@ __all__ = ("PoolFilterSet",)
 
 
 class PoolFilterSet(
-    ClientClassDefinitionFilterMixin,
     ClientClassFilterMixin,
     NetBoxModelFilterSet,
 ):

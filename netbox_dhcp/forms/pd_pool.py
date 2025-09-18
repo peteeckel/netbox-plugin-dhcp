@@ -21,10 +21,6 @@ from netbox_dhcp.models import PDPool
 
 from .mixins import (
     ClientClassBulkEditFormMixin,
-    ClientClassDefinitionBulkEditFormMixin,
-    ClientClassDefinitionFilterFormMixin,
-    ClientClassDefinitionFormMixin,
-    ClientClassDefinitionImportFormMixin,
     ClientClassFilterFormMixin,
     ClientClassFormMixin,
     ClientClassImportFormMixin,
@@ -43,7 +39,7 @@ __all__ = (
 )
 
 
-class PDPoolForm(ClientClassDefinitionFormMixin, ClientClassFormMixin, NetBoxModelForm):
+class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
     class Meta:
         model = PDPool
 
@@ -114,7 +110,6 @@ class PDPoolForm(ClientClassDefinitionFormMixin, ClientClassFormMixin, NetBoxMod
 
 class PDPoolFilterForm(
     NetBoxDHCPFilterFormMixin,
-    ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
     CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -176,7 +171,6 @@ class PDPoolFilterForm(
 
 
 class PDPoolImportForm(
-    ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -220,7 +214,6 @@ class PDPoolImportForm(
 
 class PDPoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     CommonBulkEditFormMixin,
     NetBoxModelBulkEditForm,
