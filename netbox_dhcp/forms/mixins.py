@@ -11,8 +11,8 @@ from utilities.forms.fields import (
 from netbox_dhcp.models import ClientClass
 
 __all__ = (
-    "BOOTPBulkEditFormMixin",
     "BOOTPFilterFormMixin",
+    "BOOTPBulkEditFormMixin",
     "ClientClassAssignmentFormMixin",
     "ClientClassAssignmentFilterFormMixin",
     "ClientClassAssignmentImportFormMixin",
@@ -33,8 +33,10 @@ __all__ = (
     "OfferLifetimeBulkEditFormMixin",
     "PreferredLifetimeFilterFormMixin",
     "PreferredLifetimeBulkEditFormMixin",
-    "ValidLifetimeFilterFormMixin",
     "ValidLifetimeBulkEditFormMixin",
+    "ValidLifetimeFilterFormMixin",
+    "LifetimeFilterFormMixin",
+    "LifetimeBulkEditFormMixin",
 )
 
 
@@ -145,6 +147,14 @@ class PreferredLifetimeFilterFormMixin(forms.Form):
         min_value=1,
         label=_("Maximum Preferred Lifetime"),
     )
+
+
+class LifetimeFilterFormMixin(
+    ValidLifetimeFilterFormMixin,
+    OfferLifetimeFilterFormMixin,
+    PreferredLifetimeFilterFormMixin,
+):
+    pass
 
 
 class ClientClassAssignmentFilterFormMixin(forms.Form):
@@ -307,6 +317,14 @@ class PreferredLifetimeBulkEditFormMixin(forms.Form):
         min_value=1,
         label=_("Maximum Preferred Lifetime"),
     )
+
+
+class LifetimeBulkEditFormMixin(
+    ValidLifetimeBulkEditFormMixin,
+    OfferLifetimeBulkEditFormMixin,
+    PreferredLifetimeBulkEditFormMixin,
+):
+    pass
 
 
 class ClientClassAssignmentBulkEditFormMixin(forms.Form):

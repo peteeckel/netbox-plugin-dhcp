@@ -48,7 +48,7 @@ dhcp_cluster_menu_item = PluginMenuItem(
 
 ddns_menu_item = PluginMenuItem(
     link="plugins:netbox_dhcp:ddns_list",
-    link_text=_("Dynamic DNS Servers"),
+    link_text=_("Dynamic DNS"),
     permissions=["netbox_dhcp.ddns_view"],
     buttons=(
         PluginMenuButton(
@@ -191,7 +191,7 @@ menu = PluginMenu(
     label=_("DHCP"),
     groups=(
         (
-            _("Infrastructure"),
+            _("Global"),
             (
                 dhcp_server_menu_item,
                 dhcp_cluster_menu_item,
@@ -199,14 +199,19 @@ menu = PluginMenu(
             ),
         ),
         (
-            _("Address Management"),
+            _("Network"),
             (
-                client_class_menu_item,
-                host_reservation_menu_item,
-                shared_netwok_menu_item,
-                pd_pool_menu_item,
-                pool_menu_item,
                 subnet_menu_item,
+                shared_netwok_menu_item,
+                pool_menu_item,
+                pd_pool_menu_item,
+            ),
+        ),
+        (
+            _("Clients"),
+            (
+                host_reservation_menu_item,
+                client_class_menu_item,
             ),
         ),
     ),

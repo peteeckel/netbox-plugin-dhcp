@@ -7,9 +7,7 @@ from netbox.search import SearchIndex, register_search
 from .mixins import (
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
-    ValidLifetimeModelMixin,
-    PreferredLifetimeModelMixin,
-    OfferLifetimeModelMixin,
+    LifetimeModelMixin,
     CommonModelMixin,
 )
 
@@ -22,9 +20,7 @@ __all__ = (
 class ClientClass(
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
-    ValidLifetimeModelMixin,
-    PreferredLifetimeModelMixin,
-    OfferLifetimeModelMixin,
+    LifetimeModelMixin,
     CommonModelMixin,
     NetBoxModel,
 ):
@@ -88,5 +84,5 @@ class ClientClassIndex(SearchIndex):
         ("next_server", 300),
         ("server_hostname", 300),
         ("boot_file_name", 300),
-        ("comment", 400),
+        ("comment", 200),
     )

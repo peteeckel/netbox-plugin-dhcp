@@ -4,11 +4,17 @@ from netbox.api.serializers import NetBoxModelSerializer
 
 from netbox_dhcp.models import Subnet
 
+from .mixins import (
+    ClientClassSerializerMixin,
+)
 
 __all__ = ("SubnetSerializer",)
 
 
-class SubnetSerializer(NetBoxModelSerializer):
+class SubnetSerializer(
+    ClientClassSerializerMixin,
+    NetBoxModelSerializer,
+):
     class Meta:
         model = Subnet
 
@@ -18,10 +24,22 @@ class SubnetSerializer(NetBoxModelSerializer):
             "display",
             "name",
             "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
             "client_class_definitions",
             "client_class",
             "required_client_classes",
             "evaluate_additional_classes",
+            "user_context",
+            "comment",
             "tags",
         )
 
@@ -31,6 +49,17 @@ class SubnetSerializer(NetBoxModelSerializer):
             "display",
             "name",
             "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
+            "comment",
         )
 
     url = serializers.HyperlinkedIdentityField(

@@ -23,7 +23,6 @@ class ClientClassFilterSet(NetBoxModelFilterSet):
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "comment",
             "offer_lifetime",
             "valid_lifetime",
             "min_valid_lifetime",
@@ -31,6 +30,7 @@ class ClientClassFilterSet(NetBoxModelFilterSet):
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "comment",
         )
 
     def search(self, queryset, name, value):

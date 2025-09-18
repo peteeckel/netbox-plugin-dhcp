@@ -117,4 +117,5 @@ class HostReservationIndex(SearchIndex):
         ("flex_id", 150),
         ("hostname", 180),
         ("description", 200),
+        ("comment", 400),
     )

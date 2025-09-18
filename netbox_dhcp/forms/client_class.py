@@ -17,12 +17,8 @@ from .mixins import (
     BOOTPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     NetBoxDHCPFilterFormMixin,
-    OfferLifetimeBulkEditFormMixin,
-    OfferLifetimeFilterFormMixin,
-    PreferredLifetimeBulkEditFormMixin,
-    PreferredLifetimeFilterFormMixin,
-    ValidLifetimeBulkEditFormMixin,
-    ValidLifetimeFilterFormMixin,
+    LifetimeFilterFormMixin,
+    LifetimeBulkEditFormMixin,
 )
 
 
@@ -101,9 +97,7 @@ class ClientClassForm(NetBoxModelForm):
 class ClientClassFilterForm(
     NetBoxDHCPFilterFormMixin,
     BOOTPFilterFormMixin,
-    ValidLifetimeFilterFormMixin,
-    OfferLifetimeFilterFormMixin,
-    PreferredLifetimeFilterFormMixin,
+    LifetimeFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = ClientClass
@@ -197,9 +191,7 @@ class ClientClassImportForm(NetBoxModelImportForm):
 class ClientClassBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
-    ValidLifetimeBulkEditFormMixin,
-    OfferLifetimeBulkEditFormMixin,
-    PreferredLifetimeBulkEditFormMixin,
+    LifetimeBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = ClientClass

@@ -14,10 +14,16 @@ from netbox_dhcp.models import Subnet
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
+    CommonFilterFormMixin,
+    CommonBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
     ClientClassBulkEditFormMixin,
+    LifetimeFilterFormMixin,
+    LifetimeBulkEditFormMixin,
+    BOOTPFilterFormMixin,
+    BOOTPBulkEditFormMixin,
 )
 
 
@@ -39,10 +45,22 @@ class SubnetForm(
         fields = (
             "name",
             "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
             "client_class_definitions",
             "client_class",
             "required_client_classes",
             "evaluate_additional_classes",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
+            "user_context",
+            "comment",
             "tags",
         )
 
@@ -62,7 +80,20 @@ class SubnetForm(
             name=_("Selection"),
         ),
         FieldSet(
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            name=_("BOOTP"),
+        ),
+        FieldSet(
             "user_context",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
             "comment",
             "evaluate_additional_classes",
             name=_("Assignment"),
@@ -76,7 +107,10 @@ class SubnetForm(
 
 class SubnetFilterForm(
     NetBoxDHCPFilterFormMixin,
+    BOOTPFilterFormMixin,
     ClientClassFilterFormMixin,
+    LifetimeFilterFormMixin,
+    CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Subnet
@@ -102,6 +136,19 @@ class SubnetFilterForm(
             name=_("Selection"),
         ),
         FieldSet(
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            name=_("BOOTP"),
+        ),
+        FieldSet(
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
             "comment",
             "evaluate_additional_class_id",
             name=_("Assignment"),
@@ -118,17 +165,32 @@ class SubnetImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
         fields = (
             "name",
             "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
             "client_class_definitions",
             "client_class",
             "required_client_classes",
             "evaluate_additional_classes",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
+            "user_context",
+            "comment",
             "tags",
         )
 
 
 class SubnetBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
+    BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
+    LifetimeBulkEditFormMixin,
+    CommonBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = Subnet
@@ -138,6 +200,52 @@ class SubnetBulkEditForm(
             "description",
             name=_("Subnet"),
         ),
+        FieldSet(
+            "client_class_definitions",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
+            "client_class",
+            "required_client_classes",
+            name=_("Selection"),
+        ),
+        FieldSet(
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            name=_("BOOTP"),
+        ),
+        FieldSet(
+            "user_context",
+            "comment",
+            "evaluate_additional_classes",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
+            name=_("Assignment"),
+        ),
     )
 
-    nullable_fields = ("description",)
+    nullable_fields = (
+        "description",
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+        "client_class_definitions",
+        "client_class",
+        "required_client_classes",
+        "evaluate_additional_classes",
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+        "user_context",
+        "comment",
+    )

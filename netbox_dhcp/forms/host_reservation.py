@@ -25,6 +25,7 @@ from netbox_dhcp.models import HostReservation
 from .mixins import (
     BOOTPBulkEditFormMixin,
     BOOTPFilterFormMixin,
+    ClientClassAssignmentFormMixin,
     ClientClassAssignmentBulkEditFormMixin,
     ClientClassAssignmentFilterFormMixin,
     ClientClassAssignmentImportFormMixin,
@@ -43,7 +44,7 @@ __all__ = (
 )
 
 
-class HostReservationForm(NetBoxModelForm):
+class HostReservationForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
     class Meta:
         model = HostReservation
 

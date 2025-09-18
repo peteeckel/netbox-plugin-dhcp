@@ -13,9 +13,9 @@ __all__ = (
     "ClientClassAssignmentModelMixin",
     "ClientClassDefinitionModelMixin",
     "ClientClassModelMixin",
-    "ValidLifetimeModelMixin",
-    "PreferredLifetimeModelMixin",
+    "LifetimeModelMixin",
     "OfferLifetimeModelMixin",
+    "LifetimeModelMixin",
     "DDNSUpdateModelMixin",
 )
 
@@ -179,6 +179,15 @@ class OfferLifetimeModelMixin(models.Model):
         null=True,
         blank=True,
     )
+
+
+class LifetimeModelMixin(
+    ValidLifetimeModelMixin,
+    PreferredLifetimeModelMixin,
+    OfferLifetimeModelMixin,
+):
+    class Meta:
+        abstract = True
 
 
 class DDNSUpdateModelMixin(models.Model):

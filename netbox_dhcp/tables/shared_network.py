@@ -17,10 +17,21 @@ class SharedNetworkTable(NetBoxDHCPTableMixin, NetBoxTable):
         fields = (
             "name",
             "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
             "client_class_definitions",
             "client_class",
             "required_client_classes",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
             "user_context",
+            "comment",
         )
 
         default_columns = ("name",)
