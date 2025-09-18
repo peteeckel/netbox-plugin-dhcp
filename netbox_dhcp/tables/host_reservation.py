@@ -15,6 +15,7 @@ class HostReservationTable(NetBoxDHCPTableMixin, NetBoxTable):
         model = HostReservation
 
         fields = (
+            "name",
             "description",
             "duid",
             "circuit_id",

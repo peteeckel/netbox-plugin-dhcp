@@ -15,6 +15,7 @@ class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
         model = Pool
 
         fields = (
+            "name",
             "description",
             "ip_range",
             "client_class_definitions",

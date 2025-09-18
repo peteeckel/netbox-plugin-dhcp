@@ -39,6 +39,10 @@ class SharedNetworkForm(
         fields = (
             "name",
             "description",
+            "client_class_definitions",
+            "client_class",
+            "required_client_classes",
+            "evaluate_additional_classes",
             "tags",
         )
 

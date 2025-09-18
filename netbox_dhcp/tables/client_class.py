@@ -15,6 +15,7 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
         model = ClientClass
 
         fields = (
+            "name",
             "description",
             "comment",
             "test",

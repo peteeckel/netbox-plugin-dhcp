@@ -15,6 +15,7 @@ class PDPoolTable(NetBoxDHCPTableMixin, NetBoxTable):
         model = PDPool
 
         fields = (
+            "name",
             "description",
             "prefix",
             "delegated_length",

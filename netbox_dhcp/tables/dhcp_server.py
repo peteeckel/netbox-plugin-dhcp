@@ -14,7 +14,10 @@ class DHCPServerTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = DHCPServer
 
-        fields = ("description",)
+        fields = (
+            "name",
+            "description",
+        )
 
         default_columns = (
             "name",

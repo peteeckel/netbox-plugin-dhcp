@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import TagColumn
+from netbox.tables import TagColumn, NetBoxTable
 
 __all__ = (
     "NetBoxDHCPTableMixin",
@@ -10,7 +10,7 @@ __all__ = (
 )
 
 
-class NetBoxDHCPTableMixin:
+class NetBoxDHCPTableMixin(NetBoxTable):
     name = tables.Column(
         verbose_name=_("Name"),
         linkify=True,
@@ -20,7 +20,7 @@ class NetBoxDHCPTableMixin:
     )
 
 
-class ClientClassDefinitionTableMixin:
+class ClientClassDefinitionTableMixin(NetBoxTable):
     client_class_definitions = tables.Column(
         verbose_name=_("Client Class Definitions"),
         linkify=True,

@@ -14,6 +14,13 @@ class SharedNetworkTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = SharedNetwork
 
-        fields = ("description",)
+        fields = (
+            "name",
+            "description",
+            "client_class_definitions",
+            "client_class",
+            "required_client_classes",
+            "user_context",
+        )
 
         default_columns = ("name",)

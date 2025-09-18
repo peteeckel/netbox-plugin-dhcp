@@ -14,6 +14,13 @@ class SubnetTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = Subnet
 
-        fields = ("description",)
+        fields = (
+            "name",
+            "description",
+            "client_class_definitions",
+            "client_class",
+            "required_client_classes",
+            "user_context",
+        )
 
         default_columns = ("name",)

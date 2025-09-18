@@ -14,6 +14,9 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = Option
 
-        fields = ("description",)
+        fields = (
+            "name",
+            "description",
+        )
 
         default_columns = ("name",)

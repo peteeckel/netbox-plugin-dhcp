@@ -14,7 +14,10 @@ class DHCPClusterTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = DHCPCluster
 
-        fields = ("description",)
+        fields = (
+            "name",
+            "description",
+        )
 
         default_columns = (
             "name",

@@ -14,6 +14,9 @@ class DDNSTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = DDNS
 
-        fields = ("description",)
+        fields = (
+            "name",
+            "description",
+        )
 
         default_columns = ("name",)

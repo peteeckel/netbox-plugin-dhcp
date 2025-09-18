@@ -27,7 +27,7 @@ class SharedNetwork(NetBoxDHCPModelMixin, ClientClassModelMixin, NetBoxModel):
         "description",
         "client_class_definitions",
         "client_class",
-        "require_client_classes",
+        "required_client_classes",
         "evaluate_additional_classes",
     )
 
