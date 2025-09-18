@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 
+from utilities.forms import add_blank_choice
 from utilities.forms.fields import (
     DynamicModelChoiceField,
     DynamicModelMultipleChoiceField,
@@ -8,6 +9,10 @@ from utilities.forms.fields import (
 from ipam.models import Prefix
 
 from netbox_dhcp.models import ClientClass
+from netbox_dhcp.choices import (
+    DDNSReplaceClientNameChoices,
+    DDNSConflictResolutionModeChoices,
+)
 
 __all__ = (
     "NetBoxDHCPBulkEditFormMixin",
@@ -19,6 +24,7 @@ __all__ = (
     "LifetimeBulkEditFormMixin",
     "CommonBulkEditFormMixin",
     "PrefixBulkEditFormMixin",
+    "DDNSUpdateBulkEditFormMixin",
 )
 
 
@@ -142,4 +148,17 @@ class PrefixBulkEditFormMixin(forms.Form):
         required=False,
         selector=True,
         label=_("Prefix"),
+    )
+
+
+class DDNSUpdateBulkEditFormMixin(forms.Form):
+    ddns_replace_client_name = forms.ChoiceField(
+        choices=add_blank_choice(DDNSReplaceClientNameChoices),
+        required=False,
+        label=_("Replace Client Name"),
+    )
+    ddns_conflict_resolution_mode = forms.ChoiceField(
+        choices=add_blank_choice(DDNSConflictResolutionModeChoices),
+        required=False,
+        label=_("Conflict Resolution Mode"),
     )

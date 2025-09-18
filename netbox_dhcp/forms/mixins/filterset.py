@@ -8,6 +8,10 @@ from utilities.forms.fields import (
 from ipam.models import Prefix
 
 from netbox_dhcp.models import ClientClass
+from netbox_dhcp.choices import (
+    DDNSReplaceClientNameChoices,
+    DDNSConflictResolutionModeChoices,
+)
 
 __all__ = (
     "BOOTPFilterFormMixin",
@@ -19,6 +23,7 @@ __all__ = (
     "OfferLifetimeFilterFormMixin",
     "LifetimeFilterFormMixin",
     "PrefixFilterFormMixin",
+    "DDNSUpdateFilterFormMixin",
 )
 
 
@@ -136,4 +141,17 @@ class PrefixFilterFormMixin(forms.Form):
         queryset=Prefix.objects.all(),
         required=False,
         label=_("Prefix"),
+    )
+
+
+class DDNSUpdateFilterFormMixin(forms.Form):
+    ddns_replace_client_name = forms.ChoiceField(
+        choices=DDNSReplaceClientNameChoices,
+        required=False,
+        label=_("Replace Client Name"),
+    )
+    ddns_conflict_resolution_mode = forms.ChoiceField(
+        choices=DDNSConflictResolutionModeChoices,
+        required=False,
+        label=_("Conflict Resolution Mode"),
     )

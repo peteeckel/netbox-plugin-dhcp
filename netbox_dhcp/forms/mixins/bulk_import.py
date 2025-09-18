@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext as _
 
 from utilities.forms.fields import (
+    CSVChoiceField,
     CSVModelChoiceField,
     CSVModelMultipleChoiceField,
 )
@@ -9,12 +10,17 @@ from utilities.forms.fields import (
 from ipam.models import Prefix
 
 from netbox_dhcp.models import ClientClass
+from netbox_dhcp.choices import (
+    DDNSReplaceClientNameChoices,
+    DDNSConflictResolutionModeChoices,
+)
 
 __all__ = (
     "ClientClassAssignmentImportFormMixin",
     "ClientClassDefinitionImportFormMixin",
     "ClientClassImportFormMixin",
     "PrefixImportFormMixin",
+    "DDNSUpdateImportFormMixin",
 )
 
 
@@ -78,4 +84,17 @@ class PrefixImportFormMixin(forms.Form):
         required=True,
         to_field_name="prefix",
         label=_("Prefix"),
+    )
+
+
+class DDNSUpdateImportFormMixin(forms.Form):
+    ddns_replace_client_name = CSVChoiceField(
+        choices=DDNSReplaceClientNameChoices,
+        required=False,
+        label=_("Replace Client Name"),
+    )
+    ddns_conflict_resolution_mode = CSVChoiceField(
+        choices=DDNSConflictResolutionModeChoices,
+        required=False,
+        label=_("Conflict Resolution Mode"),
     )

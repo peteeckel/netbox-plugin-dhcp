@@ -27,6 +27,10 @@ from .mixins import (
     CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     NetBoxDHCPFilterFormMixin,
+    DDNSUpdateFormMixin,
+    DDNSUpdateFilterFormMixin,
+    DDNSUpdateImportFormMixin,
+    DDNSUpdateBulkEditFormMixin,
 )
 
 
@@ -40,6 +44,7 @@ __all__ = (
 
 class PoolForm(
     ClientClassFormMixin,
+    DDNSUpdateFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -54,6 +59,20 @@ class PoolForm(
             "required_client_classes",
             "evaluate_additional_classes",
             "user_context",
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
             "comment",
             "tags",
         )
@@ -81,6 +100,23 @@ class PoolForm(
             name=_("Assignment"),
         ),
         FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
+        FieldSet(
             "tags",
             name=_("Tags"),
         ),
@@ -99,6 +135,7 @@ class PoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     CommonFilterFormMixin,
+    DDNSUpdateFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Pool
@@ -129,6 +166,23 @@ class PoolFilterForm(
             "evaluate_additional_class_id",
             name=_("Assignment"),
         ),
+        FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
     )
 
     ip_range_id = DynamicModelMultipleChoiceField(
@@ -142,6 +196,7 @@ class PoolFilterForm(
 
 class PoolImportForm(
     ClientClassImportFormMixin,
+    DDNSUpdateImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -175,6 +230,7 @@ class PoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     CommonBulkEditFormMixin,
+    DDNSUpdateBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = Pool
@@ -198,6 +254,23 @@ class PoolBulkEditForm(
             "comment",
             "evaluate_additional_classes",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
         ),
     )
 

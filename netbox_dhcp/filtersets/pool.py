@@ -10,6 +10,7 @@ from netbox_dhcp.models import Pool
 
 from .mixins import (
     ClientClassFilterMixin,
+    DDNSUpdateFilterMixin,
 )
 
 __all__ = ("PoolFilterSet",)
@@ -17,6 +18,7 @@ __all__ = ("PoolFilterSet",)
 
 class PoolFilterSet(
     ClientClassFilterMixin,
+    DDNSUpdateFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
@@ -26,6 +28,20 @@ class PoolFilterSet(
             "id",
             "name",
             "description",
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
             "comment",
         )
 

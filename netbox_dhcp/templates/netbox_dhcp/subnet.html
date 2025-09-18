@@ -22,9 +22,6 @@
                 </table>
             </div>
             {% include './inc/bootp_card.html' %}
-            {% include 'inc/panels/custom_fields.html' %}
-        </div>
-        <div class="col col-md-6">
             <div class="card">
                 <h5 class="card-header">{% trans "Assignment" %}</h5>
                 <table class="table table-hover attr-table">
@@ -33,6 +30,10 @@
                     {% include './inc/client_class_evaluation_fields.html' %}
                 </table>
             </div>
+            {% include 'inc/panels/custom_fields.html' %}
+        </div>
+        <div class="col col-md-6">
+            {% include './inc/ddns_update_card.html' %}
             {% include 'inc/panels/tags.html' %}
         </div>
     </div>

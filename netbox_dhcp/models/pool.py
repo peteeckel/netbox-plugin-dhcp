@@ -9,6 +9,7 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     CommonModelMixin,
+    DDNSUpdateModelMixin,
 )
 
 __all__ = (
@@ -21,6 +22,7 @@ class Pool(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     CommonModelMixin,
+    DDNSUpdateModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -36,6 +38,20 @@ class Pool(
         "client_class",
         "required_client_classes",
         "evaluate_additional_classes",
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
         "comment",
     )
 

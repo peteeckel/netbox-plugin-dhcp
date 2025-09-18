@@ -194,11 +194,8 @@ class DDNSUpdateModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    enable_updates = models.BooleanField(
-        verbose_name=_("Enable DDNS updates"),
-        null=False,
-        default=False,
-    )
+    # TODO: Implement get_*_color
+
     ddns_send_updates = models.BooleanField(
         verbose_name=_("Send DDNS updates"),
         null=False,
@@ -222,14 +219,12 @@ class DDNSUpdateModelMixin(models.Model):
         default=DDNSReplaceClientNameChoices.NEVER,
     )
     ddns_generated_prefix = models.CharField(
-        verbose_name=_("Genrated Prefix"),
+        verbose_name=_("Generated Prefix"),
         blank=True,
-        null=True,
     )
     ddns_qualifying_suffix = models.CharField(
         verbose_name=_("Qualifying Suffix"),
         blank=True,
-        null=True,
     )
     ddns_update_on_renew = models.BooleanField(
         verbose_name=_("Update DDNS on renew"),
@@ -246,18 +241,22 @@ class DDNSUpdateModelMixin(models.Model):
     ddns_ttl_percent = models.PositiveIntegerField(
         verbose_name=_("TTL Percent"),
         null=True,
+        blank=True,
     )
     ddns_ttl = models.PositiveIntegerField(
         verbose_name=_("TTL"),
         null=True,
+        blank=True,
     )
     ddns_ttl_min = models.PositiveIntegerField(
         verbose_name=_("Minimum TTL"),
         null=True,
+        blank=True,
     )
     ddns_ttl_max = models.PositiveIntegerField(
         verbose_name=_("Maximum TTL"),
         null=True,
+        blank=True,
     )
     hostname_char_set = models.CharField(
         verbose_name=_("Allowed Characters in Host Names"),

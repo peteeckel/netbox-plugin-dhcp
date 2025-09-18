@@ -28,6 +28,10 @@ from .mixins import (
     PrefixFilterFormMixin,
     PrefixImportFormMixin,
     PrefixBulkEditFormMixin,
+    DDNSUpdateFormMixin,
+    DDNSUpdateFilterFormMixin,
+    DDNSUpdateImportFormMixin,
+    DDNSUpdateBulkEditFormMixin,
 )
 
 
@@ -42,6 +46,7 @@ __all__ = (
 class SubnetForm(
     PrefixFormMixin,
     ClientClassFormMixin,
+    DDNSUpdateFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -66,6 +71,20 @@ class SubnetForm(
             "min_preferred_lifetime",
             "max_preferred_lifetime",
             "user_context",
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
             "comment",
             "tags",
         )
@@ -106,6 +125,23 @@ class SubnetForm(
             name=_("Assignment"),
         ),
         FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
+        FieldSet(
             "tags",
             name=_("Tags"),
         ),
@@ -119,6 +155,7 @@ class SubnetFilterForm(
     ClientClassFilterFormMixin,
     LifetimeFilterFormMixin,
     CommonFilterFormMixin,
+    DDNSUpdateFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Subnet
@@ -162,6 +199,23 @@ class SubnetFilterForm(
             "evaluate_additional_class_id",
             name=_("Assignment"),
         ),
+        FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
     )
 
     tag = TagFilterField(Subnet)
@@ -170,6 +224,7 @@ class SubnetFilterForm(
 class SubnetImportForm(
     PrefixImportFormMixin,
     ClientClassImportFormMixin,
+    DDNSUpdateImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -194,6 +249,20 @@ class SubnetImportForm(
             "min_preferred_lifetime",
             "max_preferred_lifetime",
             "user_context",
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
             "comment",
             "tags",
         )
@@ -206,6 +275,7 @@ class SubnetBulkEditForm(
     ClientClassBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
     CommonBulkEditFormMixin,
+    DDNSUpdateBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = Subnet
@@ -244,6 +314,23 @@ class SubnetBulkEditForm(
             "max_preferred_lifetime",
             name=_("Assignment"),
         ),
+        FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
     )
 
     nullable_fields = (
@@ -262,6 +349,20 @@ class SubnetBulkEditForm(
         "preferred_lifetime",
         "min_preferred_lifetime",
         "max_preferred_lifetime",
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
         "user_context",
         "comment",
     )

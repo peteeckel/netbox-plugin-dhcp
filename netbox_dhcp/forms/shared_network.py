@@ -28,6 +28,10 @@ from .mixins import (
     PrefixFilterFormMixin,
     PrefixImportFormMixin,
     PrefixBulkEditFormMixin,
+    DDNSUpdateFormMixin,
+    DDNSUpdateFilterFormMixin,
+    DDNSUpdateImportFormMixin,
+    DDNSUpdateBulkEditFormMixin,
 )
 
 
@@ -42,6 +46,7 @@ __all__ = (
 class SharedNetworkForm(
     PrefixFormMixin,
     ClientClassFormMixin,
+    DDNSUpdateFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -65,6 +70,20 @@ class SharedNetworkForm(
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
             "user_context",
             "comment",
             "tags",
@@ -106,6 +125,23 @@ class SharedNetworkForm(
             name=_("Assignment"),
         ),
         FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
+        FieldSet(
             "tags",
             name=_("Tags"),
         ),
@@ -119,6 +155,7 @@ class SharedNetworkFilterForm(
     ClientClassFilterFormMixin,
     CommonFilterFormMixin,
     LifetimeFilterFormMixin,
+    DDNSUpdateFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = SharedNetwork
@@ -162,6 +199,23 @@ class SharedNetworkFilterForm(
             "max_preferred_lifetime",
             name=_("Assignment"),
         ),
+        FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
     )
 
     tag = TagFilterField(SharedNetwork)
@@ -170,6 +224,7 @@ class SharedNetworkFilterForm(
 class SharedNetworkImportForm(
     PrefixImportFormMixin,
     ClientClassImportFormMixin,
+    DDNSUpdateImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -193,6 +248,20 @@ class SharedNetworkImportForm(
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
             "user_context",
             "comment",
             "tags",
@@ -206,6 +275,7 @@ class SharedNetworkBulkEditForm(
     ClientClassBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
     CommonBulkEditFormMixin,
+    DDNSUpdateBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = SharedNetwork
@@ -244,6 +314,23 @@ class SharedNetworkBulkEditForm(
             "evaluate_additional_classes",
             name=_("Assignment"),
         ),
+        FieldSet(
+            "hostname_char_set",
+            "hostname_char_replacement",
+            "ddns_send_updates",
+            "ddns_override_no_update",
+            "ddns_override_client_update",
+            "ddns_replace_client_name",
+            "ddns_generated_prefix",
+            "ddns_qualifying_suffix",
+            "ddns_update_on_renew",
+            "ddns_conflict_resolution_mode",
+            "ddns_ttl_percent",
+            "ddns_ttl",
+            "ddns_ttl_min",
+            "ddns_ttl_max",
+            name=_("Dynamic DNS Update"),
+        ),
     )
 
     nullable_fields = (
@@ -262,6 +349,20 @@ class SharedNetworkBulkEditForm(
         "preferred_lifetime",
         "min_preferred_lifetime",
         "max_preferred_lifetime",
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
         "user_context",
         "comment",
     )

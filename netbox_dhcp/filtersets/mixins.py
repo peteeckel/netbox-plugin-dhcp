@@ -2,11 +2,16 @@ import django_filters
 from django.utils.translation import gettext as _
 
 from netbox_dhcp.models import ClientClass
+from netbox_dhcp.choices import (
+    DDNSReplaceClientNameChoices,
+    DDNSConflictResolutionModeChoices,
+)
 
 __all__ = (
     "ClientClassAssignmentFilterMixin",
     "ClientClassDefinitionFilterMixin",
     "ClientClassFilterMixin",
+    "DDNSUpdateFilterMixin",
 )
 
 
@@ -71,4 +76,15 @@ class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
         queryset=ClientClass.objects.all(),
         field_name="evaluate_additional_classes",
         label=_("Evaluate Additional Class ID"),
+    )
+
+
+class DDNSUpdateFilterMixin:
+    ddns_replace_client_name = django_filters.MultipleChoiceFilter(
+        choices=DDNSReplaceClientNameChoices,
+        label=_("Replace Client Name"),
+    )
+    ddns_conflict_resolution_mode = django_filters.MultipleChoiceFilter(
+        choices=DDNSConflictResolutionModeChoices,
+        label=_("Conflict Resolution Mode"),
     )
