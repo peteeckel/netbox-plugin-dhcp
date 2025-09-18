@@ -160,7 +160,7 @@ class ClientClassFilterFormMixin(forms.Form):
         required=False,
         label=_("Client Class"),
     )
-    require_client_class_id = DynamicModelMultipleChoiceField(
+    required_client_class_id = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         label=_("Required Client Classes"),

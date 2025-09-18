@@ -118,7 +118,7 @@ class PoolFilterForm(
         ),
         FieldSet(
             "client_class_id",
-            "require_client_class_id",
+            "required_client_class_id",
             name=_("Selection"),
         ),
         FieldSet(

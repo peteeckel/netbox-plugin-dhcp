@@ -50,13 +50,13 @@ class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
         field_name="client_class",
         label=_("Client Class ID"),
     )
-    require_client_class = django_filters.ModelMultipleChoiceFilter(
+    required_client_class = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="required_client_classes__name",
         to_field_name="name",
         label=_("Require Client Class"),
     )
-    require_client_class_id = django_filters.ModelMultipleChoiceFilter(
+    required_client_class_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="required_client_classes",
         label=_("Require Client Class ID"),

@@ -37,7 +37,7 @@ class ClientClassSerializerMixin(ClientClassDefinitionSerializerMixin):
         required=False,
         help_text=_("Client class to be matched"),
     )
-    require_client_classes = NestedClientClassSerializer(
+    required_client_classes = NestedClientClassSerializer(
         many=True,
         nested=True,
         read_only=False,
