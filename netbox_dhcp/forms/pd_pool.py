@@ -20,18 +20,18 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
-    ClientClassDefinitionFormMixin,
-    ClientClassFormMixin,
-    NetBoxDHCPFilterFormMixin,
-    ClientClassDefinitionFilterFormMixin,
-    ClientClassFilterFormMixin,
-    CommonFilterFormMixin,
-    ClientClassDefinitionImportFormMixin,
-    ClientClassImportFormMixin,
-    NetBoxDHCPBulkEditFormMixin,
-    ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
+    ClientClassDefinitionBulkEditFormMixin,
+    ClientClassDefinitionFilterFormMixin,
+    ClientClassDefinitionFormMixin,
+    ClientClassDefinitionImportFormMixin,
+    ClientClassFilterFormMixin,
+    ClientClassFormMixin,
+    ClientClassImportFormMixin,
     CommonBulkEditFormMixin,
+    CommonFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    NetBoxDHCPFilterFormMixin,
 )
 
 

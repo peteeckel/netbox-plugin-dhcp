@@ -11,26 +11,26 @@ from utilities.forms.fields import (
 from netbox_dhcp.models import ClientClass
 
 __all__ = (
-    "ClientClassDefinitionFormMixin",
-    "ClientClassFormMixin",
-    "NetBoxDHCPFilterFormMixin",
-    "BOOTPFilterFormMixin",
-    "ValidLifetimeFilterFormMixin",
-    "OfferLifetimeFilterFormMixin",
-    "PreferredLifetimeFilterFormMixin",
-    "ClientClassDefinitionFormMixin",
-    "ClientClassFilterFormMixin",
-    "CommonFilterFormMixin",
-    "ClientClassDefinitionImportFormMixin",
-    "ClientClassImportFormMixin",
-    "NetBoxDHCPBulkEditFormMixin",
     "BOOTPBulkEditFormMixin",
-    "ValidLifetimeBulkEditFormMixin",
-    "OfferLifetimeBulkEditFormMixin",
-    "PreferredLifetimeBulkEditFormMixin",
-    "ClientClassDefinitionBulkEditFormMixin",
+    "BOOTPFilterFormMixin",
     "ClientClassBulkEditFormMixin",
+    "ClientClassDefinitionBulkEditFormMixin",
+    "ClientClassDefinitionFormMixin",
+    "ClientClassDefinitionFormMixin",
+    "ClientClassDefinitionImportFormMixin",
+    "ClientClassFilterFormMixin",
+    "ClientClassFormMixin",
+    "ClientClassImportFormMixin",
     "CommonBulkEditFormMixin",
+    "CommonFilterFormMixin",
+    "NetBoxDHCPBulkEditFormMixin",
+    "NetBoxDHCPFilterFormMixin",
+    "OfferLifetimeBulkEditFormMixin",
+    "OfferLifetimeFilterFormMixin",
+    "PreferredLifetimeBulkEditFormMixin",
+    "PreferredLifetimeFilterFormMixin",
+    "ValidLifetimeBulkEditFormMixin",
+    "ValidLifetimeFilterFormMixin",
 )
 
 
@@ -173,6 +173,7 @@ class ClientClassFilterFormMixin(forms.Form):
 
 
 class CommonFilterFormMixin(forms.Form):
+    # TODO: option_data_list
     comment = forms.CharField(
         required=False,
         label=_("Comment"),
@@ -339,6 +340,7 @@ class ClientClassBulkEditFormMixin(forms.Form):
 
 
 class CommonBulkEditFormMixin(forms.Form):
+    # TODO: option_data_list
     user_context = forms.JSONField(
         required=False,
         label=_("User Context"),

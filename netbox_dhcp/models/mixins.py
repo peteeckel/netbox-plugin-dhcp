@@ -65,6 +65,7 @@ class CommonModelMixin(models.Model):
     class Meta:
         abstract = True
 
+    # TODO: option_data_list
     user_context = models.JSONField(
         verbose_name=_("User Context"),
         blank=True,

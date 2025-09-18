@@ -13,16 +13,16 @@ from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 
 from netbox_dhcp.models import ClientClass
 from .mixins import (
-    NetBoxDHCPFilterFormMixin,
-    BOOTPFilterFormMixin,
-    ValidLifetimeFilterFormMixin,
-    OfferLifetimeFilterFormMixin,
-    PreferredLifetimeFilterFormMixin,
-    NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
-    ValidLifetimeBulkEditFormMixin,
+    BOOTPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    NetBoxDHCPFilterFormMixin,
     OfferLifetimeBulkEditFormMixin,
+    OfferLifetimeFilterFormMixin,
     PreferredLifetimeBulkEditFormMixin,
+    PreferredLifetimeFilterFormMixin,
+    ValidLifetimeBulkEditFormMixin,
+    ValidLifetimeFilterFormMixin,
 )
 
 
