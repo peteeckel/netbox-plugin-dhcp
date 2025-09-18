@@ -4,11 +4,14 @@ from netbox.filtersets import NetBoxModelFilterSet
 
 from netbox_dhcp.models import Subnet
 
+from .mixins import (
+    ClientClassFilterMixin,
+)
 
 __all__ = ("SubnetFilterSet",)
 
 
-class SubnetFilterSet(NetBoxModelFilterSet):
+class SubnetFilterSet(ClientClassFilterMixin, NetBoxModelFilterSet):
     class Meta:
         model = Subnet
 

@@ -1,15 +1,16 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, TagColumn
+from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import ClientClass
 
+from .mixins import NetBoxDHCPTableMixin
 
 __all__ = ("ClientClassTable",)
 
 
-class ClientClassTable(NetBoxTable):
+class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = ClientClass
 
@@ -30,6 +31,7 @@ class ClientClassTable(NetBoxTable):
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "tags",
         )
 
         default_columns = (
@@ -40,17 +42,9 @@ class ClientClassTable(NetBoxTable):
             "only_in_additional_list",
         )
 
-    name = tables.Column(
-        verbose_name=_("Name"),
-        linkify=True,
-    )
     only_if_required = tables.BooleanColumn(
         verbose_name=_("Only if required"),
     )
     only_in_additional_list = tables.BooleanColumn(
         verbose_name=_("Only in additional list"),
-    )
-
-    tags = TagColumn(
-        url_name="plugins:netbox_dhcp:clientclass_list",
     )

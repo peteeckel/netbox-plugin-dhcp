@@ -4,7 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from .mixins import NetBoxDHCPModelMixin
+from .mixins import (
+    NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
+)
 
 __all__ = (
     "Subnet",
@@ -12,7 +15,7 @@ __all__ = (
 )
 
 
-class Subnet(NetBoxDHCPModelMixin, NetBoxModel):
+class Subnet(NetBoxDHCPModelMixin, ClientClassModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Subnet")
         verbose_name_plural = _("Subnets")
@@ -22,6 +25,10 @@ class Subnet(NetBoxDHCPModelMixin, NetBoxModel):
     clone_fields = (
         "name",
         "description",
+        "client_class_definitions",
+        "client_class",
+        "require_client_classes",
+        "evaluate_additional_classes",
     )
 
 

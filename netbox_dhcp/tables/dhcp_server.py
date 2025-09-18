@@ -1,15 +1,16 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, TagColumn, ChoiceFieldColumn
+from netbox.tables import NetBoxTable, ChoiceFieldColumn
 
 from netbox_dhcp.models import DHCPServer
 
+from .mixins import NetBoxDHCPTableMixin
 
 __all__ = ("DHCPServerTable",)
 
 
-class DHCPServerTable(NetBoxTable):
+class DHCPServerTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = DHCPServer
 
@@ -21,10 +22,6 @@ class DHCPServerTable(NetBoxTable):
             "dhcp_cluster",
         )
 
-    name = tables.Column(
-        verbose_name=_("Name"),
-        linkify=True,
-    )
     status = ChoiceFieldColumn(
         verbose_name=_("Status"),
     )
@@ -40,8 +37,4 @@ class DHCPServerTable(NetBoxTable):
     virtual_machine = tables.Column(
         verbose_name=_("Virtual Machine"),
         linkify=True,
-    )
-
-    tags = TagColumn(
-        url_name="plugins:netbox_dhcp:dhcpserver_list",
     )

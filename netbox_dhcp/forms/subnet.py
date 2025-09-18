@@ -1,4 +1,4 @@
-from django import forms
+# from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
@@ -11,6 +11,14 @@ from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet
 
 from netbox_dhcp.models import Subnet
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+    ClientClassFormMixin,
+    ClientClassFilterFormMixin,
+    ClientClassImportFormMixin,
+    ClientClassBulkEditFormMixin,
+)
 
 
 __all__ = (
@@ -21,7 +29,10 @@ __all__ = (
 )
 
 
-class SubnetForm(NetBoxModelForm):
+class SubnetForm(
+    ClientClassFormMixin,
+    NetBoxModelForm,
+):
     class Meta:
         model = Subnet
 
@@ -38,13 +49,32 @@ class SubnetForm(NetBoxModelForm):
             name=_("Subnet"),
         ),
         FieldSet(
+            "client_class_definitions",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
+            "client_class",
+            "required_client_classes",
+            name=_("Selection"),
+        ),
+        FieldSet(
+            "user_context",
+            "comment",
+            "evaluate_additional_classes",
+            name=_("Assignment"),
+        ),
+        FieldSet(
             "tags",
             name=_("Tags"),
         ),
     )
 
 
-class SubnetFilterForm(NetBoxModelFilterSetForm):
+class SubnetFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    ClientClassFilterFormMixin,
+    NetBoxModelFilterSetForm,
+):
     model = Subnet
 
     fieldsets = (
@@ -58,32 +88,45 @@ class SubnetFilterForm(NetBoxModelFilterSetForm):
             "description",
             name=_("Subnet"),
         ),
-    )
-
-    name = forms.CharField(
-        required=False,
-        label=_("Name"),
-    )
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
+        FieldSet(
+            "network_client_class_id",
+            name=_("Client Class Definitions"),
+        ),
+        FieldSet(
+            "client_class_id",
+            "required_client_class_id",
+            name=_("Selection"),
+        ),
+        FieldSet(
+            "comment",
+            "evaluate_additional_class_id",
+            name=_("Assignment"),
+        ),
     )
 
     tag = TagFilterField(Subnet)
 
 
-class SubnetImportForm(NetBoxModelImportForm):
+class SubnetImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
     class Meta:
         model = Subnet
 
         fields = (
             "name",
             "description",
+            "client_class_definitions",
+            "client_class",
+            "required_client_classes",
+            "evaluate_additional_classes",
             "tags",
         )
 
 
-class SubnetBulkEditForm(NetBoxModelBulkEditForm):
+class SubnetBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    ClientClassBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
     model = Subnet
 
     fieldsets = (
@@ -94,8 +137,3 @@ class SubnetBulkEditForm(NetBoxModelBulkEditForm):
     )
 
     nullable_fields = ("description",)
-
-    description = forms.CharField(
-        required=False,
-        label=_("Description"),
-    )

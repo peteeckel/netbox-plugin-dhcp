@@ -13,57 +13,66 @@ from netbox_dhcp.models import ClientClass
 __all__ = (
     "BOOTPBulkEditFormMixin",
     "BOOTPFilterFormMixin",
-    "ClientClassBulkEditFormMixin",
+    "ClientClassAssignmentFormMixin",
+    "ClientClassAssignmentFilterFormMixin",
+    "ClientClassAssignmentImportFormMixin",
+    "ClientClassAssignmentBulkEditFormMixin",
+    "ClientClassDefinitionFormMixin",
+    "ClientClassDefinitionFilterFormMixin",
     "ClientClassDefinitionBulkEditFormMixin",
-    "ClientClassDefinitionFormMixin",
-    "ClientClassDefinitionFormMixin",
     "ClientClassDefinitionImportFormMixin",
-    "ClientClassFilterFormMixin",
     "ClientClassFormMixin",
+    "ClientClassFilterFormMixin",
     "ClientClassImportFormMixin",
-    "CommonBulkEditFormMixin",
+    "ClientClassBulkEditFormMixin",
     "CommonFilterFormMixin",
-    "NetBoxDHCPBulkEditFormMixin",
+    "CommonBulkEditFormMixin",
     "NetBoxDHCPFilterFormMixin",
-    "OfferLifetimeBulkEditFormMixin",
+    "NetBoxDHCPBulkEditFormMixin",
     "OfferLifetimeFilterFormMixin",
-    "PreferredLifetimeBulkEditFormMixin",
+    "OfferLifetimeBulkEditFormMixin",
     "PreferredLifetimeFilterFormMixin",
-    "ValidLifetimeBulkEditFormMixin",
+    "PreferredLifetimeBulkEditFormMixin",
     "ValidLifetimeFilterFormMixin",
+    "ValidLifetimeBulkEditFormMixin",
 )
-
-
-class ClientClassDefinitionFormMixin(forms.Form):
-    client_class_definitions = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Class Definitions"),
-    )
 
 
 class ClientClassAssignmentFormMixin(forms.Form):
     assign_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
+        quick_add=True,
         label=_("Client Classes"),
     )
 
 
-class ClientClassFormMixin(forms.Form):
+class ClientClassDefinitionFormMixin(forms.Form):
+    client_class_definitions = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        quick_add=True,
+        label=_("Client Class Definitions"),
+    )
+
+
+class ClientClassFormMixin(ClientClassDefinitionFormMixin):
     client_class = DynamicModelChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
+        quick_add=True,
         label=_("Client Class"),
     )
     required_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
+        quick_add=True,
         label=_("Required Client Classes"),
     )
     evaluate_additional_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
+        quick_add=True,
         label=_("Evaluate Additional Classes"),
     )
 
@@ -154,7 +163,7 @@ class ClientClassDefinitionFilterFormMixin(forms.Form):
     )
 
 
-class ClientClassFilterFormMixin(forms.Form):
+class ClientClassFilterFormMixin(ClientClassDefinitionFilterFormMixin):
     client_class_id = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -204,7 +213,7 @@ class ClientClassDefinitionImportFormMixin(forms.Form):
     )
 
 
-class ClientClassImportFormMixin(forms.Form):
+class ClientClassImportFormMixin(ClientClassDefinitionImportFormMixin):
     client_class = CSVModelChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -304,7 +313,7 @@ class ClientClassAssignmentBulkEditFormMixin(forms.Form):
     assign_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        selector=True,
+        quick_add=True,
         label=_("Client Classes"),
     )
 
@@ -313,28 +322,28 @@ class ClientClassDefinitionBulkEditFormMixin(forms.Form):
     client_class_definitions = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        selector=True,
+        quick_add=True,
         label=_("Client Class Definitions"),
     )
 
 
-class ClientClassBulkEditFormMixin(forms.Form):
+class ClientClassBulkEditFormMixin(ClientClassDefinitionBulkEditFormMixin):
     client_class = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        selector=True,
+        quick_add=True,
         label=_("Client Class"),
     )
     required_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        selector=True,
+        quick_add=True,
         label=_("Required Client Classes"),
     )
     evaluate_additional_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
-        selector=True,
+        quick_add=True,
         label=_("Evaluate Additional Classes"),
     )
 

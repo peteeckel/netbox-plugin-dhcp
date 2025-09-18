@@ -1,15 +1,16 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, TagColumn
+from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import HostReservation
 
+from .mixins import NetBoxDHCPTableMixin
 
 __all__ = ("HostReservationTable",)
 
 
-class HostReservationTable(NetBoxTable):
+class HostReservationTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = HostReservation
 
@@ -36,11 +37,6 @@ class HostReservationTable(NetBoxTable):
             "comment",
         )
 
-    name = tables.Column(
-        verbose_name=_("Name"),
-        linkify=True,
-    )
-
     hw_address = tables.Column(
         verbose_name=_("Hardware Address"),
         linkify=True,
@@ -61,8 +57,4 @@ class HostReservationTable(NetBoxTable):
     exlcuded_ipv6_prefixes = tables.ManyToManyColumn(
         verbose_name=_("Excluded IPv6 Prefixes"),
         linkify_item=True,
-    )
-
-    tags = TagColumn(
-        url_name="plugins:netbox_dhcp:hostreservation_list",
     )

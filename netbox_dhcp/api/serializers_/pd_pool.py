@@ -26,13 +26,14 @@ class PDPoolSerializer(
             "name",
             "description",
             "prefix",
-            "client_class_definitions",
-            "required_client_classes",
             "delegated_length",
             "excluded_prefix",
+            "client_class_definitions",
+            "client_class",
+            "required_client_classes",
+            "evaluate_additional_classes",
             "user_context",
             "comment",
-            "evaluate_additional_classes",
             "tags",
         )
 

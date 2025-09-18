@@ -38,7 +38,10 @@ __all__ = (
 )
 
 
-class PoolForm(ClientClassFormMixin, NetBoxModelForm,):
+class PoolForm(
+    ClientClassFormMixin,
+    NetBoxModelForm,
+):
     class Meta:
         model = Pool
 
@@ -148,8 +151,10 @@ class PoolImportForm(
             "name",
             "description",
             "ip_range",
+            "client_class_definitions",
             "client_class",
             "required_client_classes",
+            "evaluate_additional_classes",
             "user_context",
             "comment",
             "tags",

@@ -1,15 +1,16 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, TagColumn
+from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import Pool
 
+from .mixins import NetBoxDHCPTableMixin
 
 __all__ = ("PoolTable",)
 
 
-class PoolTable(NetBoxTable):
+class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = Pool
 
@@ -31,10 +32,6 @@ class PoolTable(NetBoxTable):
             "tags",
         )
 
-    name = tables.Column(
-        verbose_name=_("Name"),
-        linkify=True,
-    )
     ip_range = tables.Column(
         verbose_name=_("IP Range"),
         linkify=True,
@@ -54,8 +51,4 @@ class PoolTable(NetBoxTable):
     evaluate_additional_classes = tables.ManyToManyColumn(
         verbose_name=_("Evaluate Additional Classes"),
         linkify_item=True,
-    )
-
-    tags = TagColumn(
-        url_name="plugins:netbox_dhcp:pdpool_list",
     )

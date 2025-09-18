@@ -4,11 +4,14 @@ from netbox.filtersets import NetBoxModelFilterSet
 
 from netbox_dhcp.models import SharedNetwork
 
+from .mixins import (
+    ClientClassFilterMixin,
+)
 
 __all__ = ("SharedNetworkFilterSet",)
 
 
-class SharedNetworkFilterSet(NetBoxModelFilterSet):
+class SharedNetworkFilterSet(ClientClassFilterMixin, NetBoxModelFilterSet):
     class Meta:
         model = SharedNetwork
 
