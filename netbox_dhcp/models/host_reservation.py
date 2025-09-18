@@ -10,7 +10,7 @@ from ipam.models import IPAddress, Prefix
 from .mixins import (
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
     ClientClassAssignmentModelMixin,
 )
 
@@ -23,7 +23,7 @@ __all__ = (
 class HostReservation(
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
     ClientClassAssignmentModelMixin,
     NetBoxModel,
 ):

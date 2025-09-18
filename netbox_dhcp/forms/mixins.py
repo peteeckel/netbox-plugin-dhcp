@@ -20,7 +20,7 @@ __all__ = (
     "PreferredLifetimeFilterFormMixin",
     "ClientClassDefinitionFormMixin",
     "ClientClassFilterFormMixin",
-    "ContextCommentFilterFormMixin",
+    "CommonFilterFormMixin",
     "ClientClassDefinitionImportFormMixin",
     "ClientClassImportFormMixin",
     "NetBoxDHCPBulkEditFormMixin",
@@ -30,7 +30,7 @@ __all__ = (
     "PreferredLifetimeBulkEditFormMixin",
     "ClientClassDefinitionBulkEditFormMixin",
     "ClientClassBulkEditFormMixin",
-    "ContextCommentBulkEditFormMixin",
+    "CommonBulkEditFormMixin",
 )
 
 
@@ -172,7 +172,7 @@ class ClientClassFilterFormMixin(forms.Form):
     )
 
 
-class ContextCommentFilterFormMixin(forms.Form):
+class CommonFilterFormMixin(forms.Form):
     comment = forms.CharField(
         required=False,
         label=_("Comment"),
@@ -338,7 +338,7 @@ class ClientClassBulkEditFormMixin(forms.Form):
     )
 
 
-class ContextCommentBulkEditFormMixin(forms.Form):
+class CommonBulkEditFormMixin(forms.Form):
     user_context = forms.JSONField(
         required=False,
         label=_("User Context"),

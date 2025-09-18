@@ -25,13 +25,13 @@ from .mixins import (
     NetBoxDHCPFilterFormMixin,
     ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
-    ContextCommentFilterFormMixin,
+    CommonFilterFormMixin,
     ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
-    ContextCommentBulkEditFormMixin,
+    CommonBulkEditFormMixin,
 )
 
 
@@ -116,7 +116,7 @@ class PDPoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
-    ContextCommentFilterFormMixin,
+    CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = PDPool
@@ -222,7 +222,7 @@ class PDPoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
-    ContextCommentBulkEditFormMixin,
+    CommonBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = PDPool

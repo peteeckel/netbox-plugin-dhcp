@@ -24,13 +24,13 @@ from .mixins import (
     NetBoxDHCPFilterFormMixin,
     ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
-    ContextCommentFilterFormMixin,
+    CommonFilterFormMixin,
     ClientClassDefinitionImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
-    ContextCommentBulkEditFormMixin,
+    CommonBulkEditFormMixin,
 )
 
 
@@ -100,7 +100,7 @@ class PoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassDefinitionFilterFormMixin,
     ClientClassFilterFormMixin,
-    ContextCommentFilterFormMixin,
+    CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Pool
@@ -176,7 +176,7 @@ class PoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassDefinitionBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
-    ContextCommentBulkEditFormMixin,
+    CommonBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = Pool

@@ -13,7 +13,7 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
 )
 
 __all__ = (
@@ -26,7 +26,7 @@ class PDPool(
     NetBoxDHCPModelMixin,
     ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
     NetBoxModel,
 ):
     class Meta:

@@ -10,7 +10,7 @@ from .mixins import (
     ValidLifetimeModelMixin,
     PreferredLifetimeModelMixin,
     OfferLifetimeModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
 )
 
 __all__ = (
@@ -25,7 +25,7 @@ class ClientClass(
     ValidLifetimeModelMixin,
     PreferredLifetimeModelMixin,
     OfferLifetimeModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
     NetBoxModel,
 ):
     class Meta:

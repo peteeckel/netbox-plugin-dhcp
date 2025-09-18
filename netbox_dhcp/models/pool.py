@@ -9,7 +9,7 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
 )
 
 __all__ = (
@@ -22,7 +22,7 @@ class Pool(
     NetBoxDHCPModelMixin,
     ClientClassDefinitionModelMixin,
     ClientClassModelMixin,
-    ContextCommentModelMixin,
+    CommonModelMixin,
     NetBoxModel,
 ):
     class Meta:

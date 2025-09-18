@@ -9,7 +9,7 @@ from netbox_dhcp.choices import (
 __all__ = (
     "NetBoxDHCPModelMixin",
     "BOOTPModelMixin",
-    "ContextCommentModelMixin",
+    "CommonModelMixin",
     "ClientClassAssignmentModelMixin",
     "ClientClassDefinitionModelMixin",
     "ClientClassModelMixin",
@@ -61,7 +61,7 @@ class BOOTPModelMixin(models.Model):
     )
 
 
-class ContextCommentModelMixin(models.Model):
+class CommonModelMixin(models.Model):
     class Meta:
         abstract = True
 

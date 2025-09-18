@@ -28,8 +28,8 @@ from .mixins import (
     ClientClassAssignmentBulkEditFormMixin,
     ClientClassAssignmentFilterFormMixin,
     ClientClassAssignmentImportFormMixin,
-    ContextCommentBulkEditFormMixin,
-    ContextCommentFilterFormMixin,
+    CommonBulkEditFormMixin,
+    CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     NetBoxDHCPFilterFormMixin,
 )
@@ -158,7 +158,7 @@ class HostReservationFilterForm(
     NetBoxDHCPFilterFormMixin,
     BOOTPFilterFormMixin,
     ClientClassAssignmentFilterFormMixin,
-    ContextCommentFilterFormMixin,
+    CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = HostReservation
@@ -349,7 +349,7 @@ class HostReservationImportForm(
 class HostReservationBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
-    ContextCommentBulkEditFormMixin,
+    CommonBulkEditFormMixin,
     ClientClassAssignmentBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
