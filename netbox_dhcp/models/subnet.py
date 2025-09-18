@@ -1,8 +1,9 @@
-# from django.db import models
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
+from ipam.models import Prefix
 
 from .mixins import (
     NetBoxDHCPModelMixin,
@@ -50,6 +51,14 @@ class Subnet(
         "min_preferred_lifetime",
         "max_preferred_lifetime",
         "comment",
+    )
+
+    prefix = models.ForeignKey(
+        verbose_name=_("Prefix"),
+        to=Prefix,
+        related_name="netbox_dhcp_pools",
+        on_delete=models.PROTECT,
+        null=False,
     )
 
 

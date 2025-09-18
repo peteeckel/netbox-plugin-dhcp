@@ -5,17 +5,27 @@ from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import SharedNetwork
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    NetBoxDHCPTableMixin,
+    PrefixTableMixin,
+    ClientClassTableMixin,
+)
 
 __all__ = ("SharedNetworkTable",)
 
 
-class SharedNetworkTable(NetBoxDHCPTableMixin, NetBoxTable):
+class SharedNetworkTable(
+    NetBoxDHCPTableMixin,
+    PrefixTableMixin,
+    ClientClassTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = SharedNetwork
 
         fields = (
             "name",
+            "prefix",
             "description",
             "next_server",
             "server_hostname",
@@ -34,4 +44,7 @@ class SharedNetworkTable(NetBoxDHCPTableMixin, NetBoxTable):
             "comment",
         )
 
-        default_columns = ("name",)
+        default_columns = (
+            "name",
+            "prefix",
+        )

@@ -5,17 +5,27 @@ from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import Subnet
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    NetBoxDHCPTableMixin,
+    PrefixTableMixin,
+    ClientClassTableMixin,
+)
 
 __all__ = ("SubnetTable",)
 
 
-class SubnetTable(NetBoxDHCPTableMixin, NetBoxTable):
+class SubnetTable(
+    NetBoxDHCPTableMixin,
+    PrefixTableMixin,
+    ClientClassTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = Subnet
 
         fields = (
             "name",
+            "prefix",
             "description",
             "next_server",
             "server_hostname",
@@ -34,4 +44,7 @@ class SubnetTable(NetBoxDHCPTableMixin, NetBoxTable):
             "comment",
         )
 
-        default_columns = ("name",)
+        default_columns = (
+            "name",
+            "prefix",
+        )

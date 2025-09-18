@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from netbox.api.serializers import NetBoxModelSerializer
+from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import Subnet
 
@@ -24,6 +25,7 @@ class SubnetSerializer(
             "display",
             "name",
             "description",
+            "prefix",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -64,6 +66,12 @@ class SubnetSerializer(
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:subnet-detail"
+    )
+
+    prefix = PrefixSerializer(
+        nested=True,
+        read_only=False,
+        required=True,
     )
 
     def create(self, validated_data):

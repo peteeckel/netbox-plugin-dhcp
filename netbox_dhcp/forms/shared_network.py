@@ -14,16 +14,20 @@ from netbox_dhcp.models import SharedNetwork
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
+    CommonFilterFormMixin,
+    CommonBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
     ClientClassBulkEditFormMixin,
-    CommonBulkEditFormMixin,
-    CommonFilterFormMixin,
     LifetimeFilterFormMixin,
     LifetimeBulkEditFormMixin,
     BOOTPFilterFormMixin,
     BOOTPBulkEditFormMixin,
+    PrefixFormMixin,
+    PrefixFilterFormMixin,
+    PrefixImportFormMixin,
+    PrefixBulkEditFormMixin,
 )
 
 
@@ -36,6 +40,7 @@ __all__ = (
 
 
 class SharedNetworkForm(
+    PrefixFormMixin,
     ClientClassFormMixin,
     NetBoxModelForm,
 ):
@@ -45,6 +50,7 @@ class SharedNetworkForm(
         fields = (
             "name",
             "description",
+            "prefix",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -68,6 +74,7 @@ class SharedNetworkForm(
         FieldSet(
             "name",
             "description",
+            "prefix",
             name=_("Shared Network"),
         ),
         FieldSet(
@@ -107,6 +114,7 @@ class SharedNetworkForm(
 
 class SharedNetworkFilterForm(
     NetBoxDHCPFilterFormMixin,
+    PrefixFilterFormMixin,
     BOOTPFilterFormMixin,
     ClientClassFilterFormMixin,
     CommonFilterFormMixin,
@@ -124,6 +132,7 @@ class SharedNetworkFilterForm(
         FieldSet(
             "name",
             "description",
+            "prefix_id",
             name=_("Shared Network"),
         ),
         FieldSet(
@@ -159,6 +168,7 @@ class SharedNetworkFilterForm(
 
 
 class SharedNetworkImportForm(
+    PrefixImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -168,6 +178,7 @@ class SharedNetworkImportForm(
         fields = (
             "name",
             "description",
+            "prefix",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -190,6 +201,7 @@ class SharedNetworkImportForm(
 
 class SharedNetworkBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
+    PrefixBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
@@ -201,6 +213,7 @@ class SharedNetworkBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "prefix",
             name=_("Shared Network"),
         ),
         FieldSet(

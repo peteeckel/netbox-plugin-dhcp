@@ -21,9 +21,9 @@ class NetBoxDHCPTableMixin(NetBoxTable):
 
 
 class ClientClassDefinitionTableMixin(NetBoxTable):
-    client_class_definitions = tables.Column(
+    client_class_definitions = tables.ManyToManyColumn(
         verbose_name=_("Client Class Definitions"),
-        linkify=True,
+        linkify_item=True,
     )
 
 
@@ -39,4 +39,11 @@ class ClientClassTableMixin(ClientClassDefinitionTableMixin):
     evaluate_additional_classes = tables.ManyToManyColumn(
         verbose_name=_("Evaluate Additional Classes"),
         linkify_item=True,
+    )
+
+
+class PrefixTableMixin(NetBoxTable):
+    prefix = tables.Column(
+        verbose_name=_("Prefix"),
+        linkify=True,
     )

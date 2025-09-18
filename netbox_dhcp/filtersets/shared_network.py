@@ -1,6 +1,10 @@
+import django_filters
+from django.utils.translation import gettext as _
+
 from django.db.models import Q
 
 from netbox.filtersets import NetBoxModelFilterSet
+from ipam.models import Prefix
 
 from netbox_dhcp.models import SharedNetwork
 
@@ -31,6 +35,12 @@ class SharedNetworkFilterSet(ClientClassFilterMixin, NetBoxModelFilterSet):
             "max_preferred_lifetime",
             "comment",
         )
+
+    prefix_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Prefix.objects.all(),
+        field_name="prefix",
+        label=_("Prefix"),
+    )
 
     def search(self, queryset, name, value):
         if not value.strip():

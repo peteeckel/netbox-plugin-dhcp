@@ -24,6 +24,10 @@ from .mixins import (
     LifetimeBulkEditFormMixin,
     BOOTPFilterFormMixin,
     BOOTPBulkEditFormMixin,
+    PrefixFormMixin,
+    PrefixFilterFormMixin,
+    PrefixImportFormMixin,
+    PrefixBulkEditFormMixin,
 )
 
 
@@ -36,6 +40,7 @@ __all__ = (
 
 
 class SubnetForm(
+    PrefixFormMixin,
     ClientClassFormMixin,
     NetBoxModelForm,
 ):
@@ -45,6 +50,7 @@ class SubnetForm(
         fields = (
             "name",
             "description",
+            "prefix",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -68,6 +74,7 @@ class SubnetForm(
         FieldSet(
             "name",
             "description",
+            "prefix",
             name=_("Subnet"),
         ),
         FieldSet(
@@ -107,6 +114,7 @@ class SubnetForm(
 
 class SubnetFilterForm(
     NetBoxDHCPFilterFormMixin,
+    PrefixFilterFormMixin,
     BOOTPFilterFormMixin,
     ClientClassFilterFormMixin,
     LifetimeFilterFormMixin,
@@ -124,6 +132,7 @@ class SubnetFilterForm(
         FieldSet(
             "name",
             "description",
+            "prefix_id",
             name=_("Subnet"),
         ),
         FieldSet(
@@ -158,13 +167,18 @@ class SubnetFilterForm(
     tag = TagFilterField(Subnet)
 
 
-class SubnetImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
+class SubnetImportForm(
+    PrefixImportFormMixin,
+    ClientClassImportFormMixin,
+    NetBoxModelImportForm,
+):
     class Meta:
         model = Subnet
 
         fields = (
             "name",
             "description",
+            "prefix",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -187,6 +201,7 @@ class SubnetImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
 
 class SubnetBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
+    PrefixBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
@@ -198,6 +213,7 @@ class SubnetBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "prefix",
             name=_("Subnet"),
         ),
         FieldSet(

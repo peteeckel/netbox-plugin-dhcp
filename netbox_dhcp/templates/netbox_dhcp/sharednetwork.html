@@ -8,6 +8,10 @@
                 <h5 class="card-header">{% trans "Shared Network" %}</h5>
                 <table class="table table-hover attr-table">
                     {% include './inc/name_description_fields.html' %}
+                    <tr>
+                        <th scope="row">{% trans "Prefix" %}</th>
+                        <td>{{ object.prefix|linkify|placeholder }}</td>
+                    </tr>
                 </table>
             </div>
             {% include './inc/client_class_definitions_card.html' %}
