@@ -32,7 +32,7 @@
             <td>{% checkmark object.ddns_update_on_renew %}</td>
         </tr>
         <th scope="row">{% trans "Conflict Resolution Mode" %}</th>
-            <td>{% badge object.get_ddns_conflict_resolution_mode_display bg_color=object.get_conflict_resolution_mode_color %}</td>
+            <td>{% badge object.get_ddns_conflict_resolution_mode_display bg_color=object.get_ddns_conflict_resolution_mode_color %}</td>
         <tr>
             <th scope="row">{% trans "TTL Percent" %}</th>
             <td>{{ object.ddns_ttl_percent|placeholder }}</td>

@@ -12,6 +12,8 @@ from netbox_dhcp.models import ClientClass
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
+    AllocatorTypeChoices,
+    PDAllocatorTypeChoices,
 )
 
 __all__ = (
@@ -20,6 +22,7 @@ __all__ = (
     "ClientClassFormMixin",
     "PrefixFormMixin",
     "DDNSUpdateFormMixin",
+    "LeaseFormMixin",
 )
 
 
@@ -82,4 +85,62 @@ class DDNSUpdateFormMixin(forms.Form):
         choices=DDNSConflictResolutionModeChoices,
         required=True,
         label=_("Conflict Resolution Mode"),
+    )
+    ddns_ttl_percent = forms.DecimalField(
+        label=_("TTL Percent"),
+        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        min_value=0.0,
+        max_value=1.0,
+        max_digits=4,
+        decimal_places=3,
+        required=False,
+    )
+
+
+class LeaseFormMixin(forms.Form):
+    t1_percent = forms.DecimalField(
+        label=_("T1 Percent"),
+        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        max_digits=4,
+        decimal_places=3,
+        min_value=0.0,
+        max_value=1.0,
+        required=False,
+    )
+    t2_percent = forms.DecimalField(
+        label=_("T2"),
+        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        max_digits=4,
+        decimal_places=3,
+        min_value=0.0,
+        max_value=1.0,
+        required=False,
+    )
+    cache_threshold = forms.DecimalField(
+        label=_("Cache Threshold"),
+        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        max_digits=3,
+        decimal_places=2,
+        min_value=0.0,
+        max_value=1.0,
+        required=False,
+    )
+    adaptive_lease_time_threshold = forms.DecimalField(
+        label=_("Adaptive Lease Time Threshold"),
+        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        max_digits=3,
+        decimal_places=2,
+        min_value=0.0,
+        max_value=1.0,
+        required=False,
+    )
+    allocator = forms.ChoiceField(
+        choices=AllocatorTypeChoices,
+        required=True,
+        label=_("Allocator"),
+    )
+    pd_allocator = forms.ChoiceField(
+        choices=PDAllocatorTypeChoices,
+        required=True,
+        label=_("Prefix Delegation Allocator"),
     )

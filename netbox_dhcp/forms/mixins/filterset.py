@@ -4,13 +4,17 @@ from django.utils.translation import gettext as _
 from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
 )
-
+from utilities.forms import (
+    BOOLEAN_WITH_BLANK_CHOICES,
+)
 from ipam.models import Prefix
 
 from netbox_dhcp.models import ClientClass
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
+    AllocatorTypeChoices,
+    PDAllocatorTypeChoices,
 )
 
 __all__ = (
@@ -24,6 +28,7 @@ __all__ = (
     "LifetimeFilterFormMixin",
     "PrefixFilterFormMixin",
     "DDNSUpdateFilterFormMixin",
+    "LeaseFilterFormMixin",
 )
 
 
@@ -147,11 +152,28 @@ class PrefixFilterFormMixin(forms.Form):
 class DDNSUpdateFilterFormMixin(forms.Form):
     ddns_replace_client_name = forms.ChoiceField(
         choices=DDNSReplaceClientNameChoices,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
         required=False,
         label=_("Replace Client Name"),
     )
     ddns_conflict_resolution_mode = forms.ChoiceField(
         choices=DDNSConflictResolutionModeChoices,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
         required=False,
         label=_("Conflict Resolution Mode"),
+    )
+
+
+class LeaseFilterFormMixin(forms.Form):
+    allocator = forms.ChoiceField(
+        choices=AllocatorTypeChoices,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+        label=_("Allocator"),
+    )
+    pd_allocator = forms.ChoiceField(
+        choices=PDAllocatorTypeChoices,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+        label=_("Prefix Delegation Allocator"),
     )

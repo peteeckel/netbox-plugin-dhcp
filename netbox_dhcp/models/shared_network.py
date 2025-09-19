@@ -12,7 +12,7 @@ from .mixins import (
     CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
-    NetworkParameterModelMixin,
+    LeaseModelMixin,
 )
 
 __all__ = (
@@ -28,7 +28,7 @@ class SharedNetwork(
     CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
-    NetworkParameterModelMixin,
+    LeaseModelMixin,
     NetBoxModel,
 ):
     class Meta:

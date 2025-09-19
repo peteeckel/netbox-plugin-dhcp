@@ -1,0 +1,71 @@
+{% load i18n %}
+
+<div class="card">
+    <h5 class="card-header">{% trans "Lease" %}</h5>
+    <table class="table table-hover attr-table">
+        <tr>
+            <th scope="row">{% trans "Renew Timer" %}</th>
+            <td>{{ object.renew_timer|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Rebind Timer" %}</th>
+            <td>{{ object.rebind_timer|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Calculate T times" %}</th>
+            <td>{% checkmark object.calculate_tee_times %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "T1 Percent" %}</th>
+            <td>{{ object.t1_percent|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "T2 Percent" %}</th>
+            <td>{{ object.t2_percent|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Adaptive Lease Time Threshold" %}</th>
+            <td>{{ object.adaptive_lease_time_threshold|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Match Client ID" %}</th>
+            <td>{% checkmark object.match_client_id %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Store Extended Info" %}</th>
+            <td>{% checkmark object.store_extended_info %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Authoritative" %}</th>
+            <td>{% checkmark object.authoritative %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Global reservations" %}</th>
+            <td>{% checkmark object.reservations_global %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Out-of-pool reservations" %}</th>
+            <td>{% checkmark object.reservations_out_of_pool %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "In-subnet reservations" %}</th>
+            <td>{% checkmark object.reservations_in_subnet %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Cache Threshold" %}</th>
+            <td>{{ object.cache_threshold|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Maximum Cache Age" %}</th>
+            <td>{{ object.cache_max_age|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Allocator" %}</th>
+            <td>{% badge object.get_allocator_display bg_color=object.get_allocator_color %}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Prefix Delegation Allocator" %}</th>
+            <td>{% badge object.get_pd_allocator_display bg_color=object.get_pd_allocator_color %}</td>
+        </tr>
+    </table>
+</div>

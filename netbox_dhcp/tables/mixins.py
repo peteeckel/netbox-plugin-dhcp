@@ -1,12 +1,14 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import TagColumn, NetBoxTable
+from netbox.tables import TagColumn, ChoiceFieldColumn, NetBoxTable
 
 __all__ = (
     "NetBoxDHCPTableMixin",
     "ClientClassDefinitionTableMixin",
     "ClientClassTableMixin",
+    "DDNSUpdateTableMixin",
+    "LeaseTableMixin",
 )
 
 
@@ -46,4 +48,22 @@ class PrefixTableMixin(NetBoxTable):
     prefix = tables.Column(
         verbose_name=_("Prefix"),
         linkify=True,
+    )
+
+
+class DDNSUpdateTableMixin(NetBoxTable):
+    ddns_replace_client_name = ChoiceFieldColumn(
+        verbose_name=_("Replace Client Name"),
+    )
+    ddns_conflict_resolution_mode = ChoiceFieldColumn(
+        verbose_name=_("Conflict Resolution Mode"),
+    )
+
+
+class LeaseTableMixin(NetBoxTable):
+    allocator = ChoiceFieldColumn(
+        verbose_name=_("Allocator"),
+    )
+    pd_allocator = ChoiceFieldColumn(
+        verbose_name=_("Prefix Delegation Allocator"),
     )

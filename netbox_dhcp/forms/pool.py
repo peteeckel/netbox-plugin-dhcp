@@ -58,7 +58,6 @@ class PoolForm(
             "client_class",
             "required_client_classes",
             "evaluate_additional_classes",
-            "user_context",
             "hostname_char_set",
             "hostname_char_replacement",
             "ddns_send_updates",
@@ -73,6 +72,7 @@ class PoolForm(
             "ddns_ttl",
             "ddns_ttl_min",
             "ddns_ttl_max",
+            "user_context",
             "comment",
             "tags",
         )

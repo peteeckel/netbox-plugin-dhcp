@@ -32,8 +32,8 @@ class DDNSConflictResolutionModeChoices(ChoiceSet):
     NO_CHECK_WITHOUT_DHCID = "no-check-without-dhcid"
 
     CHOICES = [
-        (CHECK_WITH_DHCID, _("Overwrite existing records with matching DHCID")),
-        (NO_CHECK_WITH_DHCID, _("Overwrite existing records and add DHCID")),
-        (CHECK_EXISTS_WITH_DHCID, _("Overwrite existing records with any DHCID")),
-        (NO_CHECK_WITHOUT_DHCID, _("Overwrite existing records and do not add DHCID")),
+        (CHECK_WITH_DHCID, _("Overwrite existing records with matching DHCID"), "red"),
+        (NO_CHECK_WITH_DHCID, _("Overwrite existing records and add DHCID"), "green"),
+        (CHECK_EXISTS_WITH_DHCID, _("Overwrite existing records with any DHCID"), "blue"),
+        (NO_CHECK_WITHOUT_DHCID, _("Overwrite existing records and do not add DHCID"), "orange"),
     ]

@@ -19,7 +19,7 @@ __all__ = (
     "OfferLifetimeModelMixin",
     "LifetimeModelMixin",
     "DDNSUpdateModelMixin",
-    "NetworkParameterModelMixin",
+    "LeaseModelMixin",
 )
 
 
@@ -197,8 +197,6 @@ class DDNSUpdateModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    # TODO: Implement get_*_color
-
     ddns_send_updates = models.BooleanField(
         verbose_name=_("Send DDNS updates"),
         null=False,
@@ -237,14 +235,16 @@ class DDNSUpdateModelMixin(models.Model):
         default=False,
     )
     ddns_conflict_resolution_mode = models.CharField(
-        verbose_name=_("Replace client name"),
+        verbose_name=_("Conflict Resolution Mode"),
         choices=DDNSConflictResolutionModeChoices,
         blank=False,
         null=False,
         default=DDNSConflictResolutionModeChoices.CHECK_WITH_DHCID,
     )
-    ddns_ttl_percent = models.PositiveIntegerField(
+    ddns_ttl_percent = models.DecimalField(
         verbose_name=_("TTL Percent"),
+        max_digits=4,
+        decimal_places=3,
         null=True,
         blank=True,
     )
@@ -274,8 +274,13 @@ class DDNSUpdateModelMixin(models.Model):
         blank=True,
     )
 
+    def get_ddns_replace_client_name_color(self):
+        return DDNSReplaceClientNameChoices.colors.get(self.ddns_replace_client_name)
+    def get_ddns_conflict_resolution_mode_color(self):
+        return DDNSConflictResolutionModeChoices.colors.get(self.ddns_conflict_resolution_mode)
 
-class NetworkParameterModelMixin(models.Model):
+
+class LeaseModelMixin(models.Model):
     class Meta:
         abstract = True
 
@@ -320,14 +325,14 @@ class NetworkParameterModelMixin(models.Model):
         default=False,
     )
     t1_percent = models.DecimalField(
-        verbose_name=_("T1"),
+        verbose_name=_("T1 Percent"),
         max_digits=4,
         decimal_places=3,
         null=True,
         blank=True,
     )
     t2_percent = models.DecimalField(
-        verbose_name=_("T2"),
+        verbose_name=_("T2 Percent"),
         max_digits=4,
         decimal_places=3,
         null=True,
@@ -369,3 +374,8 @@ class NetworkParameterModelMixin(models.Model):
         blank=True,
         null=True,
     )
+
+    def get_allocator_color(self):
+        return AllocatorTypeChoices.colors.get(self.allocator)
+    def get_pd_allocator_color(self):
+        return PDAllocatorTypeChoices.colors.get(self.pd_allocator)

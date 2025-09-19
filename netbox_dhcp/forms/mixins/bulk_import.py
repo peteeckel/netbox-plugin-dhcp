@@ -13,6 +13,8 @@ from netbox_dhcp.models import ClientClass
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
+    AllocatorTypeChoices,
+    PDAllocatorTypeChoices,
 )
 
 __all__ = (
@@ -21,6 +23,7 @@ __all__ = (
     "ClientClassImportFormMixin",
     "PrefixImportFormMixin",
     "DDNSUpdateImportFormMixin",
+    "LeaseImportFormMixin",
 )
 
 
@@ -97,4 +100,17 @@ class DDNSUpdateImportFormMixin(forms.Form):
         choices=DDNSConflictResolutionModeChoices,
         required=False,
         label=_("Conflict Resolution Mode"),
+    )
+
+
+class LeaseImportFormMixin(forms.Form):
+    allocator = CSVChoiceField(
+        choices=AllocatorTypeChoices,
+        required=False,
+        label=_("Allocator"),
+    )
+    pd_allocator = CSVChoiceField(
+        choices=PDAllocatorTypeChoices,
+        required=False,
+        label=_("Prefix Delegation Allocator"),
     )
