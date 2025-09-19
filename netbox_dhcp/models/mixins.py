@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
+    AllocatorTypeChoices,
+    PDAllocatorTypeChoices,
 )
 
 __all__ = (
@@ -17,6 +19,7 @@ __all__ = (
     "OfferLifetimeModelMixin",
     "LifetimeModelMixin",
     "DDNSUpdateModelMixin",
+    "NetworkParameterModelMixin",
 )
 
 
@@ -221,10 +224,12 @@ class DDNSUpdateModelMixin(models.Model):
     ddns_generated_prefix = models.CharField(
         verbose_name=_("Generated Prefix"),
         blank=True,
+        null=True,
     )
     ddns_qualifying_suffix = models.CharField(
         verbose_name=_("Qualifying Suffix"),
         blank=True,
+        null=True,
     )
     ddns_update_on_renew = models.BooleanField(
         verbose_name=_("Update DDNS on renew"),
@@ -267,4 +272,100 @@ class DDNSUpdateModelMixin(models.Model):
         verbose_name=_("Replacement Character for Invalid Host Names"),
         max_length=255,
         blank=True,
+    )
+
+
+class NetworkParameterModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    renew_timer = models.PositiveIntegerField(
+        verbose_name=_("Renew Timer"),
+        null=True,
+        blank=True,
+    )
+    rebind_timer = models.PositiveIntegerField(
+        verbose_name=_("Rebind Timer"),
+        null=True,
+        blank=True,
+    )
+    match_client_id = models.BooleanField(
+        verbose_name=_("Match Client ID"),
+        null=False,
+        default=True,
+    )
+    authoritative = models.BooleanField(
+        verbose_name=_("Authoritative"),
+        null=False,
+        default=False,
+    )
+    reservations_global = models.BooleanField(
+        verbose_name=_("Global reservations"),
+        null=False,
+        default=False,
+    )
+    reservations_out_of_pool = models.BooleanField(
+        verbose_name=_("Out-of-pool reservations"),
+        null=False,
+        default=False,
+    )
+    reservations_in_subnet = models.BooleanField(
+        verbose_name=_("In-subnet reservations"),
+        null=False,
+        default=True,
+    )
+    calculate_tee_times = models.BooleanField(
+        verbose_name=_("Calculate T times"),
+        null=False,
+        default=False,
+    )
+    t1_percent = models.DecimalField(
+        verbose_name=_("T1"),
+        max_digits=4,
+        decimal_places=3,
+        null=True,
+        blank=True,
+    )
+    t2_percent = models.DecimalField(
+        verbose_name=_("T2"),
+        max_digits=4,
+        decimal_places=3,
+        null=True,
+        blank=True,
+    )
+    cache_threshold = models.DecimalField(
+        verbose_name=_("Cache Threshold"),
+        max_digits=3,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    cache_max_age = models.PositiveIntegerField(
+        verbose_name=_("Maximum Cache Age"),
+        null=True,
+        blank=True,
+    )
+    adaptive_lease_time_threshold = models.DecimalField(
+        verbose_name=_("Adaptive Lease Time Threshold"),
+        max_digits=3,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    store_extended_info = models.BooleanField(
+        verbose_name=_("Store Extended Info"),
+        null=False,
+        default=False,
+    )
+    allocator = models.CharField(
+        verbose_name=_("Allocator"),
+        choices=AllocatorTypeChoices,
+        blank=True,
+        null=True,
+    )
+    pd_allocator = models.CharField(
+        verbose_name=_("Prefix Delegation Allocator"),
+        choices=PDAllocatorTypeChoices,
+        blank=True,
+        null=True,
     )
