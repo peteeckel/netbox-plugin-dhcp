@@ -237,7 +237,6 @@ class SharedNetworkFilterForm(
             name=_("BOOTP"),
         ),
         FieldSet(
-            "comment",
             "evaluate_additional_class_id",
             "offer_lifetime",
             "valid_lifetime",
@@ -246,6 +245,7 @@ class SharedNetworkFilterForm(
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "comment",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -402,9 +402,9 @@ class SharedNetworkBulkEditForm(
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "evaluate_additional_classes",
             "user_context",
             "comment",
-            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -462,8 +462,6 @@ class SharedNetworkBulkEditForm(
         "preferred_lifetime",
         "min_preferred_lifetime",
         "max_preferred_lifetime",
-        "hostname_char_set",
-        "hostname_char_replacement",
         "renew_timer",
         "rebind_timer",
         "t1_percent",

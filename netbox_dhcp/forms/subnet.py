@@ -32,6 +32,8 @@ from .mixins import (
     DDNSUpdateFilterFormMixin,
     DDNSUpdateImportFormMixin,
     DDNSUpdateBulkEditFormMixin,
+    LeaseFilterFormMixin,
+    LeaseBulkEditFormMixin,
     NetworkFilterFormMixin,
     NetworkBulkEditFormMixin,
 )
@@ -57,6 +59,7 @@ class SubnetForm(
         fields = (
             "name",
             "description",
+            "subnet_id",
             "prefix",
             "next_server",
             "server_hostname",
@@ -111,8 +114,8 @@ class SubnetForm(
         FieldSet(
             "name",
             "description",
-            "prefix",
             "subnet_id",
+            "prefix",
             name=_("Subnet"),
         ),
         FieldSet(
@@ -197,6 +200,7 @@ class SubnetFilterForm(
     LifetimeFilterFormMixin,
     CommonFilterFormMixin,
     DDNSUpdateFilterFormMixin,
+    LeaseFilterFormMixin,
     NetworkFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
@@ -211,6 +215,7 @@ class SubnetFilterForm(
         FieldSet(
             "name",
             "description",
+            "subnet_id",
             "prefix_id",
             name=_("Subnet"),
         ),
@@ -297,6 +302,7 @@ class SubnetImportForm(
         fields = (
             "name",
             "description",
+            "subnet_id",
             "prefix",
             "next_server",
             "server_hostname",
@@ -343,6 +349,7 @@ class SubnetBulkEditForm(
     LifetimeBulkEditFormMixin,
     CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
+    LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
