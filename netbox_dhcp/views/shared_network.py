@@ -1,16 +1,18 @@
+from django.utils.translation import gettext_lazy as _
+
 from netbox.views import generic
 
-from utilities.views import register_model_view
+from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import SharedNetwork
-from netbox_dhcp.filtersets import SharedNetworkFilterSet
+from netbox_dhcp.models import SharedNetwork, Subnet
+from netbox_dhcp.filtersets import SharedNetworkFilterSet, SubnetFilterSet
 from netbox_dhcp.forms import (
     SharedNetworkForm,
     SharedNetworkFilterForm,
     SharedNetworkImportForm,
     SharedNetworkBulkEditForm,
 )
-from netbox_dhcp.tables import SharedNetworkTable
+from netbox_dhcp.tables import SharedNetworkTable, SubnetTable
 
 
 __all__ = (
@@ -69,3 +71,22 @@ class SharedNetworkBulkDeleteView(generic.BulkDeleteView):
     queryset = SharedNetwork.objects.all()
     filterset = SharedNetworkFilterSet
     table = SharedNetworkTable
+
+
+@register_model_view(SharedNetwork, "child_subnets")
+class SharedNetworkChildSubnetListView(generic.ObjectChildrenView):
+    queryset = SharedNetwork.objects.all()
+    child_model = Subnet
+    table = SubnetTable
+    filterset = SubnetFilterSet
+    template_name = "netbox_dhcp/sharednetwork/child_subnets.html"
+
+    tab = ViewTab(
+        label=_("Child Subnets"),
+        permission="netbox_dhcp.view_subnet",
+        badge=lambda obj: obj.child_subnets.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_subnets.restrict(request.user, "view")

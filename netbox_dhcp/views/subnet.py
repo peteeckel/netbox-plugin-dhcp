@@ -1,16 +1,18 @@
+from django.utils.translation import gettext_lazy as _
+
 from netbox.views import generic
 
-from utilities.views import register_model_view
+from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import Subnet
-from netbox_dhcp.filtersets import SubnetFilterSet
+from netbox_dhcp.models import Subnet, Pool, PDPool, HostReservation
+from netbox_dhcp.filtersets import SubnetFilterSet, PoolFilterSet, PDPoolFilterSet, HostReservationFilterSet
 from netbox_dhcp.forms import (
     SubnetForm,
     SubnetFilterForm,
     SubnetImportForm,
     SubnetBulkEditForm,
 )
-from netbox_dhcp.tables import SubnetTable
+from netbox_dhcp.tables import SubnetTable, PoolTable, PDPoolTable, HostReservationTable
 
 
 __all__ = (
@@ -69,3 +71,79 @@ class SubnetBulkDeleteView(generic.BulkDeleteView):
     queryset = Subnet.objects.all()
     filterset = SubnetFilterSet
     table = SubnetTable
+
+
+@register_model_view(Subnet, "child_subnets")
+class SubnetChildSubnetListView(generic.ObjectChildrenView):
+    queryset = Subnet.objects.all()
+    child_model = Subnet
+    table = SubnetTable
+    filterset = SubnetFilterSet
+    template_name = "netbox_dhcp/subnet/child_subnets.html"
+
+    tab = ViewTab(
+        label=_("Child Subnets"),
+        permission="netbox_dhcp.view_subnet",
+        badge=lambda obj: obj.child_subnets.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_subnets.restrict(request.user, "view")
+
+
+@register_model_view(Subnet, "child_pools")
+class SubnetChildPoolListView(generic.ObjectChildrenView):
+    queryset = Subnet.objects.all()
+    child_model = Pool
+    table = PoolTable
+    filterset = PoolFilterSet
+    template_name = "netbox_dhcp/subnet/child_pools.html"
+
+    tab = ViewTab(
+        label=_("Pools"),
+        permission="netbox_dhcp.view_pool",
+        badge=lambda obj: obj.child_pools.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_pools.restrict(request.user, "view")
+
+
+@register_model_view(Subnet, "child_pd_pools")
+class SubnetChildPDPoolListView(generic.ObjectChildrenView):
+    queryset = Subnet.objects.all()
+    child_model = PDPool
+    table = PDPoolTable
+    filterset = PDPoolFilterSet
+    template_name = "netbox_dhcp/subnet/child_pd_pools.html"
+
+    tab = ViewTab(
+        label=_("Prefix Delegation Pools"),
+        permission="netbox_dhcp.view_pdpool",
+        badge=lambda obj: obj.child_pd_pools.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_pd_pools.restrict(request.user, "view")
+
+
+@register_model_view(Subnet, "child_host_reservations")
+class SubnetChildHostReservationListView(generic.ObjectChildrenView):
+    queryset = Subnet.objects.all()
+    child_model = HostReservation
+    table = HostReservationTable
+    filterset = HostReservationFilterSet
+    template_name = "netbox_dhcp/subnet/child_host_reservations.html"
+
+    tab = ViewTab(
+        label=_("Host Reservations"),
+        permission="netbox_dhcp.view_hostreservation",
+        badge=lambda obj: obj.child_host_reservations.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_host_reservations.restrict(request.user, "view")

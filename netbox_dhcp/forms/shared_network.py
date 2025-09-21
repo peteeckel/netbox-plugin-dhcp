@@ -38,6 +38,9 @@ from .mixins import (
     LeaseBulkEditFormMixin,
     NetworkFilterFormMixin,
     NetworkBulkEditFormMixin,
+    ChildSubnetFormMixin,
+    ChildSubnetFilterFormMixin,
+    ChildSubnetImportFormMixin,
 )
 
 
@@ -54,6 +57,7 @@ class SharedNetworkForm(
     ClientClassFormMixin,
     DDNSUpdateFormMixin,
     LeaseFormMixin,
+    ChildSubnetFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -63,6 +67,7 @@ class SharedNetworkForm(
             "name",
             "description",
             "prefix",
+            "child_subnets",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -118,6 +123,10 @@ class SharedNetworkForm(
             "description",
             "prefix",
             name=_("Shared Network"),
+        ),
+        FieldSet(
+            "child_subnets",
+            name=_("Child Objects"),
         ),
         FieldSet(
             "client_class_definitions",
@@ -203,6 +212,7 @@ class SharedNetworkFilterForm(
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
+    ChildSubnetFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = SharedNetwork
@@ -218,6 +228,10 @@ class SharedNetworkFilterForm(
             "description",
             "prefix_id",
             name=_("Shared Network"),
+        ),
+        FieldSet(
+            "child_subnet_id",
+            name=_("Child Objects"),
         ),
         FieldSet(
             "client_class_definition_id",
@@ -295,6 +309,7 @@ class SharedNetworkImportForm(
     ClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
     LeaseImportFormMixin,
+    ChildSubnetImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -304,6 +319,7 @@ class SharedNetworkImportForm(
             "name",
             "description",
             "prefix",
+            "child_subnets",
             "next_server",
             "server_hostname",
             "boot_file_name",
