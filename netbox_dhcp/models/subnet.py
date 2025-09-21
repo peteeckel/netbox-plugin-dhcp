@@ -13,6 +13,7 @@ from .mixins import (
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
+    NetworkModelMixin,
 )
 
 __all__ = (
@@ -29,6 +30,7 @@ class Subnet(
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
+    NetworkModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -54,6 +56,9 @@ class Subnet(
         "preferred_lifetime",
         "min_preferred_lifetime",
         "max_preferred_lifetime",
+        "relay",
+        "interface_id",
+        "rapid_commit",
         "hostname_char_set",
         "hostname_char_replacement",
         "ddns_send_updates",
@@ -71,6 +76,11 @@ class Subnet(
         "comment",
     )
 
+    subnet_id = models.PositiveIntegerField(
+        verbose_name=_("Subnet ID"),
+        blank=True,
+        null=True,
+    )
     prefix = models.ForeignKey(
         verbose_name=_("Prefix"),
         to=Prefix,

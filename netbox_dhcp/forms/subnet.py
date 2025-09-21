@@ -32,6 +32,8 @@ from .mixins import (
     DDNSUpdateFilterFormMixin,
     DDNSUpdateImportFormMixin,
     DDNSUpdateBulkEditFormMixin,
+    NetworkFilterFormMixin,
+    NetworkBulkEditFormMixin,
 )
 
 
@@ -110,6 +112,7 @@ class SubnetForm(
             "name",
             "description",
             "prefix",
+            "subnet_id",
             name=_("Subnet"),
         ),
         FieldSet(
@@ -119,6 +122,8 @@ class SubnetForm(
         FieldSet(
             "client_class",
             "required_client_classes",
+            "relay",
+            "interface_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -157,6 +162,7 @@ class SubnetForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             name=_("Lease"),
         ),
         FieldSet(
@@ -191,6 +197,7 @@ class SubnetFilterForm(
     LifetimeFilterFormMixin,
     CommonFilterFormMixin,
     DDNSUpdateFilterFormMixin,
+    NetworkFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Subnet
@@ -214,6 +221,8 @@ class SubnetFilterForm(
         FieldSet(
             "client_class_id",
             "required_client_class_id",
+            "relay",
+            "interface_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -251,6 +260,7 @@ class SubnetFilterForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             name=_("Lease"),
         ),
         FieldSet(
@@ -302,6 +312,9 @@ class SubnetImportForm(
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "relay",
+            "interface_id",
+            "rapid_commit",
             "hostname_char_set",
             "hostname_char_replacement",
             "ddns_send_updates",
@@ -330,6 +343,7 @@ class SubnetBulkEditForm(
     LifetimeBulkEditFormMixin,
     CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
+    NetworkBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = Subnet
@@ -347,6 +361,8 @@ class SubnetBulkEditForm(
         FieldSet(
             "client_class",
             "required_client_classes",
+            "relay",
+            "interface_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -385,6 +401,7 @@ class SubnetBulkEditForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             name=_("Lease"),
         ),
         FieldSet(
@@ -429,6 +446,9 @@ class SubnetBulkEditForm(
         "adaptive_lease_time_threshold",
         "cache_threshold",
         "cache_max_age",
+        "relay",
+        "interface_id",
+        "rapid_commit",
         "hostname_char_set",
         "hostname_char_replacement",
         "ddns_generated_prefix",

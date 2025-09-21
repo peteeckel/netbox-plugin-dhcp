@@ -29,6 +29,7 @@ __all__ = (
     "PrefixBulkEditFormMixin",
     "DDNSUpdateBulkEditFormMixin",
     "LeaseBulkEditFormMixin",
+    "NetworkBulkEditFormMixin",
 )
 
 
@@ -321,4 +322,20 @@ class LeaseBulkEditFormMixin(forms.Form):
         choices=add_blank_choice(PDAllocatorTypeChoices),
         required=False,
         label=_("Prefix Delegation Allocator"),
+    )
+
+
+class NetworkBulkEditFormMixin(forms.Form):
+    relay = forms.CharField(
+        label=_("Relay IP Addresses"),
+        required=False,
+    )
+    interface_id = forms.CharField(
+        label=_("Interface ID"),
+        required=False,
+    )
+    rapid_commit = forms.NullBooleanField(
+        label=_("Rapid Commit"),
+        widget=BulkEditNullBooleanSelect(),
+        required=False,
     )

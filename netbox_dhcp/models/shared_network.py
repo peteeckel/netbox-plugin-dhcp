@@ -13,6 +13,8 @@ from .mixins import (
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
+    NetworkModelMixin,
+    ChildSubnetModelMixin,
 )
 
 __all__ = (
@@ -29,6 +31,7 @@ class SharedNetwork(
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
+    NetworkModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -54,6 +57,9 @@ class SharedNetwork(
         "preferred_lifetime",
         "min_preferred_lifetime",
         "max_preferred_lifetime",
+        "relay",
+        "interface_id",
+        "rapid_commit",
         "hostname_char_set",
         "hostname_char_replacement",
         "ddns_send_updates",

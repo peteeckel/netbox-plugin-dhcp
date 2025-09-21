@@ -67,5 +67,9 @@
             <th scope="row">{% trans "Prefix Delegation Allocator" %}</th>
             <td>{% badge object.get_pd_allocator_display bg_color=object.get_pd_allocator_color %}</td>
         </tr>
+        <tr>
+            <th scope="row">{% trans "Rapid Commit" %}</th>
+            <td>{% checkmark object.rapid_commit %}</td>
+        </tr>
     </table>
 </div>

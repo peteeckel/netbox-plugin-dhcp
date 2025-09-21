@@ -20,6 +20,8 @@ __all__ = (
     "LifetimeModelMixin",
     "DDNSUpdateModelMixin",
     "LeaseModelMixin",
+    "NetworkModelMixin",
+    "NetworkModelMixin",
 )
 
 
@@ -379,3 +381,27 @@ class LeaseModelMixin(models.Model):
         return AllocatorTypeChoices.colors.get(self.allocator)
     def get_pd_allocator_color(self):
         return PDAllocatorTypeChoices.colors.get(self.pd_allocator)
+
+
+class NetworkModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    # TODO: Interface -> Element of global: Interfaces
+    relay = models.CharField(
+        verbose_name=_("Relay IP Addresses"),
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+    interface_id = models.CharField(
+        verbose_name=_("Interface ID"),
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+    rapid_commit = models.BooleanField(
+        verbose_name=_("Rapid Commit"),
+        null=False,
+        default=False,
+    )

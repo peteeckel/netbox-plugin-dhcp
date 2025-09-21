@@ -36,6 +36,8 @@ from .mixins import (
     LeaseFilterFormMixin,
     LeaseImportFormMixin,
     LeaseBulkEditFormMixin,
+    NetworkFilterFormMixin,
+    NetworkBulkEditFormMixin,
 )
 
 
@@ -124,6 +126,8 @@ class SharedNetworkForm(
         FieldSet(
             "client_class",
             "required_client_classes",
+            "relay",
+            "interface_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -162,6 +166,7 @@ class SharedNetworkForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             name=_("Lease"),
         ),
         FieldSet(
@@ -197,6 +202,7 @@ class SharedNetworkFilterForm(
     LifetimeFilterFormMixin,
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
+    NetworkFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = SharedNetwork
@@ -220,6 +226,8 @@ class SharedNetworkFilterForm(
         FieldSet(
             "client_class_id",
             "required_client_class_id",
+            "relay",
+            "interface_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -257,6 +265,7 @@ class SharedNetworkFilterForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             name=_("Lease"),
         ),
         FieldSet(
@@ -325,6 +334,9 @@ class SharedNetworkImportForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "relay",
+            "interface_id",
+            "rapid_commit",
             "hostname_char_set",
             "hostname_char_replacement",
             "ddns_send_updates",
@@ -354,6 +366,7 @@ class SharedNetworkBulkEditForm(
     CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
+    NetworkBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = SharedNetwork
@@ -371,6 +384,8 @@ class SharedNetworkBulkEditForm(
         FieldSet(
             "client_class",
             "required_client_classes",
+            "relay",
+            "interface_id",
             name=_("Selection"),
         ),
         FieldSet(
@@ -409,6 +424,7 @@ class SharedNetworkBulkEditForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             name=_("Lease"),
         ),
         FieldSet(
@@ -455,6 +471,9 @@ class SharedNetworkBulkEditForm(
         "adaptive_lease_time_threshold",
         "cache_threshold",
         "cache_max_age",
+        "relay",
+        "interface_id",
+        "rapid_commit",
         "hostname_char_set",
         "hostname_char_replacement",
         "ddns_generated_prefix",

@@ -29,6 +29,7 @@ __all__ = (
     "PrefixFilterFormMixin",
     "DDNSUpdateFilterFormMixin",
     "LeaseFilterFormMixin",
+    "NetworkFilterFormMixin",
 )
 
 
@@ -173,6 +174,21 @@ class LeaseFilterFormMixin(forms.Form):
     )
     pd_allocator = forms.ChoiceField(
         choices=PDAllocatorTypeChoices,
+    )
+
+
+class NetworkFilterFormMixin(forms.Form):
+    relay = forms.CharField(
+        label=_("Relay IP Addresses"),
+        required=False,
+    )
+    interface_id = forms.CharField(
+        label=_("Interface ID"),
+        required=False,
+    )
+    rapid_commit = forms.NullBooleanField(
+        label=_("Rapid Commit"),
+        required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
         required=False,
         label=_("Prefix Delegation Allocator"),
