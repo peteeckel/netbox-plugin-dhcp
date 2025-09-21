@@ -32,21 +32,18 @@ class ClientClassDefinitionSerializerMixin:
 
 class ClientClassSerializerMixin(ClientClassDefinitionSerializerMixin):
     client_class = NestedClientClassSerializer(
-        nested=True,
         read_only=False,
         required=False,
         help_text=_("Client class to be matched"),
     )
     required_client_classes = NestedClientClassSerializer(
         many=True,
-        nested=True,
         read_only=False,
         required=False,
         help_text=_("Required client classes to be matched"),
     )
     evaluate_additional_classes = NestedClientClassSerializer(
         many=True,
-        nested=True,
         read_only=False,
         required=False,
         help_text=_("Client classes to evaluate after matching"),

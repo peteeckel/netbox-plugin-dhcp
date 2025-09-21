@@ -43,6 +43,8 @@ class PDPoolSerializer(
             "display",
             "name",
             "description",
+            "prefix",
+            "comment",
         )
 
     url = serializers.HyperlinkedIdentityField(

@@ -278,8 +278,11 @@ class DDNSUpdateModelMixin(models.Model):
 
     def get_ddns_replace_client_name_color(self):
         return DDNSReplaceClientNameChoices.colors.get(self.ddns_replace_client_name)
+
     def get_ddns_conflict_resolution_mode_color(self):
-        return DDNSConflictResolutionModeChoices.colors.get(self.ddns_conflict_resolution_mode)
+        return DDNSConflictResolutionModeChoices.colors.get(
+            self.ddns_conflict_resolution_mode
+        )
 
 
 class LeaseModelMixin(models.Model):
@@ -379,6 +382,7 @@ class LeaseModelMixin(models.Model):
 
     def get_allocator_color(self):
         return AllocatorTypeChoices.colors.get(self.allocator)
+
     def get_pd_allocator_color(self):
         return PDAllocatorTypeChoices.colors.get(self.pd_allocator)
 
