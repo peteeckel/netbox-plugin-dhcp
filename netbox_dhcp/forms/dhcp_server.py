@@ -129,11 +129,11 @@ class DHCPServerFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
             name=_("DHCP Server"),
         ),
         FieldSet(
-            "device",
+            "device_id",
             name=_("DCIM"),
         ),
         FieldSet(
-            "virtual_machine",
+            "virtual_machine_id",
             name=_("Virtualization"),
         ),
     )

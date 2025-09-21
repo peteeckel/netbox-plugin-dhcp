@@ -314,14 +314,14 @@ class LeaseBulkEditFormMixin(forms.Form):
         required=False,
     )
     allocator = forms.ChoiceField(
+        label=_("Allocator"),
         choices=add_blank_choice(AllocatorTypeChoices),
         required=False,
-        label=_("Allocator"),
     )
     pd_allocator = forms.ChoiceField(
+        label=_("Prefix Delegation Allocator"),
         choices=add_blank_choice(PDAllocatorTypeChoices),
         required=False,
-        label=_("Prefix Delegation Allocator"),
     )
 
 
