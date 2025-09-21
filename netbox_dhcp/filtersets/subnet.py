@@ -11,6 +11,10 @@ from netbox_dhcp.models import Subnet
 from .mixins import (
     ClientClassFilterMixin,
     DDNSUpdateFilterMixin,
+    ChildSubnetFilterMixin,
+    ChildPoolFilterMixin,
+    ChildPDPoolFilterMixin,
+    ChildHostReservationFilterMixin,
 )
 
 __all__ = ("SubnetFilterSet",)
@@ -19,6 +23,10 @@ __all__ = ("SubnetFilterSet",)
 class SubnetFilterSet(
     ClientClassFilterMixin,
     DDNSUpdateFilterMixin,
+    ChildSubnetFilterMixin,
+    ChildPoolFilterMixin,
+    ChildPDPoolFilterMixin,
+    ChildHostReservationFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:

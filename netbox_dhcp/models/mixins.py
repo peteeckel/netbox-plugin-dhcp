@@ -21,7 +21,10 @@ __all__ = (
     "DDNSUpdateModelMixin",
     "LeaseModelMixin",
     "NetworkModelMixin",
-    "NetworkModelMixin",
+    "ChildHostReservationModelMixin",
+    "ChildPoolModelMixin",
+    "ChildPDPoolModelMixin",
+    "ChildSubnetModelMixin",
 )
 
 
@@ -408,4 +411,52 @@ class NetworkModelMixin(models.Model):
         verbose_name=_("Rapid Commit"),
         null=False,
         default=False,
+    )
+
+
+class ChildHostReservationModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    child_host_reservations = models.ManyToManyField(
+        verbose_name=_("Host Reservations"),
+        to="HostReservation",
+        related_name="parent_%(class)ss",
+        blank=True,
+    )
+
+
+class ChildPoolModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    child_pools = models.ManyToManyField(
+        verbose_name=_("Address Pools"),
+        to="Pool",
+        related_name="parent_%(class)ss",
+        blank=True,
+    )
+
+
+class ChildPDPoolModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    child_pd_pools = models.ManyToManyField(
+        verbose_name=_("Prefix Delegation Pools"),
+        to="PDPool",
+        related_name="parent_%(class)ss",
+        blank=True,
+    )
+
+
+class ChildSubnetModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    child_subnets = models.ManyToManyField(
+        verbose_name=_("Subnets"),
+        to="Subnet",
+        related_name="parent_%(class)ss",
+        blank=True,
     )

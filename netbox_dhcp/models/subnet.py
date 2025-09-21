@@ -14,6 +14,10 @@ from .mixins import (
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
+    ChildSubnetModelMixin,
+    ChildPoolModelMixin,
+    ChildPDPoolModelMixin,
+    ChildHostReservationModelMixin,
 )
 
 __all__ = (
@@ -32,6 +36,10 @@ class Subnet(
     LeaseModelMixin,
     NetworkModelMixin,
     NetBoxModel,
+    ChildSubnetModelMixin,
+    ChildPoolModelMixin,
+    ChildPDPoolModelMixin,
+    ChildHostReservationModelMixin,
 ):
     class Meta:
         verbose_name = _("Subnet")

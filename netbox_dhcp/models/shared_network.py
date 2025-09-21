@@ -33,6 +33,7 @@ class SharedNetwork(
     LeaseModelMixin,
     NetworkModelMixin,
     NetBoxModel,
+    ChildSubnetModelMixin,
 ):
     class Meta:
         verbose_name = _("Shared Network")

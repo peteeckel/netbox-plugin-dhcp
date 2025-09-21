@@ -36,6 +36,18 @@ from .mixins import (
     LeaseBulkEditFormMixin,
     NetworkFilterFormMixin,
     NetworkBulkEditFormMixin,
+    ChildSubnetFormMixin,
+    ChildSubnetFilterFormMixin,
+    ChildSubnetImportFormMixin,
+    ChildPoolFormMixin,
+    ChildPoolFilterFormMixin,
+    ChildPoolImportFormMixin,
+    ChildPDPoolFormMixin,
+    ChildPDPoolFilterFormMixin,
+    ChildPDPoolImportFormMixin,
+    ChildHostReservationFormMixin,
+    ChildHostReservationFilterFormMixin,
+    ChildHostReservationImportFormMixin,
 )
 
 
@@ -52,6 +64,10 @@ class SubnetForm(
     ClientClassFormMixin,
     DDNSUpdateFormMixin,
     NetBoxModelForm,
+    ChildSubnetFormMixin,
+    ChildPoolFormMixin,
+    ChildPDPoolFormMixin,
+    ChildHostReservationFormMixin,
 ):
     class Meta:
         model = Subnet
@@ -61,6 +77,10 @@ class SubnetForm(
             "description",
             "subnet_id",
             "prefix",
+            "child_subnets",
+            "child_pools",
+            "child_pd_pools",
+            "child_host_reservations",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -117,6 +137,13 @@ class SubnetForm(
             "subnet_id",
             "prefix",
             name=_("Subnet"),
+        ),
+        FieldSet(
+            "child_subnets",
+            "child_pools",
+            "child_pd_pools",
+            "child_host_reservations",
+            name=_("Child Objects"),
         ),
         FieldSet(
             "client_class_definitions",
@@ -202,6 +229,10 @@ class SubnetFilterForm(
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
+    ChildSubnetFilterFormMixin,
+    ChildPoolFilterFormMixin,
+    ChildPDPoolFilterFormMixin,
+    ChildHostReservationFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Subnet
@@ -220,7 +251,14 @@ class SubnetFilterForm(
             name=_("Subnet"),
         ),
         FieldSet(
-            "network_client_class_id",
+            "child_subnet_id",
+            "child_pool_id",
+            "child_pd_pool_id",
+            "child_host_reservation_id",
+            name=_("Child Objects"),
+        ),
+        FieldSet(
+            "client_class_definition_id",
             name=_("Client Class Definitions"),
         ),
         FieldSet(
@@ -294,6 +332,10 @@ class SubnetImportForm(
     PrefixImportFormMixin,
     ClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
+    ChildSubnetImportFormMixin,
+    ChildPoolImportFormMixin,
+    ChildPDPoolImportFormMixin,
+    ChildHostReservationImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -304,6 +346,10 @@ class SubnetImportForm(
             "description",
             "subnet_id",
             "prefix",
+            "child_subnets",
+            "child_pools",
+            "child_pd_pools",
+            "child_host_reservations",
             "next_server",
             "server_hostname",
             "boot_file_name",

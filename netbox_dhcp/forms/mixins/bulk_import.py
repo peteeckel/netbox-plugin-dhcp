@@ -9,7 +9,7 @@ from utilities.forms.fields import (
 
 from ipam.models import Prefix
 
-from netbox_dhcp.models import ClientClass
+from netbox_dhcp.models import ClientClass, Subnet, Pool, PDPool, HostReservation
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
@@ -24,6 +24,10 @@ __all__ = (
     "PrefixImportFormMixin",
     "DDNSUpdateImportFormMixin",
     "LeaseImportFormMixin",
+    "ChildSubnetImportFormMixin",
+    "ChildPoolImportFormMixin",
+    "ChildPDPoolImportFormMixin",
+    "ChildHostReservationImportFormMixin",
 )
 
 
@@ -113,4 +117,52 @@ class LeaseImportFormMixin(forms.Form):
         choices=PDAllocatorTypeChoices,
         required=False,
         label=_("Prefix Delegation Allocator"),
+    )
+
+
+class ChildSubnetImportFormMixin(forms.Form):
+    child_subnets = CSVModelMultipleChoiceField(
+        queryset=Subnet.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Subnet %(value)s not found"),
+        },
+        label=_("Subnets"),
+    )
+
+
+class ChildPoolImportFormMixin(forms.Form):
+    child_pools = CSVModelMultipleChoiceField(
+        queryset=Pool.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Pool %(value)s not found"),
+        },
+        label=_("Pools"),
+    )
+
+
+class ChildPDPoolImportFormMixin(forms.Form):
+    child_pd_pools = CSVModelMultipleChoiceField(
+        queryset=PDPool.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Prefix Delegation Pool %(value)s not found"),
+        },
+        label=_("Prefix Delegation Pools"),
+    )
+
+
+class ChildHostReservationImportFormMixin(forms.Form):
+    child_host_reservations = CSVModelMultipleChoiceField(
+        queryset=HostReservation.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Host Reservation %(value)s not found"),
+        },
+        label=_("Host Reservations"),
     )

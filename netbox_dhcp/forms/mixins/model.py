@@ -8,7 +8,13 @@ from utilities.forms.fields import (
 
 from ipam.models import Prefix
 
-from netbox_dhcp.models import ClientClass
+from netbox_dhcp.models import (
+    ClientClass,
+    Subnet,
+    Pool,
+    PDPool,
+    HostReservation,
+)
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
@@ -23,6 +29,10 @@ __all__ = (
     "PrefixFormMixin",
     "DDNSUpdateFormMixin",
     "LeaseFormMixin",
+    "ChildSubnetFormMixin",
+    "ChildPoolFormMixin",
+    "ChildPDPoolFormMixin",
+    "ChildHostReservationFormMixin",
 )
 
 
@@ -143,4 +153,36 @@ class LeaseFormMixin(forms.Form):
         choices=PDAllocatorTypeChoices,
         required=True,
         label=_("Prefix Delegation Allocator"),
+    )
+
+
+class ChildSubnetFormMixin(forms.Form):
+    child_subnets = DynamicModelMultipleChoiceField(
+        queryset=Subnet.objects.all(),
+        required=False,
+        label=_("Subnets"),
+    )
+
+
+class ChildPoolFormMixin(forms.Form):
+    child_pools = DynamicModelMultipleChoiceField(
+        queryset=Pool.objects.all(),
+        required=False,
+        label=_("Pools"),
+    )
+
+
+class ChildPDPoolFormMixin(forms.Form):
+    child_pd_pools = DynamicModelMultipleChoiceField(
+        queryset=PDPool.objects.all(),
+        required=False,
+        label=_("Prefix Delegation Pools"),
+    )
+
+
+class ChildHostReservationFormMixin(forms.Form):
+    child_host_reservations = DynamicModelMultipleChoiceField(
+        queryset=HostReservation.objects.all(),
+        required=False,
+        label=_("Prefix Delegation Pools"),
     )
