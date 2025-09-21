@@ -34,6 +34,14 @@ class DDNSConflictResolutionModeChoices(ChoiceSet):
     CHOICES = [
         (CHECK_WITH_DHCID, _("Overwrite existing records with matching DHCID"), "red"),
         (NO_CHECK_WITH_DHCID, _("Overwrite existing records and add DHCID"), "green"),
-        (CHECK_EXISTS_WITH_DHCID, _("Overwrite existing records with any DHCID"), "blue"),
-        (NO_CHECK_WITHOUT_DHCID, _("Overwrite existing records and do not add DHCID"), "orange"),
+        (
+            CHECK_EXISTS_WITH_DHCID,
+            _("Overwrite existing records with any DHCID"),
+            "blue",
+        ),
+        (
+            NO_CHECK_WITHOUT_DHCID,
+            _("Overwrite existing records and do not add DHCID"),
+            "orange",
+        ),
     ]
