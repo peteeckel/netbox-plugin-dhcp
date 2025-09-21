@@ -2,6 +2,8 @@ import django_filters
 from django.utils.translation import gettext as _
 
 from netbox_dhcp.models import ClientClass
+from netbox.filtersets import NetBoxModelFilterSet
+
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
@@ -15,7 +17,7 @@ __all__ = (
 )
 
 
-class ClientClassAssignmentFilterMixin:
+class ClientClassAssignmentFilterMixin(NetBoxModelFilterSet):
     assign_client_class = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="assign_client_classes__name",
@@ -29,7 +31,7 @@ class ClientClassAssignmentFilterMixin:
     )
 
 
-class ClientClassDefinitionFilterMixin:
+class ClientClassDefinitionFilterMixin(NetBoxModelFilterSet):
     client_class_definition = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="client_class_definitions__name",
@@ -44,7 +46,7 @@ class ClientClassDefinitionFilterMixin:
 
 
 class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
-    client_class_id = django_filters.ModelMultipleChoiceFilter(
+    client_class = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
         field_name="client_class__name",
         to_field_name="name",
@@ -79,7 +81,7 @@ class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
     )
 
 
-class DDNSUpdateFilterMixin:
+class DDNSUpdateFilterMixin(NetBoxModelFilterSet):
     ddns_replace_client_name = django_filters.MultipleChoiceFilter(
         choices=DDNSReplaceClientNameChoices,
         label=_("Replace Client Name"),
