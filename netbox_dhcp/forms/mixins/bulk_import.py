@@ -9,7 +9,14 @@ from utilities.forms.fields import (
 
 from ipam.models import Prefix
 
-from netbox_dhcp.models import ClientClass, Subnet, Pool, PDPool, HostReservation
+from netbox_dhcp.models import (
+    ClientClass,
+    Subnet,
+    SharedNetwork,
+    Pool,
+    PDPool,
+    HostReservation,
+)
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
@@ -25,9 +32,11 @@ __all__ = (
     "DDNSUpdateImportFormMixin",
     "LeaseImportFormMixin",
     "ChildSubnetImportFormMixin",
+    "ChildSharedNetworkImportFormMixin",
     "ChildPoolImportFormMixin",
     "ChildPDPoolImportFormMixin",
     "ChildHostReservationImportFormMixin",
+    "ChildClientClassImportFormMixin",
 )
 
 
@@ -132,6 +141,18 @@ class ChildSubnetImportFormMixin(forms.Form):
     )
 
 
+class ChildSharedNetworkImportFormMixin(forms.Form):
+    child_shared_networks = CSVModelMultipleChoiceField(
+        queryset=SharedNetwork.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Shared Network %(value)s not found"),
+        },
+        label=_("Shared Networks"),
+    )
+
+
 class ChildPoolImportFormMixin(forms.Form):
     child_pools = CSVModelMultipleChoiceField(
         queryset=Pool.objects.all(),
@@ -165,4 +186,16 @@ class ChildHostReservationImportFormMixin(forms.Form):
             "invalid_choice": _("Host Reservation %(value)s not found"),
         },
         label=_("Host Reservations"),
+    )
+
+
+class ChildClientClassImportFormMixin(forms.Form):
+    child_client_classes = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Client Classes"),
     )

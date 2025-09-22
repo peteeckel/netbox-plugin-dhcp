@@ -25,6 +25,8 @@ __all__ = (
     "ChildPoolModelMixin",
     "ChildPDPoolModelMixin",
     "ChildSubnetModelMixin",
+    "ChildSharedNetworkModelMixin",
+    "ChildClientClassModelMixin",
 )
 
 
@@ -457,6 +459,30 @@ class ChildSubnetModelMixin(models.Model):
     child_subnets = models.ManyToManyField(
         verbose_name=_("Subnets"),
         to="Subnet",
+        related_name="parent_%(class)ss",
+        blank=True,
+    )
+
+
+class ChildSharedNetworkModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    child_shared_networks = models.ManyToManyField(
+        verbose_name=_("Shared Networks"),
+        to="SharedNetwork",
+        related_name="parent_%(class)ss",
+        blank=True,
+    )
+
+
+class ChildClientClassModelMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    child_client_classes = models.ManyToManyField(
+        verbose_name=_("Client Classes"),
+        to="ClientClass",
         related_name="parent_%(class)ss",
         blank=True,
     )

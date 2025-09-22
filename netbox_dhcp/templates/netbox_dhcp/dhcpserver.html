@@ -20,6 +20,35 @@
                     {% endif %}
                 </table>
             </div>
+            <div class="card">
+                <h5 class="card-header">{% trans "Configuration" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Server ID" %}</th>
+                        <td>{{ object.server_id|placeholder }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Host Reservation Identifiers" %}</th>
+                        <td>
+                            {% for identifier in object.host_reservation_identifiers %}
+                                {{ identifier }}{{ "&nbsp;" }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Echo Client ID" %}</th>
+                        <td>{% checkmark object.echo_client_id %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Relay Supplied Options" %}</th>
+                        <td>
+                            {% for option in object.relay_supplied_options %}
+                                {{ option }}{{ "&nbsp;" }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">

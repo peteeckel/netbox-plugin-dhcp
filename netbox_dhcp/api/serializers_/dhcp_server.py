@@ -7,6 +7,12 @@ from dcim.api.serializers import DeviceSerializer
 from virtualization.api.serializers import VirtualMachineSerializer
 
 from ..nested_serializers import NestedDHCPClusterSerializer
+from .mixins import (
+    ChildSubnetSerializerMixin,
+    ChildSharedNetworkSerializerMixin,
+    ChildHostReservationSerializerMixin,
+    ChildClientClassSerializerMixin,
+)
 
 from netbox_dhcp.models import DHCPServer
 
@@ -14,7 +20,13 @@ from netbox_dhcp.models import DHCPServer
 __all__ = ("DHCPServerSerializer",)
 
 
-class DHCPServerSerializer(NetBoxModelSerializer):
+class DHCPServerSerializer(
+    ChildSubnetSerializerMixin,
+    ChildSharedNetworkSerializerMixin,
+    ChildHostReservationSerializerMixin,
+    ChildClientClassSerializerMixin,
+    NetBoxModelSerializer,
+):
     class Meta:
         model = DHCPServer
 

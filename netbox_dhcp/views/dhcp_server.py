@@ -1,16 +1,36 @@
+from django.utils.translation import gettext_lazy as _
+
 from netbox.views import generic
 
-from utilities.views import register_model_view
+from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import DHCPServer
-from netbox_dhcp.filtersets import DHCPServerFilterSet
+from netbox_dhcp.models import (
+    DHCPServer,
+    Subnet,
+    SharedNetwork,
+    HostReservation,
+    ClientClass,
+)
+from netbox_dhcp.filtersets import (
+    DHCPServerFilterSet,
+    SubnetFilterSet,
+    SharedNetworkFilterSet,
+    HostReservationFilterSet,
+    ClientClassFilterSet,
+)
 from netbox_dhcp.forms import (
     DHCPServerForm,
     DHCPServerFilterForm,
     DHCPServerImportForm,
     DHCPServerBulkEditForm,
 )
-from netbox_dhcp.tables import DHCPServerTable
+from netbox_dhcp.tables import (
+    DHCPServerTable,
+    SubnetTable,
+    SharedNetworkTable,
+    HostReservationTable,
+    ClientClassTable,
+)
 
 
 __all__ = (
@@ -69,3 +89,79 @@ class DHCPServerBulkDeleteView(generic.BulkDeleteView):
     queryset = DHCPServer.objects.all()
     filterset = DHCPServerFilterSet
     table = DHCPServerTable
+
+
+@register_model_view(DHCPServer, "child_subnets")
+class DHCPServerChildSubnetListView(generic.ObjectChildrenView):
+    queryset = DHCPServer.objects.all()
+    child_model = Subnet
+    table = SubnetTable
+    filterset = SubnetFilterSet
+    template_name = "netbox_dhcp/dhcpserver/child_subnets.html"
+
+    tab = ViewTab(
+        label=_("Subnets"),
+        permission="netbox_dhcp.view_subnet",
+        badge=lambda obj: obj.child_subnets.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_subnets.restrict(request.user, "view")
+
+
+@register_model_view(DHCPServer, "child_subnets")
+class DHCPServerChildSharedNetworkListView(generic.ObjectChildrenView):
+    queryset = DHCPServer.objects.all()
+    child_model = SharedNetwork
+    table = SharedNetworkTable
+    filterset = SharedNetworkFilterSet
+    template_name = "netbox_dhcp/dhcpserver/child_shared_networks.html"
+
+    tab = ViewTab(
+        label=_("Shared Networks"),
+        permission="netbox_dhcp.view_sharednetwork",
+        badge=lambda obj: obj.child_shared_networks.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_shared_networks.restrict(request.user, "view")
+
+
+@register_model_view(DHCPServer, "child_host_reservations")
+class DHCPServerChildHostReservationListView(generic.ObjectChildrenView):
+    queryset = DHCPServer.objects.all()
+    child_model = HostReservation
+    table = HostReservationTable
+    filterset = HostReservationFilterSet
+    template_name = "netbox_dhcp/dhcpserver/child_host_reservations.html"
+
+    tab = ViewTab(
+        label=_("Host Reservations"),
+        permission="netbox_dhcp.view_hostreservation",
+        badge=lambda obj: obj.child_host_reservations.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_host_reservations.restrict(request.user, "view")
+
+
+@register_model_view(DHCPServer, "child_client_classes")
+class DHCPServerChildClientClassListView(generic.ObjectChildrenView):
+    queryset = DHCPServer.objects.all()
+    child_model = ClientClass
+    table = ClientClassTable
+    filterset = ClientClassFilterSet
+    template_name = "netbox_dhcp/dhcpserver/child_client_classes.html"
+
+    tab = ViewTab(
+        label=_("Client Classes"),
+        permission="netbox_dhcp.view_clientclass",
+        badge=lambda obj: obj.child_client_classes.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.child_client_classs.restrict(request.user, "view")

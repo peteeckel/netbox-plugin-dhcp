@@ -6,6 +6,7 @@ from netbox_dhcp.models import (
     DHCPCluster,
     ClientClass,
     Subnet,
+    SharedNetwork,
     Pool,
     PDPool,
     HostReservation,
@@ -15,6 +16,7 @@ __all__ = (
     "NestedDHCPClusterSerializer",
     "NestedClientClassSerializer",
     "NestedSubnetSerializer",
+    "NestedSharedNetworkSerializer",
     "NestedPoolSerializer",
     "NestedPDPoolSerializer",
     "NestedHostReservationSerializer",
@@ -96,6 +98,34 @@ class NestedSubnetSerializer(WritableNestedSerializer):
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:subnet-detail"
+    )
+
+
+class NestedSharedNetworkSerializer(WritableNestedSerializer):
+    class Meta:
+        model = SharedNetwork
+
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
+            "comment",
+        )
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_dhcp-api:sharednetwork-detail"
     )
 
 

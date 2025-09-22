@@ -13,6 +13,7 @@ from ipam.models import Prefix
 from netbox_dhcp.models import (
     ClientClass,
     Subnet,
+    SharedNetwork,
     Pool,
     PDPool,
     HostReservation,
@@ -38,9 +39,11 @@ __all__ = (
     "LeaseFilterFormMixin",
     "NetworkFilterFormMixin",
     "ChildSubnetFilterFormMixin",
+    "ChildSharedNetworkFilterFormMixin",
     "ChildPoolFilterFormMixin",
     "ChildPDPoolFilterFormMixin",
     "ChildHostReservationFilterFormMixin",
+    "ChildClientClassFilterFormMixin",
 )
 
 
@@ -352,6 +355,14 @@ class ChildSubnetFilterFormMixin(forms.Form):
     )
 
 
+class ChildSharedNetworkFilterFormMixin(forms.Form):
+    child_shared_network_id = DynamicModelMultipleChoiceField(
+        queryset=SharedNetwork.objects.all(),
+        required=False,
+        label=_("Shared Networks"),
+    )
+
+
 class ChildPoolFilterFormMixin(forms.Form):
     child_pool_id = DynamicModelMultipleChoiceField(
         queryset=Pool.objects.all(),
@@ -373,4 +384,12 @@ class ChildHostReservationFilterFormMixin(forms.Form):
         queryset=HostReservation.objects.all(),
         required=False,
         label=_("Host Reservations"),
+    )
+
+
+class ChildClientClassFilterFormMixin(forms.Form):
+    child_client_class_id = DynamicModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        label=_("Client Classes"),
     )

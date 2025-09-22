@@ -17,6 +17,13 @@ class DHCPServerTable(NetBoxDHCPTableMixin, NetBoxTable):
         fields = (
             "name",
             "description",
+            "status",
+            "dhcp_cluster",
+            "device",
+            "virtual_machine",
+            "server_id",
+            "echo_client_id",
+            "tags",
         )
 
         default_columns = (
@@ -40,4 +47,7 @@ class DHCPServerTable(NetBoxDHCPTableMixin, NetBoxTable):
     virtual_machine = tables.Column(
         verbose_name=_("Virtual Machine"),
         linkify=True,
+    )
+    server_id = ChoiceFieldColumn(
+        verbose_name=_("Server ID"),
     )

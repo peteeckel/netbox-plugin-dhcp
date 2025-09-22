@@ -16,8 +16,8 @@ class AllocatorTypeChoices(ChoiceSet):
     RANDOM = "random"
 
     CHOICES = [
-        (ITERATIVE, _("Iterative"), "red"),
-        (RANDOM, _("Random"), "green"),
+        (ITERATIVE, _("Iterative"), "blue"),
+        (RANDOM, _("Random"), "red"),
     ]
 
 
@@ -27,5 +27,5 @@ class PDAllocatorTypeChoices(AllocatorTypeChoices):
     FREE_LEASE_QUEUE = "flq"
 
     CHOICES = AllocatorTypeChoices.CHOICES + [
-        (FREE_LEASE_QUEUE, _("Free Lease Queue"), "blue")
+        (FREE_LEASE_QUEUE, _("Free Lease Queue"), "green")
     ]

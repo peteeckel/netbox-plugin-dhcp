@@ -5,7 +5,12 @@ from netbox.views import generic
 from utilities.views import register_model_view, ViewTab
 
 from netbox_dhcp.models import Subnet, Pool, PDPool, HostReservation
-from netbox_dhcp.filtersets import SubnetFilterSet, PoolFilterSet, PDPoolFilterSet, HostReservationFilterSet
+from netbox_dhcp.filtersets import (
+    SubnetFilterSet,
+    PoolFilterSet,
+    PDPoolFilterSet,
+    HostReservationFilterSet,
+)
 from netbox_dhcp.forms import (
     SubnetForm,
     SubnetFilterForm,

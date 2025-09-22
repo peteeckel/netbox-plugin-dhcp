@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.forms import SimpleArrayField
 
 from netbox.forms import (
     NetBoxModelBulkEditForm,
@@ -15,17 +16,37 @@ from utilities.forms.fields import (
     CSVModelChoiceField,
 )
 from utilities.forms.rendering import FieldSet, TabbedGroups
-from utilities.forms import add_blank_choice
+from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
 
 from dcim.models import Device
 from virtualization.models import VirtualMachine
 
 from netbox_dhcp.models import DHCPServer, DHCPCluster
-from netbox_dhcp.choices import DHCPServerStatusChoices
+from netbox_dhcp.choices import (
+    DHCPServerStatusChoices,
+    DHCPServerIDTypeChoices,
+    HostReservationIdentifierChoices,
+)
 
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
+    ChildSubnetFormMixin,
+    ChildSubnetFilterFormMixin,
+    ChildSubnetImportFormMixin,
+    ChildSubnetBulkEditFormMixin,
+    ChildSharedNetworkFormMixin,
+    ChildSharedNetworkFilterFormMixin,
+    ChildSharedNetworkImportFormMixin,
+    ChildSharedNetworkBulkEditFormMixin,
+    ChildHostReservationFormMixin,
+    ChildHostReservationFilterFormMixin,
+    ChildHostReservationImportFormMixin,
+    ChildHostReservationBulkEditFormMixin,
+    ChildClientClassFormMixin,
+    ChildClientClassFilterFormMixin,
+    ChildClientClassImportFormMixin,
+    ChildClientClassBulkEditFormMixin,
 )
 
 
@@ -37,7 +58,13 @@ __all__ = (
 )
 
 
-class DHCPServerForm(NetBoxModelForm):
+class DHCPServerForm(
+    ChildSubnetFormMixin,
+    ChildSharedNetworkFormMixin,
+    ChildHostReservationFormMixin,
+    ChildClientClassFormMixin,
+    NetBoxModelForm,
+):
     class Meta:
         model = DHCPServer
 
@@ -48,6 +75,14 @@ class DHCPServerForm(NetBoxModelForm):
             "dhcp_cluster",
             "device",
             "virtual_machine",
+            "server_id",
+            "host_reservation_identifiers",
+            "echo_client_id",
+            "relay_supplied_options",
+            "child_subnets",
+            "child_shared_networks",
+            "child_host_reservations",
+            "child_client_classes",
             "tags",
         )
 
@@ -65,6 +100,20 @@ class DHCPServerForm(NetBoxModelForm):
                 FieldSet("virtual_machine", name=_("Virtual")),
             ),
             name=_("Assignment"),
+        ),
+        FieldSet(
+            "server_id",
+            "host_reservation_identifiers",
+            "echo_client_id",
+            "relay_supplied_options",
+            name=_("Configuration"),
+        ),
+        FieldSet(
+            "child_subnets",
+            "child_shared_networks",
+            "child_host_reservations",
+            "child_client_classes",
+            name=_("Child Objects"),
         ),
         FieldSet(
             "tags",
@@ -96,6 +145,11 @@ class DHCPServerForm(NetBoxModelForm):
         label=_("Virtual Machine"),
         selector=True,
     )
+    echo_client_id = forms.NullBooleanField(
+        label=_("Echo Client ID"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
 
     def clean(self, *args, **kwargs):
         super().clean(*args, **kwargs)
@@ -112,7 +166,14 @@ class DHCPServerForm(NetBoxModelForm):
             )
 
 
-class DHCPServerFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
+class DHCPServerFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    ChildSubnetFilterFormMixin,
+    ChildSharedNetworkFilterFormMixin,
+    ChildHostReservationFilterFormMixin,
+    ChildClientClassFilterFormMixin,
+    NetBoxModelFilterSetForm,
+):
     model = DHCPServer
 
     fieldsets = (
@@ -130,11 +191,25 @@ class DHCPServerFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
         ),
         FieldSet(
             "device_id",
-            name=_("DCIM"),
+            name=_("Physical"),
         ),
         FieldSet(
             "virtual_machine_id",
-            name=_("Virtualization"),
+            name=_("Virtual"),
+        ),
+        FieldSet(
+            "server_id",
+            "host_reservation_identifiers",
+            "echo_client_id",
+            "relay_supplied_options",
+            name=_("Configuration"),
+        ),
+        FieldSet(
+            "child_subnet_id",
+            "child_shared_network_id",
+            "child_host_reservation_id",
+            "child_client_classes_id",
+            name=_("Child Objects"),
         ),
     )
 
@@ -160,10 +235,27 @@ class DHCPServerFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
         label=_("Virtual Machine"),
     )
 
+    server_id = forms.MultipleChoiceField(
+        choices=DHCPServerIDTypeChoices,
+        required=False,
+        label=_("Server ID"),
+    )
+    host_reservation_identifiers = forms.MultipleChoiceField(
+        choices=HostReservationIdentifierChoices,
+        required=False,
+        label=_("Host Reservation Identifier"),
+    )
+
     tag = TagFilterField(DHCPServer)
 
 
-class DHCPServerImportForm(NetBoxModelImportForm):
+class DHCPServerImportForm(
+    ChildSubnetImportFormMixin,
+    ChildSharedNetworkImportFormMixin,
+    ChildHostReservationImportFormMixin,
+    ChildClientClassImportFormMixin,
+    NetBoxModelImportForm,
+):
     class Meta:
         model = DHCPServer
 
@@ -174,6 +266,14 @@ class DHCPServerImportForm(NetBoxModelImportForm):
             "dhcp_cluster",
             "device",
             "virtual_machine",
+            "server_id",
+            "host_reservation_identifiers",
+            "echo_client_id",
+            "relay_supplied_options",
+            "child_subnets",
+            "child_shared_networks",
+            "child_host_reservations",
+            "child_client_classes",
             "tags",
         )
 
@@ -212,7 +312,14 @@ class DHCPServerImportForm(NetBoxModelImportForm):
     )
 
 
-class DHCPServerBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditForm):
+class DHCPServerBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    ChildSubnetBulkEditFormMixin,
+    ChildSharedNetworkBulkEditFormMixin,
+    ChildHostReservationBulkEditFormMixin,
+    ChildClientClassBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
     model = DHCPServer
 
     fieldsets = (
@@ -222,11 +329,33 @@ class DHCPServerBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditFor
             "dhcp_cluster",
             name=_("DHCP Server"),
         ),
+        FieldSet(
+            "server_id",
+            "host_reservation_identifiers",
+            "echo_client_id",
+            "relay_supplied_options",
+            name=_("Configuration"),
+        ),
+        FieldSet(
+            "child_subnets",
+            "child_shared_networks",
+            "child_host_reservations",
+            "child_client_classes",
+            name=_("Child Objects"),
+        ),
     )
 
     nullable_fields = (
         "description",
         "dhcp_cluster",
+        "server_id",
+        "host_reservation_identifiers",
+        "echo_client_id",
+        "relay_supplied_options",
+        "child_subnets",
+        "child_shared_networks",
+        "child_host_reservations",
+        "child_client_classes",
     )
 
     status = forms.ChoiceField(
@@ -238,4 +367,28 @@ class DHCPServerBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditFor
         queryset=DHCPCluster.objects.all(),
         required=False,
         label=_("DHCP Cluster"),
+    )
+
+    server_id = forms.ChoiceField(
+        choices=DHCPServerIDTypeChoices,
+        required=False,
+        label=_("Server ID"),
+    )
+    host_reservation_identifiers = forms.MultipleChoiceField(
+        choices=HostReservationIdentifierChoices,
+        required=False,
+        label=_("Host Reservation Identifier"),
+    )
+    echo_client_id = forms.NullBooleanField(
+        label=_("Echo Client ID"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+    relay_supplied_options = SimpleArrayField(
+        label=_("Relay Supplied Options"),
+        base_field=forms.IntegerField(
+            min_value=1,
+            max_value=255,
+        ),
+        required=False,
     )

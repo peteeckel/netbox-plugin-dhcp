@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from ..nested_serializers import (
     NestedClientClassSerializer,
     NestedSubnetSerializer,
+    NestedSharedNetworkSerializer,
     NestedPoolSerializer,
     NestedPDPoolSerializer,
     NestedHostReservationSerializer,
@@ -14,9 +15,11 @@ __all__ = (
     "ClientClassDefinitionSerializerMixin",
     "ClientClassSerializerMixin",
     "ChildSubnetSerializerMixin",
+    "ChildSharedNetworkSerializerMixin",
     "ChildPoolSerializerMixin",
     "ChildPDPoolSerializerMixin",
     "ChildHostReservationSerializerMixin",
+    "ChildClientClassSerializerMixin",
 )
 
 
@@ -68,6 +71,14 @@ class ChildSubnetSerializerMixin:
     )
 
 
+class ChildSharedNetworkSerializerMixin:
+    child_shared_networks = NestedSharedNetworkSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+    )
+
+
 class ChildPoolSerializerMixin:
     child_pools = NestedPoolSerializer(
         many=True,
@@ -86,6 +97,14 @@ class ChildPDPoolSerializerMixin:
 
 class ChildHostReservationSerializerMixin:
     child_pd_pools = NestedHostReservationSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+    )
+
+
+class ChildClientClassSerializerMixin:
+    child_client_classes = NestedClientClassSerializer(
         many=True,
         read_only=False,
         required=False,

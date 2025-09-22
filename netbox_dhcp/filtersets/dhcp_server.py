@@ -6,15 +6,27 @@ from django.utils.translation import gettext as _
 from netbox.filtersets import NetBoxModelFilterSet
 from dcim.models import Device
 from virtualization.models import VirtualMachine
+from utilities.filters import MultiValueCharFilter
 
 from netbox_dhcp.models import DHCPServer, DHCPCluster
 from netbox_dhcp.choices import DHCPServerStatusChoices
-
+from .mixins import (
+    ChildSubnetFilterMixin,
+    ChildSharedNetworkFilterMixin,
+    ChildHostReservationFilterMixin,
+    ChildClientClassFilterMixin,
+)
 
 __all__ = ("DHCPServerFilterSet",)
 
 
-class DHCPServerFilterSet(NetBoxModelFilterSet):
+class DHCPServerFilterSet(
+    ChildSubnetFilterMixin,
+    ChildSharedNetworkFilterMixin,
+    ChildHostReservationFilterMixin,
+    ChildClientClassFilterMixin,
+    NetBoxModelFilterSet,
+):
     class Meta:
         model = DHCPServer
 
@@ -22,10 +34,18 @@ class DHCPServerFilterSet(NetBoxModelFilterSet):
             "id",
             "name",
             "description",
+            "server_id",
+            "host_reservation_identifiers",
+            "echo_client_id",
+            "relay_supplied_options",
             "status",
             "dhcp_cluster",
             "device",
             "virtual_machine",
+            "child_subnets",
+            "child_shared_networks",
+            "child_host_reservations",
+            "child_client_classes",
         )
 
     status = django_filters.MultipleChoiceFilter(
@@ -65,6 +85,26 @@ class DHCPServerFilterSet(NetBoxModelFilterSet):
         to_field_name="name",
         label=_("Virtual Machine"),
     )
+    host_reservation_identifiers = MultiValueCharFilter(
+        method="filter_host_reservation_identifiers",
+        label=_("Host Reservation Identifiers"),
+    )
+    relay_supplied_options = MultiValueCharFilter(
+        method="filter_relay_supplied_options",
+        label=_("Relay Supplied Options"),
+    )
+
+    def filter_host_reservation_identifiers(self, queryset, name, value):
+        if not value:
+            return queryset
+
+        return queryset.filter(host_reservation_identifiers__overlap=value)
+
+    def filter_relay_supplied_options(self, queryset, name, value):
+        if not value:
+            return queryset
+
+        return queryset.filter(relay_supplied_options__overlap=value)
 
     def search(self, queryset, name, value):
         if not value.strip():

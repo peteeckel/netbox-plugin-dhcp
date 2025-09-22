@@ -3,7 +3,14 @@ from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 
-from netbox_dhcp.models import ClientClass, Subnet, Pool, PDPool, HostReservation
+from netbox_dhcp.models import (
+    ClientClass,
+    Subnet,
+    Pool,
+    PDPool,
+    HostReservation,
+    SharedNetwork,
+)
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
@@ -15,9 +22,11 @@ __all__ = (
     "ClientClassFilterMixin",
     "DDNSUpdateFilterMixin",
     "ChildSubnetFilterMixin",
+    "ChildSharedNetworkFilterMixin",
     "ChildPoolFilterMixin",
     "ChildPDPoolFilterMixin",
     "ChildHostReservationFilterMixin",
+    "ChildClientClassFilterMixin",
 )
 
 
@@ -106,8 +115,21 @@ class ChildSubnetFilterMixin(NetBoxModelFilterSet):
     child_subnet_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Subnet.objects.all(),
         field_name="child_subnets",
-        to_field_name="id",
         label=_("Subnet ID"),
+    )
+
+
+class ChildSharedNetworkFilterMixin(NetBoxModelFilterSet):
+    child_shared_network = django_filters.ModelMultipleChoiceFilter(
+        queryset=SharedNetwork.objects.all(),
+        field_name="child_shared_networks__name",
+        to_field_name="name",
+        label=_("Shared Network"),
+    )
+    child_shared_network_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=SharedNetwork.objects.all(),
+        field_name="child_shared_networks",
+        label=_("Shared Network ID"),
     )
 
 
@@ -150,4 +172,18 @@ class ChildHostReservationFilterMixin(NetBoxModelFilterSet):
         queryset=HostReservation.objects.all(),
         field_name="child_host_reservations",
         label=_("Host Reservation ID"),
+    )
+
+
+class ChildClientClassFilterMixin(NetBoxModelFilterSet):
+    child_client_class = django_filters.ModelMultipleChoiceFilter(
+        queryset=ClientClass.objects.all(),
+        field_name="child_client_classes__name",
+        to_field_name="name",
+        label=_("Client Class"),
+    )
+    child_client_class_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=ClientClass.objects.all(),
+        field_name="child_client_classes",
+        label=_("Client Class ID"),
     )

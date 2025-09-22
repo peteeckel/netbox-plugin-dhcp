@@ -15,8 +15,8 @@ class HostReservationIdentifierChoices(ChoiceSet):
     CLIENT_ID = "client-id"
 
     CHOICES = [
-        (CIRCUIT_ID, _("Circuit ID"), "red"),
-        (HW_ADDRESS, _("Hardware Address"), "green"),
-        (DUID, "DUID", "blue"),
+        (CIRCUIT_ID, _("Circuit ID"), "blue"),
+        (HW_ADDRESS, _("Hardware Address"), "red"),
+        (DUID, "DUID", "green"),
         (CLIENT_ID, _("Client ID"), "orange"),
     ]
