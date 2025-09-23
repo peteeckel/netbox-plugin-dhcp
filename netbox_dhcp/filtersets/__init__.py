@@ -4,6 +4,7 @@ from .dhcp_cluster import *
 from .dhcp_server import *
 from .host_reservation import *
 from .option import *
+from .option_definition import *
 from .pd_pool import *
 from .pool import *
 from .shared_network import *

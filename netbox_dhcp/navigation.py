@@ -66,6 +66,40 @@ ddns_menu_item = PluginMenuItem(
     ),
 )
 
+option_definition_menu_item = PluginMenuItem(
+    link="plugins:netbox_dhcp:optiondefinition_list",
+    link_text=_("Option Definitions"),
+    permissions=["netbox_dhcp.optiondefinition_view"],
+    buttons=(
+        PluginMenuButton(
+            "plugins:netbox_dhcp:optiondefinition_add",
+            _("Add"),
+            "mdi mdi-plus-thick",
+            permissions=["netbox_dhcp.add_optiondefinition"],
+        ),
+        PluginMenuButton(
+            "plugins:netbox_dhcp:optiondefinition_bulk_import",
+            _("Import"),
+            "mdi mdi-upload",
+            permissions=["netbox_dhcp.add_optiondefinition"],
+        ),
+    ),
+)
+
+option_menu_item = PluginMenuItem(
+    link="plugins:netbox_dhcp:option_list",
+    link_text=_("Options"),
+    permissions=["netbox_dhcp.option_view"],
+    buttons=(
+        PluginMenuButton(
+            "plugins:netbox_dhcp:option_bulk_import",
+            _("Import"),
+            "mdi mdi-upload",
+            permissions=["netbox_dhcp.add_option"],
+        ),
+    ),
+)
+
 client_class_menu_item = PluginMenuItem(
     link="plugins:netbox_dhcp:clientclass_list",
     link_text=_("Client Classes"),
@@ -195,7 +229,13 @@ menu = PluginMenu(
             (
                 dhcp_server_menu_item,
                 dhcp_cluster_menu_item,
-                ddns_menu_item,
+            ),
+        ),
+        (
+            _("Options"),
+            (
+                option_menu_item,
+                option_definition_menu_item,
             ),
         ),
         (

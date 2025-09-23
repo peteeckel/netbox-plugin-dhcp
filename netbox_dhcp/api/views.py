@@ -9,6 +9,7 @@ from netbox_dhcp.api.serializers import (
     DHCPServerSerializer,
     HostReservationSerializer,
     OptionSerializer,
+    OptionDefinitionSerializer,
     PDPoolSerializer,
     PoolSerializer,
     SharedNetworkSerializer,
@@ -21,6 +22,7 @@ from netbox_dhcp.filtersets import (
     DHCPServerFilterSet,
     HostReservationFilterSet,
     OptionFilterSet,
+    OptionDefinitionFilterSet,
     PDPoolFilterSet,
     PoolFilterSet,
     SharedNetworkFilterSet,
@@ -33,6 +35,7 @@ from netbox_dhcp.models import (
     DHCPServer,
     HostReservation,
     Option,
+    OptionDefinition,
     PDPool,
     Pool,
     SharedNetwork,
@@ -79,6 +82,12 @@ class OptionViewSet(NetBoxModelViewSet):
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
     filterset_class = OptionFilterSet
+
+
+class OptionDefinitionViewSet(NetBoxModelViewSet):
+    queryset = OptionDefinition.objects.all()
+    serializer_class = OptionDefinitionSerializer
+    filterset_class = OptionDefinitionFilterSet
 
 
 class PDPoolViewSet(NetBoxModelViewSet):

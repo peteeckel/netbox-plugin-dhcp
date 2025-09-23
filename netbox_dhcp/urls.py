@@ -44,6 +44,14 @@ urlpatterns = (
         include(get_model_urls("netbox_dhcp", "option")),
     ),
     path(
+        "optiondefinitions/",
+        include(get_model_urls("netbox_dhcp", "optiondefinition", detail=False)),
+    ),
+    path(
+        "optiondefinitions/<int:pk>/",
+        include(get_model_urls("netbox_dhcp", "optiondefinition")),
+    ),
+    path(
         "dhcpclusters/",
         include(get_model_urls("netbox_dhcp", "dhcpcluster", detail=False)),
     ),

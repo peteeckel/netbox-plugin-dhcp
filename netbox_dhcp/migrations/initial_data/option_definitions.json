@@ -1,0 +1,1239 @@
+[
+    {
+        "space": "dhcpv4",
+        "name": "time-offset",
+        "code": 2,
+        "type": "int32",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "routers",
+        "code": 3,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "time-servers",
+        "code": 4,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "name-servers",
+        "code": 5,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "domain-name-servers",
+        "code": 6,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "log-servers",
+        "code": 7,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "cookie-servers",
+        "code": 8,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "lpr-servers",
+        "code": 9,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "impress-servers",
+        "code": 10,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "resource-location-servers",
+        "code": 11,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "boot-size",
+        "code": 13,
+        "type": "uint16",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "merit-dump",
+        "code": 14,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "domain-name",
+        "code": 15,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "swap-server",
+        "code": 16,
+        "type": "ipv4-address",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "root-path",
+        "code": 17,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "extensions-path",
+        "code": 18,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "ip-forwarding",
+        "code": 19,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "non-local-source-routing",
+        "code": 20,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "policy-filter",
+        "code": 21,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "max-dgram-reassembly",
+        "code": 22,
+        "type": "uint16",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "default-ip-ttl",
+        "code": 23,
+        "type": "uint8",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "path-mtu-aging-timeout",
+        "code": 24,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "path-mtu-plateau-table",
+        "code": 25,
+        "type": "uint16",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "interface-mtu",
+        "code": 26,
+        "type": "uint16",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "all-subnets-local",
+        "code": 27,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "broadcast-address",
+        "code": 28,
+        "type": "ipv4-address",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "perform-mask-discovery",
+        "code": 29,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "mask-supplier",
+        "code": 30,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "router-discovery",
+        "code": 31,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "router-solicitation-address",
+        "code": 32,
+        "type": "ipv4-address",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "static-routes",
+        "code": 33,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "trailer-encapsulation",
+        "code": 34,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "arp-cache-timeout",
+        "code": 35,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "ieee802-3-encapsulation",
+        "code": 36,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "default-tcp-ttl",
+        "code": 37,
+        "type": "uint8",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "tcp-keepalive-interval",
+        "code": 38,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "tcp-keepalive-garbage",
+        "code": 39,
+        "type": "boolean",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nis-domain",
+        "code": 40,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nis-servers",
+        "code": 41,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "ntp-servers",
+        "code": 42,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "vendor-encapsulated-options",
+        "code": 43,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "netbios-name-servers",
+        "code": 44,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "netbios-dd-server",
+        "code": 45,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "netbios-node-type",
+        "code": 46,
+        "type": "uint8",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "netbios-scope",
+        "code": 47,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "font-servers",
+        "code": 48,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "x-display-manager",
+        "code": 49,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "dhcp-option-overload",
+        "code": 52,
+        "type": "uint8",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "dhcp-server-identifier",
+        "code": 54,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "dhcp-message",
+        "code": 56,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "dhcp-max-message-size",
+        "code": 57,
+        "type": "uint16",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "vendor-class-identifier",
+        "code": 60,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nwip-domain-name",
+        "code": 62,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nwip-suboptions",
+        "code": 63,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nisplus-domain-name",
+        "code": 64,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nisplus-servers",
+        "code": 65,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "tftp-server-name",
+        "code": 66,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "boot-file-name",
+        "code": 67,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "mobile-ip-home-agent",
+        "code": 68,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "smtp-server",
+        "code": 69,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "pop-server",
+        "code": 70,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nntp-server",
+        "code": 71,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "www-server",
+        "code": 72,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "finger-server",
+        "code": 73,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "irc-server",
+        "code": 74,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "streettalk-server",
+        "code": 75,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "streettalk-directory-assistance-server",
+        "code": 76,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "user-class",
+        "code": 77,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "slp-directory-agent",
+        "code": 78,
+        "type": "record",
+        "record_types": [
+            "boolean",
+            "ipv4-address"
+        ],
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "slp-service-scope",
+        "code": 79,
+        "type": "record",
+        "record_types": [
+            "boolean",
+            "string"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nds-servers",
+        "code": 85,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nds-tree-name",
+        "code": 86,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "nds-context",
+        "code": 87,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "bcms-controller-names",
+        "code": 88,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "bcms-controller-address",
+        "code": 89,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "client-system",
+        "code": 93,
+        "type": "uint16",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "client-ndi",
+        "code": 94,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "uint8",
+            "uint8"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "uuid-guid",
+        "code": 97,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "uap-servers",
+        "code": 98,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "geoconf-civic",
+        "code": 99,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "pcode",
+        "code": 100,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "tcode",
+        "code": 101,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v6-only-preferred",
+        "code": 108,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "netinfo-server-address",
+        "code": 112,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "netinfo-server-tag",
+        "code": 113,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v4-captive-portal",
+        "code": 114,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "auto-config",
+        "code": 116,
+        "type": "uint8",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "name-service-search",
+        "code": 117,
+        "type": "uint16",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "domain-search",
+        "code": 119,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "classless-static-route",
+        "code": 121,
+        "type": "internal",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "cablelabs-client-conf",
+        "code": 122,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "vivco-suboptions",
+        "code": 124,
+        "type": "record",
+        "record_types": [
+            "uint32",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "vivso-suboptions",
+        "code": 125,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "pana-agent",
+        "code": 136,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v4-lost",
+        "code": 137,
+        "type": "fqdn",
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "capwap-ac-v4",
+        "code": 138,
+        "type": "ipv4-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "sip-ua-cs-domains",
+        "code": 141,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v4-sztp-redirect",
+        "code": 143,
+        "type": "tuple",
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "rdnss-selection",
+        "code": 146,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "ipv4-address",
+            "ipv4-address",
+            "fqdn"
+        ],
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v4-portparams",
+        "code": 159,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "psid"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v4-dnr",
+        "code": 162,
+        "type": "record",
+        "record_types": [
+            "uint16",
+            "uint16",
+            "uint8",
+            "fqdn",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv4",
+        "name": "option-6rd",
+        "code": 212,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "uint8",
+            "ipv6-address",
+            "ipv4-address"
+        ],
+        "array": true
+    },
+    {
+        "space": "dhcpv4",
+        "name": "v4-access-domain",
+        "code": 213,
+        "type": "fqdn",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "preference",
+        "code": 7,
+        "type": "uint8",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "unicast",
+        "code": 12,
+        "type": "ipv6-address",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "sip-server-dns",
+        "code": 21,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "sip-server-addr",
+        "code": 22,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "dns-servers",
+        "code": 23,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "domain-search",
+        "code": 24,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "nis-servers",
+        "code": 27,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "nisp-servers",
+        "code": 28,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "nis-domain-name",
+        "code": 29,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "nisp-domain-name",
+        "code": 30,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "sntp-servers",
+        "code": 31,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "information-refresh-time",
+        "code": 32,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "bcmcs-server-dns",
+        "code": 33,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "bcmcs-server-addr",
+        "code": 34,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "geoconf-civic",
+        "code": 36,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "uint16",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "remote-id",
+        "code": 37,
+        "type": "record",
+        "record_types": [
+            "uint32",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "subscriber-id",
+        "code": 38,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "client-fqdn",
+        "code": 39,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "fqdn"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "pana-agent",
+        "code": 40,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "new-posix-timezone",
+        "code": 41,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "new-tzdb-timezone",
+        "code": 42,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "ero",
+        "code": 43,
+        "type": "uint16",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "lq-query (1)",
+        "code": 44,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "ipv6-address"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "client-data (1)",
+        "code": 45,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "clt-time (1)",
+        "code": 46,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "lq-relay-data (1)",
+        "code": 47,
+        "type": "record",
+        "record_types": [
+            "ipv6-address",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "lq-client-link (1)",
+        "code": 48,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "v6-lost",
+        "code": 51,
+        "type": "fqdn",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "capwap-ac-v6",
+        "code": 52,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "relay-id",
+        "code": 53,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "ntp-server",
+        "code": 56,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "v6-access-domain",
+        "code": 57,
+        "type": "fqdn",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "sip-ua-cs-list",
+        "code": 58,
+        "type": "fqdn",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "bootfile-url",
+        "code": 59,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "bootfile-param",
+        "code": 60,
+        "type": "tuple",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "client-arch-type",
+        "code": 61,
+        "type": "uint16",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "nii",
+        "code": 62,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "uint8",
+            "uint8"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "aftr-name",
+        "code": 64,
+        "type": "fqdn",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "erp-local-domain-name",
+        "code": 65,
+        "type": "fqdn",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "rsoo",
+        "code": 66,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "pd-exclude",
+        "code": 67,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "rdnss-selection",
+        "code": 74,
+        "type": "record",
+        "record_types": [
+            "ipv6-address",
+            "uint8",
+            "fqdn"
+        ],
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "client-linklayer-addr",
+        "code": 79,
+        "type": "binary",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "link-address",
+        "code": 80,
+        "type": "ipv6-address",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "solmax-rt",
+        "code": 82,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "inf-max-rt",
+        "code": 83,
+        "type": "uint32",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "dhcp4o6-server-addr",
+        "code": 88,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-rule",
+        "code": 89,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "uint8",
+            "uint8",
+            "ipv4-address",
+            "ipv6-prefix"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-br",
+        "code": 90,
+        "type": "ipv6-address",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-dmr",
+        "code": 91,
+        "type": "ipv6-prefix",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-v4v6bind",
+        "code": 92,
+        "type": "record",
+        "record_types": [
+            "ipv4-address",
+            "ipv6-prefix"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-portparams",
+        "code": 93,
+        "type": "record",
+        "record_types": [
+            "uint8",
+            "psid"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-cont-mape",
+        "code": 94,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-cont-mapt",
+        "code": 95,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "s46-cont-lw",
+        "code": 96,
+        "type": "empty",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "v6-captive-portal",
+        "code": 103,
+        "type": "string",
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "v6-sztp-redirect",
+        "code": 136,
+        "type": "tuple",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "ipv6-address-andsf",
+        "code": 143,
+        "type": "ipv6-address",
+        "array": true
+    },
+    {
+        "space": "dhcpv6",
+        "name": "v6-dnr",
+        "code": 144,
+        "type": "record",
+        "record_types": [
+            "uint16",
+            "uint16",
+            "fqdn",
+            "binary"
+        ],
+        "array": false
+    },
+    {
+        "space": "dhcpv6",
+        "name": "addr-reg-enable",
+        "code": 148,
+        "type": "empty",
+        "array": false
+    }
+]

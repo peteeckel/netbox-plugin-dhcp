@@ -1,0 +1,220 @@
+from django import forms
+from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.forms import SimpleArrayField
+
+from netbox.forms import (
+    NetBoxModelBulkEditForm,
+    NetBoxModelFilterSetForm,
+    NetBoxModelImportForm,
+    NetBoxModelForm,
+)
+from utilities.forms.fields import (
+    TagFilterField,
+    CSVChoiceField,
+    CSVMultipleChoiceField,
+)
+from utilities.forms.rendering import FieldSet
+from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+
+from netbox_dhcp.models import OptionDefinition
+from netbox_dhcp.choices import OptionTypeChoices, OptionSpaceChoices
+
+from .mixins import (
+    NetBoxDHCPFilterFormMixin,
+    NetBoxDHCPBulkEditFormMixin,
+)
+
+
+__all__ = (
+    "OptionDefinitionForm",
+    "OptionDefinitionFilterForm",
+    "OptionDefinitionImportForm",
+    "OptionDefinitionBulkEditForm",
+)
+
+
+class OptionDefinitionForm(NetBoxModelForm):
+    class Meta:
+        model = OptionDefinition
+
+        fields = (
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+        )
+
+    fieldsets = (
+        FieldSet(
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+            name=_("Option Definition"),
+        ),
+        FieldSet(
+            "tags",
+            name=_("Tags"),
+        ),
+    )
+
+    record_types = SimpleArrayField(
+        label=_("Record Types"),
+        base_field=forms.ChoiceField(
+            choices=OptionTypeChoices,
+        ),
+        required=False,
+    )
+
+
+class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
+    model = OptionDefinition
+
+    fieldsets = (
+        FieldSet(
+            "q",
+            "filter_id",
+            "tag",
+        ),
+        FieldSet(
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+            name=_("Option Definition"),
+        ),
+    )
+
+    space = forms.MultipleChoiceField(
+        label=_("Space"),
+        choices=OptionSpaceChoices,
+        required=False,
+    )
+    code = forms.IntegerField(
+        label=_("Code"),
+        min_value=1,
+        max_value=255,
+        required=False,
+    )
+    type = forms.MultipleChoiceField(
+        label=_("Type"),
+        choices=OptionTypeChoices,
+        required=False,
+    )
+    record_types = forms.MultipleChoiceField(
+        label=_("Record Types"),
+        choices=OptionTypeChoices,
+        required=False,
+    )
+    encapsulate = forms.CharField(
+        label=_("Encapsulate"),
+        required=False,
+    )
+    array = forms.NullBooleanField(
+        label=_("Array"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+
+    tag = TagFilterField(OptionDefinition)
+
+
+class OptionDefinitionImportForm(NetBoxModelImportForm):
+    class Meta:
+        model = OptionDefinition
+
+        fields = (
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+            "tags",
+        )
+
+    space = CSVChoiceField(
+        choices=OptionSpaceChoices,
+        required=False,
+        label=_("Space"),
+    )
+    type = CSVChoiceField(
+        choices=OptionTypeChoices,
+        required=False,
+        label=_("Type"),
+    )
+    record_types = CSVMultipleChoiceField(
+        choices=OptionTypeChoices,
+        required=False,
+        label=_("Recoed Types"),
+    )
+
+
+class OptionDefinitionBulkEditForm(
+    NetBoxDHCPBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
+):
+    model = OptionDefinition
+
+    fieldsets = (
+        FieldSet(
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+            name=_("Option Definition"),
+        ),
+    )
+
+    nullable_fields = ("description",)
+
+    space = forms.ChoiceField(
+        label=_("Space"),
+        choices=add_blank_choice(OptionSpaceChoices),
+        required=False,
+    )
+    code = forms.IntegerField(
+        label=_("Code"),
+        min_value=1,
+        max_value=255,
+        required=False,
+    )
+    type = forms.ChoiceField(
+        label=_("Type"),
+        choices=add_blank_choice(OptionTypeChoices),
+        required=False,
+    )
+    record_types = SimpleArrayField(
+        label=_("Record Types"),
+        base_field=forms.ChoiceField(
+            choices=OptionTypeChoices,
+        ),
+        required=False,
+    )
+    encapsulate = forms.CharField(
+        label=_("Encapsulate"),
+        required=False,
+    )
+    array = forms.NullBooleanField(
+        label=_("Array"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )

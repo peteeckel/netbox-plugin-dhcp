@@ -4,6 +4,7 @@ from .serializers_.dhcp_cluster import *
 from .serializers_.dhcp_server import *
 from .serializers_.host_reservation import *
 from .serializers_.option import *
+from .serializers_.option_definition import *
 from .serializers_.pd_pool import *
 from .serializers_.pool import *
 from .serializers_.shared_network import *

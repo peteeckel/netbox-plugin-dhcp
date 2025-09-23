@@ -1,0 +1,63 @@
+{% extends 'generic/object.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">{% trans "Option Definition" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Space" %}</th>
+                        <td>{% badge object.get_space_display bg_color=object.get_space_color %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Name" %}</th>
+                        <td>{{ object.name|linkify }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Code" %}</th>
+                        <td>{{ object.code }}</td>
+                    </tr>
+                    {% if object.description %}
+                    <tr>
+                        <th scope="row">{% trans "Description" %}</th>
+                        <td style="word-break:break-all;">{{ object.description }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+            {% include 'inc/panels/custom_fields.html' %}
+        </div>
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">{% trans "Fields" %}</h5>
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th scope="row">{% trans "Type" %}</th>
+                        <td>{% badge object.get_type_display bg_color=object.get_type_color %}</td>
+                    </tr>
+                    {% if object.type == "record" %}
+                    <tr>
+                        <th scope="row">{% trans "Record Types" %}</th>
+                        <td>
+                            {% for record_type in object.record_types %}
+                                {{ record_type }}&nbsp;
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th scope="row">{% trans "Encapsulate" %}</th>
+                        <td>{% checkmark object.encapsulate %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{% trans "Array" %}</th>
+                        <td>{% checkmark object.array %}</td>
+                    </tr>
+                </table>
+            </div>
+            {% include 'inc/panels/tags.html' %}
+        </div>
+    </div>
+{% endblock %}

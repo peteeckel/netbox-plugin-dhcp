@@ -1,0 +1,45 @@
+from rest_framework import serializers
+
+from netbox.api.serializers import NetBoxModelSerializer
+
+from netbox_dhcp.models import OptionDefinition
+
+
+__all__ = ("OptionDefinitionSerializer",)
+
+
+class OptionDefinitionSerializer(NetBoxModelSerializer):
+    class Meta:
+        model = OptionDefinition
+
+        fields = (
+            "id",
+            "url",
+            "display",
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+        )
+
+        brief_fields = (
+            "id",
+            "url",
+            "display",
+            "space",
+            "name",
+            "code",
+            "description",
+            "type",
+            "record_types",
+            "encapsulate",
+            "array",
+        )
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_dhcp-api:optiondefinition-detail"
+    )

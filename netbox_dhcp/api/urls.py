@@ -8,6 +8,7 @@ from netbox_dhcp.api.views import (
     DHCPServerViewSet,
     HostReservationViewSet,
     OptionViewSet,
+    OptionDefinitionViewSet,
     PDPoolViewSet,
     PoolViewSet,
     SharedNetworkViewSet,
@@ -23,6 +24,7 @@ router.register("dhcpclusters", DHCPClusterViewSet)
 router.register("dhcpservers", DHCPServerViewSet)
 router.register("hostreservations", HostReservationViewSet)
 router.register("options", OptionViewSet)
+router.register("optiondefinition", OptionDefinitionViewSet)
 router.register("pdpools", PDPoolViewSet)
 router.register("pools", PoolViewSet)
 router.register("sharednetworks", SharedNetworkViewSet)

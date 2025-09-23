@@ -1,0 +1,70 @@
+from netbox.views import generic
+from utilities.views import register_model_view
+
+from netbox_dhcp.models import OptionDefinition
+from netbox_dhcp.filtersets import OptionDefinitionFilterSet
+from netbox_dhcp.forms import (
+    OptionDefinitionForm,
+    OptionDefinitionFilterForm,
+    OptionDefinitionImportForm,
+    OptionDefinitionBulkEditForm,
+)
+from netbox_dhcp.tables import OptionDefinitionTable
+
+
+__all__ = (
+    "OptionDefinitionView",
+    "OptionDefinitionListView",
+    "OptionDefinitionEditView",
+    "OptionDefinitionDeleteView",
+    "OptionDefinitionBulkImportView",
+    "OptionDefinitionBulkEditView",
+    "OptionDefinitionBulkDeleteView",
+)
+
+
+@register_model_view(OptionDefinition, "list", path="", detail=False)
+class OptionDefinitionListView(generic.ObjectListView):
+    queryset = OptionDefinition.objects.all()
+    table = OptionDefinitionTable
+    filterset = OptionDefinitionFilterSet
+    filterset_form = OptionDefinitionFilterForm
+
+
+@register_model_view(OptionDefinition)
+class OptionDefinitionView(generic.ObjectView):
+    queryset = OptionDefinition.objects.all()
+
+
+@register_model_view(OptionDefinition, "add", detail=False)
+@register_model_view(OptionDefinition, "edit")
+class OptionDefinitionEditView(generic.ObjectEditView):
+    queryset = OptionDefinition.objects.all()
+    form = OptionDefinitionForm
+
+
+@register_model_view(OptionDefinition, "delete")
+class OptionDefinitionDeleteView(generic.ObjectDeleteView):
+    queryset = OptionDefinition.objects.all()
+
+
+@register_model_view(OptionDefinition, "bulk_import", detail=False)
+class OptionDefinitionBulkImportView(generic.BulkImportView):
+    queryset = OptionDefinition.objects.all()
+    model_form = OptionDefinitionImportForm
+    table = OptionDefinitionTable
+
+
+@register_model_view(OptionDefinition, "bulk_edit", path="edit", detail=False)
+class OptionDefinitionBulkEditView(generic.BulkEditView):
+    queryset = OptionDefinition.objects.all()
+    filterset = OptionDefinitionFilterSet
+    table = OptionDefinitionTable
+    form = OptionDefinitionBulkEditForm
+
+
+@register_model_view(OptionDefinition, "bulk_delete", path="delete", detail=False)
+class OptionDefinitionBulkDeleteView(generic.BulkDeleteView):
+    queryset = OptionDefinition.objects.all()
+    filterset = OptionDefinitionFilterSet
+    table = OptionDefinitionTable
