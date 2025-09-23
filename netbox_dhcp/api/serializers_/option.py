@@ -4,11 +4,13 @@ from netbox.api.serializers import NetBoxModelSerializer
 
 from netbox_dhcp.models import Option
 
+from .mixins import ClientClassAssignmentSerializerMixin
+
 
 __all__ = ("OptionSerializer",)
 
 
-class OptionSerializer(NetBoxModelSerializer):
+class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializer):
     class Meta:
         model = Option
 
@@ -16,16 +18,23 @@ class OptionSerializer(NetBoxModelSerializer):
             "id",
             "url",
             "display",
-            "name",
-            "description",
+            "definition",
+            "data",
+            "csv_format",
+            "always_send",
+            "never_send",
+            "assign_client_classes",
         )
 
         brief_fields = (
             "id",
             "url",
             "display",
-            "name",
-            "description",
+            "definition",
+            "data",
+            "csv_format",
+            "always_send",
+            "never_send",
         )
 
     url = serializers.HyperlinkedIdentityField(

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericRelation
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
@@ -16,6 +17,7 @@ from .mixins import (
     NetworkModelMixin,
     ChildSubnetModelMixin,
 )
+from .option import Option
 
 __all__ = (
     "SharedNetwork",
@@ -100,6 +102,11 @@ class SharedNetwork(
         related_name="netbox_dhcp_shared_networks",
         on_delete=models.PROTECT,
         null=False,
+    )
+    options = GenericRelation(
+        to=Option,
+        content_type_field="assigned_object_type",
+        object_id_field="assigned_object_id",
     )
 
 

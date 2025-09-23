@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericRelation
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
@@ -13,6 +14,7 @@ from .mixins import (
     CommonModelMixin,
     ClientClassAssignmentModelMixin,
 )
+from .option import Option
 
 __all__ = (
     "HostReservation",
@@ -101,6 +103,11 @@ class HostReservation(
         verbose_name=_("Excluded IPv6 Prefixes"),
         to=Prefix,
         related_name="netbox_dhcp_excluded_ipv6_host_reservations",
+    )
+    options = GenericRelation(
+        to=Option,
+        content_type_field="assigned_object_type",
+        object_id_field="assigned_object_id",
     )
 
 

@@ -1,13 +1,16 @@
-# import django_tables2 as tables
-# from django.utils.translation import gettext_lazy as _
+import django_tables2 as tables
+from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable
+from netbox.tables import NetBoxTable, ChoiceFieldColumn
 
 from netbox_dhcp.models import Option
 
 from .mixins import NetBoxDHCPTableMixin
 
-__all__ = ("OptionTable",)
+__all__ = (
+    "OptionTable",
+    "ChildOptionTable",
+)
 
 
 class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
@@ -15,8 +18,67 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
         model = Option
 
         fields = (
+            "space",
             "name",
-            "description",
+            "assigned_object",
+            "assigned_object_type",
+            "code",
+            "data",
+            "csv_format",
+            "always_send",
+            "never_send",
+            "assign_client_classes",
         )
 
-        default_columns = ("name",)
+        default_columns = (
+            "space",
+            "name",
+            "code",
+            "data",
+            "assigned_object",
+            "assigned_object_type",
+        )
+
+    space = ChoiceFieldColumn(accessor="definition__space", verbose_name=_("Space"))
+    name = tables.Column(
+        accessor="definition__name",
+        verbose_name=_("Name"),
+        linkify=True,
+    )
+    code = tables.Column(
+        accessor="definition__code",
+        verbose_name=_("Code"),
+    )
+    assigned_object = tables.Column(
+        verbose_name=_("Assigned Object"),
+        linkify=True,
+    )
+    assigned_object_type = tables.Column(
+        verbose_name=_("Assigned Object Type"),
+        accessor="assigned_object_type__name",
+    )
+
+
+class ChildOptionTable(OptionTable):
+    class Meta(NetBoxTable.Meta):
+        model = Option
+
+        fields = (
+            "space",
+            "name",
+            "assigned_object",
+            "assigned_object_type",
+            "code",
+            "data",
+            "csv_format",
+            "always_send",
+            "never_send",
+            "assign_client_classes",
+        )
+
+        default_columns = (
+            "space",
+            "name",
+            "code",
+            "data",
+        )

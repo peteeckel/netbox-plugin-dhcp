@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericRelation
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
@@ -10,6 +11,7 @@ from .mixins import (
     LifetimeModelMixin,
     CommonModelMixin,
 )
+from .option import Option
 
 __all__ = (
     "ClientClass",
@@ -71,6 +73,11 @@ class ClientClass(
             "Evaluate the client class template test only if it is used in additional lists"
         ),
         default=True,
+    )
+    options = GenericRelation(
+        to=Option,
+        content_type_field="assigned_object_type",
+        object_id_field="assigned_object_id",
     )
 
 

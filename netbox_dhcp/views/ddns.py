@@ -1,5 +1,4 @@
 from netbox.views import generic
-
 from utilities.views import register_model_view
 
 from netbox_dhcp.models import DDNS

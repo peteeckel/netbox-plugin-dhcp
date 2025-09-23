@@ -4,6 +4,7 @@ from django.core.validators import (
     MinValueValidator,
     MaxValueValidator,
 )
+from django.contrib.contenttypes.fields import GenericRelation
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
@@ -14,6 +15,7 @@ from .mixins import (
     ClientClassModelMixin,
     CommonModelMixin,
 )
+from .option import Option
 
 __all__ = (
     "PDPool",
@@ -66,6 +68,11 @@ class PDPool(
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
+    )
+    options = GenericRelation(
+        to=Option,
+        content_type_field="assigned_object_type",
+        object_id_field="assigned_object_id",
     )
 
 

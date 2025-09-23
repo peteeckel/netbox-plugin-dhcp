@@ -1,16 +1,17 @@
+from django.utils.translation import gettext_lazy as _
+
 from netbox.views import generic
+from utilities.views import register_model_view, ViewTab
 
-from utilities.views import register_model_view
-
-from netbox_dhcp.models import PDPool
-from netbox_dhcp.filtersets import PDPoolFilterSet
+from netbox_dhcp.models import PDPool, Option
+from netbox_dhcp.filtersets import PDPoolFilterSet, OptionFilterSet
 from netbox_dhcp.forms import (
     PDPoolForm,
     PDPoolFilterForm,
     PDPoolImportForm,
     PDPoolBulkEditForm,
 )
-from netbox_dhcp.tables import PDPoolTable
+from netbox_dhcp.tables import PDPoolTable, ChildOptionTable
 
 
 __all__ = (
@@ -21,6 +22,7 @@ __all__ = (
     "PDPoolBulkImportView",
     "PDPoolBulkEditView",
     "PDPoolBulkDeleteView",
+    "PDPoolOptionsListView",
 )
 
 
@@ -69,3 +71,22 @@ class PDPoolBulkDeleteView(generic.BulkDeleteView):
     queryset = PDPool.objects.all()
     filterset = PDPoolFilterSet
     table = PDPoolTable
+
+
+@register_model_view(PDPool, "options")
+class PDPoolOptionsListView(generic.ObjectChildrenView):
+    queryset = PDPool.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/dhcpserver/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")

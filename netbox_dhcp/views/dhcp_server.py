@@ -1,7 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
 from netbox.views import generic
-
 from utilities.views import register_model_view, ViewTab
 
 from netbox_dhcp.models import (
@@ -10,6 +9,7 @@ from netbox_dhcp.models import (
     SharedNetwork,
     HostReservation,
     ClientClass,
+    Option,
 )
 from netbox_dhcp.filtersets import (
     DHCPServerFilterSet,
@@ -17,6 +17,7 @@ from netbox_dhcp.filtersets import (
     SharedNetworkFilterSet,
     HostReservationFilterSet,
     ClientClassFilterSet,
+    OptionFilterSet,
 )
 from netbox_dhcp.forms import (
     DHCPServerForm,
@@ -30,6 +31,7 @@ from netbox_dhcp.tables import (
     SharedNetworkTable,
     HostReservationTable,
     ClientClassTable,
+    ChildOptionTable,
 )
 
 
@@ -41,6 +43,10 @@ __all__ = (
     "DHCPServerBulkImportView",
     "DHCPServerBulkEditView",
     "DHCPServerBulkDeleteView",
+    "DHCPServerChildSubnetListView",
+    "DHCPServerChildSharedNetworkListView",
+    "DHCPServerChildHostReservationListView",
+    "DHCPServerOptionsListView",
 )
 
 
@@ -164,4 +170,23 @@ class DHCPServerChildClientClassListView(generic.ObjectChildrenView):
     )
 
     def get_children(self, request, parent):
-        return parent.child_client_classs.restrict(request.user, "view")
+        return parent.child_client_classes.restrict(request.user, "view")
+
+
+@register_model_view(DHCPServer, "options")
+class DHCPServerOptionsListView(generic.ObjectChildrenView):
+    queryset = DHCPServer.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/dhcpserver/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")

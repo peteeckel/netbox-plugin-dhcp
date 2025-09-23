@@ -1,15 +1,15 @@
 from django.utils.translation import gettext_lazy as _
 
 from netbox.views import generic
-
 from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import Subnet, Pool, PDPool, HostReservation
+from netbox_dhcp.models import Subnet, Pool, PDPool, HostReservation, Option
 from netbox_dhcp.filtersets import (
     SubnetFilterSet,
     PoolFilterSet,
     PDPoolFilterSet,
     HostReservationFilterSet,
+    OptionFilterSet,
 )
 from netbox_dhcp.forms import (
     SubnetForm,
@@ -17,7 +17,13 @@ from netbox_dhcp.forms import (
     SubnetImportForm,
     SubnetBulkEditForm,
 )
-from netbox_dhcp.tables import SubnetTable, PoolTable, PDPoolTable, HostReservationTable
+from netbox_dhcp.tables import (
+    SubnetTable,
+    PoolTable,
+    PDPoolTable,
+    HostReservationTable,
+    ChildOptionTable,
+)
 
 
 __all__ = (
@@ -28,6 +34,11 @@ __all__ = (
     "SubnetBulkImportView",
     "SubnetBulkEditView",
     "SubnetBulkDeleteView",
+    "SubnetChildSubnetListView",
+    "SubnetChildPoolListView",
+    "SubnetChildPDPoolListView",
+    "SubnetChildHostReservationListView",
+    "SubnetOptionsListView",
 )
 
 
@@ -152,3 +163,22 @@ class SubnetChildHostReservationListView(generic.ObjectChildrenView):
 
     def get_children(self, request, parent):
         return parent.child_host_reservations.restrict(request.user, "view")
+
+
+@register_model_view(Subnet, "options")
+class SubnetOptionsListView(generic.ObjectChildrenView):
+    queryset = Subnet.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/subnet/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")

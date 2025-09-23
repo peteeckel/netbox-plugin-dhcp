@@ -1,16 +1,17 @@
+from django.utils.translation import gettext_lazy as _
+
 from netbox.views import generic
+from utilities.views import register_model_view, ViewTab
 
-from utilities.views import register_model_view
-
-from netbox_dhcp.models import ClientClass
-from netbox_dhcp.filtersets import ClientClassFilterSet
+from netbox_dhcp.models import ClientClass, Option
+from netbox_dhcp.filtersets import ClientClassFilterSet, OptionFilterSet
 from netbox_dhcp.forms import (
     ClientClassForm,
     ClientClassFilterForm,
     ClientClassImportForm,
     ClientClassBulkEditForm,
 )
-from netbox_dhcp.tables import ClientClassTable
+from netbox_dhcp.tables import ClientClassTable, ChildOptionTable
 
 
 __all__ = (
@@ -21,6 +22,7 @@ __all__ = (
     "ClientClassBulkImportView",
     "ClientClassBulkEditView",
     "ClientClassBulkDeleteView",
+    "ClientClassOptionsListView",
 )
 
 
@@ -69,3 +71,22 @@ class ClientClassBulkDeleteView(generic.BulkDeleteView):
     queryset = ClientClass.objects.all()
     filterset = ClientClassFilterSet
     table = ClientClassTable
+
+
+@register_model_view(ClientClass, "options")
+class ClientClassOptionsListView(generic.ObjectChildrenView):
+    queryset = ClientClass.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/clientclass/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")

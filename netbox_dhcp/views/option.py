@@ -1,8 +1,16 @@
 from netbox.views import generic
-
 from utilities.views import register_model_view
 
-from netbox_dhcp.models import Option
+from netbox_dhcp.models import (
+    Option,
+    DHCPServer,
+    Subnet,
+    SharedNetwork,
+    Pool,
+    PDPool,
+    HostReservation,
+    ClientClass,
+)
 from netbox_dhcp.filtersets import OptionFilterSet
 from netbox_dhcp.forms import (
     OptionForm,
@@ -42,6 +50,74 @@ class OptionView(generic.ObjectView):
 class OptionEditView(generic.ObjectEditView):
     queryset = Option.objects.all()
     form = OptionForm
+
+    def alter_object(self, obj, request, url_args, url_kwargs):
+        if "dhcp_server" in request.GET:
+            try:
+                obj.assigned_object = DHCPServer.objects.get(
+                    pk=request.GET["dhcp_server"]
+                )
+            except (ValueError, DHCPServer.DoesNotExist):
+                pass
+
+        if "subnet" in request.GET:
+            try:
+                obj.assigned_object = Subnet.objects.get(pk=request.GET["subnet"])
+            except (ValueError, Subnet.DoesNotExist):
+                pass
+
+        if "shared_network" in request.GET:
+            try:
+                obj.assigned_object = SharedNetwork.objects.get(
+                    pk=request.GET["shared_network"]
+                )
+            except (ValueError, SharedNetwork.DoesNotExist):
+                pass
+
+        if "pool" in request.GET:
+            try:
+                obj.assigned_object = Pool.objects.get(pk=request.GET["pool"])
+            except (ValueError, Pool.DoesNotExist):
+                pass
+
+        if "pd_pool" in request.GET:
+            try:
+                obj.assigned_object = PDPool.objects.get(pk=request.GET["pd_pool"])
+            except (ValueError, PDPool.DoesNotExist):
+                pass
+
+        if "host_reservation" in request.GET:
+            try:
+                obj.assigned_object = HostReservation.objects.get(
+                    pk=request.GET["host_reservation"]
+                )
+            except (ValueError, HostReservation.DoesNotExist):
+                pass
+
+        if "client_class" in request.GET:
+            try:
+                obj.assigned_object = ClientClass.objects.get(
+                    pk=request.GET["client_class"]
+                )
+            except (ValueError, ClientClass.DoesNotExist):
+                pass
+
+        return obj
+
+    def get_extra_addanother_params(self, request):
+        for parameter in (
+            "dhcp_server",
+            "subnet",
+            "shared_network",
+            "pool",
+            "pd_pool",
+            "host_reservation",
+            "client_class",
+        ):
+            if parameter in request.GET:
+                return {parameter: request.GET[parameter]}
+
+        return {}
 
 
 @register_model_view(Option, "delete")

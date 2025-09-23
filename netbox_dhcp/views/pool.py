@@ -1,16 +1,17 @@
+from django.utils.translation import gettext_lazy as _
+
 from netbox.views import generic
+from utilities.views import register_model_view, ViewTab
 
-from utilities.views import register_model_view
-
-from netbox_dhcp.models import Pool
-from netbox_dhcp.filtersets import PoolFilterSet
+from netbox_dhcp.models import Pool, Option
+from netbox_dhcp.filtersets import PoolFilterSet, OptionFilterSet
 from netbox_dhcp.forms import (
     PoolForm,
     PoolFilterForm,
     PoolImportForm,
     PoolBulkEditForm,
 )
-from netbox_dhcp.tables import PoolTable
+from netbox_dhcp.tables import PoolTable, ChildOptionTable
 
 
 __all__ = (
@@ -20,7 +21,7 @@ __all__ = (
     "PoolDeleteView",
     "PoolBulkImportView",
     "PoolBulkEditView",
-    "PoolBulkDeleteView",
+    "PoolOptionsListView",
 )
 
 
@@ -69,3 +70,22 @@ class PoolBulkDeleteView(generic.BulkDeleteView):
     queryset = Pool.objects.all()
     filterset = PoolFilterSet
     table = PoolTable
+
+
+@register_model_view(Pool, "options")
+class PoolOptionsListView(generic.ObjectChildrenView):
+    queryset = Pool.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/pool/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")

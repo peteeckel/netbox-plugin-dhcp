@@ -5,6 +5,7 @@ from django.core.validators import (
     MaxValueValidator,
 )
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.contenttypes.fields import GenericRelation
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
@@ -31,6 +32,7 @@ from .mixins import (
     ChildHostReservationModelMixin,
     ChildClientClassModelMixin,
 )
+from .option import Option
 
 __all__ = (
     "DHCPServer",
@@ -133,6 +135,11 @@ class DHCPServer(
         choices=DHCPServerIDTypeChoices,
         blank=True,
         null=True,
+    )
+    options = GenericRelation(
+        to=Option,
+        content_type_field="assigned_object_type",
+        object_id_field="assigned_object_id",
     )
 
     def get_status_color(self):

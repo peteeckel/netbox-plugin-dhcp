@@ -1,0 +1,14 @@
+{% extends 'generic/object.html' %}
+{% load perms %}
+{% load i18n %}
+
+{% block extra_controls %}
+{% if perms.netbox_dhcp.add_option %}
+<a href="{% url 'plugins:netbox_dhcp:option_add' %}?pd_pool={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:pdpool_options' pk=object.pk %}">
+    <button type="submit" class="btn btn-primary" name="add-option">
+        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option" %}
+    </button>
+</a>
+{% endif %}
+{{ block.super }}
+{% endblock %}

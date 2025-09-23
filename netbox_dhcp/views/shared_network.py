@@ -1,18 +1,21 @@
 from django.utils.translation import gettext_lazy as _
 
 from netbox.views import generic
-
 from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import SharedNetwork, Subnet
-from netbox_dhcp.filtersets import SharedNetworkFilterSet, SubnetFilterSet
+from netbox_dhcp.models import SharedNetwork, Subnet, Option
+from netbox_dhcp.filtersets import (
+    SharedNetworkFilterSet,
+    SubnetFilterSet,
+    OptionFilterSet,
+)
 from netbox_dhcp.forms import (
     SharedNetworkForm,
     SharedNetworkFilterForm,
     SharedNetworkImportForm,
     SharedNetworkBulkEditForm,
 )
-from netbox_dhcp.tables import SharedNetworkTable, SubnetTable
+from netbox_dhcp.tables import SharedNetworkTable, SubnetTable, ChildOptionTable
 
 
 __all__ = (
@@ -23,6 +26,8 @@ __all__ = (
     "SharedNetworkBulkImportView",
     "SharedNetworkBulkEditView",
     "SharedNetworkBulkDeleteView",
+    "SharedNetworkChildSubnetListView",
+    "SharedNetworkOptionsListView",
 )
 
 
@@ -90,3 +95,22 @@ class SharedNetworkChildSubnetListView(generic.ObjectChildrenView):
 
     def get_children(self, request, parent):
         return parent.child_subnets.restrict(request.user, "view")
+
+
+@register_model_view(SharedNetwork, "options")
+class SharedNetworkOptionsListView(generic.ObjectChildrenView):
+    queryset = SharedNetwork.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/sharednetwork/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")
