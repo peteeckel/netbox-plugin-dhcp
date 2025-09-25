@@ -12,8 +12,8 @@ __all__ = (
 class OptionSpaceChoices(ChoiceSet):
     key = "Option.spaces"
 
-    DHCPV6 = "dhcpv6"
-    DHCPV4 = "dhcpv4"
+    DHCPV6 = "dhcp6"
+    DHCPV4 = "dhcp4"
 
     CHOICES = [
         (DHCPV6, "DHCPv6", "blue"),
