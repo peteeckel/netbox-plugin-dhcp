@@ -1,5 +1,6 @@
 {% extends './clientclass/base.html' %}
 {% load i18n %}
+{% load netbox_dhcp %}
 
 {% block content %}
     <div class="row">
@@ -23,11 +24,11 @@
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Only if required" %}</th>
-                        <td>{% checkmark object.only_if_required %}</td>
+                        <td>{% null_checkmark object.only_if_required %}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Only in additional list" %}</th>
-                        <td>{% checkmark object.only_in_additional_list %}</td>
+                        <td>{% null_checkmark object.only_in_additional_list %}</td>
                     </tr>
                 </table>
             </div>

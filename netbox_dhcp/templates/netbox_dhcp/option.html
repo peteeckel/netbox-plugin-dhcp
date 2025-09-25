@@ -1,5 +1,6 @@
 {% extends 'generic/object.html' %}
 {% load i18n %}
+{% load netbox_dhcp %}
 
 {% block content %}
     <div class="row">
@@ -25,15 +26,15 @@
                     </tr>
                     <tr>
                         <th scope="row">{% trans "CSV Format" %}</th>
-                        <td>{% checkmark object.csv_format %}</td>
+                        <td>{% null_checkmark object.csv_format %}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Always Send" %}</th>
-                        <td>{% checkmark object.always_send %}</td>
+                        <td>{% null_checkmark object.always_send %}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Never Send" %}</th>
-                        <td>{% checkmark object.never_send %}</td>
+                        <td>{% null_checkmark object.never_send %}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Definition" %}</th>

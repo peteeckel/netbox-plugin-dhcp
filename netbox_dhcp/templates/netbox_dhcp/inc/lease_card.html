@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load netbox_dhcp %}
 
 <div class="card">
     <h5 class="card-header">{% trans "Lease" %}</h5>
@@ -13,7 +14,7 @@
         </tr>
         <tr>
             <th scope="row">{% trans "Calculate T times" %}</th>
-            <td>{% checkmark object.calculate_tee_times %}</td>
+            <td>{% null_checkmark object.calculate_tee_times %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "T1 Percent" %}</th>
@@ -29,27 +30,27 @@
         </tr>
         <tr>
             <th scope="row">{% trans "Match Client ID" %}</th>
-            <td>{% checkmark object.match_client_id %}</td>
+            <td>{% null_checkmark object.match_client_id %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Store Extended Info" %}</th>
-            <td>{% checkmark object.store_extended_info %}</td>
+            <td>{% null_checkmark object.store_extended_info %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Authoritative" %}</th>
-            <td>{% checkmark object.authoritative %}</td>
+            <td>{% null_checkmark object.authoritative %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Global reservations" %}</th>
-            <td>{% checkmark object.reservations_global %}</td>
+            <td>{% null_checkmark object.reservations_global %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Out-of-pool reservations" %}</th>
-            <td>{% checkmark object.reservations_out_of_pool %}</td>
+            <td>{% null_checkmark object.reservations_out_of_pool %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "In-subnet reservations" %}</th>
-            <td>{% checkmark object.reservations_in_subnet %}</td>
+            <td>{% null_checkmark object.reservations_in_subnet %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Cache Threshold" %}</th>
@@ -69,7 +70,7 @@
         </tr>
         <tr>
             <th scope="row">{% trans "Rapid Commit" %}</th>
-            <td>{% checkmark object.rapid_commit %}</td>
+            <td>{% null_checkmark object.rapid_commit %}</td>
         </tr>
     </table>
 </div>

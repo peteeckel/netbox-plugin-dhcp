@@ -1,5 +1,6 @@
 {% extends './dhcpserver/base.html' %}
 {% load i18n %}
+{% load netbox_dhcp %}
 
 {% block content %}
     <div class="row">
@@ -37,7 +38,7 @@
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Echo Client ID" %}</th>
-                        <td>{% checkmark object.echo_client_id %}</td>
+                        <td>{% null_checkmark object.echo_client_id %}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Relay Supplied Options" %}</th>

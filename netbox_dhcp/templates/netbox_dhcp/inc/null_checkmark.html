@@ -1,0 +1,7 @@
+{% if value is None %}
+  <span class="text-muted">&mdash;</span>
+{% elif value %}
+  <i class="mdi mdi-check-bold text-success" title="{{ true_label }}"></i>
+{% else %}
+  <i class="mdi mdi-close-thick text-danger" title="{{ false_label }}"></i>
+{% endif %}

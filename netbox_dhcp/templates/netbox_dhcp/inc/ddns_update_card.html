@@ -1,19 +1,20 @@
 {% load i18n %}
+{% load netbox_dhcp %}
 
 <div class="card">
     <h5 class="card-header">{% trans "Dynamic DNS Update" %}</h5>
     <table class="table table-hover attr-table">
         <tr>
             <th scope="row">{% trans "Send DDNS updates" %}</th>
-            <td>{% checkmark object.ddns_send_updates %}</td>
+            <td>{% null_checkmark object.ddns_send_updates %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Override client 'no update' flag" %}</th>
-            <td>{% checkmark object.ddns_override_no_update %}</td>
+            <td>{% null_checkmark object.ddns_override_no_update %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Override client delegation flags" %}</th>
-            <td>{% checkmark object.ddns_override_client_update %}</td>
+            <td>{% null_checkmark object.ddns_override_client_update %}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Replace Client Name" %}</th>
@@ -29,7 +30,7 @@
         </tr>
         <tr>
             <th scope="row">{% trans "Update DDNS on renew" %}</th>
-            <td>{% checkmark object.ddns_update_on_renew %}</td>
+            <td>{% null_checkmark object.ddns_update_on_renew %}</td>
         </tr>
         <th scope="row">{% trans "Conflict Resolution Mode" %}</th>
             <td>{% badge object.get_ddns_conflict_resolution_mode_display bg_color=object.get_ddns_conflict_resolution_mode_color %}</td>

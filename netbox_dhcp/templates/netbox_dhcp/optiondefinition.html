@@ -1,5 +1,6 @@
 {% extends 'generic/object.html' %}
 {% load i18n %}
+{% load netbox_dhcp %}
 
 {% block content %}
     <div class="row">
@@ -49,11 +50,11 @@
                     {% endif %}
                     <tr>
                         <th scope="row">{% trans "Encapsulate" %}</th>
-                        <td>{% checkmark object.encapsulate %}</td>
+                        <td>{% null_checkmark object.encapsulate %}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Array" %}</th>
-                        <td>{% checkmark object.array %}</td>
+                        <td>{% null_checkmark object.array %}</td>
                     </tr>
                 </table>
             </div>
