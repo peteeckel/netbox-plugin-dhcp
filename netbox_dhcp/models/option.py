@@ -1,11 +1,15 @@
+import re
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.core.exceptions import ValidationError
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from netbox_dhcp.choices import OptionSpaceChoices
+from netbox_dhcp.choices import OptionSpaceChoices, OptionTypeChoices
+from netbox_dhcp.validators import validate_data
 
 from .mixins import ClientClassAssignmentModelMixin
 
@@ -72,6 +76,33 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
 
     def get_space_color(self):
         return OptionSpaceChoices.colors.get(self.definition.space)
+
+    def clean(self):
+        super().clean()
+
+        if self.definition.type == OptionTypeChoices.TYPE_BINARY:
+            self.csv_format = False
+
+        if self.definition.type == OptionTypeChoices.TYPE_RECORD:
+            data_array = re.split(r"\s*,\s*", self.data)
+            record_types = self.definition.record_types
+
+            if (self.definition.array and len(record_types) > len(data_array)) or (
+                not self.definition.array and len(record_types) != len(data_array)
+            ):
+                raise ValidationError(
+                    _("Lengths of record type list and data elements do not match")
+                )
+
+            for mapping in zip(data_array, record_types):
+                validate_data(*mapping)
+
+            if self.definition.array:
+                for data_field in data_array[len(record_types) :]:
+                    validate_data(data_field, record_types[-1])
+
+        else:
+            validate_data(self.data, self.definition.type)
 
 
 @register_search
