@@ -23,7 +23,7 @@ def load_option_definitions(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("netbox_dhcp", "0030_optiondefinition_description"),
+        ("netbox_dhcp", "0001_initial"),
     ]
 
     operations = [
