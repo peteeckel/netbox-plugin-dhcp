@@ -9,7 +9,7 @@ from netbox_dhcp.forms import (
     OptionDefinitionImportForm,
     OptionDefinitionBulkEditForm,
 )
-from netbox_dhcp.tables import OptionDefinitionTable
+from netbox_dhcp.tables import OptionDefinitionTable, StandardOptionDefinitionTable
 
 
 __all__ = (
@@ -20,15 +20,27 @@ __all__ = (
     "OptionDefinitionBulkImportView",
     "OptionDefinitionBulkEditView",
     "OptionDefinitionBulkDeleteView",
+    "StandardOptionDefinitionListView",
 )
 
 
-@register_model_view(OptionDefinition, "list", path="", detail=False)
+@register_model_view(OptionDefinition, "list_standard", path="standard", detail=False)
+class StandardOptionDefinitionListView(generic.ObjectListView):
+    queryset = OptionDefinition.objects.filter(standard=True)
+    table = StandardOptionDefinitionTable
+    filterset = OptionDefinitionFilterSet
+    filterset_form = OptionDefinitionFilterForm
+    actions = {"export": {"view"}}
+    template_name = "netbox_dhcp/optiondefinition/standard.html"
+
+
+@register_model_view(OptionDefinition, "list", path="custom", detail=False)
 class OptionDefinitionListView(generic.ObjectListView):
-    queryset = OptionDefinition.objects.all()
+    queryset = OptionDefinition.objects.filter(standard=False)
     table = OptionDefinitionTable
     filterset = OptionDefinitionFilterSet
     filterset_form = OptionDefinitionFilterForm
+    template_name = "netbox_dhcp/optiondefinition/custom.html"
 
 
 @register_model_view(OptionDefinition)

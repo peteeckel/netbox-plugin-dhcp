@@ -66,9 +66,9 @@ ddns_menu_item = PluginMenuItem(
     ),
 )
 
-option_definition_menu_item = PluginMenuItem(
+custom_option_definition_menu_item = PluginMenuItem(
     link="plugins:netbox_dhcp:optiondefinition_list",
-    link_text=_("Option Definitions"),
+    link_text=_("Custom Option Definitions"),
     permissions=["netbox_dhcp.optiondefinition_view"],
     buttons=(
         PluginMenuButton(
@@ -84,6 +84,12 @@ option_definition_menu_item = PluginMenuItem(
             permissions=["netbox_dhcp.add_optiondefinition"],
         ),
     ),
+)
+
+standard_option_definition_menu_item = PluginMenuItem(
+    link="plugins:netbox_dhcp:optiondefinition_list_standard",
+    link_text=_("Standard Option Definitions"),
+    permissions=["netbox_dhcp.optiondefinition_view"],
 )
 
 option_menu_item = PluginMenuItem(
@@ -235,7 +241,8 @@ menu = PluginMenu(
             _("Options"),
             (
                 option_menu_item,
-                option_definition_menu_item,
+                standard_option_definition_menu_item,
+                custom_option_definition_menu_item,
             ),
         ),
         (

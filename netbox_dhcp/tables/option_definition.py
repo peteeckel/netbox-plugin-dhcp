@@ -7,7 +7,10 @@ from netbox_dhcp.models import OptionDefinition
 
 from .mixins import NetBoxDHCPTableMixin
 
-__all__ = ("OptionDefinitionTable",)
+__all__ = (
+    "OptionDefinitionTable",
+    "StandardOptionDefinitionTable",
+)
 
 
 class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
@@ -44,3 +47,10 @@ class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
         verbose_name=_("Record Types"),
         template_code="{% for record_type in value %}{% badge record_type %}{% endfor %}",
     )
+
+
+class StandardOptionDefinitionTable(OptionDefinitionTable):
+    class Meta(OptionDefinitionTable.Meta):
+        pass
+
+    actions = None
