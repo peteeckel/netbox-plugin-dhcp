@@ -43,7 +43,7 @@
                         <th scope="row">{% trans "Record Types" %}</th>
                         <td>
                             {% for record_type in object.record_types %}
-                                {{ record_type }}&nbsp;
+                                {% badge record_type %}
                             {% endfor %}
                         </td>
                     </tr>

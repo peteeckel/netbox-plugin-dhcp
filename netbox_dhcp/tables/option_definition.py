@@ -40,6 +40,7 @@ class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
     type = ChoiceFieldColumn(
         verbose_name=_("Data Type"),
     )
-    record_types = tables.Column(
+    record_types = tables.TemplateColumn(
         verbose_name=_("Record Types"),
+        template_code="{% for record_type in value %}{% badge record_type %}{% endfor %}",
     )
