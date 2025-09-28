@@ -1,5 +1,6 @@
 [
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "time-offset",
         "code": 2,
@@ -7,6 +8,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "routers",
         "code": 3,
@@ -14,6 +16,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "time-servers",
         "code": 4,
@@ -21,6 +24,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "name-servers",
         "code": 5,
@@ -28,6 +32,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "domain-name-servers",
         "code": 6,
@@ -35,6 +40,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "log-servers",
         "code": 7,
@@ -42,6 +48,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "cookie-servers",
         "code": 8,
@@ -49,6 +56,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "lpr-servers",
         "code": 9,
@@ -56,6 +64,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "impress-servers",
         "code": 10,
@@ -63,6 +72,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "resource-location-servers",
         "code": 11,
@@ -70,6 +80,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "boot-size",
         "code": 13,
@@ -77,6 +88,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "merit-dump",
         "code": 14,
@@ -84,6 +96,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "domain-name",
         "code": 15,
@@ -91,6 +104,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "swap-server",
         "code": 16,
@@ -98,6 +112,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "root-path",
         "code": 17,
@@ -105,6 +120,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "extensions-path",
         "code": 18,
@@ -112,6 +128,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "ip-forwarding",
         "code": 19,
@@ -119,6 +136,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "non-local-source-routing",
         "code": 20,
@@ -126,6 +144,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "policy-filter",
         "code": 21,
@@ -133,6 +152,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "max-dgram-reassembly",
         "code": 22,
@@ -140,6 +160,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "default-ip-ttl",
         "code": 23,
@@ -147,6 +168,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "path-mtu-aging-timeout",
         "code": 24,
@@ -154,6 +176,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "path-mtu-plateau-table",
         "code": 25,
@@ -161,6 +184,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "interface-mtu",
         "code": 26,
@@ -168,6 +192,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "all-subnets-local",
         "code": 27,
@@ -175,6 +200,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "broadcast-address",
         "code": 28,
@@ -182,6 +208,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "perform-mask-discovery",
         "code": 29,
@@ -189,6 +216,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "mask-supplier",
         "code": 30,
@@ -196,6 +224,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "router-discovery",
         "code": 31,
@@ -203,6 +232,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "router-solicitation-address",
         "code": 32,
@@ -210,6 +240,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "static-routes",
         "code": 33,
@@ -217,6 +248,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "trailer-encapsulation",
         "code": 34,
@@ -224,6 +256,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "arp-cache-timeout",
         "code": 35,
@@ -231,6 +264,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "ieee802-3-encapsulation",
         "code": 36,
@@ -238,6 +272,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "default-tcp-ttl",
         "code": 37,
@@ -245,6 +280,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "tcp-keepalive-interval",
         "code": 38,
@@ -252,6 +288,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "tcp-keepalive-garbage",
         "code": 39,
@@ -259,6 +296,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nis-domain",
         "code": 40,
@@ -266,6 +304,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nis-servers",
         "code": 41,
@@ -273,6 +312,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "ntp-servers",
         "code": 42,
@@ -280,6 +320,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "vendor-encapsulated-options",
         "code": 43,
@@ -287,6 +328,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "netbios-name-servers",
         "code": 44,
@@ -294,6 +336,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "netbios-dd-server",
         "code": 45,
@@ -301,6 +344,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "netbios-node-type",
         "code": 46,
@@ -308,6 +352,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "netbios-scope",
         "code": 47,
@@ -315,6 +360,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "font-servers",
         "code": 48,
@@ -322,6 +368,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "x-display-manager",
         "code": 49,
@@ -329,6 +376,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "dhcp-option-overload",
         "code": 52,
@@ -336,6 +384,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "dhcp-server-identifier",
         "code": 54,
@@ -343,6 +392,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "dhcp-message",
         "code": 56,
@@ -350,6 +400,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "dhcp-max-message-size",
         "code": 57,
@@ -357,6 +408,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "vendor-class-identifier",
         "code": 60,
@@ -364,6 +416,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nwip-domain-name",
         "code": 62,
@@ -371,6 +424,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nwip-suboptions",
         "code": 63,
@@ -378,6 +432,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nisplus-domain-name",
         "code": 64,
@@ -385,6 +440,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nisplus-servers",
         "code": 65,
@@ -392,6 +448,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "tftp-server-name",
         "code": 66,
@@ -399,6 +456,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "boot-file-name",
         "code": 67,
@@ -406,6 +464,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "mobile-ip-home-agent",
         "code": 68,
@@ -413,6 +472,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "smtp-server",
         "code": 69,
@@ -420,6 +480,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "pop-server",
         "code": 70,
@@ -427,6 +488,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nntp-server",
         "code": 71,
@@ -434,6 +496,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "www-server",
         "code": 72,
@@ -441,6 +504,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "finger-server",
         "code": 73,
@@ -448,6 +512,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "irc-server",
         "code": 74,
@@ -455,6 +520,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "streettalk-server",
         "code": 75,
@@ -462,6 +528,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "streettalk-directory-assistance-server",
         "code": 76,
@@ -469,6 +536,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "user-class",
         "code": 77,
@@ -476,6 +544,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "slp-directory-agent",
         "code": 78,
@@ -487,6 +556,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "slp-service-scope",
         "code": 79,
@@ -498,6 +568,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nds-servers",
         "code": 85,
@@ -505,6 +576,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nds-tree-name",
         "code": 86,
@@ -512,6 +584,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "nds-context",
         "code": 87,
@@ -519,6 +592,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "bcms-controller-names",
         "code": 88,
@@ -526,6 +600,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "bcms-controller-address",
         "code": 89,
@@ -533,6 +608,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "client-system",
         "code": 93,
@@ -540,6 +616,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "client-ndi",
         "code": 94,
@@ -552,6 +629,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "uuid-guid",
         "code": 97,
@@ -563,6 +641,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "uap-servers",
         "code": 98,
@@ -570,6 +649,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "geoconf-civic",
         "code": 99,
@@ -577,6 +657,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "pcode",
         "code": 100,
@@ -584,6 +665,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "tcode",
         "code": 101,
@@ -591,13 +673,15 @@
         "array": false
     },
     {
-        "space": "dhcp4",
+        "family": 4,
+s        "space": "dhcp4",
         "name": "v6-only-preferred",
         "code": 108,
         "type": "uint32",
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "netinfo-server-address",
         "code": 112,
@@ -605,6 +689,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "netinfo-server-tag",
         "code": 113,
@@ -612,6 +697,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "v4-captive-portal",
         "code": 114,
@@ -619,6 +705,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "auto-config",
         "code": 116,
@@ -626,6 +713,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "name-service-search",
         "code": 117,
@@ -633,6 +721,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "domain-search",
         "code": 119,
@@ -640,6 +729,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "classless-static-route",
         "code": 121,
@@ -647,6 +737,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "cablelabs-client-conf",
         "code": 122,
@@ -654,6 +745,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "vivco-suboptions",
         "code": 124,
@@ -665,6 +757,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "vivso-suboptions",
         "code": 125,
@@ -672,6 +765,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "pana-agent",
         "code": 136,
@@ -679,6 +773,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "v4-lost",
         "code": 137,
@@ -686,6 +781,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "capwap-ac-v4",
         "code": 138,
@@ -693,6 +789,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "sip-ua-cs-domains",
         "code": 141,
@@ -700,6 +797,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "v4-sztp-redirect",
         "code": 143,
@@ -707,6 +805,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "rdnss-selection",
         "code": 146,
@@ -720,6 +819,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "v4-portparams",
         "code": 159,
@@ -731,6 +831,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "v4-dnr",
         "code": 162,
@@ -745,6 +846,7 @@
         "array": false
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "option-6rd",
         "code": 212,
@@ -758,6 +860,7 @@
         "array": true
     },
     {
+        "family": 4,
         "space": "dhcp4",
         "name": "v4-access-domain",
         "code": 213,
@@ -765,6 +868,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "preference",
         "code": 7,
@@ -772,6 +876,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "unicast",
         "code": 12,
@@ -779,6 +884,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "sip-server-dns",
         "code": 21,
@@ -786,6 +892,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "sip-server-addr",
         "code": 22,
@@ -793,6 +900,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "dns-servers",
         "code": 23,
@@ -800,6 +908,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "domain-search",
         "code": 24,
@@ -807,6 +916,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "nis-servers",
         "code": 27,
@@ -814,6 +924,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "nisp-servers",
         "code": 28,
@@ -821,6 +932,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "nis-domain-name",
         "code": 29,
@@ -828,6 +940,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "nisp-domain-name",
         "code": 30,
@@ -835,6 +948,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "sntp-servers",
         "code": 31,
@@ -842,6 +956,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "information-refresh-time",
         "code": 32,
@@ -849,6 +964,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "bcmcs-server-dns",
         "code": 33,
@@ -856,6 +972,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "bcmcs-server-addr",
         "code": 34,
@@ -863,6 +980,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "geoconf-civic",
         "code": 36,
@@ -875,6 +993,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "remote-id",
         "code": 37,
@@ -886,6 +1005,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "subscriber-id",
         "code": 38,
@@ -893,6 +1013,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "client-fqdn",
         "code": 39,
@@ -904,6 +1025,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "pana-agent",
         "code": 40,
@@ -911,6 +1033,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "new-posix-timezone",
         "code": 41,
@@ -918,6 +1041,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "new-tzdb-timezone",
         "code": 42,
@@ -925,6 +1049,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "ero",
         "code": 43,
@@ -932,6 +1057,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "lq-query (1)",
         "code": 44,
@@ -943,6 +1069,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "client-data (1)",
         "code": 45,
@@ -950,6 +1077,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "clt-time (1)",
         "code": 46,
@@ -957,6 +1085,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "lq-relay-data (1)",
         "code": 47,
@@ -968,6 +1097,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "lq-client-link (1)",
         "code": 48,
@@ -975,6 +1105,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "v6-lost",
         "code": 51,
@@ -982,6 +1113,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "capwap-ac-v6",
         "code": 52,
@@ -989,6 +1121,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "relay-id",
         "code": 53,
@@ -996,6 +1129,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "ntp-server",
         "code": 56,
@@ -1003,6 +1137,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "v6-access-domain",
         "code": 57,
@@ -1010,6 +1145,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "sip-ua-cs-list",
         "code": 58,
@@ -1017,6 +1153,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "bootfile-url",
         "code": 59,
@@ -1024,6 +1161,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "bootfile-param",
         "code": 60,
@@ -1031,6 +1169,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "client-arch-type",
         "code": 61,
@@ -1038,6 +1177,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "nii",
         "code": 62,
@@ -1050,6 +1190,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "aftr-name",
         "code": 64,
@@ -1057,6 +1198,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "erp-local-domain-name",
         "code": 65,
@@ -1064,6 +1206,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "rsoo",
         "code": 66,
@@ -1071,6 +1214,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "pd-exclude",
         "code": 67,
@@ -1078,6 +1222,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "rdnss-selection",
         "code": 74,
@@ -1090,6 +1235,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "client-linklayer-addr",
         "code": 79,
@@ -1097,6 +1243,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "link-address",
         "code": 80,
@@ -1104,6 +1251,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "solmax-rt",
         "code": 82,
@@ -1111,6 +1259,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "inf-max-rt",
         "code": 83,
@@ -1118,6 +1267,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "dhcp4o6-server-addr",
         "code": 88,
@@ -1125,6 +1275,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-rule",
         "code": 89,
@@ -1139,6 +1290,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-br",
         "code": 90,
@@ -1146,6 +1298,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-dmr",
         "code": 91,
@@ -1153,6 +1306,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-v4v6bind",
         "code": 92,
@@ -1164,6 +1318,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-portparams",
         "code": 93,
@@ -1175,6 +1330,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-cont-mape",
         "code": 94,
@@ -1182,6 +1338,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-cont-mapt",
         "code": 95,
@@ -1189,6 +1346,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "s46-cont-lw",
         "code": 96,
@@ -1196,6 +1354,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "v6-captive-portal",
         "code": 103,
@@ -1203,6 +1362,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "v6-sztp-redirect",
         "code": 136,
@@ -1210,6 +1370,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "ipv6-address-andsf",
         "code": 143,
@@ -1217,6 +1378,7 @@
         "array": true
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "v6-dnr",
         "code": 144,
@@ -1230,6 +1392,7 @@
         "array": false
     },
     {
+        "family": 6,
         "space": "dhcp6",
         "name": "addr-reg-enable",
         "code": 148,

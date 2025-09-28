@@ -7,6 +7,7 @@ from django.core.validators import (
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.choices import OptionSpaceChoices, OptionTypeChoices
 from netbox_dhcp.fields import ChoiceArrayField
@@ -43,6 +44,13 @@ class OptionDefinition(NetBoxModel):
         max_length=255,
         blank=True,
         null=True,
+    )
+    family = models.PositiveIntegerField(
+        verbose_name=_("Address Family"),
+        choices=IPAddressFamilyChoices,
+        blank=False,
+        null=False,
+        default=IPAddressFamilyChoices.FAMILY_4,
     )
     space = models.CharField(
         verbose_name=_("Space"),

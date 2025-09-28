@@ -18,8 +18,9 @@ class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
         model = OptionDefinition
 
         fields = (
-            "space",
             "name",
+            "space",
+            "family",
             "code",
             "description",
             "type",
@@ -31,6 +32,7 @@ class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
         default_columns = (
             "space",
             "name",
+            "family",
             "code",
         )
 

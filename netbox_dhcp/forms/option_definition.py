@@ -15,6 +15,7 @@ from utilities.forms.fields import (
 )
 from utilities.forms.rendering import FieldSet
 from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import OptionDefinition
 from netbox_dhcp.choices import OptionTypeChoices, OptionSpaceChoices
@@ -38,6 +39,7 @@ class OptionDefinitionForm(NetBoxModelForm):
         model = OptionDefinition
 
         fields = (
+            "family",
             "space",
             "name",
             "code",
@@ -50,6 +52,7 @@ class OptionDefinitionForm(NetBoxModelForm):
 
     fieldsets = (
         FieldSet(
+            "family",
             "space",
             "name",
             "code",
@@ -85,6 +88,7 @@ class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSet
             "tag",
         ),
         FieldSet(
+            "family",
             "space",
             "name",
             "code",
@@ -97,6 +101,11 @@ class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSet
         ),
     )
 
+    family = forms.ChoiceField(
+        label=_("Address Family"),
+        choices=add_blank_choice(IPAddressFamilyChoices),
+        required=False,
+    )
     space = forms.MultipleChoiceField(
         label=_("Space"),
         choices=OptionSpaceChoices,
@@ -136,6 +145,7 @@ class OptionDefinitionImportForm(NetBoxModelImportForm):
         model = OptionDefinition
 
         fields = (
+            "family",
             "space",
             "name",
             "code",
@@ -147,6 +157,11 @@ class OptionDefinitionImportForm(NetBoxModelImportForm):
             "tags",
         )
 
+    family = CSVChoiceField(
+        choices=IPAddressFamilyChoices,
+        required=False,
+        label=_("Address Family"),
+    )
     space = CSVChoiceField(
         choices=OptionSpaceChoices,
         required=False,
@@ -172,6 +187,7 @@ class OptionDefinitionBulkEditForm(
 
     fieldsets = (
         FieldSet(
+            "family",
             "space",
             "name",
             "code",
@@ -186,6 +202,11 @@ class OptionDefinitionBulkEditForm(
 
     nullable_fields = ("description",)
 
+    family = forms.ChoiceField(
+        label=_("Address Family"),
+        choices=add_blank_choice(IPAddressFamilyChoices),
+        required=False,
+    )
     space = forms.ChoiceField(
         label=_("Space"),
         choices=add_blank_choice(OptionSpaceChoices),

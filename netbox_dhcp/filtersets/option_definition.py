@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 from utilities.filters import MultiValueCharFilter
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import OptionDefinition
 from netbox_dhcp.choices import OptionSpaceChoices, OptionTypeChoices
@@ -25,6 +26,10 @@ class OptionDefinitionFilterSet(NetBoxModelFilterSet):
             "array",
         )
 
+    family = django_filters.ChoiceFilter(
+        label=_("Address Family"),
+        choices=IPAddressFamilyChoices,
+    )
     space = django_filters.MultipleChoiceFilter(
         label=_("Space"),
         choices=OptionSpaceChoices,
