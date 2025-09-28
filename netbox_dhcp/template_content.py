@@ -40,6 +40,31 @@ class RelatedHostReservations(PluginTemplateExtension):
         )
 
 
+class RelatedMACAddressHostReservations(PluginTemplateExtension):
+    models = ("dcim.macaddress",)
+
+    def right_page(self):
+        hw_address = self.context.get("object")
+        request = self.context.get("request")
+
+        host_reservations = hw_address.netbox_dhcp_host_reservations.all()
+
+        if host_reservations:
+            host_reservation_table = RelatedHostReservationTable(
+                data=host_reservations,
+            )
+            host_reservation_table.configure(request)
+        else:
+            host_reservation_table = None
+
+        return self.render(
+            "netbox_dhcp/hostreservation/related.html",
+            extra_context={
+                "host_reservations": host_reservation_table,
+            },
+        )
+
+
 class RelatedSharedNetworks(PluginTemplateExtension):
     models = ("ipam.prefix",)
 
@@ -134,6 +159,7 @@ class RelatedPDPools(PluginTemplateExtension):
 
 template_extensions = [
     RelatedHostReservations,
+    RelatedMACAddressHostReservations,
     RelatedSharedNetworks,
     RelatedSubnets,
     RelatedPools,
