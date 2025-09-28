@@ -10,6 +10,7 @@ from netbox.forms import (
 from utilities.forms.fields import TagFilterField, CSVModelChoiceField, CSVChoiceField
 from utilities.forms.rendering import FieldSet
 from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Option, OptionDefinition
 from netbox_dhcp.choices import OptionSpaceChoices
@@ -92,6 +93,7 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
         FieldSet(
             "space",
             "name",
+            "family",
             "code",
             "definition_id",
             "data",
@@ -103,6 +105,11 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
         ),
     )
 
+    family = forms.ChoiceField(
+        label=_("Address Family"),
+        choices=add_blank_choice(IPAddressFamilyChoices),
+        required=False,
+    )
     space = forms.ChoiceField(
         label=_("Space"),
         choices=add_blank_choice(OptionSpaceChoices),

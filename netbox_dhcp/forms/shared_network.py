@@ -1,4 +1,4 @@
-# from django import forms
+from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
@@ -9,6 +9,8 @@ from netbox.forms import (
 )
 from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet
+from utilities.forms import add_blank_choice
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import SharedNetwork
 from .mixins import (
@@ -226,6 +228,7 @@ class SharedNetworkFilterForm(
         FieldSet(
             "name",
             "description",
+            "family",
             "prefix_id",
             name=_("Shared Network"),
         ),
@@ -299,6 +302,12 @@ class SharedNetworkFilterForm(
             "ddns_ttl_max",
             name=_("Dynamic DNS Update"),
         ),
+    )
+
+    family = forms.ChoiceField(
+        choices=add_blank_choice(IPAddressFamilyChoices),
+        required=False,
+        label=_("Address Family"),
     )
 
     tag = TagFilterField(SharedNetwork)

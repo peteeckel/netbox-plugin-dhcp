@@ -120,6 +120,10 @@ class Subnet(
         object_id_field="assigned_object_id",
     )
 
+    @property
+    def family(self):
+        return self.prefix.family if self.prefix else None
+
 
 @register_search
 class SubnetIndex(SearchIndex):

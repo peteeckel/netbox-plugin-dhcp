@@ -9,6 +9,10 @@
                 <h5 class="card-header">{% trans "Option" %}</h5>
                 <table class="table table-hover attr-table">
                     <tr>
+                        <th scope="row">{% trans "Address Family" %}</th>
+                        <td>{{ object.definition.get_family_display }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "Space" %}</th>
                         <td>{% badge object.definition.get_space_display bg_color=object.definition.get_space_color %}</td>
                     </tr>

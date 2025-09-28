@@ -13,6 +13,10 @@
                         <td>{{ object.pool_id }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "Address Family" %}</th>
+                        <td>IPv{{ object.family }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "IP Range" %}</th>
                         <td>{{ object.ip_range|linkify|placeholder }}</td>
                     </tr>

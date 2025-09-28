@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Option, OptionDefinition
 from netbox_dhcp.choices import OptionSpaceChoices
@@ -25,6 +26,11 @@ class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
             "never_send",
         )
 
+    family = django_filters.MultipleChoiceFilter(
+        label=_("Address Family"),
+        field_name="definition__family",
+        choices=IPAddressFamilyChoices,
+    )
     space = django_filters.MultipleChoiceFilter(
         label=_("Space"),
         field_name="definition__space",

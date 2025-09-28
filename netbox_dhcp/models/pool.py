@@ -74,6 +74,10 @@ class Pool(
         object_id_field="assigned_object_id",
     )
 
+    @property
+    def family(self):
+        return self.ip_range.family if self.ip_range else None
+
 
 @register_search
 class PoolIndex(SearchIndex):

@@ -76,6 +76,12 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
 
     def get_space_color(self):
         return OptionSpaceChoices.colors.get(self.definition.space)
+    @property
+    def family(self):
+        return self.definition.family
+
+    def get_family_display(self):
+        return self.definition.get_family_display()
 
     def clean(self):
         super().clean()

@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
+from ipam.choices import IPAddressFamilyChoices
 
 from .mixins import (
     NetBoxDHCPModelMixin,
@@ -74,6 +75,10 @@ class PDPool(
         content_type_field="assigned_object_type",
         object_id_field="assigned_object_id",
     )
+
+    @property
+    def family(self):
+        return IPAddressFamilyChoices.FAMILY_6
 
 
 @register_search

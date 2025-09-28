@@ -20,6 +20,7 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
         fields = (
             "space",
             "name",
+            "family",
             "assigned_object",
             "assigned_object_type",
             "code",
@@ -33,17 +34,25 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
         default_columns = (
             "space",
             "name",
+            "family",
             "code",
             "data",
             "assigned_object",
             "assigned_object_type",
         )
 
-    space = ChoiceFieldColumn(accessor="definition__space", verbose_name=_("Space"))
+    family = tables.Column(
+        accessor="definition__family",
+        verbose_name=_("Address Family"),
+    )
     name = tables.Column(
         accessor="definition__name",
         verbose_name=_("Name"),
         linkify=True,
+    )
+    family = tables.Column(
+        accessor="definition__family",
+        verbose_name=_("Address Family"),
     )
     code = tables.Column(
         accessor="definition__code",

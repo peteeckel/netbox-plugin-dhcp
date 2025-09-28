@@ -5,6 +5,7 @@ from django.db.models import Q
 
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import IPRange
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Pool
 
@@ -45,6 +46,12 @@ class PoolFilterSet(
             "comment",
         )
 
+    family = django_filters.ChoiceFilter(
+        label=_("Address Family"),
+        choices=IPAddressFamilyChoices,
+        field_name="ip_range__start_address",
+        lookup_expr="family",
+    )
     ip_range_id = django_filters.ModelMultipleChoiceFilter(
         queryset=IPRange.objects.all(),
         field_name="ip_range",

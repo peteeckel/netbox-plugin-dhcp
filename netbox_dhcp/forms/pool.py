@@ -1,4 +1,4 @@
-# from django import forms
+from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
@@ -13,8 +13,10 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
     CSVModelChoiceField,
 )
+from utilities.forms import add_blank_choice
 from utilities.forms.rendering import FieldSet
 from ipam.models import IPRange
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Pool
 
@@ -149,6 +151,7 @@ class PoolFilterForm(
         FieldSet(
             "name",
             "description",
+            "family",
             "ip_range_id",
             name=_("Address Pool"),
         ),
@@ -185,8 +188,16 @@ class PoolFilterForm(
         ),
     )
 
+    family = forms.ChoiceField(
+        choices=add_blank_choice(IPAddressFamilyChoices),
+        required=False,
+        label=_("Address Family"),
+    )
     ip_range_id = DynamicModelMultipleChoiceField(
         queryset=IPRange.objects.all(),
+        query_params={
+            "family": "$family",
+        },
         required=False,
         label=_("IP Range"),
     )

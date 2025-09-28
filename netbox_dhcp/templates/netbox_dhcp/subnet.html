@@ -13,6 +13,10 @@
                         <td>{{ object.subnet_id|placeholder }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "Address Family" %}</th>
+                        <td>IPv{{ object.family }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "Prefix" %}</th>
                         <td>{{ object.prefix|linkify|placeholder }}</td>
                     </tr>

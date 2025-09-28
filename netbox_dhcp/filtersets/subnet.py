@@ -5,6 +5,7 @@ from django.db.models import Q
 
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import Prefix
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Subnet
 
@@ -36,6 +37,7 @@ class SubnetFilterSet(
             "id",
             "name",
             "description",
+            "family",
             "subnet_id",
             "next_server",
             "server_hostname",
@@ -83,6 +85,12 @@ class SubnetFilterSet(
             "comment",
         )
 
+    family = django_filters.ChoiceFilter(
+        choices=IPAddressFamilyChoices,
+        field_name="prefix__prefix",
+        lookup_expr="family",
+        label=_("Address Family"),
+    )
     prefix_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Prefix.objects.all(),
         field_name="prefix",
