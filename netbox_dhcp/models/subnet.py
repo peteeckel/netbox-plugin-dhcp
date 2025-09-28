@@ -110,7 +110,7 @@ class Subnet(
     prefix = models.ForeignKey(
         verbose_name=_("Prefix"),
         to=Prefix,
-        related_name="netbox_dhcp_pools",
+        related_name="netbox_dhcp_subnets",
         on_delete=models.PROTECT,
         null=False,
     )

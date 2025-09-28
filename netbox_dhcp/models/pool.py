@@ -28,8 +28,8 @@ class Pool(
     NetBoxModel,
 ):
     class Meta:
-        verbose_name = _("Address Pool")
-        verbose_name_plural = _("Address Pools")
+        verbose_name = _("Pool")
+        verbose_name_plural = _("Pools")
 
         ordering = ("name",)
 
@@ -65,7 +65,7 @@ class Pool(
     ip_range = models.ForeignKey(
         verbose_name=_("IP Range"),
         to=IPRange,
-        related_name="netbox_dhcp_pool",
+        related_name="netbox_dhcp_pools",
         on_delete=models.PROTECT,
     )
     options = GenericRelation(

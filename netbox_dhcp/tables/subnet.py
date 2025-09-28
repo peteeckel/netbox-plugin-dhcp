@@ -13,7 +13,10 @@ from .mixins import (
     LeaseTableMixin,
 )
 
-__all__ = ("SubnetTable",)
+__all__ = (
+    "SubnetTable",
+    "RelatedSubnetTable",
+)
 
 
 class SubnetTable(
@@ -85,3 +88,18 @@ class SubnetTable(
             "name",
             "prefix",
         )
+
+
+class RelatedSubnetTable(SubnetTable):
+    class Meta(SubnetTable.Meta):
+        fields = (
+            "name",
+            "description",
+        )
+
+        default_columns = (
+            "name",
+            "description",
+        )
+
+    actions = None

@@ -7,7 +7,10 @@ from netbox_dhcp.models import HostReservation
 
 from .mixins import NetBoxDHCPTableMixin
 
-__all__ = ("HostReservationTable",)
+__all__ = (
+    "HostReservationTable",
+    "RelatedHostReservationTable",
+)
 
 
 class HostReservationTable(NetBoxDHCPTableMixin, NetBoxTable):
@@ -59,3 +62,24 @@ class HostReservationTable(NetBoxDHCPTableMixin, NetBoxTable):
         verbose_name=_("Excluded IPv6 Prefixes"),
         linkify_item=True,
     )
+
+
+class RelatedHostReservationTable(HostReservationTable):
+    class Meta(HostReservationTable.Meta):
+        fields = (
+            "name",
+            "description",
+            "hostname",
+            "duid",
+            "circuit_id",
+            "client_id",
+            "flex_id",
+        )
+
+        default_columns = (
+            "name",
+            "description",
+            "hostname",
+        )
+
+    actions = None

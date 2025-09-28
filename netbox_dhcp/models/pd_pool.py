@@ -55,7 +55,7 @@ class PDPool(
     prefix = models.ForeignKey(
         verbose_name=_("IPv6 Prefix"),
         to=Prefix,
-        related_name="netbox_dhcp_pd_pool",
+        related_name="netbox_dhcp_pd_pools",
         on_delete=models.PROTECT,
     )
     delegated_length = models.IntegerField(
@@ -65,7 +65,7 @@ class PDPool(
     excluded_prefix = models.ForeignKey(
         verbose_name=_("Excluded IPv6 Prefix"),
         to=Prefix,
-        related_name="netbox_dhcp_pd_excluded_pool",
+        related_name="netbox_dhcp_pd_excluded_pools",
         blank=True,
         null=True,
         on_delete=models.SET_NULL,

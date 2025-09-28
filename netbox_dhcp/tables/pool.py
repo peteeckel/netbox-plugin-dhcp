@@ -7,7 +7,10 @@ from netbox_dhcp.models import Pool
 
 from .mixins import NetBoxDHCPTableMixin
 
-__all__ = ("PoolTable",)
+__all__ = (
+    "PoolTable",
+    "RelatedPoolTable",
+)
 
 
 class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
@@ -53,3 +56,18 @@ class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
         verbose_name=_("Evaluate Additional Classes"),
         linkify_item=True,
     )
+
+
+class RelatedPoolTable(PoolTable):
+    class Meta(PoolTable.Meta):
+        fields = (
+            "name",
+            "description",
+        )
+
+        default_columns = (
+            "name",
+            "description",
+        )
+
+    actions = None

@@ -11,7 +11,11 @@ from netbox_dhcp.forms import (
     OptionDefinitionImportForm,
     OptionDefinitionBulkEditForm,
 )
-from netbox_dhcp.tables import OptionDefinitionTable, StandardOptionDefinitionTable, ChildOptionTable
+from netbox_dhcp.tables import (
+    OptionDefinitionTable,
+    StandardOptionDefinitionTable,
+    ChildOptionTable,
+)
 
 
 __all__ = (

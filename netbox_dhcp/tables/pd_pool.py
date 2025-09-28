@@ -7,7 +7,10 @@ from netbox_dhcp.models import PDPool
 
 from .mixins import NetBoxDHCPTableMixin
 
-__all__ = ("PDPoolTable",)
+__all__ = (
+    "PDPoolTable",
+    "RelatedPDPoolTable",
+)
 
 
 class PDPoolTable(NetBoxDHCPTableMixin, NetBoxTable):
@@ -44,3 +47,20 @@ class PDPoolTable(NetBoxDHCPTableMixin, NetBoxTable):
         verbose_name=_("Excluded IPv6 Prefix"),
         linkify=True,
     )
+
+
+class RelatedPDPoolTable(PDPoolTable):
+    class Meta(PDPoolTable.Meta):
+        fields = (
+            "name",
+            "description",
+            "excluded_prefix",
+        )
+
+        default_columns = (
+            "name",
+            "description",
+            "excluded_prefix",
+        )
+
+    actions = None

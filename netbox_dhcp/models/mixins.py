@@ -419,7 +419,7 @@ class ChildPoolModelMixin(models.Model):
         abstract = True
 
     child_pools = models.ManyToManyField(
-        verbose_name=_("Address Pools"),
+        verbose_name=_("Pools"),
         to="Pool",
         related_name="parent_%(class)ss",
         blank=True,
