@@ -159,6 +159,10 @@ class PrefixFilterFormMixin(forms.Form):
     prefix_id = DynamicModelMultipleChoiceField(
         queryset=Prefix.objects.all(),
         required=False,
+        selector=True,
+        context={
+            "depth": False,
+        },
         label=_("Prefix"),
     )
 

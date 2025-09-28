@@ -83,6 +83,9 @@ class PrefixFormMixin(forms.Form):
         queryset=Prefix.objects.all(),
         required=True,
         selector=True,
+        context={
+            "depth": False,
+        },
         quick_add=True,
         label=_("Prefix"),
     )
