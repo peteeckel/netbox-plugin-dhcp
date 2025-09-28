@@ -73,22 +73,7 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
 
 
 class ChildOptionTable(OptionTable):
-    class Meta(NetBoxTable.Meta):
-        model = Option
-
-        fields = (
-            "space",
-            "name",
-            "assigned_object",
-            "assigned_object_type",
-            "code",
-            "data",
-            "csv_format",
-            "always_send",
-            "never_send",
-            "assign_client_classes",
-        )
-
+    class Meta(OptionTable.Meta):
         default_columns = (
             "space",
             "name",
