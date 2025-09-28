@@ -107,6 +107,11 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
                 for data_field in data_array[len(record_types) :]:
                     validate_data(data_field, record_types[-1])
 
+        elif self.definition.array:
+            data_array = re.split(r"\s*,\s*", self.data)
+            for data_field in data_array:
+                validate_data(data_field, self.definition.type)
+
         else:
             validate_data(self.data, self.definition.type)
 
