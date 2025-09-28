@@ -14,7 +14,7 @@
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Space" %}</th>
-                        <td>{% badge object.definition.get_space_display bg_color=object.definition.get_space_color %}</td>
+                        <td>{{ object.definition.space }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Name" %}</th>

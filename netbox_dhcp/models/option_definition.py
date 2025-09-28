@@ -101,7 +101,7 @@ class OptionDefinition(NetBoxModel):
     )
 
     def __str__(self):
-        return f"{self.get_space_display()} {self.name} ({self.code})"
+        return f"{self.space} {self.name} ({self.code})"
 
     def get_space_color(self):
         return OptionSpaceChoices.colors.get(self.space)

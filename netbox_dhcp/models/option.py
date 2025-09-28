@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from netbox_dhcp.choices import OptionSpaceChoices, OptionTypeChoices
+from netbox_dhcp.choices import OptionTypeChoices
 from netbox_dhcp.validators import validate_data
 
 from .mixins import ClientClassAssignmentModelMixin
@@ -72,10 +72,8 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
     )
 
     def __str__(self):
-        return f"{self.definition.name} ({self.definition.code})"
+        return f"{self.definition}"
 
-    def get_space_color(self):
-        return OptionSpaceChoices.colors.get(self.definition.space)
     @property
     def family(self):
         return self.definition.family

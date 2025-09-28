@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Space" %}</th>
-                        <td>{% badge object.get_space_display bg_color=object.get_space_color %}</td>
+                        <td>{{ object.space }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Name" %}</th>
@@ -47,14 +47,14 @@
                 <table class="table table-hover attr-table">
                     <tr>
                         <th scope="row">{% trans "Type" %}</th>
-                        <td>{% badge object.get_type_display bg_color=object.get_type_color %}</td>
+                        <td>{{ object.get_type_display }}</td>
                     </tr>
                     {% if object.type == "record" %}
                     <tr>
                         <th scope="row">{% trans "Record Types" %}</th>
                         <td>
                             {% for record_type in object.record_types %}
-                                {% badge record_type %}
+                                {{ record_type }},&nbsp;
                             {% endfor %}
                         </td>
                     </tr>

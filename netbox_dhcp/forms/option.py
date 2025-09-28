@@ -7,7 +7,7 @@ from netbox.forms import (
     NetBoxModelImportForm,
     NetBoxModelForm,
 )
-from utilities.forms.fields import TagFilterField, CSVModelChoiceField, CSVChoiceField
+from utilities.forms.fields import TagFilterField, CSVModelChoiceField
 from utilities.forms.rendering import FieldSet
 from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
 from ipam.choices import IPAddressFamilyChoices
@@ -91,9 +91,9 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
             "tag",
         ),
         FieldSet(
-            "space",
             "name",
             "family",
+            "space",
             "code",
             "definition_id",
             "data",
@@ -105,6 +105,10 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
         ),
     )
 
+    name = forms.CharField(
+        label=_("Name"),
+        required=False,
+    )
     family = forms.ChoiceField(
         label=_("Address Family"),
         choices=add_blank_choice(IPAddressFamilyChoices),
@@ -113,10 +117,6 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
     space = forms.ChoiceField(
         label=_("Space"),
         choices=add_blank_choice(OptionSpaceChoices),
-        required=False,
-    )
-    name = forms.CharField(
-        label=_("Name"),
         required=False,
     )
     data = forms.CharField(
@@ -161,11 +161,6 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
             "tags",
         )
 
-    space = CSVChoiceField(
-        label=_("Space"),
-        choices=OptionSpaceChoices,
-        required=False,
-    )
     definition = CSVModelChoiceField(
         label=_("Option Definitions"),
         queryset=OptionDefinition.objects.all(),
