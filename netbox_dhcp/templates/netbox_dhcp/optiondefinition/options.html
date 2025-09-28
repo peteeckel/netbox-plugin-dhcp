@@ -1,0 +1,12 @@
+{% extends 'generic/object.html' %}
+{% load helpers %}
+
+{% block content %}
+    {% include 'inc/table_controls_htmx.html' with table_modal="ChildOptionTable_config" %}
+    {% include '../inc/options_table.html' %}
+{% endblock %}
+
+{% block modals %}
+    {{ block.super }}
+    {% table_config_form table %}
+{% endblock modals %}

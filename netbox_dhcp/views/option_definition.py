@@ -1,15 +1,17 @@
-from netbox.views import generic
-from utilities.views import register_model_view
+from django.utils.translation import gettext_lazy as _
 
-from netbox_dhcp.models import OptionDefinition
-from netbox_dhcp.filtersets import OptionDefinitionFilterSet
+from netbox.views import generic
+from utilities.views import register_model_view, ViewTab
+
+from netbox_dhcp.models import OptionDefinition, Option
+from netbox_dhcp.filtersets import OptionDefinitionFilterSet, OptionFilterSet
 from netbox_dhcp.forms import (
     OptionDefinitionForm,
     OptionDefinitionFilterForm,
     OptionDefinitionImportForm,
     OptionDefinitionBulkEditForm,
 )
-from netbox_dhcp.tables import OptionDefinitionTable, StandardOptionDefinitionTable
+from netbox_dhcp.tables import OptionDefinitionTable, StandardOptionDefinitionTable, ChildOptionTable
 
 
 __all__ = (
@@ -21,6 +23,7 @@ __all__ = (
     "OptionDefinitionBulkEditView",
     "OptionDefinitionBulkDeleteView",
     "StandardOptionDefinitionListView",
+    "OptionDefinitionOptionsListView",
 )
 
 
@@ -80,3 +83,22 @@ class OptionDefinitionBulkDeleteView(generic.BulkDeleteView):
     queryset = OptionDefinition.objects.all()
     filterset = OptionDefinitionFilterSet
     table = OptionDefinitionTable
+
+
+@register_model_view(OptionDefinition, "options")
+class OptionDefinitionOptionsListView(generic.ObjectChildrenView):
+    queryset = OptionDefinition.objects.all()
+    child_model = Option
+    table = ChildOptionTable
+    filterset = OptionFilterSet
+    template_name = "netbox_dhcp/optiondefinition/options.html"
+
+    tab = ViewTab(
+        label=_("Options"),
+        permission="netbox_dhcp.view_option",
+        badge=lambda obj: obj.options.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.options.restrict(request.user, "view")
