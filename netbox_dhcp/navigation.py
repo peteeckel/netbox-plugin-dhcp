@@ -208,7 +208,7 @@ pd_pool_menu_item = PluginMenuItem(
 
 pool_menu_item = PluginMenuItem(
     link="plugins:netbox_dhcp:pool_list",
-    link_text=_("Address Pools"),
+    link_text=_("Pools"),
     permissions=["netbox_dhcp.pool_view"],
     buttons=(
         PluginMenuButton(
