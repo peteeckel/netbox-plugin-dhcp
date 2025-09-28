@@ -76,6 +76,11 @@ class OptionDefinitionForm(NetBoxModelForm):
         ),
         required=False,
     )
+    array = forms.NullBooleanField(
+        label=_("Array"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
 
 
 class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):

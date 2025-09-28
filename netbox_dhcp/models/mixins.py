@@ -206,25 +206,21 @@ class DDNSUpdateModelMixin(models.Model):
 
     ddns_send_updates = models.BooleanField(
         verbose_name=_("Send DDNS updates"),
-        null=False,
-        default=True,
+        null=True,
     )
     ddns_override_no_update = models.BooleanField(
         verbose_name=_("Override client 'no update' flag"),
-        null=False,
-        default=False,
+        null=True,
     )
     ddns_override_client_update = models.BooleanField(
         verbose_name=_("Override client delegation flags"),
-        null=False,
-        default=False,
+        null=True,
     )
     ddns_replace_client_name = models.CharField(
         verbose_name=_("Replace client name"),
         choices=DDNSReplaceClientNameChoices,
-        blank=False,
-        null=False,
-        default=DDNSReplaceClientNameChoices.NEVER,
+        blank=True,
+        null=True,
     )
     ddns_generated_prefix = models.CharField(
         verbose_name=_("Generated Prefix"),
@@ -238,15 +234,13 @@ class DDNSUpdateModelMixin(models.Model):
     )
     ddns_update_on_renew = models.BooleanField(
         verbose_name=_("Update DDNS on renew"),
-        null=False,
-        default=False,
+        null=True,
     )
     ddns_conflict_resolution_mode = models.CharField(
         verbose_name=_("Conflict Resolution Mode"),
         choices=DDNSConflictResolutionModeChoices,
-        blank=False,
-        null=False,
-        default=DDNSConflictResolutionModeChoices.CHECK_WITH_DHCID,
+        blank=True,
+        null=True,
     )
     ddns_ttl_percent = models.DecimalField(
         verbose_name=_("TTL Percent"),
@@ -306,33 +300,27 @@ class LeaseModelMixin(models.Model):
     )
     match_client_id = models.BooleanField(
         verbose_name=_("Match Client ID"),
-        null=False,
-        default=True,
+        null=True,
     )
     authoritative = models.BooleanField(
         verbose_name=_("Authoritative"),
-        null=False,
-        default=False,
+        null=True,
     )
     reservations_global = models.BooleanField(
         verbose_name=_("Global reservations"),
-        null=False,
-        default=False,
+        null=True,
     )
     reservations_out_of_pool = models.BooleanField(
         verbose_name=_("Out-of-pool reservations"),
-        null=False,
-        default=False,
+        null=True,
     )
     reservations_in_subnet = models.BooleanField(
         verbose_name=_("In-subnet reservations"),
-        null=False,
-        default=True,
+        null=True,
     )
     calculate_tee_times = models.BooleanField(
         verbose_name=_("Calculate T times"),
-        null=False,
-        default=False,
+        null=True,
     )
     t1_percent = models.DecimalField(
         verbose_name=_("T1 Percent"),
@@ -369,8 +357,7 @@ class LeaseModelMixin(models.Model):
     )
     store_extended_info = models.BooleanField(
         verbose_name=_("Store Extended Info"),
-        null=False,
-        default=False,
+        null=True,
     )
     allocator = models.CharField(
         verbose_name=_("Allocator"),
@@ -411,8 +398,7 @@ class NetworkModelMixin(models.Model):
     )
     rapid_commit = models.BooleanField(
         verbose_name=_("Rapid Commit"),
-        null=False,
-        default=False,
+        null=True,
     )
 
 

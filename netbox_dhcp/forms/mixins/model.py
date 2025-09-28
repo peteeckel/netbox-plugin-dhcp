@@ -5,6 +5,7 @@ from utilities.forms.fields import (
     DynamicModelChoiceField,
     DynamicModelMultipleChoiceField,
 )
+from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
 
 from ipam.models import Prefix
 
@@ -92,19 +93,49 @@ class PrefixFormMixin(forms.Form):
 
 
 class DDNSUpdateFormMixin(forms.Form):
+    ddns_send_updates = forms.NullBooleanField(
+        label=_("Send DDNS updates"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+    ddns_override_no_update = forms.NullBooleanField(
+        label=_("Override client 'no update' flag"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+    ddns_override_client_update = forms.NullBooleanField(
+        label=_("Override client delegation flags"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
     ddns_replace_client_name = forms.ChoiceField(
-        choices=DDNSReplaceClientNameChoices,
-        required=True,
+        choices=add_blank_choice(DDNSReplaceClientNameChoices),
+        required=False,
         label=_("Replace Client Name"),
     )
+    ddns_generated_prefix = forms.CharField(
+        label=_("Generated Prefix"),
+        empty_value=None,
+        required=False,
+    )
+    ddns_qualifying_suffix = forms.CharField(
+        label=_("Qualifying Suffix"),
+        empty_value=None,
+        required=False,
+    )
+    ddns_update_on_renew = forms.NullBooleanField(
+        label=_("Update DDNS on renew"),
+        required=False,
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
     ddns_conflict_resolution_mode = forms.ChoiceField(
-        choices=DDNSConflictResolutionModeChoices,
-        required=True,
+        choices=add_blank_choice(DDNSConflictResolutionModeChoices),
+        required=False,
         label=_("Conflict Resolution Mode"),
     )
     ddns_ttl_percent = forms.DecimalField(
         label=_("TTL Percent"),
-        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        help_text=_("A decimal value between 0.000 and 1.000"),
         min_value=0.0,
         max_value=1.0,
         max_digits=4,
@@ -114,9 +145,49 @@ class DDNSUpdateFormMixin(forms.Form):
 
 
 class LeaseFormMixin(forms.Form):
+    calculate_tee_times = forms.NullBooleanField(
+        label=_("Calculate T Times"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    match_client_id = forms.NullBooleanField(
+        label=_("Match Client ID"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    authoritative = forms.NullBooleanField(
+        label=_("Authoritative"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    reservations_global = forms.NullBooleanField(
+        label=_("Global reservations"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    reservations_out_of_pool = forms.NullBooleanField(
+        label=_("Out-of-pool reservations"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    reservations_in_subnet = forms.NullBooleanField(
+        label=_("In-subnet reservations"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    store_extended_info = forms.NullBooleanField(
+        label=_("Store extended info"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
+    rapid_commit = forms.NullBooleanField(
+        label=_("Rapid Commit"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
+    )
     t1_percent = forms.DecimalField(
-        label=_("T1 Percent"),
-        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        label=_("T1"),
+        help_text=_("A decimal value between 0.000 and 1.000"),
         max_digits=4,
         decimal_places=3,
         min_value=0.0,
@@ -125,7 +196,7 @@ class LeaseFormMixin(forms.Form):
     )
     t2_percent = forms.DecimalField(
         label=_("T2"),
-        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        help_text=_("A decimal value between 0.000 and 1.000"),
         max_digits=4,
         decimal_places=3,
         min_value=0.0,
@@ -134,7 +205,7 @@ class LeaseFormMixin(forms.Form):
     )
     cache_threshold = forms.DecimalField(
         label=_("Cache Threshold"),
-        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        help_text=_("A decimal value between 0.00 and 1.00"),
         max_digits=3,
         decimal_places=2,
         min_value=0.0,
@@ -143,7 +214,7 @@ class LeaseFormMixin(forms.Form):
     )
     adaptive_lease_time_threshold = forms.DecimalField(
         label=_("Adaptive Lease Time Threshold"),
-        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        help_text=_("A decimal value between 0.00 and 1.00"),
         max_digits=3,
         decimal_places=2,
         min_value=0.0,
@@ -151,13 +222,13 @@ class LeaseFormMixin(forms.Form):
         required=False,
     )
     allocator = forms.ChoiceField(
-        choices=AllocatorTypeChoices,
-        required=True,
+        choices=add_blank_choice(AllocatorTypeChoices),
+        required=False,
         label=_("Allocator"),
     )
     pd_allocator = forms.ChoiceField(
-        choices=PDAllocatorTypeChoices,
-        required=True,
+        choices=add_blank_choice(PDAllocatorTypeChoices),
+        required=False,
         label=_("Prefix Delegation Allocator"),
     )
 

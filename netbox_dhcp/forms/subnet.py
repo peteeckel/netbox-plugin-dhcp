@@ -34,6 +34,7 @@ from .mixins import (
     DDNSUpdateFilterFormMixin,
     DDNSUpdateImportFormMixin,
     DDNSUpdateBulkEditFormMixin,
+    LeaseFormMixin,
     LeaseFilterFormMixin,
     LeaseBulkEditFormMixin,
     NetworkFilterFormMixin,
@@ -65,11 +66,12 @@ class SubnetForm(
     PrefixFormMixin,
     ClientClassFormMixin,
     DDNSUpdateFormMixin,
-    NetBoxModelForm,
+    LeaseFormMixin,
     ChildSubnetFormMixin,
     ChildPoolFormMixin,
     ChildPDPoolFormMixin,
     ChildHostReservationFormMixin,
+    NetBoxModelForm,
 ):
     class Meta:
         model = Subnet
@@ -113,6 +115,7 @@ class SubnetForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             "hostname_char_set",
             "hostname_char_replacement",
             "ddns_send_updates",

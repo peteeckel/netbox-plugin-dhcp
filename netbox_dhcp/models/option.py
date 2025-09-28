@@ -27,6 +27,7 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
     definition = models.ForeignKey(
         verbose_name=_("Option Definition"),
         to="OptionDefinition",
+        related_name="options",
         on_delete=models.PROTECT,
         null=False,
     )

@@ -22,11 +22,11 @@
         </tr>
         <tr>
             <th scope="row">{% trans "Generated Prefix" %}</th>
-            <td>{{ object.ddns_generated_prefix }}</td>
+            <td>{{ object.ddns_generated_prefix|placeholder }}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Qualifying Suffix" %}</th>
-            <td>{{ object.ddns_qualifying_suffix }}</td>
+            <td>{{ object.ddns_qualifying_suffix|placeholder }}</td>
         </tr>
         <tr>
             <th scope="row">{% trans "Update DDNS on renew" %}</th>

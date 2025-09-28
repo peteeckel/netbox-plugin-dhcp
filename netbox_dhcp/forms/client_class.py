@@ -93,6 +93,17 @@ class ClientClassForm(NetBoxModelForm):
         ),
     )
 
+    only_if_required = forms.NullBooleanField(
+        required=False,
+        label=_("Only if required"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+    only_in_additional_list = forms.NullBooleanField(
+        required=False,
+        label=_("Only in additional list"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+
 
 class ClientClassFilterForm(
     NetBoxDHCPFilterFormMixin,

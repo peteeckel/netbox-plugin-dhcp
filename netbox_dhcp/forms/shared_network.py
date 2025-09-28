@@ -100,6 +100,7 @@ class SharedNetworkForm(
             "store_extended_info",
             "allocator",
             "pd_allocator",
+            "rapid_commit",
             "hostname_char_set",
             "hostname_char_replacement",
             "ddns_send_updates",

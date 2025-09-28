@@ -205,7 +205,7 @@ class DDNSUpdateBulkEditFormMixin(forms.Form):
     )
     ddns_ttl_percent = forms.DecimalField(
         label=_("TTL Percent"),
-        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        help_text=_("A decimal value between 0.00 and 1.00"),
         min_value=0.0,
         max_value=1.0,
         max_digits=4,
@@ -275,7 +275,7 @@ class LeaseBulkEditFormMixin(forms.Form):
     )
     t1_percent = forms.DecimalField(
         label=_("T1 Percent"),
-        help_text=_("Enter a decimal value between 0.000 and 1.000"),
+        help_text=_("A decimal value between 0.000 and 1.000"),
         max_digits=4,
         decimal_places=3,
         min_value=0.0,
@@ -292,7 +292,7 @@ class LeaseBulkEditFormMixin(forms.Form):
     )
     cache_threshold = forms.DecimalField(
         label=_("Cache Threshold"),
-        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        help_text=_("A decimal value between 0.00 and 1.00"),
         max_digits=3,
         decimal_places=2,
         min_value=0.0,
@@ -305,7 +305,7 @@ class LeaseBulkEditFormMixin(forms.Form):
     )
     adaptive_lease_time_threshold = forms.DecimalField(
         label=_("Adaptive Lease Time Threshold"),
-        help_text=_("Enter a decimal value between 0.00 and 1.00"),
+        help_text=_("A decimal value between 0.00 and 1.00"),
         max_digits=3,
         decimal_places=2,
         min_value=0.0,

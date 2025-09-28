@@ -116,7 +116,6 @@ class DHCPServer(
     )
     echo_client_id = models.BooleanField(
         verbose_name=_("Echo Client ID"),
-        blank=True,
         null=True,
     )
     relay_supplied_options = ArrayField(
