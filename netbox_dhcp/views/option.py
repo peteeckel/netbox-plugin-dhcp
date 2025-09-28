@@ -36,6 +36,11 @@ __all__ = (
 class OptionListView(generic.ObjectListView):
     queryset = Option.objects.all()
     table = OptionTable
+    actions = {
+        "export": {"view"},
+        "bulk_edit": {"change"},
+        "bulk_delete": {"delete"},
+    }
     filterset = OptionFilterSet
     filterset_form = OptionFilterForm
 
