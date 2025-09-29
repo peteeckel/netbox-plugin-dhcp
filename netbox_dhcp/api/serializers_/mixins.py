@@ -96,7 +96,7 @@ class ChildPDPoolSerializerMixin:
 
 
 class ChildHostReservationSerializerMixin:
-    child_pd_pools = NestedHostReservationSerializer(
+    child_host_reservations = NestedHostReservationSerializer(
         many=True,
         read_only=False,
         required=False,
