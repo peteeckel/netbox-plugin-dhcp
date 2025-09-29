@@ -90,6 +90,7 @@ class OptionDefinition(NetBoxModel):
     array = models.BooleanField(
         verbose_name=_("Array"),
         null=True,
+        blank=True,
     )
     standard = models.BooleanField(
         verbose_name=_("Standard Option Type"),

@@ -58,18 +58,18 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
     )
     csv_format = models.BooleanField(
         verbose_name=_("CSV Format"),
-        blank=True,
         null=True,
+        blank=True,
     )
     always_send = models.BooleanField(
         verbose_name=_("Always Send"),
-        blank=True,
         null=True,
+        blank=True,
     )
     never_send = models.BooleanField(
         verbose_name=_("Never Send"),
-        blank=True,
         null=True,
+        blank=True,
     )
 
     def __str__(self):

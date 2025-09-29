@@ -207,14 +207,17 @@ class DDNSUpdateModelMixin(models.Model):
     ddns_send_updates = models.BooleanField(
         verbose_name=_("Send DDNS updates"),
         null=True,
+        blank=True,
     )
     ddns_override_no_update = models.BooleanField(
         verbose_name=_("Override client 'no update' flag"),
         null=True,
+        blank=True,
     )
     ddns_override_client_update = models.BooleanField(
         verbose_name=_("Override client delegation flags"),
         null=True,
+        blank=True,
     )
     ddns_replace_client_name = models.CharField(
         verbose_name=_("Replace client name"),
@@ -235,6 +238,7 @@ class DDNSUpdateModelMixin(models.Model):
     ddns_update_on_renew = models.BooleanField(
         verbose_name=_("Update DDNS on renew"),
         null=True,
+        blank=True,
     )
     ddns_conflict_resolution_mode = models.CharField(
         verbose_name=_("Conflict Resolution Mode"),
@@ -301,26 +305,32 @@ class LeaseModelMixin(models.Model):
     match_client_id = models.BooleanField(
         verbose_name=_("Match Client ID"),
         null=True,
+        blank=True,
     )
     authoritative = models.BooleanField(
         verbose_name=_("Authoritative"),
         null=True,
+        blank=True,
     )
     reservations_global = models.BooleanField(
         verbose_name=_("Global reservations"),
         null=True,
+        blank=True,
     )
     reservations_out_of_pool = models.BooleanField(
         verbose_name=_("Out-of-pool reservations"),
         null=True,
+        blank=True,
     )
     reservations_in_subnet = models.BooleanField(
         verbose_name=_("In-subnet reservations"),
         null=True,
+        blank=True,
     )
     calculate_tee_times = models.BooleanField(
         verbose_name=_("Calculate T times"),
         null=True,
+        blank=True,
     )
     t1_percent = models.DecimalField(
         verbose_name=_("T1 Percent"),
@@ -358,6 +368,7 @@ class LeaseModelMixin(models.Model):
     store_extended_info = models.BooleanField(
         verbose_name=_("Store Extended Info"),
         null=True,
+        blank=True,
     )
     allocator = models.CharField(
         verbose_name=_("Allocator"),
@@ -399,6 +410,7 @@ class NetworkModelMixin(models.Model):
     rapid_commit = models.BooleanField(
         verbose_name=_("Rapid Commit"),
         null=True,
+        blank=True,
     )
 
 

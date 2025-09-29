@@ -66,6 +66,7 @@ class ClientClass(
         verbose_name=_("Only if required"),
         help_text=_("Evaluate the client class test only if it is required"),
         null=True,
+        blank=True,
     )
     only_in_additional_list = models.BooleanField(
         verbose_name=_("Only in additional list"),
@@ -73,6 +74,7 @@ class ClientClass(
             "Evaluate the client class template test only if it is used in additional lists"
         ),
         null=True,
+        blank=True,
     )
     options = GenericRelation(
         to=Option,
