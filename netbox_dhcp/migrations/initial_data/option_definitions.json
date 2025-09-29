@@ -674,7 +674,7 @@
     },
     {
         "family": 4,
-s        "space": "dhcp4",
+        "space": "dhcp4",
         "name": "v6-only-preferred",
         "code": 108,
         "type": "uint32",
