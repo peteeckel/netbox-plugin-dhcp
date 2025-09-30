@@ -135,9 +135,9 @@ class TestObjects:
     @staticmethod
     def get_mac_addresses():
         mac_addresses = (
-            MACAddress("08:00:2b:00:00:01"),
-            MACAddress("08:00:2b:00:00:02"),
-            MACAddress("08:00:2b:00:00:03"),
+            MACAddress(mac_address="08:00:2b:00:00:01"),
+            MACAddress(mac_address="08:00:2b:00:00:02"),
+            MACAddress(mac_address="08:00:2b:00:00:03"),
         )
 
         MACAddress.objects.bulk_create(mac_addresses)
