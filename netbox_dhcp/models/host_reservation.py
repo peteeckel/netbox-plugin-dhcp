@@ -48,6 +48,7 @@ class HostReservation(
     duid = models.CharField(
         verbose_name=_("DUID"),
         blank=True,
+        null=True,
         max_length=255,
     )
     hw_address = models.ForeignKey(
@@ -61,24 +62,28 @@ class HostReservation(
     flex_id = models.CharField(
         verbose_name=_("Flex ID"),
         blank=True,
+        null=True,
         max_length=255,
     )
     # IPv4 only
     circuit_id = models.CharField(
         verbose_name=_("Circuit ID"),
         blank=True,
+        null=True,
         max_length=255,
     )
     # IPv4 only
     client_id = models.CharField(
         verbose_name=_("Client ID"),
         blank=True,
+        null=True,
         max_length=255,
     )
 
     hostname = models.CharField(
         verbose_name=_("Hostname"),
         blank=True,
+        null=True,
         max_length=255,
     )
     ipv4_address = models.ForeignKey(
