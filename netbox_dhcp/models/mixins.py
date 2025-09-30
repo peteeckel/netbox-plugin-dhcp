@@ -17,7 +17,6 @@ __all__ = (
     "ClientClassModelMixin",
     "LifetimeModelMixin",
     "OfferLifetimeModelMixin",
-    "LifetimeModelMixin",
     "DDNSUpdateModelMixin",
     "LeaseModelMixin",
     "NetworkModelMixin",
