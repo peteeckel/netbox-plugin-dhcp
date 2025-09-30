@@ -2,13 +2,12 @@ from ipam.models import IPAddress, IPRange, Prefix
 from dcim.models import Device, Manufacturer, DeviceRole, DeviceType, Site, MACAddress
 from virtualization.models import VirtualMachine, Cluster, ClusterType
 
-from netbox_dhcp.models import Subnet, SharedNetwork, HostReservation, ClientClass
+from netbox_dhcp.models import Subnet, SharedNetwork, HostReservation, ClientClass, DHCPCluster
 
 __all__ = ("TestObjects",)
 
 
 class TestObjects:
-
     @staticmethod
     def get_ipv4_addresses():
         ipv4_addresses = (
@@ -84,7 +83,7 @@ class TestObjects:
         site = Site.objects.create(name="test-site")
         manufacturer = Manufacturer.objects.create(name="ACME")
         device_type = DeviceType.objects.create(
-            manufacturer=manufacturer, name="ACME 42", slug="acme-42"
+            manufacturer=manufacturer, model="ACME 42", slug="acme-42"
         )
         device_role = DeviceRole.objects.create(name="Null Device")
 
@@ -226,3 +225,15 @@ class TestObjects:
         ClientClass.objects.bulk_create(client_classes)
 
         return client_classes
+
+    @staticmethod
+    def get_dhcp_clusters():
+        dhcp_clusters = (
+            DHCPCluster(name="test-cluster-1"),
+            DHCPCluster(name="test-cluster-2"),
+            DHCPCluster(name="test-cluster-3"),
+        )
+
+        DHCPCluster.objects.bulk_create(dhcp_clusters)
+
+        return dhcp_clusters
