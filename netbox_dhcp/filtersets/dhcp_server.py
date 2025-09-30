@@ -9,8 +9,16 @@ from virtualization.models import VirtualMachine
 from utilities.filters import MultiValueCharFilter
 
 from netbox_dhcp.models import DHCPServer, DHCPCluster
-from netbox_dhcp.choices import DHCPServerStatusChoices
+from netbox_dhcp.choices import (
+    DHCPServerStatusChoices,
+    DHCPServerIDTypeChoices,
+    HostReservationIdentifierChoices,
+)
 from .mixins import (
+    BOOTPFilterMixin,
+    LifetimeFilterMixin,
+    LeaseFilterMixin,
+    DDNSUpdateFilterMixin,
     ChildSubnetFilterMixin,
     ChildSharedNetworkFilterMixin,
     ChildHostReservationFilterMixin,
@@ -21,6 +29,10 @@ __all__ = ("DHCPServerFilterSet",)
 
 
 class DHCPServerFilterSet(
+    BOOTPFilterMixin,
+    LifetimeFilterMixin,
+    LeaseFilterMixin,
+    DDNSUpdateFilterMixin,
     ChildSubnetFilterMixin,
     ChildSharedNetworkFilterMixin,
     ChildHostReservationFilterMixin,
@@ -42,14 +54,22 @@ class DHCPServerFilterSet(
             "dhcp_cluster",
             "device",
             "virtual_machine",
-            "child_subnets",
-            "child_shared_networks",
-            "child_host_reservations",
-            "child_client_classes",
+            "decline_probation_period",
+            *BOOTPFilterMixin.FILTER_FIELDS,
+            *LifetimeFilterMixin.FILTER_FIELDS,
+            *LeaseFilterMixin.FILTER_FIELDS,
+            *DDNSUpdateFilterMixin.FILTER_FIELDS,
+            *ChildSubnetFilterMixin.FILTER_FIELDS,
+            *ChildSharedNetworkFilterMixin.FILTER_FIELDS,
+            *ChildHostReservationFilterMixin.FILTER_FIELDS,
+            *ChildClientClassFilterMixin.FILTER_FIELDS,
         )
 
     status = django_filters.MultipleChoiceFilter(
         choices=DHCPServerStatusChoices,
+    )
+    server_id = django_filters.MultipleChoiceFilter(
+        choices=DHCPServerIDTypeChoices,
     )
 
     dhcp_cluster_id = django_filters.ModelMultipleChoiceFilter(
@@ -85,13 +105,17 @@ class DHCPServerFilterSet(
         to_field_name="name",
         label=_("Virtual Machine"),
     )
-    host_reservation_identifiers = MultiValueCharFilter(
+    host_reservation_identifiers = django_filters.MultipleChoiceFilter(
+        choices=HostReservationIdentifierChoices,
         method="filter_host_reservation_identifiers",
         label=_("Host Reservation Identifiers"),
     )
     relay_supplied_options = MultiValueCharFilter(
         method="filter_relay_supplied_options",
         label=_("Relay Supplied Options"),
+    )
+    decline_probation_period = django_filters.NumberFilter(
+        label=_("Decline Probation Period"),
     )
 
     def filter_host_reservation_identifiers(self, queryset, name, value):
