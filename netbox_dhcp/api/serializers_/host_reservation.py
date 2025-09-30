@@ -98,7 +98,6 @@ class HostReservationSerializer(
         ipv6_addresses = validated_data.pop("ipv6_addresses", None)
         ipv6_prefixes = validated_data.pop("ipv6_prefixes", None)
         excluded_ipv6_prefixes = validated_data.pop("excluded_ipv6_prefixes", None)
-        assign_client_classes = validated_data.pop("assign_client_classes", None)
 
         host_reservation = super().create(validated_data)
 
@@ -110,8 +109,6 @@ class HostReservationSerializer(
             host_reservation.ipv6_prefixes.set(ipv6_prefixes)
         if excluded_ipv6_prefixes is not None:
             host_reservation.excluded_ipv6_prefixes.set(excluded_ipv6_prefixes)
-        if assign_client_classes is not None:
-            host_reservation.assign_client_classes.set(assign_client_classes)
 
         return host_reservation
 
@@ -120,7 +117,6 @@ class HostReservationSerializer(
         ipv6_addresses = validated_data.pop("ipv6_addresses", None)
         ipv6_prefixes = validated_data.pop("ipv6_prefixes", None)
         excluded_ipv6_prefixes = validated_data.pop("excluded_ipv6_prefixes", None)
-        assign_client_classes = validated_data.pop("assign_client_classes", None)
 
         host_reservation = super().update(instance, validated_data)
 
@@ -132,7 +128,5 @@ class HostReservationSerializer(
             host_reservation.ipv6_prefixes.set(ipv6_prefixes)
         if excluded_ipv6_prefixes is not None:
             host_reservation.excluded_ipv6_prefixes.set(excluded_ipv6_prefixes)
-        if assign_client_classes is not None:
-            host_reservation.assign_client_classes.set(assign_client_classes)
 
         return host_reservation

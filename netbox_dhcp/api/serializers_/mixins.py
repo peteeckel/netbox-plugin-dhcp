@@ -26,7 +26,6 @@ __all__ = (
 class ClientClassAssignmentSerializerMixin:
     assign_client_classes = NestedClientClassSerializer(
         many=True,
-        nested=True,
         read_only=False,
         required=False,
         help_text=_("Client class to assign"),
@@ -36,7 +35,6 @@ class ClientClassAssignmentSerializerMixin:
 class ClientClassDefinitionSerializerMixin:
     client_class_definitions = NestedClientClassSerializer(
         many=True,
-        nested=True,
         read_only=False,
         required=False,
         help_text=_("Client class definitions"),
