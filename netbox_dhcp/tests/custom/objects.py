@@ -2,7 +2,13 @@ from ipam.models import IPAddress, IPRange, Prefix
 from dcim.models import Device, Manufacturer, DeviceRole, DeviceType, Site, MACAddress
 from virtualization.models import VirtualMachine, Cluster, ClusterType
 
-from netbox_dhcp.models import Subnet, SharedNetwork, HostReservation, ClientClass, DHCPCluster
+from netbox_dhcp.models import (
+    Subnet,
+    SharedNetwork,
+    HostReservation,
+    ClientClass,
+    DHCPCluster,
+)
 
 __all__ = ("TestObjects",)
 

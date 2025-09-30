@@ -36,16 +36,14 @@ class DHCPServerAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
-        test_objects = TestObjects()
-
         dhcp_cluster = DHCPCluster.objects.create(
             name="test-cluster-1",
         )
 
-        subnets = test_objects.get_ipv6_subnets()
-        shared_networks = test_objects.get_ipv6_shared_networks()
-        host_reservations = test_objects.get_host_reservations()
-        client_classes = test_objects.get_client_classes()
+        subnets = TestObjects.get_ipv6_subnets()
+        shared_networks = TestObjects.get_ipv6_shared_networks()
+        host_reservations = TestObjects.get_host_reservations()
+        client_classes = TestObjects.get_client_classes()
 
         cls.create_data = [
             {

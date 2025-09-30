@@ -17,10 +17,6 @@ from netbox_dhcp.tests.custom import (
     PreferredLifetimeFilterSetTests,
     LeaseFilterSetTests,
     DDNSUpdateFilterSetTests,
-#    ChildSubnetFilterSetTests,
-#    ChildSharedNetworkFilterSetTests,
-#    ChildHostReservationFilterSetTests,
-#    ChildClientClassFilterSetTests,
 )
 
 
@@ -32,11 +28,7 @@ class DHCPServerFilterSetTestCase(
     LeaseFilterSetTests,
     DDNSUpdateFilterSetTests,
     TestCase,
-#    ChildSubnetFilterSetTests,
-#    ChildSharedNetworkFilterSetTests,
-#    ChildHostReservationFilterSetTests,
-#    ChildClientClassFilterSetTests,
-#    ChangeLoggedFilterSetTests,
+    ChangeLoggedFilterSetTests,
 ):
     queryset = DHCPServer.objects.all()
     filterset = DHCPServerFilterSet
@@ -68,6 +60,10 @@ class DHCPServerFilterSetTestCase(
         cls.dhcp_clusters = TestObjects.get_dhcp_clusters()
         cls.devices = TestObjects.get_devices()
         cls.virtual_machines = TestObjects.get_virtual_machines()
+        cls.subnets = TestObjects.get_ipv4_subnets()
+        cls.shared_networks = TestObjects.get_ipv4_shared_networks()
+        cls.host_reservations = TestObjects.get_host_reservations()
+        cls.client_classes = TestObjects.get_client_classes()
 
         cls.dhcp_servers = (
             DHCPServer(
@@ -87,17 +83,16 @@ class DHCPServerFilterSetTestCase(
                 **OfferLifetimeFilterSetTests.DATA[0],
                 **LeaseFilterSetTests.DATA[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
-#                **ChildSubnetFilterSetTests.DATA[0],
-#                **ChildSharedNetworkFilterSetTests.DATA[0],
-#                **ChildHostReservationFilterSetTests.DATA[0],
-#                **ChildClientClassFilterSetTests.DATA[0],
             ),
             DHCPServer(
                 name="test-server-2",
                 status=DHCPServerStatusChoices.STATUS_INACTIVE,
                 description="Test Server 2",
                 server_id=DHCPServerIDTypeChoices.ID_LL,
-                host_reservation_identifiers=[HostReservationIdentifierChoices.HW_ADDRESS, HostReservationIdentifierChoices.DUID],
+                host_reservation_identifiers=[
+                    HostReservationIdentifierChoices.HW_ADDRESS,
+                    HostReservationIdentifierChoices.DUID,
+                ],
                 echo_client_id=True,
                 relay_supplied_options=[2, 3, 4],
                 dhcp_cluster=cls.dhcp_clusters[1],
@@ -109,17 +104,15 @@ class DHCPServerFilterSetTestCase(
                 **OfferLifetimeFilterSetTests.DATA[1],
                 **LeaseFilterSetTests.DATA[1],
                 **DDNSUpdateFilterSetTests.DATA[1],
-#                **ChildSubnetFilterSetTests.DATA[1],
-#                **ChildSharedNetworkFilterSetTests.DATA[1],
-#                **ChildHostReservationFilterSetTests.DATA[1],
-#                **ChildClientClassFilterSetTests.DATA[1],
             ),
             DHCPServer(
                 name="test-server-3",
                 status=DHCPServerStatusChoices.STATUS_ACTIVE,
                 description="Test Server 3",
                 server_id=DHCPServerIDTypeChoices.ID_LLT,
-                host_reservation_identifiers=[HostReservationIdentifierChoices.CLIENT_ID],
+                host_reservation_identifiers=[
+                    HostReservationIdentifierChoices.CLIENT_ID
+                ],
                 echo_client_id=False,
                 relay_supplied_options=[4, 5, 6],
                 dhcp_cluster=cls.dhcp_clusters[2],
@@ -131,16 +124,38 @@ class DHCPServerFilterSetTestCase(
                 **OfferLifetimeFilterSetTests.DATA[2],
                 **LeaseFilterSetTests.DATA[2],
                 **DDNSUpdateFilterSetTests.DATA[2],
-#                **ChildSubnetFilterSetTests.DATA[2],
-#                **ChildSharedNetworkFilterSetTests.DATA[2],
-#                **ChildHostReservationFilterSetTests.DATA[2],
-#                **ChildClientClassFilterSetTests.DATA[2],
             ),
         )
         DHCPServer.objects.bulk_create(cls.dhcp_servers)
 
+        cls.dhcp_servers[0].child_subnets.set(cls.subnets[0:2])
+        cls.dhcp_servers[1].child_subnets.set(cls.subnets[1:3])
+        cls.dhcp_servers[2].child_subnets.set([cls.subnets[0], cls.subnets[2]])
+
+        cls.dhcp_servers[0].child_shared_networks.set(cls.shared_networks[0:2])
+        cls.dhcp_servers[1].child_shared_networks.set(cls.shared_networks[1:3])
+        cls.dhcp_servers[2].child_shared_networks.set(
+            [cls.shared_networks[0], cls.shared_networks[2]]
+        )
+
+        cls.dhcp_servers[0].child_host_reservations.set(cls.host_reservations[0:2])
+        cls.dhcp_servers[1].child_host_reservations.set(cls.host_reservations[1:3])
+        cls.dhcp_servers[2].child_host_reservations.set(
+            [cls.host_reservations[0], cls.host_reservations[2]]
+        )
+
+        cls.dhcp_servers[0].child_client_classes.set(cls.client_classes[0:2])
+        cls.dhcp_servers[1].child_client_classes.set(cls.client_classes[1:3])
+        cls.dhcp_servers[2].child_client_classes.set(
+            [cls.client_classes[0], cls.client_classes[2]]
+        )
+
     def test_name(self):
-        params = {"name": ["test-server-1", "test-server-2"]}
+        params = {"name__iregex": r"test-server-[12]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_description(self):
+        params = {"description__iregex": r"Test Server [12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_status(self):
@@ -149,16 +164,19 @@ class DHCPServerFilterSetTestCase(
         params = {"status": [DHCPServerStatusChoices.STATUS_INACTIVE]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
-    def test_description(self):
-        params = {"description": ["Test Server 1", "Test Server 2"]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
     def test_server_id(self):
-        params = {"server_id": [DHCPServerIDTypeChoices.ID_EN, DHCPServerIDTypeChoices.ID_LL]}
+        params = {
+            "server_id": [DHCPServerIDTypeChoices.ID_EN, DHCPServerIDTypeChoices.ID_LL]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_host_reservation_identifiers(self):
-        params = {"host_reservation_identifiers": [HostReservationIdentifierChoices.DUID, HostReservationIdentifierChoices.HW_ADDRESS]}
+        params = {
+            "host_reservation_identifiers": [
+                HostReservationIdentifierChoices.DUID,
+                HostReservationIdentifierChoices.HW_ADDRESS,
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_echo_client_id(self):
@@ -172,9 +190,13 @@ class DHCPServerFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_dhcp_cluster(self):
-        params = {"dhcp_cluster": [self.dhcp_clusters[0].name, self.dhcp_clusters[1].name]}
+        params = {
+            "dhcp_cluster": [self.dhcp_clusters[0].name, self.dhcp_clusters[1].name]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"dhcp_cluster_id": [self.dhcp_clusters[2].pk, self.dhcp_clusters[1].pk]}
+        params = {
+            "dhcp_cluster_id": [self.dhcp_clusters[2].pk, self.dhcp_clusters[1].pk]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_device(self):
@@ -184,9 +206,19 @@ class DHCPServerFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_virtual_machine(self):
-        params = {"virtual_machine": [self.virtual_machines[0].name, self.virtual_machines[1].name]}
+        params = {
+            "virtual_machine": [
+                self.virtual_machines[0].name,
+                self.virtual_machines[1].name,
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 0)
-        params = {"virtual_machine_id": [self.virtual_machines[1].pk, self.virtual_machines[2].pk]}
+        params = {
+            "virtual_machine_id": [
+                self.virtual_machines[1].pk,
+                self.virtual_machines[2].pk,
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_decline_probation_period(self):
@@ -194,3 +226,27 @@ class DHCPServerFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"decline_probation_period": 43200}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_child_subnets(self):
+        params = {"child_subnet": [self.subnets[0].name]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"child_subnet_id": [self.subnets[2].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_child_shared_networks(self):
+        params = {"child_shared_network": [self.shared_networks[0].name]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"child_shared_network_id": [self.shared_networks[2].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_child_host_reservations(self):
+        params = {"child_host_reservation": [self.host_reservations[0].name]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"child_host_reservation_id": [self.host_reservations[2].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_child_client_classes(self):
+        params = {"child_client_class": [self.client_classes[0].name]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"child_client_class_id": [self.client_classes[2].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

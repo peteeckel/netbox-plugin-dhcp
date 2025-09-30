@@ -4,7 +4,6 @@ from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
 )
-from .objects import TestObjects
 
 __all__ = (
     "BOOTPFilterSetTests",
@@ -13,10 +12,6 @@ __all__ = (
     "OfferLifetimeFilterSetTests",
     "LeaseFilterSetTests",
     "DDNSUpdateFilterSetTests",
-    "ChildSubnetFilterSetTests",
-    "ChildSharedNetworkFilterSetTests",
-    "ChildHostReservationFilterSetTests",
-    "ChildClientClassFilterSetTests",
 )
 
 
@@ -303,7 +298,12 @@ class LeaseFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_pd_allocator(self):
-        params = {"pd_allocator": [PDAllocatorTypeChoices.ITERATIVE, PDAllocatorTypeChoices.RANDOM]}
+        params = {
+            "pd_allocator": [
+                PDAllocatorTypeChoices.ITERATIVE,
+                PDAllocatorTypeChoices.RANDOM,
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"pd_allocator": [PDAllocatorTypeChoices.FREE_LEASE_QUEUE]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
@@ -392,9 +392,16 @@ class DDNSUpdateFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ddns_replace_client_name(self):
-        params = {"ddns_replace_client_name": [DDNSReplaceClientNameChoices.NEVER, DDNSReplaceClientNameChoices.ALWAYS]}
+        params = {
+            "ddns_replace_client_name": [
+                DDNSReplaceClientNameChoices.NEVER,
+                DDNSReplaceClientNameChoices.ALWAYS,
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"ddns_replace_client_name": [DDNSReplaceClientNameChoices.WHEN_PRESENT]}
+        params = {
+            "ddns_replace_client_name": [DDNSReplaceClientNameChoices.WHEN_PRESENT]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_ddns_generated_prefix(self):
@@ -416,9 +423,18 @@ class DDNSUpdateFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ddns_conflict_resolution_mode(self):
-        params = {"ddns_conflict_resolution_mode": [DDNSConflictResolutionModeChoices.CHECK_WITH_DHCID, DDNSConflictResolutionModeChoices.NO_CHECK_WITH_DHCID]}
+        params = {
+            "ddns_conflict_resolution_mode": [
+                DDNSConflictResolutionModeChoices.CHECK_WITH_DHCID,
+                DDNSConflictResolutionModeChoices.NO_CHECK_WITH_DHCID,
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"ddns_conflict_resolution_mode": [DDNSConflictResolutionModeChoices.CHECK_EXISTS_WITH_DHCID]}
+        params = {
+            "ddns_conflict_resolution_mode": [
+                DDNSConflictResolutionModeChoices.CHECK_EXISTS_WITH_DHCID
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_ddns_ttl_percent(self):
@@ -444,68 +460,3 @@ class DDNSUpdateFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
         params = {"ddns_ttl_max__lt": 172802}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-
-class ChildSubnetFilterSetTests:
-    subnets = TestObjects.get_ipv4_subnets()
-
-    DATA = [
-        {
-            "child_subnets": subnets[0:2],
-        },
-        {
-            "child_subnets": subnets[1:3],
-        },
-        {
-            "child_subnets": [subnets[0], subnets[2]],
-        },
-    ]
-
-
-class ChildSharedNetworkFilterSetTests:
-    shared_networks = TestObjects.get_shared_networks()
-
-    DATA = [
-        {
-            "child_shared_networks": shared_networks[0:2],
-        },
-        {
-            "child_shared_networks": shared_networks[1:3],
-        },
-        {
-            "child_shared_networks": [shared_networks[0], shared_networks[2]],
-        },
-    ]
-
-
-class ChildHostReservationFilterSetTests:
-    host_reservations = TestObjects.get_host_reservations()
-
-    DATA = [
-        {
-            "child_host_reservations": host_reservations[0:2],
-        },
-        {
-            "child_host_reservations": host_reservations[1:3],
-        },
-        {
-            "child_host_reservations": [host_reservations[0], host_reservations[2]],
-        },
-    ]
-
-
-class ChildClientClassFilterSetTests:
-    client_classes = TestObjects.get_client_classes()
-
-    DATA = [
-        {
-            "child_client_classes": client_classes[0:2],
-        },
-        {
-            "child_client_classes": client_classes[1:3],
-        },
-        {
-            "child_client_classes": [client_classes[0], client_classes[2]],
-        },
-    ]
-
