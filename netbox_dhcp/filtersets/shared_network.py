@@ -1,7 +1,6 @@
 import django_filters
-from django.utils.translation import gettext as _
-
 from django.db.models import Q
+from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import Prefix
@@ -75,6 +74,12 @@ class SharedNetworkFilterSet(
             "comment",
         )
 
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     family = django_filters.ChoiceFilter(
         choices=IPAddressFamilyChoices,
         field_name="prefix__prefix",

@@ -1,6 +1,6 @@
 import django_filters
-
 from django.db.models import Q
+from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 
@@ -22,6 +22,12 @@ class DHCPClusterFilterSet(NetBoxModelFilterSet):
             "status",
         )
 
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     status = django_filters.MultipleChoiceFilter(
         choices=DHCPClusterStatusChoices,
     )

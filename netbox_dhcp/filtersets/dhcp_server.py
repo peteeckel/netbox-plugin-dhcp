@@ -1,5 +1,4 @@
 import django_filters
-
 from django.db.models import Q
 from django.utils.translation import gettext as _
 
@@ -65,6 +64,12 @@ class DHCPServerFilterSet(
             *ChildClientClassFilterMixin.FILTER_FIELDS,
         )
 
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     status = django_filters.MultipleChoiceFilter(
         choices=DHCPServerStatusChoices,
     )

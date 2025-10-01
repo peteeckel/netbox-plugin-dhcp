@@ -1,7 +1,6 @@
 import django_filters
-from django.utils.translation import gettext as _
-
 from django.db.models import Q
+from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 from dcim.models import MACAddress
@@ -37,6 +36,12 @@ class HostReservationFilterSet(
             "hostname",
         )
 
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     hw_address_id = django_filters.ModelMultipleChoiceFilter(
         queryset=MACAddress.objects.all(),
         field_name="hw_address",

@@ -1,7 +1,6 @@
 import django_filters
-from django.utils.translation import gettext as _
-
 from django.db.models import Q
+from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import IPRange
@@ -46,6 +45,12 @@ class PoolFilterSet(
             "comment",
         )
 
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     family = django_filters.ChoiceFilter(
         label=_("Address Family"),
         choices=IPAddressFamilyChoices,

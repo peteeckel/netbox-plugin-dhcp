@@ -1,5 +1,4 @@
 import django_filters
-
 from django.db.models import Q
 from django.utils.translation import gettext as _
 
@@ -26,6 +25,9 @@ class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
             "never_send",
         )
 
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     family = django_filters.MultipleChoiceFilter(
         label=_("Address Family"),
         field_name="definition__family",

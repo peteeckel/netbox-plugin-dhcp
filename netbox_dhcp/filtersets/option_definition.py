@@ -26,6 +26,12 @@ class OptionDefinitionFilterSet(NetBoxModelFilterSet):
             "array",
         )
 
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
     family = django_filters.ChoiceFilter(
         label=_("Address Family"),
         choices=IPAddressFamilyChoices,

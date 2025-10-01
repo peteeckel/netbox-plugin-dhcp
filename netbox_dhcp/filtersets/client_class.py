@@ -1,4 +1,6 @@
+import django_filters
 from django.db.models import Q
+from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 
@@ -32,6 +34,13 @@ class ClientClassFilterSet(NetBoxModelFilterSet):
             "max_preferred_lifetime",
             "comment",
         )
+
+    name = django_filters.CharFilter(
+        label=_("Name"),
+    )
+    description = django_filters.CharFilter(
+        label=_("Description"),
+    )
 
     def search(self, queryset, name, value):
         if not value.strip():
