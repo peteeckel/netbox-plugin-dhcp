@@ -24,6 +24,7 @@ class OptionDefinitionFilterSet(NetBoxModelFilterSet):
             "description",
             "encapsulate",
             "array",
+            "standard",
         )
 
     name = django_filters.CharFilter(
