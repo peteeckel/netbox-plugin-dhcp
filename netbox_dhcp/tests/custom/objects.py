@@ -8,6 +8,7 @@ from netbox_dhcp.models import (
     HostReservation,
     ClientClass,
     DHCPCluster,
+    DHCPServer,
 )
 
 __all__ = ("TestObjects",)
@@ -243,3 +244,15 @@ class TestObjects:
         DHCPCluster.objects.bulk_create(dhcp_clusters)
 
         return dhcp_clusters
+
+    @staticmethod
+    def get_dhcp_servers():
+        dhcp_servers = (
+            DHCPServer(name="test-server-1"),
+            DHCPServer(name="test-server-2"),
+            DHCPServer(name="test-server-3"),
+        )
+
+        DHCPServer.objects.bulk_create(dhcp_servers)
+
+        return dhcp_servers
