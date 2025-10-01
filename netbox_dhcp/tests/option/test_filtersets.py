@@ -1,0 +1,194 @@
+from django.test import TestCase
+
+from utilities.testing import ChangeLoggedFilterSetTests
+from ipam.choices import IPAddressFamilyChoices
+
+from netbox_dhcp.models import Option, OptionDefinition
+from netbox_dhcp.choices import OptionSpaceChoices
+from netbox_dhcp.filtersets import OptionFilterSet
+from netbox_dhcp.tests.custom import TestObjects
+
+
+class OptionFilterSetTestCase(
+    TestCase,
+    ChangeLoggedFilterSetTests,
+):
+    queryset = Option.objects.all()
+    filterset = OptionFilterSet
+
+    # +
+    # Filtering by assigned object may turn out useful over time, but
+    # currently I don't see the point and it's really complex because of the
+    # GenericForeignKey relation.
+    # -
+    ignore_fields = (
+        "assigned_object_id",
+        "assigned_object_type",
+    )
+
+    # +
+    # This is a dirty hack and does not work for all models.
+    #
+    # What really needs to be fixed is the get_m2m_filter_name() method in
+    # netbox/utilities/testing/filtersets.py, which returns a filter name
+    # based on the target model verbose name instead of the field name.
+    #
+    # Obviously this fails if there are multiple m2m relations to the same
+    # class.
+    # -
+    filter_name_map = {
+        "client_class": "assign_client_class",
+    }
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.ipv4_prefixes = TestObjects.get_ipv4_prefixes()
+        cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
+
+        cls.option_definitions = (
+            OptionDefinition.objects.get(
+                space=OptionSpaceChoices.DHCPV4,
+                name="routers",
+            ),
+            OptionDefinition.objects.get(
+                space=OptionSpaceChoices.DHCPV4,
+                name="domain-name-servers",
+            ),
+            OptionDefinition.objects.get(
+                space=OptionSpaceChoices.DHCPV4,
+                name="interface-mtu",
+            ),
+            OptionDefinition.objects.get(
+                space=OptionSpaceChoices.DHCPV4,
+                name="ip-forwarding",
+            ),
+            OptionDefinition.objects.get(
+                space=OptionSpaceChoices.DHCPV6,
+                name="dns-servers",
+            ),
+            OptionDefinition.objects.get(
+                space=OptionSpaceChoices.DHCPV6,
+                name="domain-search",
+            ),
+        )
+
+        cls.options = (
+            Option(
+                definition=cls.option_definitions[0],
+                description="Test Option 1",
+                data="192.0.2.1,192.0.2.2",
+                csv_format=True,
+                always_send=True,
+                never_send=False,
+                assigned_object=cls.ipv4_prefixes[0],
+            ),
+            Option(
+                definition=cls.option_definitions[0],
+                description="Test Option 2",
+                data="192.0.2.3,192.0.2.4",
+                csv_format=True,
+                always_send=True,
+                assigned_object=cls.ipv4_prefixes[0],
+            ),
+            Option(
+                definition=cls.option_definitions[1],
+                description="Test Option 3",
+                data="192.0.2.5,192.0.2.6",
+                csv_format=True,
+                never_send=False,
+                assigned_object=cls.ipv4_prefixes[1],
+            ),
+            Option(
+                definition=cls.option_definitions[2],
+                description="Test Option 4",
+                data="1380",
+                csv_format=False,
+                never_send=True,
+                assigned_object=cls.ipv4_prefixes[1],
+            ),
+            Option(
+                definition=cls.option_definitions[3],
+                description="Test Option 5",
+                data="true",
+                csv_format=False,
+                always_send=False,
+                assigned_object=cls.ipv4_prefixes[2],
+            ),
+            Option(
+                definition=cls.option_definitions[4],
+                description="Test Option 6",
+                data="2001:db8:1::53,2001:db8:2::53",
+                csv_format=True,
+                always_send=False,
+                never_send=True,
+                assigned_object=cls.ipv6_prefixes[0],
+            ),
+            Option(
+                definition=cls.option_definitions[5],
+                description="Test Option 7",
+                data="example.com",
+                csv_format=False,
+                assigned_object=cls.ipv6_prefixes[1],
+            ),
+        )
+        Option.objects.bulk_create(cls.options)
+
+    def test_definition(self):
+        params = {"definition_id": self.option_definitions[0:2]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        params = {"definition__iregex": r"(routers|interface-mtu)"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        params = {"definition": "ip-forwarding"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_name(self):
+        params = {"name__iregex": r"routers"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"name__iregex": r"(routers|domain-name-servers)"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+
+    def test_code(self):
+        params = {"code": 3}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"code__gt": 3}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)
+
+    def test_family(self):
+        params = {"family": IPAddressFamilyChoices.FAMILY_4}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)
+        params = {"family": IPAddressFamilyChoices.FAMILY_6}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_space(self):
+        params = {"space": [OptionSpaceChoices.DHCPV4]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)
+        params = {"space": [OptionSpaceChoices.DHCPV6]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_description(self):
+        params = {"description__iregex": r"Test Option [12]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_data(self):
+        params = {"data__iregex": r"192\.0\.2\.[23]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"data": "1380"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_csv_format(self):
+        params = {"csv_format": True}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 4)
+        params = {"csv_format": False}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+
+    def test_always_send(self):
+        params = {"always_send": True}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"always_send": False}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_never_send(self):
+        params = {"never_send": True}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"never_send": False}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
