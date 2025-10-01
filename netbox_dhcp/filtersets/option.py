@@ -23,6 +23,8 @@ class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
             "csv_format",
             "always_send",
             "never_send",
+            "assigned_object_type",
+            "assigned_object_id",
         )
 
     description = django_filters.CharFilter(

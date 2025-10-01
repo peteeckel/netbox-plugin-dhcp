@@ -45,7 +45,6 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
             "never_send",
             "assign_client_classes",
             "assigned_object",
-            "assigned_object_id",
             "assigned_object_type",
         )
 
