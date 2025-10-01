@@ -37,6 +37,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
 
         fields = (
             "definition",
+            "description",
             "data",
             "csv_format",
             "always_send",
@@ -48,6 +49,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
     fieldsets = (
         FieldSet(
             "definition",
+            "description",
             "data",
             "csv_format",
             "always_send",
@@ -92,6 +94,7 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
         ),
         FieldSet(
             "name",
+            "description",
             "family",
             "space",
             "code",
@@ -107,6 +110,10 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
 
     name = forms.CharField(
         label=_("Name"),
+        required=False,
+    )
+    description = forms.CharField(
+        label=_("Description"),
         required=False,
     )
     family = forms.ChoiceField(
@@ -153,6 +160,7 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
 
         fields = (
             "definition",
+            "description",
             "data",
             "csv_format",
             "always_send",
@@ -180,6 +188,7 @@ class OptionBulkEditForm(
     fieldsets = (
         FieldSet(
             "definition",
+            "description",
             "data",
             "csv_format",
             "always_send",
@@ -191,12 +200,17 @@ class OptionBulkEditForm(
 
     nullable_fields = (
         "data",
+        "description",
         "csv_format",
         "always_send",
         "never_send",
         "assign_client_classes",
     )
 
+    description = forms.CharField(
+        label=_("Description"),
+        required=False,
+    )
     definition = forms.ModelChoiceField(
         label=_("Option Definition"),
         queryset=OptionDefinition.objects.all(),
