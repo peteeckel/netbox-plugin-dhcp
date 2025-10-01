@@ -24,6 +24,12 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
         verbose_name = _("Option")
         verbose_name_plural = _("Options")
 
+        ordering = (
+            "definition__space",
+            "definition__code",
+            "definition__name",
+        )
+
     definition = models.ForeignKey(
         verbose_name=_("Option Definition"),
         to="OptionDefinition",
