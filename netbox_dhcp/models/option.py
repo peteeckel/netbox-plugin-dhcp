@@ -41,11 +41,11 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
         to="contenttypes.ContentType",
         on_delete=models.PROTECT,
         related_name="+",
-        blank=False,
+        blank=True,
         null=True,
     )
     assigned_object_id = models.PositiveBigIntegerField(
-        blank=False,
+        blank=True,
         null=True,
     )
     assigned_object = GenericForeignKey(
