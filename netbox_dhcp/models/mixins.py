@@ -56,16 +56,19 @@ class BOOTPModelMixin(models.Model):
     next_server = models.CharField(
         verbose_name=_("Next Server"),
         blank=True,
+        null=True,
         max_length=15,
     )
     server_hostname = models.CharField(
         verbose_name=_("Server Hostname"),
         blank=True,
+        null=True,
         max_length=64,
     )
     boot_file_name = models.CharField(
         verbose_name=_("Boot File Name"),
         blank=True,
+        null=True,
         max_length=128,
     )
 
@@ -83,6 +86,7 @@ class CommonModelMixin(models.Model):
     comment = models.CharField(
         verbose_name=_("Comment"),
         blank=True,
+        null=True,
         max_length=255,
     )
 
