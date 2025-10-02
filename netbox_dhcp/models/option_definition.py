@@ -29,7 +29,10 @@ class OptionDefinition(NetBoxModel):
             "name",
         )
 
-        unique_together = ("space", "code")
+        constraints = [
+            models.UniqueConstraint(fields=["space", "code"], name="space_code_unique"),
+            models.UniqueConstraint(fields=["space", "name"], name="space_name_unique"),
+        ]
 
     clone_fields = ("space",)
 
