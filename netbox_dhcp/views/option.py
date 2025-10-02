@@ -38,6 +38,7 @@ class OptionListView(generic.ObjectListView):
     table = OptionTable
     actions = {
         "export": {"view"},
+        "bulk_import": {"change"},
         "bulk_edit": {"change"},
         "bulk_delete": {"delete"},
     }

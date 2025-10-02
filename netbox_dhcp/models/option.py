@@ -3,7 +3,7 @@ import re
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericForeignKey
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
@@ -53,7 +53,7 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
     )
     data = models.CharField(
         verbose_name=_("Option Data"),
-        null=True,
+        null=False,
         blank=True,
     )
     description = models.CharField(
@@ -91,15 +91,23 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
     def clean(self):
         super().clean()
 
-        if self.definition.type == OptionTypeChoices.TYPE_BINARY:
+        try:
+            definition = self.definition
+        except ObjectDoesNotExist:
+            raise ValidationError(_("Option definition is required"))
+
+        if definition is None:
+            raise ValidationError(_("Option definition is required"))
+
+        if definition.type == OptionTypeChoices.TYPE_BINARY:
             self.csv_format = False
 
-        if self.definition.type == OptionTypeChoices.TYPE_RECORD:
+        if definition.type == OptionTypeChoices.TYPE_RECORD:
             data_array = re.split(r"\s*,\s*", self.data)
-            record_types = self.definition.record_types
+            record_types = definition.record_types
 
-            if (self.definition.array and len(record_types) > len(data_array)) or (
-                not self.definition.array and len(record_types) != len(data_array)
+            if (definition.array and len(record_types) > len(data_array)) or (
+                not definition.array and len(record_types) != len(data_array)
             ):
                 raise ValidationError(
                     _("Lengths of record type list and data elements do not match")
@@ -108,17 +116,17 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
             for mapping in zip(data_array, record_types):
                 validate_data(*mapping)
 
-            if self.definition.array:
+            if definition.array:
                 for data_field in data_array[len(record_types) :]:
                     validate_data(data_field, record_types[-1])
 
-        elif self.definition.array:
+        elif definition.array:
             data_array = re.split(r"\s*,\s*", self.data)
             for data_field in data_array:
-                validate_data(data_field, self.definition.type)
+                validate_data(data_field, definition.type)
 
         else:
-            validate_data(self.data, self.definition.type)
+            validate_data(self.data, definition.type)
 
 
 @register_search

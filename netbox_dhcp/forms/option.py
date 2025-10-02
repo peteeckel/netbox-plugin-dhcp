@@ -7,12 +7,22 @@ from netbox.forms import (
     NetBoxModelImportForm,
     NetBoxModelForm,
 )
-from utilities.forms.fields import TagFilterField, CSVModelChoiceField
+from utilities.forms.fields import TagFilterField, CSVModelChoiceField, CSVChoiceField
 from utilities.forms.rendering import FieldSet
 from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import Option, OptionDefinition
+from netbox_dhcp.models import (
+    Option,
+    OptionDefinition,
+    DHCPServer,
+    Subnet,
+    SharedNetwork,
+    Pool,
+    PDPool,
+    HostReservation,
+    ClientClass,
+)
 from netbox_dhcp.choices import OptionSpaceChoices
 
 from .mixins import (
@@ -160,6 +170,16 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
 
         fields = (
             "definition",
+            "space",
+            "name",
+            "code",
+            "dhcp_server",
+            "subnet",
+            "shared_network",
+            "pool",
+            "pd_pool",
+            "host_reservation",
+            "client_class",
             "description",
             "data",
             "csv_format",
@@ -170,14 +190,173 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
         )
 
     definition = CSVModelChoiceField(
-        label=_("Option Definitions"),
+        label=_("Definition"),
         queryset=OptionDefinition.objects.all(),
-        to_field_name="name",
+        required=False,
+    )
+    space = CSVChoiceField(
+        label=_("Space"),
+        choices=OptionSpaceChoices,
         required=True,
+    )
+    name = CSVModelChoiceField(
+        label=_("Name"),
+        queryset=OptionDefinition.objects.all(),
+        required=False,
+        to_field_name="name",
         error_messages={
-            "invalid_choice": _("Option Definition %(value)s not found"),
+            "invalid_choice": _("No option definition with name %(value)s found"),
         },
     )
+    code = CSVModelChoiceField(
+        label=_("Code"),
+        queryset=OptionDefinition.objects.all(),
+        required=False,
+        to_field_name="code",
+        error_messages={
+            "invalid_choice": _("No option definition with code %(value)s found"),
+        },
+        help_text=_("If code is present, name will be ignored"),
+    )
+
+    dhcp_server = CSVModelChoiceField(
+        label=_("DHCP Server"),
+        queryset=DHCPServer.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("DHCP Server %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+    subnet = CSVModelChoiceField(
+        label=_("Subnet"),
+        queryset=Subnet.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("Subnet %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+    shared_network = CSVModelChoiceField(
+        label=_("Shared Network"),
+        queryset=SharedNetwork.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("Shared network %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+    pool = CSVModelChoiceField(
+        label=_("Pool"),
+        queryset=Pool.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("Pool %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+    pd_pool = CSVModelChoiceField(
+        label=_("Prefix Delegation Pool"),
+        queryset=PDPool.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("Prefix delegation pool %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+    host_reservation = CSVModelChoiceField(
+        label=_("Host Reservation"),
+        queryset=HostReservation.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("Host reservation %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+    client_class = CSVModelChoiceField(
+        label=_("Client Class"),
+        queryset=ClientClass.objects.all(),
+        to_field_name="name",
+        required=False,
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        help_text=_(
+            "Specify exactly one of dhcp_server, subnet, shared_network, "
+            "pool, pd_pool, host_reservation or client_class per line"
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.is_bound and "space" in self.data:
+            self.fields["code"].queryset = OptionDefinition.objects.filter(
+                space=self.data.get("space")
+            )
+            self.fields["name"].queryset = OptionDefinition.objects.filter(
+                space=self.data.get("space")
+            )
+
+        del self.fields["definition"]
+
+    def clean(self):
+        super().clean()
+
+        name = self.cleaned_data.get("name")
+        code = self.cleaned_data.get("code")
+
+        self.cleaned_data["definition"] = code if code else name
+
+        objects = [
+            self.cleaned_data.get(object_name)
+            for object_name in (
+                "dhcp_server",
+                "subnet",
+                "shared_network",
+                "pool",
+                "pd_pool",
+                "host_reservation",
+                "client_class",
+            )
+            if self.cleaned_data.get(object_name) is not None
+        ]
+        if len(objects) != 1:
+            raise forms.ValidationError(_("Exactly one assigned object is required"))
+
+        self.cleaned_data["assigned_object"] = objects[0]
+
+        return self.cleaned_data
+
+    def save(self, *args, **kwargs):
+        self.instance.definition = self.cleaned_data.get("definition")
+        self.instance.assigned_object = self.cleaned_data.get("assigned_object")
+
+        return super().save(*args, **kwargs)
 
 
 class OptionBulkEditForm(
