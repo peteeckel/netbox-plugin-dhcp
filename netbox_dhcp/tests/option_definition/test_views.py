@@ -28,10 +28,6 @@ class OptionDefinitionViewTestCase(
 
     @classmethod
     def setUpTestData(cls):
-        cls.bulk_update_data = {
-            "description": "Test Description Update",
-        }
-
         option_definitions = (
             OptionDefinition(
                 name="test-option-definition-1",

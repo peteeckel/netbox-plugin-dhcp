@@ -47,6 +47,19 @@ class HostReservationAPITestCase(
         ipv6_addresses = TestObjects.get_ipv6_addresses()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
 
+        host_reservations = (
+            HostReservation(
+                name="test-host-reservation-1",
+            ),
+            HostReservation(
+                name="test-host-reservation-2",
+            ),
+            HostReservation(
+                name="test-host-reservation-3",
+            ),
+        )
+        HostReservation.objects.bulk_create(host_reservations)
+
         cls.create_data = [
             {
                 "name": "test-host-reservation-4",
@@ -92,16 +105,3 @@ class HostReservationAPITestCase(
                 client_class.pk for client_class in client_classes
             ],
         }
-
-        host_reservations = (
-            HostReservation(
-                name="test-host-reservation-1",
-            ),
-            HostReservation(
-                name="test-host-reservation-2",
-            ),
-            HostReservation(
-                name="test-host-reservation-3",
-            ),
-        )
-        HostReservation.objects.bulk_create(host_reservations)

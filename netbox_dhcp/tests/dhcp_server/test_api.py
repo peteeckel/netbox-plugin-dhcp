@@ -45,6 +45,19 @@ class DHCPServerAPITestCase(
         host_reservations = TestObjects.get_host_reservations()
         client_classes = TestObjects.get_client_classes()
 
+        dhcp_servers = (
+            DHCPServer(
+                name="test-server-1",
+            ),
+            DHCPServer(
+                name="test-server-2",
+            ),
+            DHCPServer(
+                name="test-server-3",
+            ),
+        )
+        DHCPServer.objects.bulk_create(dhcp_servers)
+
         cls.create_data = [
             {
                 "name": "test-server-4",
@@ -79,16 +92,3 @@ class DHCPServerAPITestCase(
                 client_class.pk for client_class in client_classes
             ],
         }
-
-        dhcp_servers = (
-            DHCPServer(
-                name="test-server-1",
-            ),
-            DHCPServer(
-                name="test-server-2",
-            ),
-            DHCPServer(
-                name="test-server-3",
-            ),
-        )
-        DHCPServer.objects.bulk_create(dhcp_servers)

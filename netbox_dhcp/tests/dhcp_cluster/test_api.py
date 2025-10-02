@@ -31,6 +31,19 @@ class DHCPClusterAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
+        dhcp_clusters = (
+            DHCPCluster(
+                name="test-cluster-1",
+            ),
+            DHCPCluster(
+                name="test-cluster-2",
+            ),
+            DHCPCluster(
+                name="test-cluster-3",
+            ),
+        )
+        DHCPCluster.objects.bulk_create(dhcp_clusters)
+
         cls.create_data = [
             {
                 "name": "test-cluster-4",
@@ -47,16 +60,3 @@ class DHCPClusterAPITestCase(
             "description": "Test Description Update",
             "status": DHCPClusterStatusChoices.STATUS_INACTIVE,
         }
-
-        dhcp_clusters = (
-            DHCPCluster(
-                name="test-cluster-1",
-            ),
-            DHCPCluster(
-                name="test-cluster-2",
-            ),
-            DHCPCluster(
-                name="test-cluster-3",
-            ),
-        )
-        DHCPCluster.objects.bulk_create(dhcp_clusters)

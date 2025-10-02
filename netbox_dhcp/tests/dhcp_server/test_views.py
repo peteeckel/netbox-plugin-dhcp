@@ -40,29 +40,6 @@ class DHCPServerViewTestCase(
         host_reservations = TestObjects.get_host_reservations()
         client_classes = TestObjects.get_client_classes()
 
-        cls.bulk_update_data = {
-            "description": "Test Description Update",
-            "status": DHCPServerStatusChoices.STATUS_INACTIVE,
-            "dhcp_cluster": dhcp_cluster.pk,
-            "server_id": DHCPServerIDTypeChoices.ID_EN,
-            "host_reservation_identifiers": [
-                HostReservationIdentifierChoices.HW_ADDRESS,
-                HostReservationIdentifierChoices.DUID,
-            ],
-            "echo_client_id": True,
-            "relay_supplied_options": [110, 120, 130],
-            "child_subnets": [subnet.pk for subnet in subnets],
-            "child_shared_networks": [
-                shared_network.pk for shared_network in shared_networks
-            ],
-            "child_host_reservations": [
-                host_reservation.pk for host_reservation in host_reservations
-            ],
-            "child_client_classes": [
-                client_class.pk for client_class in client_classes
-            ],
-        }
-
         dhcp_servers = (
             DHCPServer(
                 name="test-server-1",

@@ -21,11 +21,6 @@ class DHCPClusterViewTestCase(
 
     @classmethod
     def setUpTestData(cls):
-        cls.bulk_update_data = {
-            "description": "Test Description Update",
-            "status": DHCPClusterStatusChoices.STATUS_INACTIVE,
-        }
-
         dhcp_clusters = (
             DHCPCluster(
                 name="test-cluster-1",

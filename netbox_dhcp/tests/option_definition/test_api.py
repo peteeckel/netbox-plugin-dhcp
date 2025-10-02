@@ -15,7 +15,7 @@ from netbox_dhcp.choices import (
 )
 
 
-class DHCPServerAPITestCase(
+class OptionDefinitionAPITestCase(
     APITestCase,
     APIViewTestCases.GetObjectViewTestCase,
     APIViewTestCases.ListObjectsViewTestCase,
@@ -48,6 +48,31 @@ class DHCPServerAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
+        option_definitions = (
+            OptionDefinition(
+                name="test-option-definition-1",
+                description="Test Option Definition 1",
+                code=251,
+                family=IPAddressFamilyChoices.FAMILY_4,
+                type=OptionTypeChoices.TYPE_STRING,
+            ),
+            OptionDefinition(
+                name="test-option-definition-2",
+                description="Test Option Definition 2",
+                code=252,
+                family=IPAddressFamilyChoices.FAMILY_4,
+                type=OptionTypeChoices.TYPE_IPV4_ADDRESS,
+            ),
+            OptionDefinition(
+                name="test-option-definition-3",
+                description="Test Option Definition 3",
+                code=253,
+                family=IPAddressFamilyChoices.FAMILY_4,
+                type=OptionTypeChoices.TYPE_IPV4_ADDRESS,
+            ),
+        )
+        OptionDefinition.objects.bulk_create(option_definitions)
+
         cls.create_data = [
             {
                 "name": "test-option-definition-4",
@@ -91,31 +116,6 @@ class DHCPServerAPITestCase(
             "encapsulate": "isc",
             "array": True,
         }
-
-        option_definitions = (
-            OptionDefinition(
-                name="test-option-definition-1",
-                description="Test Option Definition 1",
-                code=251,
-                family=IPAddressFamilyChoices.FAMILY_4,
-                type=OptionTypeChoices.TYPE_STRING,
-            ),
-            OptionDefinition(
-                name="test-option-definition-2",
-                description="Test Option Definition 2",
-                code=252,
-                family=IPAddressFamilyChoices.FAMILY_4,
-                type=OptionTypeChoices.TYPE_IPV4_ADDRESS,
-            ),
-            OptionDefinition(
-                name="test-option-definition-3",
-                description="Test Option Definition 3",
-                code=253,
-                family=IPAddressFamilyChoices.FAMILY_4,
-                type=OptionTypeChoices.TYPE_IPV4_ADDRESS,
-            ),
-        )
-        OptionDefinition.objects.bulk_create(option_definitions)
 
     @override_settings(EXEMPT_VIEW_PERMISSIONS=["*"])
     def test_list_objects_anonymous(self):

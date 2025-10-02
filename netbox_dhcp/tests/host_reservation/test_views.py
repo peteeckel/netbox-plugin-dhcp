@@ -26,23 +26,6 @@ class HostReservationViewTestCase(
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         client_classes = TestObjects.get_client_classes()
 
-        cls.bulk_update_data = {
-            "description": "Test Description Bulk Update",
-            "duid": "00:02:00:00:3e:20:ff:00:00:00:00:ff",
-            "hw_address": mac_addresses[1].pk,
-            "circuit_id": "ge0/0/0:vlan42",
-            "client_id": "sample.client.id",
-            "flex_id": "0x42424242",
-            "next_server": "192.0.2.2",
-            "server_hostname": "tftp2.example.com",
-            "boot_file_name": "/tftpboot/file2.img",
-            "ipv4_address": ipv4_addresses[1].pk,
-            "ipv6_addresses": [ipv6_addresses[1].pk, ipv6_addresses[2].pk],
-            "ipv6_prefixes": [ipv6_prefixes[1].pk],
-            "excluded_ipv6_prefixes": [ipv6_prefixes[2].pk],
-            "assign_client_classes": [client_classes[1].pk],
-        }
-
         host_reservations = (
             HostReservation(
                 name="test-host-reservation-1",
@@ -88,13 +71,15 @@ class HostReservationViewTestCase(
         }
 
         cls.bulk_edit_data = {
-            "description": "Test Description Update",
-            "next_server": "192.0.2.3",
-            "server_hostname": "tftp3.example.com",
-            "boot_file_name": "/tftpboot/file3.img",
-            "ipv6_prefixes": [ipv6_prefixes[0].pk, ipv6_prefixes[2].pk],
-            "excluded_ipv6_prefixes": [ipv6_prefixes[1].pk],
-            "assign_client_classes": [client_classes[2].pk],
+            "description": "Test Description Bulk Update",
+            "circuit_id": "ge0/0/0:vlan42",
+            "flex_id": "0x42424242",
+            "next_server": "192.0.2.2",
+            "server_hostname": "tftp2.example.com",
+            "boot_file_name": "/tftpboot/file2.img",
+            "ipv6_prefixes": [ipv6_prefixes[1].pk],
+            "excluded_ipv6_prefixes": [ipv6_prefixes[2].pk],
+            "assign_client_classes": [client_classes[1].pk],
         }
 
         cls.csv_data = (
