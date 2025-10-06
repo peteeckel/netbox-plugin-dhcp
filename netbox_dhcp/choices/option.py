@@ -30,7 +30,7 @@ class OptionTypeChoices(ChoiceSet):
     TYPE_FQDN = "fqdn"
     TYPE_IPV4_ADDRESS = "ipv4-address"
     TYPE_IPV6_ADDRESS = "ipv6-address"
-    TYPE_IPV6_PREFIX = "ipv6-address"
+    TYPE_IPV6_PREFIX = "ipv6-prefix"
     TYPE_PSID = "psid"
     TYPE_RECORD = "record"
     TYPE_STRING = "string"
