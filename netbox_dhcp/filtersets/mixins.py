@@ -32,6 +32,7 @@ __all__ = (
     "ChildPDPoolFilterMixin",
     "ChildHostReservationFilterMixin",
     "ChildClientClassFilterMixin",
+    "ParentSubnetFilterMixin",
 )
 
 
@@ -146,10 +147,8 @@ class LeaseFilterMixin(NetBoxModelFilterSet):
 
 
 class ClientClassAssignmentFilterMixin(NetBoxModelFilterSet):
-    assign_client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
+    assign_client_class = django_filters.CharFilter(
         field_name="assign_client_classes__name",
-        to_field_name="name",
         label=_("Assign Client Class"),
     )
     assign_client_class_id = django_filters.ModelMultipleChoiceFilter(
@@ -160,10 +159,8 @@ class ClientClassAssignmentFilterMixin(NetBoxModelFilterSet):
 
 
 class ClientClassDefinitionFilterMixin(NetBoxModelFilterSet):
-    client_class_definition = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
+    client_class_definition = django_filters.CharFilter(
         field_name="client_class_definitions__name",
-        to_field_name="name",
         label=_("Client Class Definition"),
     )
     client_class_definition_id = django_filters.ModelMultipleChoiceFilter(
@@ -174,10 +171,8 @@ class ClientClassDefinitionFilterMixin(NetBoxModelFilterSet):
 
 
 class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
-    client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
+    client_class = django_filters.CharFilter(
         field_name="client_class__name",
-        to_field_name="name",
         label=_("Client Class"),
     )
     client_class_id = django_filters.ModelMultipleChoiceFilter(
@@ -185,10 +180,8 @@ class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
         field_name="client_class",
         label=_("Client Class ID"),
     )
-    required_client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
+    required_client_class = django_filters.CharFilter(
         field_name="required_client_classes__name",
-        to_field_name="name",
         label=_("Require Client Class"),
     )
     required_client_class_id = django_filters.ModelMultipleChoiceFilter(
@@ -196,10 +189,8 @@ class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
         field_name="required_client_classes",
         label=_("Require Client Class ID"),
     )
-    evaluate_additional_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
+    evaluate_additional_class = django_filters.CharFilter(
         field_name="evaluate_additional_classes__name",
-        to_field_name="name",
         label=_("Evaluate Additional Class"),
     )
     evaluate_additional_class_id = django_filters.ModelMultipleChoiceFilter(
@@ -366,4 +357,20 @@ class ChildClientClassFilterMixin(NetBoxModelFilterSet):
         queryset=ClientClass.objects.all(),
         field_name="child_client_classes",
         label=_("Client Class ID"),
+    )
+
+
+class ParentSubnetFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "parent_subnets",
+    ]
+
+    parent_subnet = django_filters.CharFilter(
+        field_name="parent_subnets__name",
+        label=_("Parent Subnet"),
+    )
+    parent_subnet_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Subnet.objects.all(),
+        field_name="parent_subnets",
+        label=_("Parent Subnet ID"),
     )

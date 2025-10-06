@@ -4,12 +4,12 @@ from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 from ipam.models import Prefix
-from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
     ClientClassFilterMixin,
+    ParentSubnetFilterMixin,
 )
 
 __all__ = ("PDPoolFilterSet",)
@@ -17,6 +17,7 @@ __all__ = ("PDPoolFilterSet",)
 
 class PDPoolFilterSet(
     ClientClassFilterMixin,
+    ParentSubnetFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
@@ -24,9 +25,6 @@ class PDPoolFilterSet(
 
         fields = (
             "id",
-            "name",
-            "description",
-            "delegated_length",
             "comment",
         )
 
@@ -36,20 +34,27 @@ class PDPoolFilterSet(
     description = django_filters.CharFilter(
         label=_("Description"),
     )
-    family = django_filters.ChoiceFilter(
-        choices=IPAddressFamilyChoices,
-        field_name="prefix__prefix__family",
-        label=_("Address Family"),
+    pool_id = django_filters.NumberFilter(
+        label=_("Pool ID"),
     )
     prefix_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Prefix.objects.all(),
         field_name="prefix",
-        label=_("IPv6 Prefix"),
+        label=_("Prefix ID"),
     )
+    prefix = django_filters.CharFilter(
+        field_name="prefix__prefix",
+        label=_("Prefix"),
+    )
+    delegated_length = django_filters.NumberFilter(label=_("Delegated Length"))
     excluded_prefix_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Prefix.objects.all(),
         field_name="excluded_prefix",
-        label=_("Excluded IPv6 Prefix"),
+        label=_("Excluded Prefix"),
+    )
+    excluded_prefix = django_filters.CharFilter(
+        field_name="excluded_prefix__prefix",
+        label=_("Excluded Prefix"),
     )
 
     def search(self, queryset, name, value):
