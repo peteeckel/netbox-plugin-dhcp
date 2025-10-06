@@ -62,9 +62,9 @@ class TestObjects:
     @staticmethod
     def get_ipv4_ranges():
         ipv4_ranges = (
-            IPRange(start_address="192.0.2.1/24", end_address="192.0.2.16/24"),
-            IPRange(start_address="192.0.2.17/24", end_address="192.0.2.32/24"),
-            IPRange(start_address="192.0.2.33/24", end_address="192.0.2.64/24"),
+            IPRange(start_address="192.0.2.1/24", end_address="192.0.2.16/24", size=16,),
+            IPRange(start_address="192.0.2.17/24", end_address="192.0.2.32/24", size=16,),
+            IPRange(start_address="192.0.2.33/24", end_address="192.0.2.64/24", size=32,),
         )
         IPRange.objects.bulk_create(ipv4_ranges)
 
@@ -73,12 +73,20 @@ class TestObjects:
     @staticmethod
     def get_ipv6_ranges():
         ipv6_ranges = (
-            IPRange(start_address="2001:db8::1/64", end_address="2001:db8::ffff/64"),
             IPRange(
-                start_address="2001:db8::1:1/64", end_address="2001:db8::1:ffff/64"
+                start_address="2001:db8::1/64",
+                end_address="2001:db8::ffff/64",
+                size=65535,
             ),
             IPRange(
-                start_address="2001:db8::2:1/64", end_address="2001:db8::3:ffff/64"
+                start_address="2001:db8::1:1/64",
+                end_address="2001:db8::1:ffff/64",
+                size=65535,
+            ),
+            IPRange(
+                start_address="2001:db8::2:1/64",
+                end_address="2001:db8::3:ffff/64",
+                size=131071,
             ),
         )
         IPRange.objects.bulk_create(ipv6_ranges)
