@@ -1,3 +1,5 @@
+from netaddr import IPNetwork
+
 from ipam.models import IPAddress, IPRange, Prefix
 from dcim.models import Device, Manufacturer, DeviceRole, DeviceType, Site, MACAddress
 from virtualization.models import VirtualMachine, Cluster, ClusterType
@@ -62,9 +64,21 @@ class TestObjects:
     @staticmethod
     def get_ipv4_ranges():
         ipv4_ranges = (
-            IPRange(start_address="192.0.2.1/24", end_address="192.0.2.16/24", size=16,),
-            IPRange(start_address="192.0.2.17/24", end_address="192.0.2.32/24", size=16,),
-            IPRange(start_address="192.0.2.33/24", end_address="192.0.2.64/24", size=32,),
+            IPRange(
+                start_address=IPNetwork("192.0.2.1/24"),
+                end_address=IPNetwork("192.0.2.16/24"),
+                size=16,
+            ),
+            IPRange(
+                start_address=IPNetwork("192.0.2.17/24"),
+                end_address=IPNetwork("192.0.2.32/24"),
+                size=16,
+            ),
+            IPRange(
+                start_address=IPNetwork("192.0.2.33/24"),
+                end_address=IPNetwork("192.0.2.64/24"),
+                size=32,
+            ),
         )
         IPRange.objects.bulk_create(ipv4_ranges)
 
@@ -74,18 +88,18 @@ class TestObjects:
     def get_ipv6_ranges():
         ipv6_ranges = (
             IPRange(
-                start_address="2001:db8::1/64",
-                end_address="2001:db8::ffff/64",
+                start_address=IPNetwork("2001:db8::1/64"),
+                end_address=IPNetwork("2001:db8::ffff/64"),
                 size=65535,
             ),
             IPRange(
-                start_address="2001:db8::1:1/64",
-                end_address="2001:db8::1:ffff/64",
+                start_address=IPNetwork("2001:db8::1:1/64"),
+                end_address=IPNetwork("2001:db8::1:ffff/64"),
                 size=65535,
             ),
             IPRange(
-                start_address="2001:db8::2:1/64",
-                end_address="2001:db8::3:ffff/64",
+                start_address=IPNetwork("2001:db8::2:1/64"),
+                end_address=IPNetwork("2001:db8::3:ffff/64"),
                 size=131071,
             ),
         )
