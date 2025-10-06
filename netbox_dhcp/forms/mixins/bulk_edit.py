@@ -78,7 +78,7 @@ class ClientClassDefinitionBulkEditFormMixin(forms.Form):
 
 
 class ClientClassBulkEditFormMixin(ClientClassDefinitionBulkEditFormMixin):
-    client_class = DynamicModelMultipleChoiceField(
+    client_class = DynamicModelChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         quick_add=True,
