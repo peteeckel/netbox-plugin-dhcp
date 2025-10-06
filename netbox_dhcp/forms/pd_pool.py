@@ -222,7 +222,6 @@ class PDPoolBulkEditForm(
 
     fieldsets = (
         FieldSet(
-            "name",
             "description",
             "delegated_length",
             name=_("Prefix Delegation Pool"),
@@ -250,6 +249,7 @@ class PDPoolBulkEditForm(
 
     nullable_fields = (
         "description",
+        "excluded_prefix",
         "client_class",
         "client_class_definitions",
         "required_client_classes",
@@ -261,4 +261,12 @@ class PDPoolBulkEditForm(
     delegated_length = forms.CharField(
         required=False,
         label=_("Delegated Length"),
+    )
+    excluded_prefix = DynamicModelChoiceField(
+        queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
+        query_params={
+            "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        required=False,
+        label=_("Excluded IPv6 Prefix"),
     )
