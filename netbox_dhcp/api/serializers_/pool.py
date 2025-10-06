@@ -4,7 +4,6 @@ from netbox.api.serializers import NetBoxModelSerializer
 from ipam.api.serializers import IPRangeSerializer
 
 from netbox_dhcp.models import Pool
-from ..nested_serializers import NestedClientClassSerializer
 
 from .mixins import (
     ClientClassSerializerMixin,
@@ -65,11 +64,6 @@ class PoolSerializer(
     )
 
     ip_range = IPRangeSerializer(
-        nested=True,
-        read_only=False,
-        required=False,
-    )
-    client_class = NestedClientClassSerializer(
         nested=True,
         read_only=False,
         required=False,
