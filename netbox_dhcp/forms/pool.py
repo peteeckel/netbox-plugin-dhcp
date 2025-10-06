@@ -233,7 +233,7 @@ class PoolImportForm(
         error_messages={
             "invalid_choice": _("IP range %(value)s not found"),
         },
-        label=_("IP Ramhe"),
+        label=_("IP Range"),
     )
 
 
