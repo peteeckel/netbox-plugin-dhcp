@@ -23,14 +23,12 @@ class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
             "csv_format",
             "always_send",
             "never_send",
-            "assigned_object_type",
-            "assigned_object_id",
         )
 
     description = django_filters.CharFilter(
         label=_("Description"),
     )
-    family = django_filters.MultipleChoiceFilter(
+    family = django_filters.ChoiceFilter(
         label=_("Address Family"),
         field_name="definition__family",
         choices=IPAddressFamilyChoices,
@@ -50,17 +48,19 @@ class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
     )
     data = django_filters.CharFilter(
         label=_("Data"),
+    )
+    data_ic = django_filters.CharFilter(
+        label=_("Data"),
         lookup_expr="icontains",
+        field_name="data",
     )
     definition_id = django_filters.ModelMultipleChoiceFilter(
         label=_("Option Definition ID"),
         queryset=OptionDefinition.objects.all(),
     )
-    definition = django_filters.ModelMultipleChoiceFilter(
-        label=_("Option Definition ID"),
-        queryset=OptionDefinition.objects.all(),
+    definition = django_filters.CharFilter(
+        label=_("Option Definition"),
         field_name="definition__name",
-        to_field_name="name",
     )
 
     def search(self, queryset, name, value):
