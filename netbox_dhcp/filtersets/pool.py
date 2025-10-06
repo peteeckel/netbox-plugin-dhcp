@@ -11,6 +11,7 @@ from netbox_dhcp.models import Pool
 from .mixins import (
     ClientClassFilterMixin,
     DDNSUpdateFilterMixin,
+    ParentSubnetFilterMixin,
 )
 
 __all__ = ("PoolFilterSet",)
@@ -19,6 +20,7 @@ __all__ = ("PoolFilterSet",)
 class PoolFilterSet(
     ClientClassFilterMixin,
     DDNSUpdateFilterMixin,
+    ParentSubnetFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
@@ -51,6 +53,9 @@ class PoolFilterSet(
     description = django_filters.CharFilter(
         label=_("Description"),
     )
+    pool_id = django_filters.NumberFilter(
+        label=_("Pool ID"),
+    )
     family = django_filters.ChoiceFilter(
         label=_("Address Family"),
         choices=IPAddressFamilyChoices,
@@ -60,7 +65,7 @@ class PoolFilterSet(
     ip_range_id = django_filters.ModelMultipleChoiceFilter(
         queryset=IPRange.objects.all(),
         field_name="ip_range",
-        label=_("IP Range"),
+        label=_("IP Range ID"),
     )
 
     def search(self, queryset, name, value):
