@@ -1,22 +1,26 @@
-from typing import Annotated, List
+from typing import Annotated, List, TYPE_CHECKING
 
 import strawberry
 import strawberry_django
 
 from netbox.graphql.types import NetBoxObjectType
-from tenancy.graphql.types import TenantType
-from ipam.graphql.types import IPAddressType, PrefixType
-from netbox.graphql.scalars import BigInt
+
+if TYPE_CHECKING:
+    from ipam.graphql.types import IPAddressType, PrefixType
+    from dcim.graphql.types import MACAddressType, DeviceType
+    from virtualization.graphql.types import VirtualMachineType
 
 from netbox_dhcp.models import (
+    ClientClass,
     DHCPCluster,
     DHCPServer,
-    ClientClass,
+    HostReservation,
 )
 from .filters import (
+    NetBoxDHCPClientClassFilter,
     NetBoxDHCPClusterFilter,
     NetBoxDHCPServerFilter,
-    NetBoxDHCPClientClassFilter,
+    NetBoxDHCPHostReservationFilter,
 )
 
 
@@ -119,3 +123,23 @@ class NetBoxDHCPDHCPServerType(
     device: Annotated["DeviceType", strawberry.lazy("dcim.graphql.types")] | None
     virtual_machine: Annotated["VirtualMachineType", strawberry.lazy("virtualization.graphql.types")] | None
     decline_probation_period: float | None
+
+
+@strawberry_django.type(HostReservation, fields="__all__", filters=NetBoxDHCPHostReservationFilter)
+class NetBoxDHCPHostReservationType(
+    BOOTPGraphQLTypeMixin,
+    NetBoxObjectType,
+):
+    name: str
+    description: str | None
+    duid: str | None
+    hw_address: Annotated["MACAddressType", strawberry.lazy("dcim.graphql.types")] | None
+    flex_id: str | None
+    circuit_id: str | None
+    client_id: str | None
+    hostname: str | None
+    ipv4_address: Annotated["IPAddressType", strawberry.lazy("ipam.graphql.types")] | None
+    ipv6_addresses: List[Annotated["IPAddressType", strawberry.lazy("ipam.graphql.types")]] | None
+    ipv6_prefixes: List[Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")]] | None
+    excluded_ipv6_prefixes: List[Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")]] | None
+    assign_client_classes: List[Annotated["NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")]] | None

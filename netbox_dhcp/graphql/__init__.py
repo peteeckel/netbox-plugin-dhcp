@@ -1,11 +1,13 @@
 from .schema import (
+    NetBoxDHCPClientClassQuery,
     NetBoxDHCPClusterQuery,
     NetBoxDHCPServerQuery,
-    NetBoxDHCPClientClassQuery,
+    NetBoxDHCPHostReservationQuery,
 )
 
 schema = [
+    NetBoxDHCPClientClassQuery,
     NetBoxDHCPClusterQuery,
     NetBoxDHCPServerQuery,
-    NetBoxDHCPClientClassQuery,
+    NetBoxDHCPHostReservationQuery,
 ]

@@ -1,0 +1,47 @@
+from typing import Annotated, TYPE_CHECKING
+
+import strawberry
+import strawberry_django
+from strawberry.scalars import ID
+from strawberry_django import FilterLookup
+
+from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+
+if TYPE_CHECKING:
+    from ipam.graphql.filters import IPAddressFilter, PrefixFilter
+    from dcim.graphql.filters import MACAddressFilter
+    from netbox_dhcp.filters import NetBoxDHCPClientClassFilter
+
+from netbox_dhcp.models import HostReservation
+
+from .mixins import (
+    BOOTPGraphQLFilterMixin,
+)
+
+__all__ = ("NetBoxDHCPHostReservationFilter",)
+
+
+@strawberry_django.filter_type(HostReservation, lookups=True)
+class NetBoxDHCPHostReservationFilter(
+    BOOTPGraphQLFilterMixin,
+    NetBoxModelFilterMixin
+):
+    name: FilterLookup[str] | None = strawberry_django.filter_field()
+    description: FilterLookup[str] | None = strawberry_django.filter_field()
+    duid: FilterLookup[str] | None = strawberry_django.filter_field()
+    hw_address: Annotated["MACAddressFilter", strawberry.lazy("dcim.graphql.filters")] | None
+    hw_address_id: ID | None = strawberry_django.filter_field()
+    flex_id: FilterLookup[str] | None = strawberry_django.filter_field()
+    circuit_id: FilterLookup[str] | None = strawberry_django.filter_field()
+    client_id: FilterLookup[str] | None = strawberry_django.filter_field()
+    hostname: FilterLookup[str] | None = strawberry_django.filter_field()
+    ipv4_address: Annotated["IPAddressFilter", strawberry.lazy("ipam.graphql.filters")] | None
+    ipv4_address_id: ID | None = strawberry_django.filter_field()
+    ipv6_address: Annotated["IPAddressFilter", strawberry.lazy("ipam.graphql.filters")] | None
+    ipv6_address_id: ID | None = strawberry_django.filter_field()
+    ipv6_prefix: Annotated["PrefixFilter", strawberry.lazy("ipam.graphql.filters")] | None
+    ipv6_prefix_id: ID | None = strawberry_django.filter_field()
+    excluded_ipv6_prefix: Annotated["PrefixFilter", strawberry.lazy("ipam.graphql.filters")] | None
+    excluded_ipv6_prefix_id: ID | None = strawberry_django.filter_field()
+    assign_client_class: Annotated["NetBoxDHCPClientClassFilter", strawberry.lazy("netbox_dhcp.graphql.filters")] | None
+    assign_client_class_id: ID | None = strawberry_django.filter_field()
