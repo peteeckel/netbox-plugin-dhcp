@@ -43,6 +43,7 @@ from .mixins import (
     ChildSubnetFormMixin,
     ChildSubnetFilterFormMixin,
     ChildSubnetImportFormMixin,
+    ChildSubnetBulkEditFormMixin,
 )
 
 
@@ -393,6 +394,7 @@ class SharedNetworkBulkEditForm(
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
+    ChildSubnetBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = SharedNetwork
@@ -419,6 +421,10 @@ class SharedNetworkBulkEditForm(
             "server_hostname",
             "boot_file_name",
             name=_("BOOTP"),
+        ),
+        FieldSet(
+            "child_subnets",
+            name=_("Child Objects"),
         ),
         FieldSet(
             "offer_lifetime",
