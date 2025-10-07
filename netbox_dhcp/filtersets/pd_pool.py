@@ -8,6 +8,7 @@ from ipam.models import Prefix
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
+    PrefixFilterMixin,
     ClientClassFilterMixin,
     ParentSubnetFilterMixin,
 )
@@ -16,6 +17,7 @@ __all__ = ("PDPoolFilterSet",)
 
 
 class PDPoolFilterSet(
+    PrefixFilterMixin,
     ClientClassFilterMixin,
     ParentSubnetFilterMixin,
     NetBoxModelFilterSet,
@@ -37,16 +39,9 @@ class PDPoolFilterSet(
     pool_id = django_filters.NumberFilter(
         label=_("Pool ID"),
     )
-    prefix_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=Prefix.objects.all(),
-        field_name="prefix",
-        label=_("Prefix ID"),
+    delegated_length = django_filters.NumberFilter(
+        label=_("Delegated Length"),
     )
-    prefix = django_filters.CharFilter(
-        field_name="prefix__prefix",
-        label=_("Prefix"),
-    )
-    delegated_length = django_filters.NumberFilter(label=_("Delegated Length"))
     excluded_prefix_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Prefix.objects.all(),
         field_name="excluded_prefix",
