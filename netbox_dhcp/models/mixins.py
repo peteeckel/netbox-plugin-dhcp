@@ -77,7 +77,6 @@ class CommonModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    # TODO: option_data_list
     user_context = models.JSONField(
         verbose_name=_("User Context"),
         blank=True,
@@ -98,7 +97,7 @@ class ClientClassAssignmentModelMixin(models.Model):
     assign_client_classes = models.ManyToManyField(
         verbose_name=_("Client Classes"),
         to="ClientClass",
-        related_name="assign_%(class)s",
+        related_name="assign_%(class)ss",
         blank=True,
     )
 
@@ -110,7 +109,7 @@ class ClientClassDefinitionModelMixin(models.Model):
     client_class_definitions = models.ManyToManyField(
         verbose_name=_("Client Class Definitions"),
         to="ClientClass",
-        related_name="definition_%(class)s",
+        related_name="definition_%(class)ss",
         blank=True,
     )
 
