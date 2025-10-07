@@ -286,10 +286,8 @@ class ChildSubnetFilterMixin(NetBoxModelFilterSet):
         "child_subnets",
     ]
 
-    child_subnet = django_filters.ModelMultipleChoiceFilter(
-        queryset=Subnet.objects.all(),
+    child_subnet = django_filters.CharFilter(
         field_name="child_subnets__name",
-        to_field_name="name",
         label=_("Subnet"),
     )
     child_subnet_id = django_filters.ModelMultipleChoiceFilter(
@@ -304,10 +302,8 @@ class ChildSharedNetworkFilterMixin(NetBoxModelFilterSet):
         "child_shared_networks",
     ]
 
-    child_shared_network = django_filters.ModelMultipleChoiceFilter(
-        queryset=SharedNetwork.objects.all(),
+    child_shared_network = django_filters.CharFilter(
         field_name="child_shared_networks__name",
-        to_field_name="name",
         label=_("Shared Network"),
     )
     child_shared_network_id = django_filters.ModelMultipleChoiceFilter(
@@ -322,10 +318,8 @@ class ChildPoolFilterMixin(NetBoxModelFilterSet):
         "child_pools",
     ]
 
-    child_pool = django_filters.ModelMultipleChoiceFilter(
-        queryset=Pool.objects.all(),
+    child_pool = django_filters.CharFilter(
         field_name="child_pools__name",
-        to_field_name="name",
         label=_("Pool"),
     )
     child_pool_id = django_filters.ModelMultipleChoiceFilter(
@@ -340,10 +334,8 @@ class ChildPDPoolFilterMixin(NetBoxModelFilterSet):
         "child_pd_pools",
     ]
 
-    child_pd_pool = django_filters.ModelMultipleChoiceFilter(
-        queryset=PDPool.objects.all(),
+    child_pd_pool = django_filters.CharFilter(
         field_name="child_pd_pools__name",
-        to_field_name="name",
         label=_("Prefix Delegation Pool"),
     )
     child_pd_pool_id = django_filters.ModelMultipleChoiceFilter(
@@ -358,10 +350,8 @@ class ChildHostReservationFilterMixin(NetBoxModelFilterSet):
         "child_host_reservations",
     ]
 
-    child_host_reservation = django_filters.ModelMultipleChoiceFilter(
-        queryset=HostReservation.objects.all(),
+    child_host_reservation = django_filters.CharFilter(
         field_name="child_host_reservations__name",
-        to_field_name="name",
         label=_("Host Reservation"),
     )
     child_host_reservation_id = django_filters.ModelMultipleChoiceFilter(
@@ -376,10 +366,8 @@ class ChildClientClassFilterMixin(NetBoxModelFilterSet):
         "child_client_classes",
     ]
 
-    child_client_class = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
+    child_client_class = django_filters.CharFilter(
         field_name="child_client_classes__name",
-        to_field_name="name",
         label=_("Client Class"),
     )
     child_client_class_id = django_filters.ModelMultipleChoiceFilter(
