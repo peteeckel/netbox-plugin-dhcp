@@ -19,6 +19,8 @@ from .mixins import (
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
+    ParentSharedNetworkFilterMixin,
+    ParentSubnetFilterMixin,
     ParentDHCPServerFilterMixin,
 )
 
@@ -37,6 +39,8 @@ class SubnetFilterSet(
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
+    ParentSharedNetworkFilterMixin,
+    ParentSubnetFilterMixin,
     ParentDHCPServerFilterMixin,
     NetBoxModelFilterSet,
 ):
