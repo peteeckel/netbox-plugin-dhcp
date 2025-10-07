@@ -97,17 +97,6 @@ class SubnetSerializer(
             "display",
             "name",
             "description",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "offer_lifetime",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            "preferred_lifetime",
-            "min_preferred_lifetime",
-            "max_preferred_lifetime",
-            "comment",
         )
 
     url = serializers.HyperlinkedIdentityField(
