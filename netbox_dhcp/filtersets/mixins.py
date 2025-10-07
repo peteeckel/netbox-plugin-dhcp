@@ -37,6 +37,7 @@ __all__ = (
     "ChildHostReservationFilterMixin",
     "ChildClientClassFilterMixin",
     "ParentSubnetFilterMixin",
+    "ParentSharedNetworkFilterMixin",
     "ParentDHCPServerFilterMixin",
 )
 
@@ -390,6 +391,22 @@ class ParentSubnetFilterMixin(NetBoxModelFilterSet):
         queryset=Subnet.objects.all(),
         field_name="parent_subnets",
         label=_("Parent Subnet ID"),
+    )
+
+
+class ParentSharedNetworkFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "parent_sharednetworks",
+    ]
+
+    parent_shared_network = django_filters.CharFilter(
+        field_name="parent_sharednetworks__name",
+        label=_("Parent Shared Network"),
+    )
+    parent_shared_network_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=SharedNetwork.objects.all(),
+        field_name="parent_sharednetworks",
+        label=_("Parent Shared Network ID"),
     )
 
 
