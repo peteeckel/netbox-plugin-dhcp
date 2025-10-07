@@ -5,12 +5,20 @@ from django.utils.translation import gettext as _
 from netbox.filtersets import NetBoxModelFilterSet
 
 from ..models import ClientClass
+from .mixins import (
+    BOOTPFilterMixin,
+    LifetimeFilterMixin,
+)
 
 
 __all__ = ("ClientClassFilterSet",)
 
 
-class ClientClassFilterSet(NetBoxModelFilterSet):
+class ClientClassFilterSet(
+    BOOTPFilterMixin,
+    LifetimeFilterMixin,
+    NetBoxModelFilterSet,
+):
     class Meta:
         model = ClientClass
 
@@ -22,16 +30,8 @@ class ClientClassFilterSet(NetBoxModelFilterSet):
             "template_test",
             "only_if_required",
             "only_in_additional_list",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "offer_lifetime",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            "preferred_lifetime",
-            "min_preferred_lifetime",
-            "max_preferred_lifetime",
+            *BOOTPFilterMixin.FILTER_FIELDS,
+            *LifetimeFilterMixin.FILTER_FIELDS,
             "comment",
         )
 
@@ -40,6 +40,12 @@ class ClientClassFilterSet(NetBoxModelFilterSet):
     )
     description = django_filters.CharFilter(
         label=_("Description"),
+    )
+    test = django_filters.CharFilter(
+        label=_("Test"),
+    )
+    template_test = django_filters.CharFilter(
+        label=_("Template Test"),
     )
 
     def search(self, queryset, name, value):
