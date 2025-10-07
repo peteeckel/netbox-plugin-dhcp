@@ -58,6 +58,7 @@ class SubnetFilterSet(
             *LifetimeFilterMixin.FILTER_FIELDS,
             *LeaseFilterMixin.FILTER_FIELDS,
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
+            *NetworkFilterMixin.FILTER_FIELDS,
             "comment",
         )
 
