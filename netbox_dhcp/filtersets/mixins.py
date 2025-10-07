@@ -2,6 +2,7 @@ import django_filters
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
+from ipam.models import Prefix
 
 from netbox_dhcp.models import (
     ClientClass,
@@ -22,6 +23,7 @@ __all__ = (
     "BOOTPFilterMixin",
     "OfferLifetimeFilterMixin",
     "LeaseFilterMixin",
+    "PrefixFilterMixin",
     "ClientClassAssignmentFilterMixin",
     "ClientClassDefinitionFilterMixin",
     "ClientClassFilterMixin",
@@ -249,6 +251,22 @@ class DDNSUpdateFilterMixin(NetBoxModelFilterSet):
     )
     ddns_ttl_max = django_filters.NumberFilter(
         label=_("Maximum TTL"),
+    )
+
+
+class PrefixFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "prefix",
+    ]
+
+    prefix_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Prefix.objects.all(),
+        field_name="prefix",
+        label=_("Prefix ID"),
+    )
+    prefix = django_filters.CharFilter(
+        field_name="prefix__prefix",
+        label=_("Prefix"),
     )
 
 
