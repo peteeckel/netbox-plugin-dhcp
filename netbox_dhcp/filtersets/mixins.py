@@ -24,6 +24,7 @@ __all__ = (
     "BOOTPFilterMixin",
     "OfferLifetimeFilterMixin",
     "LeaseFilterMixin",
+    "NetworkFilterMixin",
     "PrefixFilterMixin",
     "ClientClassAssignmentFilterMixin",
     "ClientClassDefinitionFilterMixin",
@@ -254,6 +255,14 @@ class DDNSUpdateFilterMixin(NetBoxModelFilterSet):
     ddns_ttl_max = django_filters.NumberFilter(
         label=_("Maximum TTL"),
     )
+
+
+class NetworkFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "relay",
+        "interface_id",
+        "rapid_commit",
+    ]
 
 
 class PrefixFilterMixin(NetBoxModelFilterSet):
