@@ -11,6 +11,7 @@ from netbox_dhcp.models import (
     PDPool,
     HostReservation,
     SharedNetwork,
+    DHCPServer,
 )
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
@@ -35,6 +36,7 @@ __all__ = (
     "ChildHostReservationFilterMixin",
     "ChildClientClassFilterMixin",
     "ParentSubnetFilterMixin",
+    "ParentDHCPServerFilterMixin",
 )
 
 
@@ -391,4 +393,20 @@ class ParentSubnetFilterMixin(NetBoxModelFilterSet):
         queryset=Subnet.objects.all(),
         field_name="parent_subnets",
         label=_("Parent Subnet ID"),
+    )
+
+
+class ParentDHCPServerFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "parent_dhcpservers",
+    ]
+
+    parent_dhcp_server = django_filters.CharFilter(
+        field_name="parent_dhcpservers__name",
+        label=_("Parent DHCP Server"),
+    )
+    parent_dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=DHCPServer.objects.all(),
+        field_name="parent_dhcpservers",
+        label=_("Parent DHCP Server ID"),
     )
