@@ -8,6 +8,8 @@ from .types import (
     NetBoxDHCPDHCPClusterType,
     NetBoxDHCPDHCPServerType,
     NetBoxDHCPHostReservationType,
+    NetBoxDHCPOptionDefinitionType,
+    NetBoxDHCPOptionType,
 )
 
 
@@ -39,5 +41,21 @@ class NetBoxDHCPClientClassQuery:
 class NetBoxDHCPHostReservationQuery:
     netbox_dhcp_host_reservation: NetBoxDHCPHostReservationType = strawberry_django.field()
     netbox_dhcp_host_reservation_list: List[NetBoxDHCPHostReservationType] = (
+        strawberry_django.field()
+    )
+
+
+@strawberry.type(name="Query")
+class NetBoxDHCPOptionDefinitionQuery:
+    netbox_dhcp_option_definition: NetBoxDHCPOptionDefinitionType = strawberry_django.field()
+    netbox_dhcp_option_definition_list: List[NetBoxDHCPOptionDefinitionType] = (
+        strawberry_django.field()
+    )
+
+
+@strawberry.type(name="Query")
+class NetBoxDHCPOptionQuery:
+    netbox_dhcp_option: NetBoxDHCPOptionType = strawberry_django.field()
+    netbox_dhcp_option_list: List[NetBoxDHCPOptionType] = (
         strawberry_django.field()
     )
