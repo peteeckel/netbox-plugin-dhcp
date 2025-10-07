@@ -34,8 +34,8 @@ class SharedNetwork(
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    NetBoxModel,
     ChildSubnetModelMixin,
+    NetBoxModel,
 ):
     class Meta:
         verbose_name = _("Shared Network")
