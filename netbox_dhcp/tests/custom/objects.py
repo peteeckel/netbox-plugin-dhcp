@@ -40,22 +40,22 @@ class TestObjects:
         return ipv6_addresses
 
     @staticmethod
-    def get_ipv4_prefixes():
+    def get_ipv4_prefixes(offset=0):
         ipv4_prefixes = (
-            Prefix(prefix="192.0.2.0/24"),
-            Prefix(prefix="192.0.2.0/26"),
-            Prefix(prefix="192.0.2.64/26"),
+            Prefix(prefix=f"192.0.{2 + offset}.0/24"),
+            Prefix(prefix=f"192.0.{2 + offset}.0/26"),
+            Prefix(prefix=f"192.0.{2 + offset}.64/26"),
         )
         Prefix.objects.bulk_create(ipv4_prefixes)
 
         return ipv4_prefixes
 
     @staticmethod
-    def get_ipv6_prefixes():
+    def get_ipv6_prefixes(offset=0):
         ipv6_prefixes = (
-            Prefix(prefix="2001:db8:1::/64"),
-            Prefix(prefix="2001:db8:2::/64"),
-            Prefix(prefix="2001:db8:3::/64"),
+            Prefix(prefix=f"2001:db8:{1 + offset}::/64"),
+            Prefix(prefix=f"2001:db8:{2 + offset}::/64"),
+            Prefix(prefix=f"2001:db8:{3 + offset}::/64"),
         )
         Prefix.objects.bulk_create(ipv6_prefixes)
 
@@ -169,7 +169,7 @@ class TestObjects:
 
     @staticmethod
     def get_ipv4_subnets():
-        prefixes = TestObjects.get_ipv4_prefixes()
+        prefixes = TestObjects.get_ipv4_prefixes(offset=1)
 
         subnets = [
             Subnet(
@@ -185,7 +185,7 @@ class TestObjects:
 
     @staticmethod
     def get_ipv6_subnets():
-        prefixes = TestObjects.get_ipv6_prefixes()
+        prefixes = TestObjects.get_ipv6_prefixes(offset=3)
 
         subnets = [
             Subnet(
@@ -201,7 +201,7 @@ class TestObjects:
 
     @staticmethod
     def get_ipv4_shared_networks():
-        prefixes = TestObjects.get_ipv4_prefixes()
+        prefixes = TestObjects.get_ipv4_prefixes(offset=2)
 
         shared_networks = [
             SharedNetwork(
@@ -217,7 +217,7 @@ class TestObjects:
 
     @staticmethod
     def get_ipv6_shared_networks():
-        prefixes = TestObjects.get_ipv6_prefixes()
+        prefixes = TestObjects.get_ipv6_prefixes(offset=6)
 
         shared_networks = [
             SharedNetwork(
@@ -234,9 +234,9 @@ class TestObjects:
     @staticmethod
     def get_host_reservations():
         host_reservations = (
-            HostReservation(name="host_reservation-1"),
-            HostReservation(name="host_reservation-2"),
-            HostReservation(name="host_reservation-3"),
+            HostReservation(name="host-reservation-1"),
+            HostReservation(name="host-reservation-2"),
+            HostReservation(name="host-reservation-3"),
         )
 
         HostReservation.objects.bulk_create(host_reservations)
