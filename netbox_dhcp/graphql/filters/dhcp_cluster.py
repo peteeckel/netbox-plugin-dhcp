@@ -1,0 +1,24 @@
+from typing import Annotated, TYPE_CHECKING
+
+import strawberry
+import strawberry_django
+from strawberry_django import FilterLookup
+
+from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+
+if TYPE_CHECKING:
+    from .enums import (
+        NetBoxDHCPClusterStatusEnum,
+    )
+
+from netbox_dhcp.models import DHCPCluster
+
+
+__all__ = ("NetBoxDHCPClusterFilter",)
+
+
+@strawberry_django.filter_type(DHCPCluster, lookups=True)
+class NetBoxDHCPClusterFilter(NetBoxModelFilterMixin):
+    name: FilterLookup[str] | None = strawberry_django.filter_field()
+    description: FilterLookup[str] | None = strawberry_django.filter_field()
+    status: Annotated["NetBoxDHCPClusterStatusEnum", strawberry.lazy("netbox_dhcp.graphql.enums")] | None = strawberry_django.filter_field()

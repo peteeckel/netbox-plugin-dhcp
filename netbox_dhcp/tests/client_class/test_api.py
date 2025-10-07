@@ -2,7 +2,7 @@ from utilities.testing import APIViewTestCases
 
 from netbox_dhcp.tests.custom import (
     APITestCase,
-    #   NetBoxDHCPGraphQLMixin,
+    NetBoxDHCPGraphQLMixin,
 )
 from netbox_dhcp.models import ClientClass
 
@@ -14,8 +14,8 @@ class ClientClassAPITestCase(
     APIViewTestCases.CreateObjectViewTestCase,
     APIViewTestCases.UpdateObjectViewTestCase,
     APIViewTestCases.DeleteObjectViewTestCase,
-    #   NetBoxDHCPGraphQLMixin,
-    #   APIViewTestCases.GraphQLTestCase,
+    NetBoxDHCPGraphQLMixin,
+    APIViewTestCases.GraphQLTestCase,
 ):
     model = ClientClass
 

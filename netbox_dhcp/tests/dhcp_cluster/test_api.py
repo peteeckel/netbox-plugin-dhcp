@@ -2,7 +2,7 @@ from utilities.testing import APIViewTestCases
 
 from netbox_dhcp.tests.custom import (
     APITestCase,
-    #   NetBoxDHCPGraphQLMixin,
+    NetBoxDHCPGraphQLMixin,
 )
 from netbox_dhcp.models import DHCPCluster
 from netbox_dhcp.choices import DHCPClusterStatusChoices
@@ -15,8 +15,8 @@ class DHCPClusterAPITestCase(
     APIViewTestCases.CreateObjectViewTestCase,
     APIViewTestCases.UpdateObjectViewTestCase,
     APIViewTestCases.DeleteObjectViewTestCase,
-    #   NetBoxDHCPGraphQLMixin,
-    #   APIViewTestCases.GraphQLTestCase,
+    NetBoxDHCPGraphQLMixin,
+    APIViewTestCases.GraphQLTestCase,
 ):
     model = DHCPCluster
 
