@@ -3,7 +3,7 @@ from utilities.testing import APIViewTestCases
 from netbox_dhcp.tests.custom import (
     TestObjects,
     APITestCase,
-    #   NetBoxDHCPGraphQLMixin,
+    NetBoxDHCPGraphQLMixin,
 )
 from netbox_dhcp.models import Pool
 
@@ -15,8 +15,8 @@ class PoolAPITestCase(
     APIViewTestCases.CreateObjectViewTestCase,
     APIViewTestCases.UpdateObjectViewTestCase,
     APIViewTestCases.DeleteObjectViewTestCase,
-    #   NetBoxDHCPGraphQLMixin,
-    #   APIViewTestCases.GraphQLTestCase,
+    NetBoxDHCPGraphQLMixin,
+    APIViewTestCases.GraphQLTestCase,
 ):
     model = Pool
 

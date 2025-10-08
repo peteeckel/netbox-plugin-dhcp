@@ -1,0 +1,34 @@
+from typing import Annotated, TYPE_CHECKING
+
+import strawberry
+from strawberry.scalars import ID
+import strawberry_django
+from strawberry_django import FilterLookup
+
+from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+
+from netbox_dhcp.models import PDPool
+
+from .mixins import (
+    ClientClassGraphQLFilterMixin,
+    PrefixGraphQLFilterMixin,
+    ParentSubnetGraphQLFilterMixin,
+)
+
+if TYPE_CHECKING:
+    from ipam.graphql.filters import PrefixFilter
+
+
+@strawberry_django.filter_type(PDPool, lookups=True)
+class NetBoxDHCPPDPoolFilter(
+    ClientClassGraphQLFilterMixin,
+    PrefixGraphQLFilterMixin,
+    ParentSubnetGraphQLFilterMixin,
+    NetBoxModelFilterMixin,
+):
+    name: FilterLookup[str] | None = strawberry_django.filter_field()
+    description: FilterLookup[str] | None = strawberry_django.filter_field()
+    pool_id: FilterLookup[int] | None = strawberry_django.filter_field()
+    delegated_length: FilterLookup[int] | None = strawberry_django.filter_field()
+    excluded_prefix: Annotated["PrefixFilter", strawberry.lazy("ipam.graphql.filters")] | None = strawberry_django.filter_field()
+    excluded_prefix_id: ID | None = strawberry_django.filter_field()
