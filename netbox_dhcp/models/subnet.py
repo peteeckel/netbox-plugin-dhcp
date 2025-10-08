@@ -37,11 +37,11 @@ class Subnet(
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    NetBoxModel,
     ChildSubnetModelMixin,
     ChildPoolModelMixin,
     ChildPDPoolModelMixin,
     ChildHostReservationModelMixin,
+    NetBoxModel,
 ):
     class Meta:
         verbose_name = _("Subnet")
