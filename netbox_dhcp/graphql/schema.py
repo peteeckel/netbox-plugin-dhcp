@@ -41,7 +41,9 @@ class NetBoxDHCPClientClassQuery:
 
 @strawberry.type(name="Query")
 class NetBoxDHCPHostReservationQuery:
-    netbox_dhcp_host_reservation: NetBoxDHCPHostReservationType = strawberry_django.field()
+    netbox_dhcp_host_reservation: NetBoxDHCPHostReservationType = (
+        strawberry_django.field()
+    )
     netbox_dhcp_host_reservation_list: List[NetBoxDHCPHostReservationType] = (
         strawberry_django.field()
     )
@@ -49,7 +51,9 @@ class NetBoxDHCPHostReservationQuery:
 
 @strawberry.type(name="Query")
 class NetBoxDHCPOptionDefinitionQuery:
-    netbox_dhcp_option_definition: NetBoxDHCPOptionDefinitionType = strawberry_django.field()
+    netbox_dhcp_option_definition: NetBoxDHCPOptionDefinitionType = (
+        strawberry_django.field()
+    )
     netbox_dhcp_option_definition_list: List[NetBoxDHCPOptionDefinitionType] = (
         strawberry_django.field()
     )
@@ -58,9 +62,7 @@ class NetBoxDHCPOptionDefinitionQuery:
 @strawberry.type(name="Query")
 class NetBoxDHCPOptionQuery:
     netbox_dhcp_option: NetBoxDHCPOptionType = strawberry_django.field()
-    netbox_dhcp_option_list: List[NetBoxDHCPOptionType] = (
-        strawberry_django.field()
-    )
+    netbox_dhcp_option_list: List[NetBoxDHCPOptionType] = strawberry_django.field()
 
 
 @strawberry.type(name="Query")
@@ -74,6 +76,4 @@ class NetBoxDHCPPDPoolQuery:
 @strawberry.type(name="Query")
 class NetBoxDHCPPoolQuery:
     netbox_dhcp_pool: NetBoxDHCPPoolType = strawberry_django.field()
-    netbox_dhcp_pool_list: List[NetBoxDHCPPoolType] = (
-        strawberry_django.field()
-    )
+    netbox_dhcp_pool_list: List[NetBoxDHCPPoolType] = strawberry_django.field()

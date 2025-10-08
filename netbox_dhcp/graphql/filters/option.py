@@ -18,15 +18,30 @@ if TYPE_CHECKING:
 
 @strawberry_django.filter_type(Option, lookups=True)
 class NetBoxDHCPOptionFilter(NetBoxModelFilterMixin):
-    definition: Annotated["NetBoxDHCPOptionDefinitionFilter", strawberry.lazy("netbox_dhcp.graphql.filters")]
+    definition: (
+        Annotated[
+            "NetBoxDHCPOptionDefinitionFilter",
+            strawberry.lazy("netbox_dhcp.graphql.filters"),
+        ]
+        | None
+    ) = strawberry_django.filter_field()
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     code: FilterLookup[int] | None = strawberry_django.filter_field()
-    space: Annotated["NetBoxDHCPOptionSpaceEnum", strawberry.lazy("netbox_dhcp.graphql.enums")] | None = strawberry_django.filter_field()
-    family: Annotated["IPAddressFamilyEnum", strawberry.lazy("ipam.graphql.enums")] | None = strawberry_django.filter_field()
+    space: (
+        Annotated[
+            "NetBoxDHCPOptionSpaceEnum", strawberry.lazy("netbox_dhcp.graphql.enums")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    family: (
+        Annotated["IPAddressFamilyEnum", strawberry.lazy("ipam.graphql.enums")] | None
+    ) = strawberry_django.filter_field()
     data: FilterLookup[str] | None = strawberry_django.filter_field()
     csv_format: FilterLookup[bool] | None = strawberry_django.filter_field()
     always_send: FilterLookup[bool] | None = strawberry_django.filter_field()
     never_send: FilterLookup[bool] | None = strawberry_django.filter_field()
-    assigned_object_type: Annotated["ContentTypeFilter", strawberry.lazy('core.graphql.filters')] | None = strawberry_django.filter_field()
+    assigned_object_type: (
+        Annotated["ContentTypeFilter", strawberry.lazy("core.graphql.filters")] | None
+    ) = strawberry_django.filter_field()
     assigned_object_id: ID | None = strawberry_django.filter_field()

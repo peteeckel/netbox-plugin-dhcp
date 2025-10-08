@@ -29,5 +29,7 @@ class NetBoxDHCPPoolFilter(
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     pool_id: FilterLookup[int] | None = strawberry_django.filter_field()
-    ip_range: Annotated["IPRangeFilter", strawberry.lazy('ipam.graphql.filters')] | None = strawberry_django.filter_field()
+    ip_range: (
+        Annotated["IPRangeFilter", strawberry.lazy("ipam.graphql.filters")] | None
+    ) = strawberry_django.filter_field()
     ip_range_id: ID | None = strawberry_django.filter_field()

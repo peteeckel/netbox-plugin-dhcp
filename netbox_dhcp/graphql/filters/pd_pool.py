@@ -30,5 +30,7 @@ class NetBoxDHCPPDPoolFilter(
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     pool_id: FilterLookup[int] | None = strawberry_django.filter_field()
     delegated_length: FilterLookup[int] | None = strawberry_django.filter_field()
-    excluded_prefix: Annotated["PrefixFilter", strawberry.lazy("ipam.graphql.filters")] | None = strawberry_django.filter_field()
+    excluded_prefix: (
+        Annotated["PrefixFilter", strawberry.lazy("ipam.graphql.filters")] | None
+    ) = strawberry_django.filter_field()
     excluded_prefix_id: ID | None = strawberry_django.filter_field()

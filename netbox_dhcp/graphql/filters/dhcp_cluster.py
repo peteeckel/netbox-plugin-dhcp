@@ -21,4 +21,9 @@ __all__ = ("NetBoxDHCPClusterFilter",)
 class NetBoxDHCPClusterFilter(NetBoxModelFilterMixin):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
-    status: Annotated["NetBoxDHCPClusterStatusEnum", strawberry.lazy("netbox_dhcp.graphql.enums")] | None = strawberry_django.filter_field()
+    status: (
+        Annotated[
+            "NetBoxDHCPClusterStatusEnum", strawberry.lazy("netbox_dhcp.graphql.enums")
+        ]
+        | None
+    ) = strawberry_django.filter_field()

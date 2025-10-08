@@ -21,8 +21,20 @@ class NetBoxDHCPOptionDefinitionFilter(NetBoxModelFilterMixin):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     code: FilterLookup[int] | None = strawberry_django.filter_field()
-    space: Annotated["NetBoxDHCPOptionSpaceEnum", strawberry.lazy("netbox_dhcp.graphql.enums")] | None = strawberry_django.filter_field()
+    space: (
+        Annotated[
+            "NetBoxDHCPOptionSpaceEnum", strawberry.lazy("netbox_dhcp.graphql.enums")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
     encapsulate: FilterLookup[str] | None = strawberry_django.filter_field()
-    family: Annotated["IPAddressFamilyEnum", strawberry.lazy("ipam.graphql.enums")] | None = strawberry_django.filter_field()
-    type: Annotated["NetBoxDHCPOptionTypeEnum", strawberry.lazy("netbox_dhcp.graphql.enums")] | None = strawberry_django.filter_field()
+    family: (
+        Annotated["IPAddressFamilyEnum", strawberry.lazy("ipam.graphql.enums")] | None
+    ) = strawberry_django.filter_field()
+    type: (
+        Annotated[
+            "NetBoxDHCPOptionTypeEnum", strawberry.lazy("netbox_dhcp.graphql.enums")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
     record_type: FilterLookup[str] | None = strawberry_django.filter_field()

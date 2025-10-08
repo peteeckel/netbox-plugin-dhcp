@@ -13,13 +13,13 @@ from .mixins import (
 
 @strawberry_django.filter_type(ClientClass, lookups=True)
 class NetBoxDHCPClientClassFilter(
-    BOOTPGraphQLFilterMixin,
-    LifetimeGraphQLFilterMixin,
-    NetBoxModelFilterMixin
+    BOOTPGraphQLFilterMixin, LifetimeGraphQLFilterMixin, NetBoxModelFilterMixin
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     test: FilterLookup[str] | None = strawberry_django.filter_field()
     template_test: FilterLookup[str] | None = strawberry_django.filter_field()
     only_if_required: FilterLookup[bool] | None = strawberry_django.filter_field()
-    only_in_additional_list: FilterLookup[bool] | None = strawberry_django.filter_field()
+    only_in_additional_list: FilterLookup[bool] | None = (
+        strawberry_django.filter_field()
+    )
