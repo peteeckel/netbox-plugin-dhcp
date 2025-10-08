@@ -9,8 +9,6 @@ if TYPE_CHECKING:
     from dcim.graphql.types import MACAddressType, DeviceType
     from virtualization.graphql.types import VirtualMachineType
 
-    from netbox_dhcp.types import NetBoxDHCPPoolType
-
 from netbox_dhcp.models import (
     ClientClass,
     DHCPCluster,
@@ -20,6 +18,7 @@ from netbox_dhcp.models import (
     Option,
     PDPool,
     Pool,
+    Subnet,
 )
 from .filters import (
     NetBoxDHCPClientClassFilter,
@@ -30,6 +29,7 @@ from .filters import (
     NetBoxDHCPOptionFilter,
     NetBoxDHCPPDPoolFilter,
     NetBoxDHCPPoolFilter,
+    NetBoxDHCPSubnetFilter,
 )
 
 
@@ -91,6 +91,49 @@ class LeaseGraphQLTypeMixin:
     store_extended_info: bool | None
     allocator: str | None
     pd_allocator: str | None
+
+
+@strawberry.type
+class NetworkGraphQLTypeMixin:
+    relay: int | None
+    interface_id: str | None
+    rapid_commit: bool | None
+
+
+@strawberry.type
+class ChildSubnetGraphQLTypeMixin:
+    child_subnets: List[
+        Annotated["NetBoxDHCPSubnetType", strawberry.lazy("netbox_dhcp.graphql.types")]
+    ]
+
+
+# @strawberry.type
+# class ChildSharedNetworkGraphQLTypeMixin:
+#     child_subnets: List[Annotated["NetBoxDHCPSharedNetworkType", strawberry.lazy("netbox_dhcp.graphql.types")]]
+
+
+@strawberry.type
+class ChildPDPoolGraphQLTypeMixin:
+    child_subnets: List[
+        Annotated["NetBoxDHCPPDPoolType", strawberry.lazy("netbox_dhcp.graphql.types")]
+    ]
+
+
+@strawberry.type
+class ChildPoolGraphQLTypeMixin:
+    child_pd_pools: List[
+        Annotated["NetBoxDHCPPoolType", strawberry.lazy("netbox_dhcp.graphql.types")]
+    ]
+
+
+@strawberry.type
+class ChildHostReservationGraphQLTypeMixin:
+    child_host_reservations: List[
+        Annotated[
+            "NetBoxDHCPHostReservationType",
+            strawberry.lazy("netbox_dhcp.graphql.types"),
+        ]
+    ]
 
 
 @strawberry.type
@@ -261,7 +304,10 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
                     "NetBoxDHCPDHCPServerType",
                     strawberry.lazy("netbox_dhcp.graphql.types"),
                 ],
-                #           Annotated["NetBoxDHCPSubnetType", strawberry.lazy('netbox_dhcp.graphql.types')].
+                Annotated[
+                    "NetBoxDHCPSubnetType",
+                    strawberry.lazy('netbox_dhcp.graphql.types'),
+                ],
                 #           Annotated["NetBoxDHCPSharedNetworkType", strawberry.lazy('netbox_dhcp.graphql.types')],
                 Annotated[
                     "NetBoxDHCPPoolType", strawberry.lazy("netbox_dhcp.graphql.types")
@@ -294,7 +340,7 @@ class NetBoxDHCPPDPoolType(
     pool_id: int | None
     delegated_length: int
     # +
-    # TODO: Actually orefix cannot be Npne, but the tests fail if it is not allowed.
+    # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
     # -
     prefix: Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None
     excluded_prefix: (
@@ -312,3 +358,26 @@ class NetBoxDHCPPoolType(
     description: str | None
     pool_id: int | None
     ip_range: Annotated["IPRangeType", strawberry.lazy("ipam.graphql.types")] | None
+
+
+@strawberry_django.type(Subnet, fields="__all__", filters=NetBoxDHCPSubnetFilter)
+class NetBoxDHCPSubnetType(
+    BOOTPGraphQLTypeMixin,
+    DDNSUpdateGraphQLTypeMixin,
+    LifetimeGraphQLTypeMixin,
+    LeaseGraphQLTypeMixin,
+    NetworkGraphQLTypeMixin,
+    ChildSubnetGraphQLTypeMixin,
+    ChildPoolGraphQLTypeMixin,
+    ChildPDPoolGraphQLTypeMixin,
+    ChildHostReservationGraphQLTypeMixin,
+    ClientClassGraphQLTypeMixin,
+    NetBoxObjectType,
+):
+    name: str
+    description: str | None
+    subnet_id: int | None
+    # +
+    # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
+    # -
+    prefix: Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None

@@ -15,6 +15,11 @@ if TYPE_CHECKING:
     )
     from netbox_dhcp.graphql.filters import (
         NetBoxDHCPClientClassFilter,
+        NetBoxDHCPSubnetFilter,
+        NetBoxDHCPSharedNetworkFilter,
+        NetBoxDHCPPoolFilter,
+        NetBoxDHCPPDPoolFilter,
+        NetBoxDHCPHostReservationFilter,
     )
     from netbox_dhcp.graphql.enums import (
         NetBoxDHCPAllocatorTypeEnum,
@@ -33,6 +38,13 @@ __all__ = (
     "ClientClassAssignmentGraphQLFilterMixin",
     "PrefixGraphQLFilterMixin",
     "ParentSubnetGraphQLFilterMixin",
+    "ParentSharedNetworkGraphQLFilterMixin",
+    "ChildSubnetGraphQLFilterMixin",
+    "ChildSharedNetworkGraphQLFilterMixin",
+    "ChildPDPoolGraphQLFilterMixin",
+    "ChildPoolGraphQLFilterMixin",
+    "ChildHostReservationGraphQLFilterMixin",
+    "NetworkGraphQLFilterMixin",
 )
 
 
@@ -183,8 +195,80 @@ class PrefixGraphQLFilterMixin:
 
 @dataclass
 class ParentSubnetGraphQLFilterMixin:
+    parent_subnet: (
+        Annotated[
+            "NetBoxDHCPSubnetFilter", strawberry.lazy("netbox_dhcp.graphql.filters")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    parent_subnet_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class ParentSharedNetworkGraphQLFilterMixin:
     pass
 
 
-#     parent_subnet: Annotated["NetBoxDHCPSubnetFilter", strawberry.lazy("netbox_dhcp.graphql.filters")] | None = strawberry_django.filter_field()
-#     parent_subnet_id: ID | None = strawberry_django.filter_field()
+#    parent_shared_network: Annotated["NetBoxDHCPSharedNetworkFilter", strawberry.lazy("netbox_dhcp.graphql.filters")] | None = strawberry_django.filter_field()
+#    parent_shared_network_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class ChildSharedNetworkGraphQLFilterMixin:
+    pass
+
+
+#    child_shared_network: Annotated["NetBoxDHCPSharedNetworkFilter", strawberry.lazy("netbox_dhcp.graphql.filters")] | None = strawberry_django.filter_field()
+#    child_shared_network_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class ChildSubnetGraphQLFilterMixin:
+    child_subnet: (
+        Annotated[
+            "NetBoxDHCPSubnetFilter", strawberry.lazy("netbox_dhcp.graphql.filters")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    child_subnet_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class ChildPoolGraphQLFilterMixin:
+    child_pool: (
+        Annotated[
+            "NetBoxDHCPPoolFilter", strawberry.lazy("netbox_dhcp.graphql.filters")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    child_pool_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class ChildPDPoolGraphQLFilterMixin:
+    child_pd_pool: (
+        Annotated[
+            "NetBoxDHCPPDPoolFilter", strawberry.lazy("netbox_dhcp.graphql.filters")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    child_pd_pool_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class ChildHostReservationGraphQLFilterMixin:
+    child_host_reservation: (
+        Annotated[
+            "NetBoxDHCPHostReservationFilter",
+            strawberry.lazy("netbox_dhcp.graphql.filters"),
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    child_host_reservation_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class NetworkGraphQLFilterMixin:
+    relay: FilterLookup[str] | None = strawberry_django.filter_field()
+    interface_id: FilterLookup[int] | None = strawberry_django.filter_field()
+    rapid_commit: FilterLookup[bool] | None = strawberry_django.filter_field()
