@@ -81,7 +81,7 @@ class ClientClassImportFormMixin(ClientClassDefinitionImportFormMixin):
         error_messages={
             "invalid_choice": _("Client class %(value)s not found"),
         },
-        label=_("Required Client Classes"),
+        label=_("Require Client Classes"),
     )
     evaluate_additional_classes = CSVModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
@@ -90,7 +90,7 @@ class ClientClassImportFormMixin(ClientClassDefinitionImportFormMixin):
         error_messages={
             "invalid_choice": _("Client class %(value)s not found"),
         },
-        label=_("Required Client Classes"),
+        label=_("Require Client Classes"),
     )
 
 
