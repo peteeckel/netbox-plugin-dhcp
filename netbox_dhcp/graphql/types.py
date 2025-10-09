@@ -312,7 +312,7 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
                 ],
                 Annotated[
                     "NetBoxDHCPSharedNetworkType",
-                    strawberry.lazy('netbox_dhcp.graphql.types'),
+                    strawberry.lazy("netbox_dhcp.graphql.types"),
                 ],
                 Annotated[
                     "NetBoxDHCPPoolType",
