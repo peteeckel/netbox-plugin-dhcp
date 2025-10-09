@@ -25,6 +25,7 @@ class NetBoxDHCPOptionFilter(NetBoxModelFilterMixin):
         ]
         | None
     ) = strawberry_django.filter_field()
+    definition_id: ID | None = strawberry_django.filter_field()
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     code: FilterLookup[int] | None = strawberry_django.filter_field()
