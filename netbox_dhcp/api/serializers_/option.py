@@ -74,9 +74,9 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
     )
 
     @extend_schema_field(serializers.JSONField(allow_null=True))
-    def get_assigned_object(self, obj):
-        if obj.assigned_object is None:
+    def get_assigned_object(self, instance):
+        if instance.assigned_object is None:
             return None
-        serializer = get_serializer_for_model(obj.assigned_object)
+        serializer = get_serializer_for_model(instance.assigned_object)
         context = {"request": self.context["request"]}
-        return serializer(obj.assigned_object, nested=True, context=context).data
+        return serializer(instance.assigned_object, nested=True, context=context).data
