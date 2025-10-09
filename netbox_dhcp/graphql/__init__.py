@@ -8,6 +8,7 @@ from .schema import (
     NetBoxDHCPPDPoolQuery,
     NetBoxDHCPPoolQuery,
     NetBoxDHCPSubnetQuery,
+    NetBoxDHCPSharedNetworkQuery,
 )
 
 schema = [
@@ -20,4 +21,5 @@ schema = [
     NetBoxDHCPPDPoolQuery,
     NetBoxDHCPPoolQuery,
     NetBoxDHCPSubnetQuery,
+    NetBoxDHCPSharedNetworkQuery,
 ]

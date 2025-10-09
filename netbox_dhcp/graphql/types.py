@@ -19,6 +19,7 @@ from netbox_dhcp.models import (
     PDPool,
     Pool,
     Subnet,
+    SharedNetwork,
 )
 from .filters import (
     NetBoxDHCPClientClassFilter,
@@ -30,6 +31,7 @@ from .filters import (
     NetBoxDHCPPDPoolFilter,
     NetBoxDHCPPoolFilter,
     NetBoxDHCPSubnetFilter,
+    NetBoxDHCPSharedNetworkFilter,
 )
 
 
@@ -306,14 +308,19 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
                 ],
                 Annotated[
                     "NetBoxDHCPSubnetType",
+                    strawberry.lazy("netbox_dhcp.graphql.types"),
+                ],
+                Annotated[
+                    "NetBoxDHCPSharedNetworkType",
                     strawberry.lazy('netbox_dhcp.graphql.types'),
                 ],
-                #           Annotated["NetBoxDHCPSharedNetworkType", strawberry.lazy('netbox_dhcp.graphql.types')],
                 Annotated[
-                    "NetBoxDHCPPoolType", strawberry.lazy("netbox_dhcp.graphql.types")
+                    "NetBoxDHCPPoolType",
+                    strawberry.lazy("netbox_dhcp.graphql.types"),
                 ],
                 Annotated[
-                    "NetBoxDHCPPDPoolType", strawberry.lazy("netbox_dhcp.graphql.types")
+                    "NetBoxDHCPPDPoolType",
+                    strawberry.lazy("netbox_dhcp.graphql.types"),
                 ],
                 Annotated[
                     "NetBoxDHCPHostReservationType",
@@ -377,6 +384,27 @@ class NetBoxDHCPSubnetType(
     name: str
     description: str | None
     subnet_id: int | None
+    # +
+    # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
+    # -
+    prefix: Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None
+
+
+@strawberry_django.type(
+    SharedNetwork, fields="__all__", filters=NetBoxDHCPSharedNetworkFilter
+)
+class NetBoxDHCPSharedNetworkType(
+    BOOTPGraphQLTypeMixin,
+    DDNSUpdateGraphQLTypeMixin,
+    LifetimeGraphQLTypeMixin,
+    LeaseGraphQLTypeMixin,
+    NetworkGraphQLTypeMixin,
+    ChildSubnetGraphQLTypeMixin,
+    ClientClassGraphQLTypeMixin,
+    NetBoxObjectType,
+):
+    name: str
+    description: str | None
     # +
     # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
     # -

@@ -20,6 +20,7 @@ if TYPE_CHECKING:
         NetBoxDHCPPoolFilter,
         NetBoxDHCPPDPoolFilter,
         NetBoxDHCPHostReservationFilter,
+        NetBoxDHCPServerFilter,
     )
     from netbox_dhcp.graphql.enums import (
         NetBoxDHCPAllocatorTypeEnum,
@@ -39,6 +40,7 @@ __all__ = (
     "PrefixGraphQLFilterMixin",
     "ParentSubnetGraphQLFilterMixin",
     "ParentSharedNetworkGraphQLFilterMixin",
+    "ParentDHCPServerGraphQLFilterMixin",
     "ChildSubnetGraphQLFilterMixin",
     "ChildSharedNetworkGraphQLFilterMixin",
     "ChildPDPoolGraphQLFilterMixin",
@@ -205,21 +207,38 @@ class ParentSubnetGraphQLFilterMixin:
 
 
 @dataclass
+class ParentDHCPServerGraphQLFilterMixin:
+    parent_dhcp_server: (
+        Annotated[
+            "NetBoxDHCPServerFilter", strawberry.lazy("netbox_dhcp.graphql.filters")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    parent_dhcp_server_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
 class ParentSharedNetworkGraphQLFilterMixin:
-    pass
-
-
-#    parent_shared_network: Annotated["NetBoxDHCPSharedNetworkFilter", strawberry.lazy("netbox_dhcp.graphql.filters")] | None = strawberry_django.filter_field()
-#    parent_shared_network_id: ID | None = strawberry_django.filter_field()
+    parent_shared_network: (
+        Annotated[
+            "NetBoxDHCPSharedNetworkFilter",
+            strawberry.lazy("netbox_dhcp.graphql.filters"),
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    parent_shared_network_id: ID | None = strawberry_django.filter_field()
 
 
 @dataclass
 class ChildSharedNetworkGraphQLFilterMixin:
-    pass
-
-
-#    child_shared_network: Annotated["NetBoxDHCPSharedNetworkFilter", strawberry.lazy("netbox_dhcp.graphql.filters")] | None = strawberry_django.filter_field()
-#    child_shared_network_id: ID | None = strawberry_django.filter_field()
+    child_shared_network: (
+        Annotated[
+            "NetBoxDHCPSharedNetworkFilter",
+            strawberry.lazy("netbox_dhcp.graphql.filters"),
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    child_shared_network_id: ID | None = strawberry_django.filter_field()
 
 
 @dataclass

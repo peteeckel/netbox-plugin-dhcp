@@ -13,6 +13,7 @@ from .types import (
     NetBoxDHCPPDPoolType,
     NetBoxDHCPPoolType,
     NetBoxDHCPSubnetType,
+    NetBoxDHCPSharedNetworkType,
 )
 
 
@@ -84,3 +85,11 @@ class NetBoxDHCPPoolQuery:
 class NetBoxDHCPSubnetQuery:
     netbox_dhcp_subnet: NetBoxDHCPSubnetType = strawberry_django.field()
     netbox_dhcp_subnet_list: List[NetBoxDHCPSubnetType] = strawberry_django.field()
+
+
+@strawberry.type(name="Query")
+class NetBoxDHCPSharedNetworkQuery:
+    netbox_dhcp_shared_network: NetBoxDHCPSharedNetworkType = strawberry_django.field()
+    netbox_dhcp_shared_network_list: List[NetBoxDHCPSharedNetworkType] = (
+        strawberry_django.field()
+    )

@@ -1,7 +1,7 @@
 from .dhcp_cluster import *
 from .dhcp_server import *
 
-# from .shared_network import *
+from .shared_network import *
 from .subnet import *
 from .pd_pool import *
 from .pool import *
