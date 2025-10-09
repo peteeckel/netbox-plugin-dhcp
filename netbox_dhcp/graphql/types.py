@@ -299,42 +299,42 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
     csv_format: bool | None
     always_send: bool | None
     never_send: bool | None
-    assigned_object: (
-        Annotated[
-            Union[
-                Annotated[
-                    "NetBoxDHCPDHCPServerType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
-                Annotated[
-                    "NetBoxDHCPSubnetType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
-                Annotated[
-                    "NetBoxDHCPSharedNetworkType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
-                Annotated[
-                    "NetBoxDHCPPoolType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
-                Annotated[
-                    "NetBoxDHCPPDPoolType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
-                Annotated[
-                    "NetBoxDHCPHostReservationType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
-                Annotated[
-                    "NetBoxDHCPClientClassType",
-                    strawberry.lazy("netbox_dhcp.graphql.types"),
-                ],
+
+    @strawberry_django.field
+    def assigned_object(self) -> Annotated[
+        Union[
+            Annotated[
+                "NetBoxDHCPDHCPServerType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
             ],
-            strawberry.union("OptionAssignmentType"),
-        ]
-        | None
-    )
+            Annotated[
+                "NetBoxDHCPSubnetType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
+            ],
+            Annotated[
+                "NetBoxDHCPSharedNetworkType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
+            ],
+            Annotated[
+                "NetBoxDHCPPoolType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
+            ],
+            Annotated[
+                "NetBoxDHCPPDPoolType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
+            ],
+            Annotated[
+                "NetBoxDHCPHostReservationType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
+            ],
+            Annotated[
+                "NetBoxDHCPClientClassType",
+                strawberry.lazy("netbox_dhcp.graphql.types"),
+            ],
+        ],
+        strawberry.union("OptionAssignmentType"),
+    ]:
+        return self.assigned_object
 
 
 @strawberry_django.type(PDPool, fields="__all__", filters=NetBoxDHCPPDPoolFilter)
