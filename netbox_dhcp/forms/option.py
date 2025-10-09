@@ -53,6 +53,8 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "always_send",
             "never_send",
             "assign_client_classes",
+            "assigned_object_id",
+            "assigned_object_type",
             "tags",
         )
 

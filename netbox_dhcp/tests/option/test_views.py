@@ -86,6 +86,8 @@ class OptionViewTestCase(
             "assign_client_classes": [
                 client_class.pk for client_class in cls.client_classes[0:2]
             ],
+            "assigned_object_id": cls.dhcp_servers[0].pk,
+            "assigned_object_type": cls.dhcp_server_type.pk,
         }
 
         cls.bulk_edit_data = {
