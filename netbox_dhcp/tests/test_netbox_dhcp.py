@@ -7,7 +7,7 @@ from utilities.testing.api import APITestCase
 
 class NetBoxDHCPVersionTestCase(SimpleTestCase):
     def test_version(self):
-        assert __version__ == "0.0.2"
+        assert __version__ == "0.0.4"
 
 
 class AppTest(APITestCase):

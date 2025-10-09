@@ -1,6 +1,6 @@
 [project]
 name = "netbox-plugin-dhcp"
-version = "0.0.2"
+version = "0.0.4"
 description = "NetBox DHCP is a NetBox plugin for DHCP data."
 authors = [
     {name="Peter Eckel", email="pe@sys4.de"},
@@ -30,4 +30,7 @@ build-backend = 'setuptools.build_meta'
 exclude = ["examples*", "media*", "*.tests*"]
 
 [tool.setuptools.package-data]
-"netbox_dhcp" = ["templates/**/*.html"]
+"netbox_dhcp" = [
+    "templates/**/*.html",
+    "migrations/initial_data/*.json",
+]
