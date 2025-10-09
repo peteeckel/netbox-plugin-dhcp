@@ -32,7 +32,6 @@ from .mixins import (
     ClientClassAssignmentBulkEditFormMixin,
 )
 
-
 __all__ = (
     "OptionForm",
     "OptionFilterForm",
@@ -77,6 +76,12 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             name=_("Tags"),
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["assigned_object_id"].required = False
+        self.fields["assigned_object_type"].required = False
 
     csv_format = forms.NullBooleanField(
         label=_("CSV Format"),
