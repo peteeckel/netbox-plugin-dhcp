@@ -133,7 +133,7 @@ class SubnetFilterSetTestCase(
             cls.ipv4_subnets[number].child_subnets.add(cls.subnets[number])
 
         for number in range(4):
-            cls.subnets[number].required_client_classes.add(
+            cls.subnets[number].require_client_classes.add(
                 cls.client_classes[(number + 1) % 3]
             )
             cls.subnets[number].evaluate_additional_classes.add(

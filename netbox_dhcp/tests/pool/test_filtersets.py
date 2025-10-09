@@ -88,7 +88,7 @@ class PoolFilterSetTestCase(
         cls.ipv6_subnets[1].child_pools.add(pools[3])
 
         for number in range(4):
-            pools[number].required_client_classes.add(
+            pools[number].require_client_classes.add(
                 cls.client_classes[(number + 1) % 3]
             )
             pools[number].evaluate_additional_classes.add(

@@ -40,7 +40,7 @@ class SharedNetworkSerializer(
             "max_preferred_lifetime",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "evaluate_additional_classes",
             "child_subnets",
             "renew_timer",
@@ -101,7 +101,7 @@ class SharedNetworkSerializer(
 
     def create(self, validated_data):
         client_class_definitions = validated_data.pop("client_class_definitions", None)
-        required_client_classes = validated_data.pop("required_client_classes", None)
+        require_client_classes = validated_data.pop("require_client_classes", None)
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
@@ -111,8 +111,8 @@ class SharedNetworkSerializer(
 
         if client_class_definitions is not None:
             shared_network.client_class_definitions.set(client_class_definitions)
-        if required_client_classes is not None:
-            shared_network.required_client_classes.set(required_client_classes)
+        if require_client_classes is not None:
+            shared_network.require_client_classes.set(require_client_classes)
         if evaluate_additional_classes is not None:
             shared_network.evaluate_additional_classes.set(evaluate_additional_classes)
         if child_subnets is not None:
@@ -122,7 +122,7 @@ class SharedNetworkSerializer(
 
     def update(self, instance, validated_data):
         client_class_definitions = validated_data.pop("client_class_definitions", None)
-        required_client_classes = validated_data.pop("required_client_classes", None)
+        require_client_classes = validated_data.pop("require_client_classes", None)
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
@@ -132,8 +132,8 @@ class SharedNetworkSerializer(
 
         if client_class_definitions is not None:
             shared_network.client_class_definitions.set(client_class_definitions)
-        if required_client_classes is not None:
-            shared_network.required_client_classes.set(required_client_classes)
+        if require_client_classes is not None:
+            shared_network.require_client_classes.set(require_client_classes)
         if evaluate_additional_classes is not None:
             shared_network.evaluate_additional_classes.set(evaluate_additional_classes)
         if child_subnets is not None:

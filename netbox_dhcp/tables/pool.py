@@ -23,7 +23,7 @@ class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
             "ip_range",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "user_context",
             "comment",
             "evaluate_additional_classes",
@@ -48,7 +48,7 @@ class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
         verbose_name=_("Client Class"),
         linkify=True,
     )
-    required_client_classes = tables.ManyToManyColumn(
+    require_client_classes = tables.ManyToManyColumn(
         verbose_name=_("Required Client Classes"),
         linkify_item=True,
     )

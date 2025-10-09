@@ -58,7 +58,7 @@ class PoolForm(
             "ip_range",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "evaluate_additional_classes",
             "hostname_char_set",
             "hostname_char_replacement",
@@ -92,7 +92,7 @@ class PoolForm(
         ),
         FieldSet(
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -219,7 +219,7 @@ class PoolImportForm(
             "ip_range",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "evaluate_additional_classes",
             "user_context",
             "comment",
@@ -257,7 +257,7 @@ class PoolBulkEditForm(
         ),
         FieldSet(
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -289,7 +289,7 @@ class PoolBulkEditForm(
         "description",
         "client_class_definitions",
         "client_class",
-        "required_client_classes",
+        "require_client_classes",
         "evaluate_additional_classes",
         "user_context",
         "comment",

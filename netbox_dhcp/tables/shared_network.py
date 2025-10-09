@@ -39,7 +39,7 @@ class SharedNetworkTable(
             "boot_file_name",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "offer_lifetime",
             "valid_lifetime",
             "min_valid_lifetime",

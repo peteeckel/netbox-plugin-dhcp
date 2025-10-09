@@ -65,7 +65,7 @@ class ClientClassFormMixin(ClientClassDefinitionFormMixin):
         quick_add=True,
         label=_("Client Class"),
     )
-    required_client_classes = DynamicModelMultipleChoiceField(
+    require_client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         quick_add=True,

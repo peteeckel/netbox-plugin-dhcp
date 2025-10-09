@@ -126,7 +126,7 @@ class ClientClassModelMixin(ClientClassDefinitionModelMixin):
         null=True,
         on_delete=models.SET_NULL,
     )
-    required_client_classes = models.ManyToManyField(
+    require_client_classes = models.ManyToManyField(
         verbose_name=_("Required Client Classes"),
         to="ClientClass",
         related_name="require_%(class)ss",

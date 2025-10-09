@@ -51,7 +51,7 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
             "excluded_prefix",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "evaluate_additional_classes",
             "user_context",
             "comment",
@@ -73,7 +73,7 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
         ),
         FieldSet(
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -185,7 +185,7 @@ class PDPoolImportForm(
             "excluded_prefix",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "evaluate_additional_classes",
             "user_context",
             "comment",
@@ -232,7 +232,7 @@ class PDPoolBulkEditForm(
         ),
         FieldSet(
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             name=_("Selection"),
         ),
         FieldSet(
@@ -252,7 +252,7 @@ class PDPoolBulkEditForm(
         "excluded_prefix",
         "client_class",
         "client_class_definitions",
-        "required_client_classes",
+        "require_client_classes",
         "evaluate_additional_classes",
         "user_context",
         "comment",

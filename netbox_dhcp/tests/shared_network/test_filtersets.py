@@ -122,7 +122,7 @@ class SharedNetworkFilterSetTestCase(
             shared_networks[number + 3].child_subnets.add(cls.ipv6_subnets[number])
 
         for number in range(4):
-            shared_networks[number].required_client_classes.add(
+            shared_networks[number].require_client_classes.add(
                 cls.client_classes[(number + 1) % 3]
             )
             shared_networks[number].evaluate_additional_classes.add(

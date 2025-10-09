@@ -484,7 +484,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "required_client_classes",
+                    "require_client_classes",
                     models.ManyToManyField(
                         blank=True,
                         related_name="require_%(class)ss",
@@ -594,7 +594,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "required_client_classes",
+                    "require_client_classes",
                     models.ManyToManyField(
                         blank=True,
                         related_name="require_%(class)ss",
@@ -803,7 +803,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "required_client_classes",
+                    "require_client_classes",
                     models.ManyToManyField(
                         blank=True,
                         related_name="require_%(class)ss",
@@ -979,7 +979,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "required_client_classes",
+                    "require_client_classes",
                     models.ManyToManyField(
                         blank=True,
                         related_name="require_%(class)ss",

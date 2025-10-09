@@ -65,7 +65,7 @@ class PDPoolAPITestCase(
                 "delegated_length": 64,
                 "excluded_prefix": ipv6_prefixes[1].pk,
                 "client_class": client_classes[0].pk,
-                "required_client_classes": [
+                "require_client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
                 ],
             },
@@ -88,7 +88,7 @@ class PDPoolAPITestCase(
         cls.bulk_update_data = {
             "description": "Test Description Update",
             "client_class": client_classes[0].pk,
-            "required_client_classes": [
+            "require_client_classes": [
                 client_class.pk for client_class in client_classes
             ],
         }

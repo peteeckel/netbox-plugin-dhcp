@@ -34,7 +34,7 @@ class ClientClassTableMixin(ClientClassDefinitionTableMixin):
         verbose_name=_("Client Class"),
         linkify=True,
     )
-    required_client_classes = tables.ManyToManyColumn(
+    require_client_classes = tables.ManyToManyColumn(
         verbose_name=_("Required Client Classes"),
         linkify_item=True,
     )

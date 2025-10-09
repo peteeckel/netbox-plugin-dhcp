@@ -153,7 +153,7 @@ class ClientClassGraphQLTypeMixin(ClientClassDefinitionGraphQLTypeMixin):
         ]
         | None
     )
-    required_client_classes: List[
+    require_client_classes: List[
         Annotated[
             "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
         ]

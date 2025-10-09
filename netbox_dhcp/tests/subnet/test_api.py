@@ -64,7 +64,7 @@ class SubnetAPITestCase(
                 "client_class_definitions": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "required_client_classes": [
+                "require_client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
                 ],
                 "evaluate_additional_classes": [
@@ -82,7 +82,7 @@ class SubnetAPITestCase(
                 "client_class_definitions": [
                     client_class.pk for client_class in client_classes[1:3]
                 ],
-                "required_client_classes": [
+                "require_client_classes": [
                     client_class.pk for client_class in client_classes[0:3]
                 ],
                 "evaluate_additional_classes": [
@@ -100,7 +100,7 @@ class SubnetAPITestCase(
                 "client_class_definitions": [
                     client_class.pk for client_class in client_classes[0:3]
                 ],
-                "required_client_classes": [
+                "require_client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
                 ],
                 "evaluate_additional_classes": [
@@ -113,7 +113,7 @@ class SubnetAPITestCase(
             "description": "Test Description Update",
             "prefix": ipv6_prefixes[1].pk,
             "client_class_definitions": [client_classes[0].pk],
-            "required_client_classes": [client_classes[1].pk],
+            "require_client_classes": [client_classes[1].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
             "child_subnets": [subnet.pk for subnet in subnets[0:2]],
             "child_host_reservations": [host_reservations[0].pk],

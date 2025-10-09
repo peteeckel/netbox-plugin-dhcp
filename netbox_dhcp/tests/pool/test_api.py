@@ -84,7 +84,7 @@ class PoolAPITestCase(
         cls.bulk_update_data = {
             "description": "Test Description Update",
             "client_class": client_classes[2].pk,
-            "required_client_classes": [
+            "require_client_classes": [
                 client_class.pk for client_class in client_classes[1:3]
             ],
             "client_class_definitions": [],

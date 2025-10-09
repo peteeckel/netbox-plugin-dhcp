@@ -74,7 +74,7 @@ class ClientClassImportFormMixin(ClientClassDefinitionImportFormMixin):
         },
         label=_("Client Class"),
     )
-    required_client_classes = CSVModelMultipleChoiceField(
+    require_client_classes = CSVModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         to_field_name="name",

@@ -51,7 +51,7 @@ class SharedNetwork(
         "boot_file_name",
         "client_class_definitions",
         "client_class",
-        "required_client_classes",
+        "require_client_classes",
         "evaluate_additional_classes",
         "offer_lifetime",
         "valid_lifetime",

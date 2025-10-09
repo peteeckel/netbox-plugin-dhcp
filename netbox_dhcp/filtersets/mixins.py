@@ -187,12 +187,12 @@ class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
         label=_("Client Class ID"),
     )
     required_client_class = django_filters.CharFilter(
-        field_name="required_client_classes__name",
+        field_name="require_client_classes__name",
         label=_("Require Client Class"),
     )
     required_client_class_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
-        field_name="required_client_classes",
+        field_name="require_client_classes",
         label=_("Require Client Class ID"),
     )
     evaluate_additional_class = django_filters.CharFilter(

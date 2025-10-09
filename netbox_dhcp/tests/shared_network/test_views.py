@@ -55,7 +55,7 @@ class SharedNetworkViewTestCase(
             "client_class_definitions": [
                 client_class.pk for client_class in client_classes[0:2]
             ],
-            "required_client_classes": [
+            "require_client_classes": [
                 client_class.pk for client_class in client_classes[1:3]
             ],
             "evaluate_additional_classes": [
@@ -68,20 +68,20 @@ class SharedNetworkViewTestCase(
             "description": "Test Description Update",
             "prefix": ipv6_prefixes[1].pk,
             "client_class_definitions": [client_classes[0].pk],
-            "required_client_classes": [client_classes[1].pk],
+            "require_client_classes": [client_classes[1].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
             "child_subnets": [subnet.pk for subnet in subnets[0:2]],
         }
 
         cls.csv_data = (
-            "name,description,prefix,client_class_definitions,required_client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
+            "name,description,prefix,client_class_definitions,require_client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
             f'test-shared-network-4,Test Shared Network 4,{ipv4_prefixes[0].prefix},{client_classes[0].name},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
             f'test-shared-network-5,Test Shared Network 5,{ipv4_prefixes[1].prefix},{client_classes[1].name},"{client_classes[1].name},{client_classes[2].name}","{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
             f'test-shared-network-6,Test Shared Network 6,{ipv4_prefixes[2].prefix},{client_classes[2].name},"{client_classes[2].name},{client_classes[0].name}","{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
         )
 
         cls.csv_update_data = (
-            "id,description,client_class_definitions,required_client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
+            "id,description,client_class_definitions,require_client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
             f'{shared_networks[0].pk},Test Shared Network 1 (updated),{client_classes[1].name},"{client_classes[1].name},{client_classes[2].name}","{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
             f'{shared_networks[1].pk},Test Shared Network 2 (updated),{client_classes[2].name},"{client_classes[2].name},{client_classes[0].name}","{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
             f'{shared_networks[2].pk},Test Shared Network 3 (updated),{client_classes[0].name},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501

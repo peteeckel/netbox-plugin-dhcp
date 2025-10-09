@@ -25,7 +25,7 @@ class PDPoolTable(NetBoxDHCPTableMixin, NetBoxTable):
             "excluded_prefix",
             "client_class_definitions",
             "client_class",
-            "required_client_classes",
+            "require_client_classes",
             "user_context",
             "comment",
             "evaluate_additional_classes",

@@ -77,7 +77,7 @@ class PDPoolFilterSetTestCase(
 
         for number in range(3):
             cls.ipv6_subnets[number].child_pd_pools.add(cls.pd_pools[number])
-            cls.pd_pools[number].required_client_classes.add(
+            cls.pd_pools[number].require_client_classes.add(
                 cls.client_classes[(number + 1) % 3]
             )
             cls.pd_pools[number].evaluate_additional_classes.add(

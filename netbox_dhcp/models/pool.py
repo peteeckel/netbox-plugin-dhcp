@@ -38,7 +38,7 @@ class Pool(
         "description",
         "client_class_definitions",
         "client_class",
-        "required_client_classes",
+        "require_client_classes",
         "evaluate_additional_classes",
         "hostname_char_set",
         "hostname_char_replacement",
