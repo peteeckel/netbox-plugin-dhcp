@@ -33,6 +33,8 @@ class OptionAPITestCase(
         "url",
     ]
 
+    user_permissions = ("netbox_dhcp.view_optiondefinition",)
+
     @classmethod
     def setUpTestData(cls):
         cls.client_classes = TestObjects.get_client_classes()
