@@ -85,7 +85,7 @@ class PrefixFormMixin(forms.Form):
         required=True,
         selector=True,
         context={
-            "depth": False,
+            "depth": None,
         },
         quick_add=True,
         label=_("Prefix"),
