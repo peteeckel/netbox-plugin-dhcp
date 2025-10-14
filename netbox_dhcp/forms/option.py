@@ -57,6 +57,11 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "tags",
         )
 
+        widgets = {
+            "assigned_object_id": forms.HiddenInput(),
+            "assigned_object_type": forms.HiddenInput(),
+        }
+
     fieldsets = (
         FieldSet(
             "definition",
