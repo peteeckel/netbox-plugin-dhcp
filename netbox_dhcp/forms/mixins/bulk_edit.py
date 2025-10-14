@@ -7,6 +7,7 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
 )
 from utilities.forms.widgets import BulkEditNullBooleanSelect
+from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 
 from netbox_dhcp.models import ClientClass, Subnet, SharedNetwork, HostReservation
@@ -45,6 +46,18 @@ class NetBoxDHCPBulkEditFormMixin(forms.Form):
 
 
 class BOOTPBulkEditFormMixin(forms.Form):
+    NULLABLE_FIELDS = [
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+    ]
+    FIELDSET = FieldSet(
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+        name=_("BOOTP"),
+    )
+
     next_server = forms.CharField(
         required=False,
         label=_("Next Server"),
@@ -78,6 +91,20 @@ class ClientClassDefinitionBulkEditFormMixin(forms.Form):
 
 
 class ClientClassBulkEditFormMixin(ClientClassDefinitionBulkEditFormMixin):
+    FIELDSET = FieldSet(
+        "client_class",
+        "require_client_classes",
+        "client_class_definitions",
+        "evaluate_additional_classes",
+        name=_("Client Classes"),
+    )
+    NULLABLE_FIELDS = [
+        "client_class",
+        "require_client_classes",
+        "client_class_definitions",
+        "evaluate_additional_classes",
+    ]
+
     client_class = DynamicModelChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -107,6 +134,26 @@ class OfferLifetimeBulkEditFormMixin(forms.Form):
 
 
 class LifetimeBulkEditFormMixin(OfferLifetimeBulkEditFormMixin):
+    FIELDSET = FieldSet(
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+        name=_("Lifetimes"),
+    )
+    NULLABLE_FIELDS = [
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+    ]
+
     valid_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
@@ -161,6 +208,34 @@ class PrefixBulkEditFormMixin(forms.Form):
 
 
 class DDNSUpdateBulkEditFormMixin(forms.Form):
+    FIELDSET = FieldSet(
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
+        name=_("Dynamic DNS Update"),
+    )
+    NULLABLE_FIELDS = [
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
+    ]
+
     ddns_send_updates = forms.NullBooleanField(
         label=_("Send DDNS updates"),
         widget=BulkEditNullBooleanSelect(),
@@ -235,6 +310,39 @@ class DDNSUpdateBulkEditFormMixin(forms.Form):
 
 
 class LeaseBulkEditFormMixin(forms.Form):
+    FIELDSET = FieldSet(
+        "renew_timer",
+        "rebind_timer",
+        "calculate_tee_times",
+        "t1_percent",
+        "t2_percent",
+        "adaptive_lease_time_threshold",
+        "match_client_id",
+        "reservations_global",
+        "reservations_out_of_pool",
+        "reservations_in_subnet",
+        "cache_threshold",
+        "cache_max_age",
+        "authoritative",
+        "store_extended_info",
+        "allocator",
+        "pd_allocator",
+        "rapid_commit",
+        name=_("Lease"),
+    )
+    NULLABLE_FIELDS = [
+        "renew_timer",
+        "rebind_timer",
+        "t1_percent",
+        "t2_percent",
+        "adaptive_lease_time_threshold",
+        "cache_threshold",
+        "cache_max_age",
+        "relay",
+        "interface_id",
+        "rapid_commit",
+    ]
+
     renew_timer = forms.IntegerField(
         label=_("Renew Timer"),
         required=False,
@@ -330,6 +438,18 @@ class LeaseBulkEditFormMixin(forms.Form):
 
 
 class NetworkBulkEditFormMixin(forms.Form):
+    FIELDSET = FieldSet(
+        "relay",
+        "interface_id",
+        "rapid_commit",
+        name=_("Network"),
+    )
+    NULLABLE_FIELDS = [
+        "relay",
+        "interface_id",
+        "rapid_commit",
+    ]
+
     relay = forms.CharField(
         label=_("Relay IP Addresses"),
         required=False,

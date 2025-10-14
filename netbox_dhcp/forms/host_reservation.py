@@ -23,12 +23,14 @@ from dcim.models import MACAddress
 from netbox_dhcp.models import HostReservation
 
 from .mixins import (
-    BOOTPBulkEditFormMixin,
+    BOOTPFormMixin,
     BOOTPFilterFormMixin,
+    BOOTPImportFormMixin,
+    BOOTPBulkEditFormMixin,
     ClientClassAssignmentFormMixin,
-    ClientClassAssignmentBulkEditFormMixin,
     ClientClassAssignmentFilterFormMixin,
     ClientClassAssignmentImportFormMixin,
+    ClientClassAssignmentBulkEditFormMixin,
     CommonBulkEditFormMixin,
     CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
@@ -56,17 +58,15 @@ class HostReservationForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "circuit_id",
             "client_id",
             "flex_id",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
             "hostname",
             "ipv4_address",
             "ipv6_addresses",
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
+            *BOOTPFormMixin.FIELDS,
+            "assign_client_classes",
             "user_context",
             "comment",
-            "assign_client_classes",
             "tags",
         )
 
@@ -84,12 +84,7 @@ class HostReservationForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "flex_id",
             name=_("Selection"),
         ),
-        FieldSet(
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            name=_("BOOTP"),
-        ),
+        BOOTPFormMixin.FIELDSET,
         FieldSet(
             "ipv4_address",
             "ipv6_addresses",
@@ -98,8 +93,11 @@ class HostReservationForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "hostname",
             "user_context",
             "comment",
-            "assign_client_classes",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            "assign_client_classes",
+            name=_("Client Classes"),
         ),
         FieldSet(
             "tags",
@@ -184,12 +182,7 @@ class HostReservationFilterForm(
             "client_class_id",
             name=_("Selection"),
         ),
-        FieldSet(
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            name=_("BOOTP"),
-        ),
+        BOOTPFilterFormMixin.FIELDSET,
         FieldSet(
             "ipv4_address_id",
             "ipv6_address_id",
@@ -197,8 +190,11 @@ class HostReservationFilterForm(
             "excluded_ipv6_prefix_id",
             "hostname",
             "comment",
-            "assign_client_classes",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            "assign_client_classes",
+            name=_("Client Classes"),
         ),
     )
 
@@ -280,9 +276,7 @@ class HostReservationImportForm(
             "circuit_id",
             "client_id",
             "flex_id",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
+            *BOOTPImportFormMixin.FIELDS,
             "hostname",
             "ipv4_address",
             "ipv6_addresses",
@@ -366,19 +360,17 @@ class HostReservationBulkEditForm(
             "flex_id",
             name=_("Selection"),
         ),
-        FieldSet(
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            name=_("BOOTP"),
-        ),
+        BOOTPBulkEditFormMixin.FIELDSET,
         FieldSet(
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
             "user_context",
             "comment",
-            "assign_client_classes",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            "assign_client_classes",
+            name=_("Client Classes"),
         ),
         FieldSet(
             "tags",
@@ -389,11 +381,9 @@ class HostReservationBulkEditForm(
     nullable_fields = (
         "description",
         "flex_id",
-        "next_server",
-        "server_hostname",
-        "boot_file_name",
         "ipv6_prefixes",
         "excluded_ipv6_prefixes",
+        *BOOTPBulkEditFormMixin.NULLABLE_FIELDS,
         "user_context",
         "comment",
         "assign_client_classes",

@@ -8,6 +8,7 @@ from utilities.forms import (
     add_blank_choice,
     BOOLEAN_WITH_BLANK_CHOICES,
 )
+from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 
 from netbox_dhcp.models import (
@@ -59,6 +60,18 @@ class NetBoxDHCPFilterFormMixin(forms.Form):
 
 
 class BOOTPFilterFormMixin(forms.Form):
+    FIELDS = [
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+    ]
+    FIELDSET = FieldSet(
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+        name=_("BOOTP"),
+    )
+
     next_server = forms.CharField(
         required=False,
         label=_("Next Server"),
@@ -82,6 +95,26 @@ class OfferLifetimeFilterFormMixin(forms.Form):
 
 
 class LifetimeFilterFormMixin(OfferLifetimeFilterFormMixin):
+    FIELDS = [
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+    ]
+    FIELDSET = FieldSet(
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+        name=_("Lifetimes"),
+    )
+
     valid_lifetime = forms.IntegerField(
         required=False,
         min_value=1,
@@ -131,6 +164,14 @@ class ClientClassDefinitionFilterFormMixin(forms.Form):
 
 
 class ClientClassFilterFormMixin(ClientClassDefinitionFilterFormMixin):
+    FIELDSET = FieldSet(
+        "client_class_id",
+        "require_client_class_id",
+        "client_class_definition_id",
+        "evaluate_additional_class_id",
+        name=_("Client Classes"),
+    )
+
     client_class_id = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -168,6 +209,40 @@ class PrefixFilterFormMixin(forms.Form):
 
 
 class DDNSUpdateFilterFormMixin(forms.Form):
+    FIELDS = [
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
+    ]
+    FIELDSET = FieldSet(
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
+        name=_("Dynamic DNS Update"),
+    )
+
     ddns_send_updates = forms.NullBooleanField(
         label=_("Send DDNS updates"),
         required=False,
@@ -244,6 +319,27 @@ class DDNSUpdateFilterFormMixin(forms.Form):
 
 
 class LeaseFilterFormMixin(forms.Form):
+    FIELDSET = FieldSet(
+        "renew_timer",
+        "rebind_timer",
+        "calculate_tee_times",
+        "t1_percent",
+        "t2_percent",
+        "adaptive_lease_time_threshold",
+        "match_client_id",
+        "reservations_global",
+        "reservations_out_of_pool",
+        "reservations_in_subnet",
+        "cache_threshold",
+        "cache_max_age",
+        "authoritative",
+        "store_extended_info",
+        "allocator",
+        "pd_allocator",
+        "rapid_commit",
+        name=_("Lease"),
+    )
+
     renew_timer = forms.IntegerField(
         label=_("Renew Timer"),
         required=False,
@@ -336,6 +432,13 @@ class LeaseFilterFormMixin(forms.Form):
 
 
 class NetworkFilterFormMixin(forms.Form):
+    FIELDSET = FieldSet(
+        "relay",
+        "interface_id",
+        "rapid_commit",
+        name=_("Network"),
+    )
+
     relay = forms.CharField(
         label=_("Relay IP Addresses"),
         required=False,

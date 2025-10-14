@@ -49,10 +49,7 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            "client_class_definitions",
-            "client_class",
-            "require_client_classes",
-            "evaluate_additional_classes",
+            *ClientClassFormMixin.FIELDS,
             "user_context",
             "comment",
             "tags",
@@ -67,19 +64,10 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
             "excluded_prefix",
             name=_("Prefix Delegation Pool"),
         ),
-        FieldSet(
-            "client_class_definitions",
-            name=_("Client Class Definitions"),
-        ),
-        FieldSet(
-            "client_class",
-            "require_client_classes",
-            name=_("Selection"),
-        ),
+        ClientClassFormMixin.FIELDSET,
         FieldSet(
             "user_context",
             "comment",
-            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -130,18 +118,9 @@ class PDPoolFilterForm(
             "excluded_prefix_id",
             name=_("Prefix Delegation Pool"),
         ),
-        FieldSet(
-            "client_class_definition_id",
-            name=_("Client Class Definitions"),
-        ),
-        FieldSet(
-            "client_class_id",
-            "required_client_class_id",
-            name=_("Selection"),
-        ),
+        ClientClassFilterFormMixin.FIELDSET,
         FieldSet(
             "comment",
-            "evaluate_additional_class_id",
             name=_("Assignment"),
         ),
     )
@@ -183,10 +162,7 @@ class PDPoolImportForm(
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            "client_class_definitions",
-            "client_class",
-            "require_client_classes",
-            "evaluate_additional_classes",
+            *ClientClassImportFormMixin.FIELDS,
             "user_context",
             "comment",
             "tags",
@@ -226,19 +202,10 @@ class PDPoolBulkEditForm(
             "delegated_length",
             name=_("Prefix Delegation Pool"),
         ),
-        FieldSet(
-            "client_class_definitions",
-            name=_("Client Class Definitions"),
-        ),
-        FieldSet(
-            "client_class",
-            "require_client_classes",
-            name=_("Selection"),
-        ),
+        ClientClassBulkEditFormMixin.FIELDSET,
         FieldSet(
             "user_context",
             "comment",
-            "evaluate_additional_classes",
             name=_("Assignment"),
         ),
         FieldSet(
@@ -250,10 +217,7 @@ class PDPoolBulkEditForm(
     nullable_fields = (
         "description",
         "excluded_prefix",
-        "client_class",
-        "client_class_definitions",
-        "require_client_classes",
-        "evaluate_additional_classes",
+        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         "user_context",
         "comment",
     )

@@ -74,7 +74,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
         ),
         FieldSet(
             "assign_client_classes",
-            name=_("Assignment"),
+            name=_("Client Classes"),
         ),
         FieldSet(
             "tags",
@@ -125,8 +125,11 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
             "csv_format",
             "always_send",
             "never_send",
-            "assign_client_class_id",
             name=_("Option"),
+        ),
+        FieldSet(
+            "assign_client_class_id",
+            name=_("Client Classes"),
         ),
     )
 

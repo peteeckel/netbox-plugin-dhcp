@@ -6,7 +6,7 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
 )
 from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
-
+from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 
 from netbox_dhcp.models import (
@@ -25,19 +25,36 @@ from netbox_dhcp.choices import (
 )
 
 __all__ = (
+    "BOOTPFormMixin",
     "ClientClassAssignmentFormMixin",
     "ClientClassDefinitionFormMixin",
     "ClientClassFormMixin",
     "PrefixFormMixin",
     "DDNSUpdateFormMixin",
     "LeaseFormMixin",
+    "LifetimeFormMixin",
     "ChildSubnetFormMixin",
     "ChildSharedNetworkFormMixin",
     "ChildPoolFormMixin",
     "ChildPDPoolFormMixin",
     "ChildHostReservationFormMixin",
     "ChildClientClassFormMixin",
+    "NetworkFormMixin",
 )
+
+
+class BOOTPFormMixin:
+    FIELDS = [
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+    ]
+    FIELDSET = FieldSet(
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+        name=_("BOOTP"),
+    )
 
 
 class ClientClassAssignmentFormMixin(forms.Form):
@@ -59,6 +76,20 @@ class ClientClassDefinitionFormMixin(forms.Form):
 
 
 class ClientClassFormMixin(ClientClassDefinitionFormMixin):
+    FIELDS = [
+        "client_class",
+        "require_client_classes",
+        "client_class_definitions",
+        "evaluate_additional_classes",
+    ]
+    FIELDSET = FieldSet(
+        "client_class",
+        "require_client_classes",
+        "client_class_definitions",
+        "evaluate_additional_classes",
+        name=_("Client Classes"),
+    )
+
     client_class = DynamicModelChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -93,6 +124,40 @@ class PrefixFormMixin(forms.Form):
 
 
 class DDNSUpdateFormMixin(forms.Form):
+    FIELDS = [
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
+    ]
+    FIELDSET = FieldSet(
+        "hostname_char_set",
+        "hostname_char_replacement",
+        "ddns_send_updates",
+        "ddns_override_no_update",
+        "ddns_override_client_update",
+        "ddns_replace_client_name",
+        "ddns_generated_prefix",
+        "ddns_qualifying_suffix",
+        "ddns_update_on_renew",
+        "ddns_conflict_resolution_mode",
+        "ddns_ttl_percent",
+        "ddns_ttl",
+        "ddns_ttl_min",
+        "ddns_ttl_max",
+        name=_("Dynamic DNS Update"),
+    )
+
     ddns_send_updates = forms.NullBooleanField(
         label=_("Send DDNS updates"),
         required=False,
@@ -144,7 +209,69 @@ class DDNSUpdateFormMixin(forms.Form):
     )
 
 
+class LifetimeFormMixin(forms.Form):
+    FIELDS = [
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+    ]
+    FIELDSET = FieldSet(
+        "offer_lifetime",
+        "valid_lifetime",
+        "min_valid_lifetime",
+        "max_valid_lifetime",
+        "preferred_lifetime",
+        "min_preferred_lifetime",
+        "max_preferred_lifetime",
+        name=_("Lifetimes"),
+    )
+
+
 class LeaseFormMixin(forms.Form):
+    FIELDS = [
+        "renew_timer",
+        "rebind_timer",
+        "calculate_tee_times",
+        "t1_percent",
+        "t2_percent",
+        "adaptive_lease_time_threshold",
+        "match_client_id",
+        "reservations_global",
+        "reservations_out_of_pool",
+        "reservations_in_subnet",
+        "cache_threshold",
+        "cache_max_age",
+        "authoritative",
+        "store_extended_info",
+        "allocator",
+        "pd_allocator",
+        "rapid_commit",
+    ]
+    FIELDSET = FieldSet(
+        "renew_timer",
+        "rebind_timer",
+        "calculate_tee_times",
+        "t1_percent",
+        "t2_percent",
+        "adaptive_lease_time_threshold",
+        "match_client_id",
+        "reservations_global",
+        "reservations_out_of_pool",
+        "reservations_in_subnet",
+        "cache_threshold",
+        "cache_max_age",
+        "authoritative",
+        "store_extended_info",
+        "allocator",
+        "pd_allocator",
+        "rapid_commit",
+        name=_("Lease"),
+    )
+
     calculate_tee_times = forms.NullBooleanField(
         label=_("Calculate T Times"),
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
@@ -278,4 +405,18 @@ class ChildClientClassFormMixin(forms.Form):
         queryset=ClientClass.objects.all(),
         required=False,
         label=_("Client Classes"),
+    )
+
+
+class NetworkFormMixin(forms.Form):
+    FIELDS = [
+        "relay",
+        "interface_id",
+        "rapid_commit",
+    ]
+    FIELDSET = FieldSet(
+        "relay",
+        "interface_id",
+        "rapid_commit",
+        name=_("Network"),
     )
