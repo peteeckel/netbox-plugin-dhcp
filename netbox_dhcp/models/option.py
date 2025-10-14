@@ -90,10 +90,10 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
         try:
             definition = self.definition
         except ObjectDoesNotExist:
-            raise ValidationError(_("Option definition is required"))
+            raise ValidationError({"definition": _("Option definition is required")})
 
         if definition is None:
-            raise ValidationError(_("Option definition is required"))
+            raise ValidationError({"definition": _("Option definition is required")})
 
         if definition.type == OptionTypeChoices.TYPE_BINARY:
             self.csv_format = False

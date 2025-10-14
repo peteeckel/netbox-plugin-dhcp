@@ -124,7 +124,7 @@ def validate_int32(data):
     if not re.sub(r"^-", "", data).isnumeric() or int(data) not in range(
         -0x80000000, 0x80000000
     ):
-        raise ValidationError(_("{data} is not a valid uint23 value").format(data=data))
+        raise ValidationError(_("{data} is not a valid int32 value").format(data=data))
 
 
 def validate_data(data, data_type):
@@ -150,4 +150,7 @@ def validate_data(data, data_type):
         OptionTypeChoices.TYPE_INT32: validate_int32,
     }
 
-    validator_function.get(data_type, validate_string)(data)
+    try:
+        validator_function.get(data_type, validate_string)(data)
+    except ValidationError as exc:
+        raise ValidationError({"data": exc.message})
