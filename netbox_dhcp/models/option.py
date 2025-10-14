@@ -106,7 +106,11 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
                 not definition.array and len(record_types) != len(data_array)
             ):
                 raise ValidationError(
-                    _("Lengths of record type list and data elements do not match")
+                    {
+                        "data": _(
+                            "Lengths of record type list and data elements do not match"
+                        )
+                    }
                 )
 
             for mapping in zip(data_array, record_types):
