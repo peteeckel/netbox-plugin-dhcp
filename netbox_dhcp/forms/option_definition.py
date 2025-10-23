@@ -14,7 +14,8 @@ from utilities.forms.fields import (
     CSVMultipleChoiceField,
 )
 from utilities.forms.rendering import FieldSet
-from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms import get_field_value, add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms.widgets import HTMXSelect
 from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import OptionDefinition
@@ -50,6 +51,10 @@ class OptionDefinitionForm(NetBoxModelForm):
             "array",
         )
 
+        widgets = {
+            "type": HTMXSelect(),
+        }
+
     fieldsets = (
         FieldSet(
             "family",
@@ -68,6 +73,18 @@ class OptionDefinitionForm(NetBoxModelForm):
             name=_("Tags"),
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if get_field_value(self, "type") != OptionTypeChoices.TYPE_RECORD:
+            del self.fields["record_types"]
+
+    def clean(self, *args, **kwargs):
+        super().clean(*args, **kwargs)
+
+        if self.cleaned_data.get("type") != OptionTypeChoices.TYPE_RECORD:
+            self.cleaned_data["record_types"] = None
 
     record_types = SimpleArrayField(
         label=_("Record Types"),
