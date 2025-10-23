@@ -52,11 +52,7 @@
                     {% if object.type == "record" %}
                     <tr>
                         <th scope="row">{% trans "Record Types" %}</th>
-                        <td>
-                            {% for record_type in object.record_types %}
-                                {{ record_type }},&nbsp;
-                            {% endfor %}
-                        </td>
+                        <td>{{ object.record_types|display_list }}</td>
                     </tr>
                     {% endif %}
                     <tr>

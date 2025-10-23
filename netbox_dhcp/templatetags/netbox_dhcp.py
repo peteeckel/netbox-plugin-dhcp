@@ -11,3 +11,11 @@ def null_checkmark(value, true=_("Yes"), false=_("No")):
         "true_label": true,
         "false_label": false,
     }
+
+
+@register.filter(name="display_list")
+def display_list(elements):
+    if not type(elements) == list:
+        elements = [elements]
+
+    return ", ".join(elements)
