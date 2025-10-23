@@ -71,6 +71,21 @@ class OptionDefinitionForm(NetBoxModelForm):
 
     record_types = SimpleArrayField(
         label=_("Record Types"),
+        help_text=_(
+            "Valid Types: {}".format(
+                ", ".join(
+                    sorted(
+                        type
+                        for type in OptionTypeChoices.values()
+                        if type
+                        not in [
+                            OptionTypeChoices.TYPE_EMPTY,
+                            OptionTypeChoices.TYPE_RECORD,
+                        ]
+                    )
+                )
+            )
+        ),
         base_field=forms.ChoiceField(
             choices=OptionTypeChoices,
         ),
@@ -230,6 +245,21 @@ class OptionDefinitionBulkEditForm(
     )
     record_types = SimpleArrayField(
         label=_("Record Types"),
+        help_text=_(
+            "Valid Types: {}".format(
+                ", ".join(
+                    sorted(
+                        type
+                        for type in OptionTypeChoices.values()
+                        if type
+                        not in [
+                            OptionTypeChoices.TYPE_EMPTY,
+                            OptionTypeChoices.TYPE_RECORD,
+                        ]
+                    )
+                )
+            )
+        ),
         base_field=forms.ChoiceField(
             choices=OptionTypeChoices,
         ),
