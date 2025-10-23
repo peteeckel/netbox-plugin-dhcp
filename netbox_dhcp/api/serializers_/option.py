@@ -8,6 +8,7 @@ from netbox.api.fields import ContentTypeField
 from utilities.api import get_serializer_for_model
 
 from netbox_dhcp.models import Option
+from netbox_dhcp.choices import OptionSendChoices
 
 from .mixins import ClientClassAssignmentSerializerMixin
 
@@ -41,6 +42,7 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
             "description",
             "data",
             "csv_format",
+            "send_option",
             "always_send",
             "never_send",
             "assign_client_classes",
@@ -56,8 +58,7 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
             "data",
             "description",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -72,6 +73,12 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
     assigned_object = serializers.SerializerMethodField(
         read_only=True,
     )
+    always_send = serializers.SerializerMethodField(
+        read_only=True,
+    )
+    never_send = serializers.SerializerMethodField(
+        read_only=True,
+    )
 
     @extend_schema_field(serializers.JSONField(allow_null=True))
     def get_assigned_object(self, instance):
@@ -80,3 +87,11 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
         serializer = get_serializer_for_model(instance.assigned_object)
         context = {"request": self.context["request"]}
         return serializer(instance.assigned_object, nested=True, context=context).data
+
+    def get_always_send(self, instance):
+        if instance.send_option is not None:
+            return instance.send_option == OptionSendChoices.ALWAYS_SEND
+
+    def get_never_send(self, instance):
+        if instance.send_option is not None:
+            return instance.send_option == OptionSendChoices.NEVER_SEND

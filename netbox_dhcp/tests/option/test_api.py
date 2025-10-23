@@ -7,7 +7,7 @@ from netbox_dhcp.tests.custom import (
     NetBoxDHCPGraphQLMixin,
 )
 from netbox_dhcp.models import Option, OptionDefinition, DHCPServer
-from netbox_dhcp.choices import OptionSpaceChoices
+from netbox_dhcp.choices import OptionSpaceChoices, OptionSendChoices
 
 
 class OptionAPITestCase(
@@ -23,13 +23,12 @@ class OptionAPITestCase(
     model = Option
 
     brief_fields = [
-        "always_send",
         "csv_format",
         "data",
         "description",
         "display",
         "id",
-        "never_send",
+        "send_option",
         "url",
     ]
 
@@ -70,24 +69,21 @@ class OptionAPITestCase(
                 definition=cls.option_definitions[3],
                 assigned_object=cls.dhcp_server,
                 data="true",
-                always_send=False,
-                never_send=False,
+                send_option=None,
             ),
             Option(
                 description="Test Option 2",
                 definition=cls.option_definitions[2],
                 assigned_object=cls.dhcp_server,
                 data="1480",
-                always_send=False,
-                never_send=True,
+                send_option=OptionSendChoices.NEVER_SEND,
             ),
             Option(
                 description="Test Option 3",
                 definition=cls.option_definitions[2],
                 assigned_object=cls.dhcp_server,
                 data="1320",
-                always_send=True,
-                never_send=False,
+                send_option=OptionSendChoices.ALWAYS_SEND,
             ),
         )
         Option.objects.bulk_create(cls.options)
@@ -99,8 +95,7 @@ class OptionAPITestCase(
                 "assigned_object_id": cls.dhcp_server.pk,
                 "assigned_object_type": cls.dhcp_server_contenttype,
                 "data": "192.0.2.1, 192.0.2.2",
-                "always_send": True,
-                "never_send": False,
+                "send_option": OptionSendChoices.ALWAYS_SEND,
                 "assign_client_classes": [
                     client_class.pk for client_class in cls.client_classes[0:2]
                 ],
@@ -119,14 +114,12 @@ class OptionAPITestCase(
                 "assigned_object_id": cls.dhcp_server.pk,
                 "assigned_object_type": cls.dhcp_server_contenttype,
                 "data": "1380",
-                "always_send": False,
-                "never_send": True,
+                "send_option": OptionSendChoices.NEVER_SEND,
             },
         ]
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
             "assign_client_classes": [],
-            "always_send": None,
-            "never_send": None,
+            "send_option": None,
         }

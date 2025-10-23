@@ -40,8 +40,7 @@ class NetBoxDHCPOptionFilter(NetBoxModelFilterMixin):
     ) = strawberry_django.filter_field()
     data: FilterLookup[str] | None = strawberry_django.filter_field()
     csv_format: FilterLookup[bool] | None = strawberry_django.filter_field()
-    always_send: FilterLookup[bool] | None = strawberry_django.filter_field()
-    never_send: FilterLookup[bool] | None = strawberry_django.filter_field()
+    send_option: FilterLookup[str] | None = strawberry_django.filter_field()
     assigned_object_type: (
         Annotated["ContentTypeFilter", strawberry.lazy("core.graphql.filters")] | None
     ) = strawberry_django.filter_field()

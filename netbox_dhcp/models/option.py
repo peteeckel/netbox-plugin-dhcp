@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from netbox_dhcp.choices import OptionTypeChoices
+from netbox_dhcp.choices import OptionTypeChoices, OptionSendChoices
 from netbox_dhcp.validators import validate_data
 
 from .mixins import ClientClassAssignmentModelMixin
@@ -63,13 +63,9 @@ class Option(ClientClassAssignmentModelMixin, NetBoxModel):
         null=True,
         blank=True,
     )
-    always_send = models.BooleanField(
-        verbose_name=_("Always Send"),
-        null=True,
-        blank=True,
-    )
-    never_send = models.BooleanField(
-        verbose_name=_("Never Send"),
+    send_option = models.CharField(
+        verbose_name=_("Send Option"),
+        choices=OptionSendChoices,
         null=True,
         blank=True,
     )

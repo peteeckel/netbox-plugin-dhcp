@@ -23,7 +23,7 @@ from netbox_dhcp.models import (
     HostReservation,
     ClientClass,
 )
-from netbox_dhcp.choices import OptionSpaceChoices
+from netbox_dhcp.choices import OptionSpaceChoices, OptionSendChoices
 
 from .mixins import (
     ClientClassAssignmentFormMixin,
@@ -49,8 +49,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "description",
             "data",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
             "assign_client_classes",
             "assigned_object_id",
             "assigned_object_type",
@@ -68,8 +67,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "description",
             "data",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
             name=_("Option"),
         ),
         FieldSet(
@@ -93,16 +91,6 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
-    always_send = forms.NullBooleanField(
-        label=_("Always Send"),
-        required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
-    never_send = forms.NullBooleanField(
-        label=_("Never Send"),
-        required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
 
 
 class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSetForm):
@@ -123,8 +111,7 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
             "definition_id",
             "data_ic",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
             name=_("Option"),
         ),
         FieldSet(
@@ -165,15 +152,10 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
-    always_send = forms.NullBooleanField(
-        label=_("Always Send"),
+    send_option = forms.ChoiceField(
+        label=_("Send Option"),
+        choices=add_blank_choice(OptionSendChoices),
         required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
-    never_send = forms.NullBooleanField(
-        label=_("Never Send"),
-        required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
 
     tag = TagFilterField(Option)
@@ -198,8 +180,7 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
             "description",
             "data",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
             "assign_client_classes",
             "tags",
         )
@@ -385,8 +366,7 @@ class OptionBulkEditForm(
             "description",
             "data",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
             "assign_client_classes",
             name=_("Option"),
         ),
@@ -396,8 +376,7 @@ class OptionBulkEditForm(
         "data",
         "description",
         "csv_format",
-        "always_send",
-        "never_send",
+        "send_option",
         "assign_client_classes",
     )
 
@@ -419,13 +398,8 @@ class OptionBulkEditForm(
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
-    always_send = forms.NullBooleanField(
-        label=_("Always Send"),
-        required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
-    never_send = forms.NullBooleanField(
-        label=_("Never Send"),
+    send_option = forms.NullBooleanField(
+        label=_("Send Option"),
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )

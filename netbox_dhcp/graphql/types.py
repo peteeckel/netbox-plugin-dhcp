@@ -297,8 +297,7 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
     data: str | None
     description: str | None
     csv_format: bool | None
-    always_send: bool | None
-    never_send: bool | None
+    send_option: str | None
 
     @strawberry_django.field
     def assigned_object(self) -> Annotated[

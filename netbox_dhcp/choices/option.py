@@ -4,9 +4,20 @@ from utilities.choices import ChoiceSet
 
 
 __all__ = (
+    "OptionSendChoices",
     "OptionSpaceChoices",
     "OptionTypeChoices",
 )
+
+
+class OptionSendChoices(ChoiceSet):
+    ALWAYS_SEND = "always-send"
+    NEVER_SEND = "never-send"
+
+    CHOICES = [
+        (ALWAYS_SEND, "Always Send"),
+        (NEVER_SEND, "Never Send"),
+    ]
 
 
 class OptionSpaceChoices(ChoiceSet):

@@ -26,8 +26,7 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
             "code",
             "data",
             "csv_format",
-            "always_send",
-            "never_send",
+            "send_option",
             "assign_client_classes",
         )
 

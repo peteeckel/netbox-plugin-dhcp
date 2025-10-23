@@ -4,7 +4,7 @@ from utilities.testing import ChangeLoggedFilterSetTests
 from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Option, OptionDefinition
-from netbox_dhcp.choices import OptionSpaceChoices
+from netbox_dhcp.choices import OptionSpaceChoices, OptionSendChoices
 from netbox_dhcp.filtersets import OptionFilterSet
 from netbox_dhcp.tests.custom import TestObjects
 
@@ -78,8 +78,7 @@ class OptionFilterSetTestCase(
                 description="Test Option 1",
                 data="192.0.2.1,192.0.2.2",
                 csv_format=True,
-                always_send=True,
-                never_send=False,
+                send_option=OptionSendChoices.ALWAYS_SEND,
                 assigned_object=cls.ipv4_prefixes[0],
             ),
             Option(
@@ -87,7 +86,7 @@ class OptionFilterSetTestCase(
                 description="Test Option 2",
                 data="192.0.2.3,192.0.2.4",
                 csv_format=True,
-                always_send=True,
+                send_option=OptionSendChoices.ALWAYS_SEND,
                 assigned_object=cls.ipv4_prefixes[0],
             ),
             Option(
@@ -95,15 +94,13 @@ class OptionFilterSetTestCase(
                 description="Test Option 3",
                 data="192.0.2.5,192.0.2.6",
                 csv_format=True,
-                never_send=False,
                 assigned_object=cls.ipv4_prefixes[1],
             ),
             Option(
                 definition=cls.option_definitions[2],
                 description="Test Option 4",
                 data="1380",
-                csv_format=False,
-                never_send=True,
+                send_option=OptionSendChoices.NEVER_SEND,
                 assigned_object=cls.ipv4_prefixes[1],
             ),
             Option(
@@ -111,7 +108,6 @@ class OptionFilterSetTestCase(
                 description="Test Option 5",
                 data="true",
                 csv_format=False,
-                always_send=False,
                 assigned_object=cls.ipv4_prefixes[2],
             ),
             Option(
@@ -119,8 +115,7 @@ class OptionFilterSetTestCase(
                 description="Test Option 6",
                 data="2001:db8:1::53,2001:db8:2::53",
                 csv_format=True,
-                always_send=False,
-                never_send=True,
+                send_option=OptionSendChoices.NEVER_SEND,
                 assigned_object=cls.ipv6_prefixes[0],
             ),
             Option(
@@ -179,16 +174,10 @@ class OptionFilterSetTestCase(
         params = {"csv_format": True}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 4)
         params = {"csv_format": False}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-
-    def test_always_send(self):
-        params = {"always_send": True}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"always_send": False}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_never_send(self):
-        params = {"never_send": True}
+    def test_send_option(self):
+        params = {"send_option": OptionSendChoices.ALWAYS_SEND}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"never_send": False}
+        params = {"send_option": OptionSendChoices.NEVER_SEND}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

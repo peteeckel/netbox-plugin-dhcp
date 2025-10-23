@@ -39,12 +39,8 @@
                         <td>{% null_checkmark object.csv_format %}</td>
                     </tr>
                     <tr>
-                        <th scope="row">{% trans "Always Send" %}</th>
-                        <td>{% null_checkmark object.always_send %}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Never Send" %}</th>
-                        <td>{% null_checkmark object.never_send %}</td>
+                        <th scope="row">{% trans "Send Option" %}</th>
+                        <td>{{ object.get_send_option_display }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Definition" %}</th>
