@@ -5,7 +5,10 @@ from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import Option
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    NetBoxDHCPTableMixin,
+    ClientClassTableMixin,
+)
 
 __all__ = (
     "OptionTable",
@@ -13,7 +16,11 @@ __all__ = (
 )
 
 
-class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
+class OptionTable(
+    ClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = Option
 
@@ -27,7 +34,7 @@ class OptionTable(NetBoxDHCPTableMixin, NetBoxTable):
             "data",
             "csv_format",
             "send_option",
-            "assign_client_classes",
+            "client_classes",
         )
 
         default_columns = (

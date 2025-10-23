@@ -43,7 +43,6 @@ class ClientClassForm(NetBoxModelForm):
             "description",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             *BOOTPFormMixin.FIELDS,
             *LifetimeFormMixin.FIELDS,
@@ -58,7 +57,6 @@ class ClientClassForm(NetBoxModelForm):
             "description",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             name=_("Client Class"),
         ),
@@ -75,11 +73,6 @@ class ClientClassForm(NetBoxModelForm):
         ),
     )
 
-    only_if_required = forms.NullBooleanField(
-        required=False,
-        label=_("Only if required"),
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
     only_in_additional_list = forms.NullBooleanField(
         required=False,
         label=_("Only in additional list"),
@@ -106,7 +99,6 @@ class ClientClassFilterForm(
             "description",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             name=_("Client Class"),
         ),
@@ -126,11 +118,6 @@ class ClientClassFilterForm(
         required=False,
         label=_("Template Test"),
     )
-    only_if_required = forms.NullBooleanField(
-        required=False,
-        label=_("Only if required"),
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
     only_in_additional_list = forms.NullBooleanField(
         required=False,
         label=_("Only in additional list"),
@@ -149,7 +136,6 @@ class ClientClassImportForm(NetBoxModelImportForm):
             "description",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             *BOOTPImportFormMixin.FIELDS,
             *LifetimeImportFormMixin.FIELDS,
@@ -175,7 +161,6 @@ class ClientClassBulkEditForm(
         FieldSet(
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             name=_("Selection"),
         ),
@@ -207,11 +192,6 @@ class ClientClassBulkEditForm(
         required=False,
         max_length=255,
         label=_("Template Test"),
-    )
-    only_if_required = forms.NullBooleanField(
-        required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-        label=_("Only if required"),
     )
     only_in_additional_list = forms.NullBooleanField(
         required=False,

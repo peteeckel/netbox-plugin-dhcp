@@ -8,8 +8,9 @@ from ipam.models import Prefix
 
 from .mixins import (
     NetBoxDHCPModelMixin,
-    BOOTPModelMixin,
     ClientClassModelMixin,
+    EvaluateClientClassModelMixin,
+    BOOTPModelMixin,
     CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
@@ -27,8 +28,9 @@ __all__ = (
 
 class SharedNetwork(
     NetBoxDHCPModelMixin,
-    BOOTPModelMixin,
     ClientClassModelMixin,
+    EvaluateClientClassModelMixin,
+    BOOTPModelMixin,
     CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
@@ -49,9 +51,7 @@ class SharedNetwork(
         "next_server",
         "server_hostname",
         "boot_file_name",
-        "client_class_definitions",
-        "client_class",
-        "require_client_classes",
+        "client_classes",
         "evaluate_additional_classes",
         "offer_lifetime",
         "valid_lifetime",

@@ -7,6 +7,7 @@ from netbox_dhcp.models import SharedNetwork
 
 from .mixins import (
     ClientClassSerializerMixin,
+    EvaluateClientClassSerializerMixin,
     ChildSubnetSerializerMixin,
 )
 
@@ -15,6 +16,7 @@ __all__ = ("SharedNetworkSerializer",)
 
 class SharedNetworkSerializer(
     ClientClassSerializerMixin,
+    EvaluateClientClassSerializerMixin,
     ChildSubnetSerializerMixin,
     NetBoxModelSerializer,
 ):
@@ -38,9 +40,7 @@ class SharedNetworkSerializer(
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
-            "client_class_definitions",
-            "client_class",
-            "require_client_classes",
+            "client_classes",
             "evaluate_additional_classes",
             "child_subnets",
             "renew_timer",
@@ -100,8 +100,7 @@ class SharedNetworkSerializer(
     )
 
     def create(self, validated_data):
-        client_class_definitions = validated_data.pop("client_class_definitions", None)
-        require_client_classes = validated_data.pop("require_client_classes", None)
+        client_classes = validated_data.pop("client_classes", None)
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
@@ -109,10 +108,8 @@ class SharedNetworkSerializer(
 
         shared_network = super().create(validated_data)
 
-        if client_class_definitions is not None:
-            shared_network.client_class_definitions.set(client_class_definitions)
-        if require_client_classes is not None:
-            shared_network.require_client_classes.set(require_client_classes)
+        if client_classes is not None:
+            shared_network.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             shared_network.evaluate_additional_classes.set(evaluate_additional_classes)
         if child_subnets is not None:
@@ -121,8 +118,7 @@ class SharedNetworkSerializer(
         return shared_network
 
     def update(self, instance, validated_data):
-        client_class_definitions = validated_data.pop("client_class_definitions", None)
-        require_client_classes = validated_data.pop("require_client_classes", None)
+        client_classes = validated_data.pop("client_classes", None)
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
@@ -130,10 +126,8 @@ class SharedNetworkSerializer(
 
         shared_network = super().update(instance, validated_data)
 
-        if client_class_definitions is not None:
-            shared_network.client_class_definitions.set(client_class_definitions)
-        if require_client_classes is not None:
-            shared_network.require_client_classes.set(require_client_classes)
+        if client_classes is not None:
+            shared_network.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             shared_network.evaluate_additional_classes.set(evaluate_additional_classes)
         if child_subnets is not None:

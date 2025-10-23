@@ -5,12 +5,19 @@ from netbox.tables import NetBoxTable, ChoiceFieldColumn
 
 from netbox_dhcp.models import DHCPServer
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    ClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+)
 
 __all__ = ("DHCPServerTable",)
 
 
-class DHCPServerTable(NetBoxDHCPTableMixin, NetBoxTable):
+class DHCPServerTable(
+    ClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = DHCPServer
 
@@ -23,6 +30,7 @@ class DHCPServerTable(NetBoxDHCPTableMixin, NetBoxTable):
             "virtual_machine",
             "server_id",
             "echo_client_id",
+            "client_classes",
             "tags",
         )
 

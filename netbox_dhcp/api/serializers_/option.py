@@ -10,7 +10,7 @@ from utilities.api import get_serializer_for_model
 from netbox_dhcp.models import Option
 from netbox_dhcp.choices import OptionSendChoices
 
-from .mixins import ClientClassAssignmentSerializerMixin
+from .mixins import ClientClassSerializerMixin
 
 
 __all__ = ("OptionSerializer",)
@@ -30,7 +30,7 @@ OPTION_ASSIGNMENT_MODELS = Q(
 )
 
 
-class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializer):
+class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
     class Meta:
         model = Option
 
@@ -45,7 +45,7 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
             "send_option",
             "always_send",
             "never_send",
-            "assign_client_classes",
+            "client_classes",
             "assigned_object",
             "assigned_object_id",
             "assigned_object_type",
@@ -95,3 +95,23 @@ class OptionSerializer(ClientClassAssignmentSerializerMixin, NetBoxModelSerializ
     def get_never_send(self, instance):
         if instance.send_option is not None:
             return instance.send_option == OptionSendChoices.NEVER_SEND
+
+    def create(self, validated_data):
+        client_classes = validated_data.pop("client_classes", None)
+
+        option = super().create(validated_data)
+
+        if client_classes is not None:
+            option.client_classes.set(client_classes)
+
+        return option
+
+    def update(self, instance, validated_data):
+        client_classes = validated_data.pop("client_classes", None)
+
+        option = super().update(instance, validated_data)
+
+        if client_classes is not None:
+            option.client_classes.set(client_classes)
+
+        return option

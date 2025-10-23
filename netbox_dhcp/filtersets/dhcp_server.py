@@ -14,6 +14,7 @@ from netbox_dhcp.choices import (
     HostReservationIdentifierChoices,
 )
 from .mixins import (
+    ClientClassFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
@@ -21,13 +22,13 @@ from .mixins import (
     ChildSubnetFilterMixin,
     ChildSharedNetworkFilterMixin,
     ChildHostReservationFilterMixin,
-    ChildClientClassFilterMixin,
 )
 
 __all__ = ("DHCPServerFilterSet",)
 
 
 class DHCPServerFilterSet(
+    ClientClassFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
@@ -35,7 +36,6 @@ class DHCPServerFilterSet(
     ChildSubnetFilterMixin,
     ChildSharedNetworkFilterMixin,
     ChildHostReservationFilterMixin,
-    ChildClientClassFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
@@ -54,6 +54,7 @@ class DHCPServerFilterSet(
             "device",
             "virtual_machine",
             "decline_probation_period",
+            *ClientClassFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
             *LeaseFilterMixin.FILTER_FIELDS,
@@ -61,7 +62,6 @@ class DHCPServerFilterSet(
             *ChildSubnetFilterMixin.FILTER_FIELDS,
             *ChildSharedNetworkFilterMixin.FILTER_FIELDS,
             *ChildHostReservationFilterMixin.FILTER_FIELDS,
-            *ChildClientClassFilterMixin.FILTER_FIELDS,
         )
 
     name = django_filters.CharFilter(

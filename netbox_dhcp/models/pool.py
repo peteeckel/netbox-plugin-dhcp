@@ -9,6 +9,7 @@ from ipam.models import IPRange
 from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
+    EvaluateClientClassModelMixin,
     CommonModelMixin,
     DDNSUpdateModelMixin,
 )
@@ -23,6 +24,7 @@ __all__ = (
 class Pool(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
+    EvaluateClientClassModelMixin,
     CommonModelMixin,
     DDNSUpdateModelMixin,
     NetBoxModel,
@@ -36,9 +38,7 @@ class Pool(
     clone_fields = (
         "name",
         "description",
-        "client_class_definitions",
-        "client_class",
-        "require_client_classes",
+        "client_classes",
         "evaluate_additional_classes",
         "hostname_char_set",
         "hostname_char_replacement",

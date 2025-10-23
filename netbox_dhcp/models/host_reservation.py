@@ -10,9 +10,9 @@ from ipam.models import IPAddress, Prefix
 
 from .mixins import (
     NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
     BOOTPModelMixin,
     CommonModelMixin,
-    ClientClassAssignmentModelMixin,
 )
 from .option import Option
 
@@ -24,9 +24,9 @@ __all__ = (
 
 class HostReservation(
     NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
     BOOTPModelMixin,
     CommonModelMixin,
-    ClientClassAssignmentModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -41,7 +41,7 @@ class HostReservation(
         "circuit_id",
         "flex_id",
         "hostname",
-        "assign_client_classes",
+        "client_classes",
         "comment",
     )
 

@@ -26,10 +26,10 @@ from netbox_dhcp.models import (
 from netbox_dhcp.choices import OptionSpaceChoices, OptionSendChoices
 
 from .mixins import (
-    ClientClassAssignmentFormMixin,
-    ClientClassAssignmentImportFormMixin,
-    ClientClassAssignmentFilterFormMixin,
-    ClientClassAssignmentBulkEditFormMixin,
+    ClientClassFormMixin,
+    ClientClassImportFormMixin,
+    ClientClassFilterFormMixin,
+    ClientClassBulkEditFormMixin,
 )
 
 __all__ = (
@@ -40,7 +40,7 @@ __all__ = (
 )
 
 
-class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
+class OptionForm(ClientClassFormMixin, NetBoxModelForm):
     class Meta:
         model = Option
 
@@ -50,9 +50,9 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "data",
             "csv_format",
             "send_option",
-            "assign_client_classes",
             "assigned_object_id",
             "assigned_object_type",
+            *ClientClassFormMixin.FIELDS,
             "tags",
         )
 
@@ -70,10 +70,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
             "send_option",
             name=_("Option"),
         ),
-        FieldSet(
-            "assign_client_classes",
-            name=_("Client Classes"),
-        ),
+        ClientClassFormMixin.FIELDSET,
         FieldSet(
             "tags",
             name=_("Tags"),
@@ -93,7 +90,7 @@ class OptionForm(ClientClassAssignmentFormMixin, NetBoxModelForm):
     )
 
 
-class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSetForm):
+class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
     model = Option
 
     fieldsets = (
@@ -114,10 +111,7 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
             "send_option",
             name=_("Option"),
         ),
-        FieldSet(
-            "assign_client_class_id",
-            name=_("Client Classes"),
-        ),
+        ClientClassFilterFormMixin.FIELDSET,
     )
 
     name = forms.CharField(
@@ -161,7 +155,7 @@ class OptionFilterForm(ClientClassAssignmentFilterFormMixin, NetBoxModelFilterSe
     tag = TagFilterField(Option)
 
 
-class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportForm):
+class OptionImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
     class Meta:
         model = Option
 
@@ -181,7 +175,7 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
             "data",
             "csv_format",
             "send_option",
-            "assign_client_classes",
+            *ClientClassImportFormMixin.FIELDS,
             "tags",
         )
 
@@ -356,7 +350,8 @@ class OptionImportForm(ClientClassAssignmentImportFormMixin, NetBoxModelImportFo
 
 
 class OptionBulkEditForm(
-    ClientClassAssignmentBulkEditFormMixin, NetBoxModelBulkEditForm
+    ClientClassBulkEditFormMixin,
+    NetBoxModelBulkEditForm,
 ):
     model = Option
 
@@ -367,9 +362,9 @@ class OptionBulkEditForm(
             "data",
             "csv_format",
             "send_option",
-            "assign_client_classes",
             name=_("Option"),
         ),
+        ClientClassBulkEditFormMixin.FIELDSET,
     )
 
     nullable_fields = (
@@ -377,7 +372,7 @@ class OptionBulkEditForm(
         "description",
         "csv_format",
         "send_option",
-        "assign_client_classes",
+        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
     )
 
     description = forms.CharField(

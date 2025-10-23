@@ -26,16 +26,14 @@ __all__ = (
     "LeaseFilterMixin",
     "NetworkFilterMixin",
     "PrefixFilterMixin",
-    "ClientClassAssignmentFilterMixin",
-    "ClientClassDefinitionFilterMixin",
     "ClientClassFilterMixin",
+    "EvaluateClientClassFilterMixin",
     "DDNSUpdateFilterMixin",
     "ChildSubnetFilterMixin",
     "ChildSharedNetworkFilterMixin",
     "ChildPoolFilterMixin",
     "ChildPDPoolFilterMixin",
     "ChildHostReservationFilterMixin",
-    "ChildClientClassFilterMixin",
     "ParentSubnetFilterMixin",
     "ParentSharedNetworkFilterMixin",
     "ParentDHCPServerFilterMixin",
@@ -152,49 +150,22 @@ class LeaseFilterMixin(NetBoxModelFilterSet):
     )
 
 
-class ClientClassAssignmentFilterMixin(NetBoxModelFilterSet):
-    assign_client_class = django_filters.CharFilter(
-        field_name="assign_client_classes__name",
-        label=_("Assign Client Class"),
-    )
-    assign_client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="assign_client_classes",
-        label=_("Assign Client Class ID"),
-    )
-
-
-class ClientClassDefinitionFilterMixin(NetBoxModelFilterSet):
-    client_class_definition = django_filters.CharFilter(
-        field_name="client_class_definitions__name",
-        label=_("Client Class Definition"),
-    )
-    client_class_definition_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="client_class_definitions",
-        label=_("Client Class Definition ID"),
-    )
-
-
-class ClientClassFilterMixin(ClientClassDefinitionFilterMixin):
+class ClientClassFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "client_class_id",
+    ]
     client_class = django_filters.CharFilter(
-        field_name="client_class__name",
+        field_name="client_classes__name",
         label=_("Client Class"),
     )
     client_class_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ClientClass.objects.all(),
-        field_name="client_class",
+        field_name="client_classes",
         label=_("Client Class ID"),
     )
-    required_client_class = django_filters.CharFilter(
-        field_name="require_client_classes__name",
-        label=_("Require Client Class"),
-    )
-    required_client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="require_client_classes",
-        label=_("Require Client Class ID"),
-    )
+
+
+class EvaluateClientClassFilterMixin(NetBoxModelFilterSet):
     evaluate_additional_class = django_filters.CharFilter(
         field_name="evaluate_additional_classes__name",
         label=_("Evaluate Additional Class"),
@@ -362,34 +333,18 @@ class ChildHostReservationFilterMixin(NetBoxModelFilterSet):
     )
 
 
-class ChildClientClassFilterMixin(NetBoxModelFilterSet):
-    FILTER_FIELDS = [
-        "child_client_classes",
-    ]
-
-    child_client_class = django_filters.CharFilter(
-        field_name="child_client_classes__name",
-        label=_("Client Class"),
-    )
-    child_client_class_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=ClientClass.objects.all(),
-        field_name="child_client_classes",
-        label=_("Client Class ID"),
-    )
-
-
 class ParentSubnetFilterMixin(NetBoxModelFilterSet):
     FILTER_FIELDS = [
-        "parent_subnets",
+        "parent_subnet_set",
     ]
 
     parent_subnet = django_filters.CharFilter(
-        field_name="parent_subnets__name",
+        field_name="parent_subnet_set__name",
         label=_("Parent Subnet"),
     )
     parent_subnet_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Subnet.objects.all(),
-        field_name="parent_subnets",
+        field_name="parent_subnet_set",
         label=_("Parent Subnet ID"),
     )
 
@@ -400,27 +355,27 @@ class ParentSharedNetworkFilterMixin(NetBoxModelFilterSet):
     ]
 
     parent_shared_network = django_filters.CharFilter(
-        field_name="parent_sharednetworks__name",
+        field_name="parent_sharednetwork_set__name",
         label=_("Parent Shared Network"),
     )
     parent_shared_network_id = django_filters.ModelMultipleChoiceFilter(
         queryset=SharedNetwork.objects.all(),
-        field_name="parent_sharednetworks",
+        field_name="parent_sharednetwork_set",
         label=_("Parent Shared Network ID"),
     )
 
 
 class ParentDHCPServerFilterMixin(NetBoxModelFilterSet):
     FILTER_FIELDS = [
-        "parent_dhcpservers",
+        "parent_dhcpserver_set",
     ]
 
     parent_dhcp_server = django_filters.CharFilter(
-        field_name="parent_dhcpservers__name",
+        field_name="parent_dhcpserver_set__name",
         label=_("Parent DHCP Server"),
     )
     parent_dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
         queryset=DHCPServer.objects.all(),
-        field_name="parent_dhcpservers",
+        field_name="parent_dhcpserver_set",
         label=_("Parent DHCP Server ID"),
     )

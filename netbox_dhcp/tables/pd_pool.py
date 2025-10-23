@@ -5,7 +5,11 @@ from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import PDPool
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    ClientClassTableMixin,
+    EvaluateClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+)
 
 __all__ = (
     "PDPoolTable",
@@ -13,7 +17,12 @@ __all__ = (
 )
 
 
-class PDPoolTable(NetBoxDHCPTableMixin, NetBoxTable):
+class PDPoolTable(
+    ClientClassTableMixin,
+    EvaluateClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = PDPool
 
@@ -23,11 +32,9 @@ class PDPoolTable(NetBoxDHCPTableMixin, NetBoxTable):
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            "client_class_definitions",
-            "client_class",
-            "require_client_classes",
             "user_context",
             "comment",
+            "client_classes",
             "evaluate_additional_classes",
             "tags",
         )

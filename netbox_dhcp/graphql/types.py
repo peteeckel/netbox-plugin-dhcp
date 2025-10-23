@@ -139,8 +139,8 @@ class ChildHostReservationGraphQLTypeMixin:
 
 
 @strawberry.type
-class ClientClassDefinitionGraphQLTypeMixin:
-    client_class_definitions: List[
+class ClientClassGraphQLTypeMixin:
+    client_classes: List[
         Annotated[
             "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
         ]
@@ -148,28 +148,8 @@ class ClientClassDefinitionGraphQLTypeMixin:
 
 
 @strawberry.type
-class ClientClassGraphQLTypeMixin(ClientClassDefinitionGraphQLTypeMixin):
-    client_class: (
-        Annotated[
-            "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
-        ]
-        | None
-    )
-    require_client_classes: List[
-        Annotated[
-            "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
-        ]
-    ]
+class EvaluateClientClassGraphQLTypeMixin:
     evaluate_additional_classes: List[
-        Annotated[
-            "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
-        ]
-    ]
-
-
-@strawberry.type
-class ClientClassAssignmentGraphQLTypeMixin:
-    assign_client_classes: List[
         Annotated[
             "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
         ]
@@ -188,7 +168,6 @@ class NetBoxDHCPClientClassType(
     description: str | None
     test: str | None
     template_test: str | None
-    only_if_required: bool | None
     only_in_additional_list: bool | None
 
 
@@ -260,7 +239,7 @@ class NetBoxDHCPHostReservationType(
     excluded_ipv6_prefixes: (
         List[Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")]] | None
     )
-    assign_client_classes: (
+    client_classes: (
         List[
             Annotated[
                 "NetBoxDHCPClientClassType",
@@ -339,6 +318,7 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
 @strawberry_django.type(PDPool, fields="__all__", filters=NetBoxDHCPPDPoolFilter)
 class NetBoxDHCPPDPoolType(
     ClientClassGraphQLTypeMixin,
+    EvaluateClientClassGraphQLTypeMixin,
     NetBoxObjectType,
 ):
     name: str
@@ -356,8 +336,9 @@ class NetBoxDHCPPDPoolType(
 
 @strawberry_django.type(Pool, fields="__all__", filters=NetBoxDHCPPoolFilter)
 class NetBoxDHCPPoolType(
-    DDNSUpdateGraphQLTypeMixin,
     ClientClassGraphQLTypeMixin,
+    EvaluateClientClassGraphQLTypeMixin,
+    DDNSUpdateGraphQLTypeMixin,
     NetBoxObjectType,
 ):
     name: str
@@ -368,6 +349,8 @@ class NetBoxDHCPPoolType(
 
 @strawberry_django.type(Subnet, fields="__all__", filters=NetBoxDHCPSubnetFilter)
 class NetBoxDHCPSubnetType(
+    ClientClassGraphQLTypeMixin,
+    EvaluateClientClassGraphQLTypeMixin,
     BOOTPGraphQLTypeMixin,
     DDNSUpdateGraphQLTypeMixin,
     LifetimeGraphQLTypeMixin,
@@ -377,7 +360,6 @@ class NetBoxDHCPSubnetType(
     ChildPoolGraphQLTypeMixin,
     ChildPDPoolGraphQLTypeMixin,
     ChildHostReservationGraphQLTypeMixin,
-    ClientClassGraphQLTypeMixin,
     NetBoxObjectType,
 ):
     name: str
@@ -393,13 +375,14 @@ class NetBoxDHCPSubnetType(
     SharedNetwork, fields="__all__", filters=NetBoxDHCPSharedNetworkFilter
 )
 class NetBoxDHCPSharedNetworkType(
+    ClientClassGraphQLTypeMixin,
+    EvaluateClientClassGraphQLTypeMixin,
     BOOTPGraphQLTypeMixin,
     DDNSUpdateGraphQLTypeMixin,
     LifetimeGraphQLTypeMixin,
     LeaseGraphQLTypeMixin,
     NetworkGraphQLTypeMixin,
     ChildSubnetGraphQLTypeMixin,
-    ClientClassGraphQLTypeMixin,
     NetBoxObjectType,
 ):
     name: str

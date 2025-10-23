@@ -8,6 +8,7 @@ from strawberry_django import FilterLookup
 from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
 
 from netbox_dhcp.models import Option
+from .mixins import ClientClassGraphQLFilterMixin
 
 if TYPE_CHECKING:
     from core.graphql.filters import ContentTypeFilter
@@ -17,7 +18,10 @@ if TYPE_CHECKING:
 
 
 @strawberry_django.filter_type(Option, lookups=True)
-class NetBoxDHCPOptionFilter(NetBoxModelFilterMixin):
+class NetBoxDHCPOptionFilter(
+    ClientClassGraphQLFilterMixin,
+    NetBoxModelFilterMixin,
+):
     definition: (
         Annotated[
             "NetBoxDHCPOptionDefinitionFilter",

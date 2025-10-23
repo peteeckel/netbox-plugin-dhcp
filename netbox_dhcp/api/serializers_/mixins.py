@@ -11,48 +11,26 @@ from ..nested_serializers import (
 
 
 __all__ = (
-    "ClientClassAssignmentSerializerMixin",
-    "ClientClassDefinitionSerializerMixin",
     "ClientClassSerializerMixin",
+    "EvaluateClientClassSerializerMixin",
     "ChildSubnetSerializerMixin",
     "ChildSharedNetworkSerializerMixin",
     "ChildPoolSerializerMixin",
     "ChildPDPoolSerializerMixin",
     "ChildHostReservationSerializerMixin",
-    "ChildClientClassSerializerMixin",
 )
 
 
-class ClientClassAssignmentSerializerMixin:
-    assign_client_classes = NestedClientClassSerializer(
+class ClientClassSerializerMixin:
+    client_classes = NestedClientClassSerializer(
         many=True,
         read_only=False,
         required=False,
-        help_text=_("Client class to assign"),
+        help_text=_("Client Classes"),
     )
 
 
-class ClientClassDefinitionSerializerMixin:
-    client_class_definitions = NestedClientClassSerializer(
-        many=True,
-        read_only=False,
-        required=False,
-        help_text=_("Client class definitions"),
-    )
-
-
-class ClientClassSerializerMixin(ClientClassDefinitionSerializerMixin):
-    client_class = NestedClientClassSerializer(
-        read_only=False,
-        required=False,
-        help_text=_("Client class to be matched"),
-    )
-    require_client_classes = NestedClientClassSerializer(
-        many=True,
-        read_only=False,
-        required=False,
-        help_text=_("Require client classes to be matched"),
-    )
+class EvaluateClientClassSerializerMixin:
     evaluate_additional_classes = NestedClientClassSerializer(
         many=True,
         read_only=False,
@@ -95,14 +73,6 @@ class ChildPDPoolSerializerMixin:
 
 class ChildHostReservationSerializerMixin:
     child_host_reservations = NestedHostReservationSerializer(
-        many=True,
-        read_only=False,
-        required=False,
-    )
-
-
-class ChildClientClassSerializerMixin:
-    child_client_classes = NestedClientClassSerializer(
         many=True,
         read_only=False,
         required=False,

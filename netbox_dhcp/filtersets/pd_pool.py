@@ -10,6 +10,7 @@ from netbox_dhcp.models import PDPool
 from .mixins import (
     PrefixFilterMixin,
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     ParentSubnetFilterMixin,
 )
 
@@ -19,6 +20,7 @@ __all__ = ("PDPoolFilterSet",)
 class PDPoolFilterSet(
     PrefixFilterMixin,
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     ParentSubnetFilterMixin,
     NetBoxModelFilterSet,
 ):

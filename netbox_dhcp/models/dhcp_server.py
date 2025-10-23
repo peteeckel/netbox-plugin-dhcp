@@ -22,6 +22,7 @@ from netbox_dhcp.fields import ChoiceArrayField
 
 from .mixins import (
     NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
     BOOTPModelMixin,
     CommonModelMixin,
     LeaseModelMixin,
@@ -30,7 +31,6 @@ from .mixins import (
     ChildSubnetModelMixin,
     ChildSharedNetworkModelMixin,
     ChildHostReservationModelMixin,
-    ChildClientClassModelMixin,
 )
 from .option import Option
 
@@ -42,6 +42,7 @@ __all__ = (
 
 class DHCPServer(
     NetBoxDHCPModelMixin,
+    ClientClassModelMixin,
     BOOTPModelMixin,
     CommonModelMixin,
     LeaseModelMixin,
@@ -50,7 +51,6 @@ class DHCPServer(
     ChildSubnetModelMixin,
     ChildSharedNetworkModelMixin,
     ChildHostReservationModelMixin,
-    ChildClientClassModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -64,6 +64,7 @@ class DHCPServer(
         "description",
         "status",
         "dhcp_cluster",
+        "client_classes",
     )
 
     status = models.CharField(

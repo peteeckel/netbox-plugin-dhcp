@@ -43,10 +43,10 @@ from .mixins import (
     ChildHostReservationFilterFormMixin,
     ChildHostReservationImportFormMixin,
     ChildHostReservationBulkEditFormMixin,
-    ChildClientClassFormMixin,
-    ChildClientClassFilterFormMixin,
-    ChildClientClassImportFormMixin,
-    ChildClientClassBulkEditFormMixin,
+    ClientClassFormMixin,
+    ClientClassFilterFormMixin,
+    ClientClassImportFormMixin,
+    ClientClassBulkEditFormMixin,
 )
 
 
@@ -59,10 +59,10 @@ __all__ = (
 
 
 class DHCPServerForm(
+    ClientClassFormMixin,
     ChildSubnetFormMixin,
     ChildSharedNetworkFormMixin,
     ChildHostReservationFormMixin,
-    ChildClientClassFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -79,10 +79,10 @@ class DHCPServerForm(
             "host_reservation_identifiers",
             "echo_client_id",
             "relay_supplied_options",
+            *ClientClassFormMixin.FIELDS,
             "child_subnets",
             "child_shared_networks",
             "child_host_reservations",
-            "child_client_classes",
             "tags",
         )
 
@@ -108,11 +108,11 @@ class DHCPServerForm(
             "relay_supplied_options",
             name=_("Configuration"),
         ),
+        ClientClassFormMixin.FIELDSET,
         FieldSet(
             "child_subnets",
             "child_shared_networks",
             "child_host_reservations",
-            "child_client_classes",
             name=_("Child Objects"),
         ),
         FieldSet(
@@ -168,10 +168,10 @@ class DHCPServerForm(
 
 class DHCPServerFilterForm(
     NetBoxDHCPFilterFormMixin,
+    ClientClassFilterFormMixin,
     ChildSubnetFilterFormMixin,
     ChildSharedNetworkFilterFormMixin,
     ChildHostReservationFilterFormMixin,
-    ChildClientClassFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = DHCPServer
@@ -204,11 +204,11 @@ class DHCPServerFilterForm(
             "relay_supplied_options",
             name=_("Configuration"),
         ),
+        ClientClassFilterFormMixin.FIELDSET,
         FieldSet(
             "child_subnet_id",
             "child_shared_network_id",
             "child_host_reservation_id",
-            "child_client_classes_id",
             name=_("Child Objects"),
         ),
     )
@@ -250,10 +250,10 @@ class DHCPServerFilterForm(
 
 
 class DHCPServerImportForm(
+    ClientClassImportFormMixin,
     ChildSubnetImportFormMixin,
     ChildSharedNetworkImportFormMixin,
     ChildHostReservationImportFormMixin,
-    ChildClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -273,7 +273,7 @@ class DHCPServerImportForm(
             "child_subnets",
             "child_shared_networks",
             "child_host_reservations",
-            "child_client_classes",
+            *ClientClassImportFormMixin.FIELDS,
             "tags",
         )
 
@@ -314,10 +314,10 @@ class DHCPServerImportForm(
 
 class DHCPServerBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
+    ClientClassBulkEditFormMixin,
     ChildSubnetBulkEditFormMixin,
     ChildSharedNetworkBulkEditFormMixin,
     ChildHostReservationBulkEditFormMixin,
-    ChildClientClassBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = DHCPServer
@@ -336,11 +336,11 @@ class DHCPServerBulkEditForm(
             "relay_supplied_options",
             name=_("Configuration"),
         ),
+        ClientClassBulkEditFormMixin.FIELDSET,
         FieldSet(
             "child_subnets",
             "child_shared_networks",
             "child_host_reservations",
-            "child_client_classes",
             name=_("Child Objects"),
         ),
     )
@@ -355,7 +355,7 @@ class DHCPServerBulkEditForm(
         "child_subnets",
         "child_shared_networks",
         "child_host_reservations",
-        "child_client_classes",
+        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
     )
 
     status = forms.ChoiceField(

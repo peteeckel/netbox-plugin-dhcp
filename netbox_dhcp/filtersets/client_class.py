@@ -28,7 +28,6 @@ class ClientClassFilterSet(
             "description",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,

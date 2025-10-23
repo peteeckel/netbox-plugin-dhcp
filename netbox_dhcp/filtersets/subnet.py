@@ -10,6 +10,7 @@ from netbox_dhcp.models import Subnet
 from .mixins import (
     PrefixFilterMixin,
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     BOOTPFilterMixin,
     DDNSUpdateFilterMixin,
     LifetimeFilterMixin,
@@ -30,6 +31,7 @@ __all__ = ("SubnetFilterSet",)
 class SubnetFilterSet(
     PrefixFilterMixin,
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     BOOTPFilterMixin,
     DDNSUpdateFilterMixin,
     LifetimeFilterMixin,

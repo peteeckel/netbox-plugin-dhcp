@@ -18,11 +18,10 @@
                     </tr>
                 </table>
             </div>
-            {% include './inc/client_class_definitions_card.html' %}
+            {% include './inc/client_class_card.html' %}
             <div class="card">
                 <h5 class="card-header">{% trans "Selection" %}</h5>
                 <table class="table table-hover attr-table">
-                    {% include './inc/client_class_selection_fields.html' %}
                     {% include './inc/relay_selection_fields.html' %}
                 </table>
             </div>
@@ -32,7 +31,6 @@
                 <table class="table table-hover attr-table">
                     {% include './inc/lifetime_fields.html' %}
                     {% include './inc/context_comment_fields.html' %}
-                    {% include './inc/client_class_evaluation_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/custom_fields.html' %}

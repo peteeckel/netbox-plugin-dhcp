@@ -53,7 +53,6 @@ class NestedClientClassSerializer(WritableNestedSerializer):
             "description",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
             "next_server",
             "server_hostname",

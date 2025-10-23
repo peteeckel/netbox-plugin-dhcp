@@ -7,6 +7,7 @@ from netbox_dhcp.models import Pool
 
 from .mixins import (
     ClientClassSerializerMixin,
+    EvaluateClientClassSerializerMixin,
 )
 
 __all__ = ("PoolSerializer",)
@@ -14,6 +15,7 @@ __all__ = ("PoolSerializer",)
 
 class PoolSerializer(
     ClientClassSerializerMixin,
+    EvaluateClientClassSerializerMixin,
     NetBoxModelSerializer,
 ):
     class Meta:
@@ -26,9 +28,7 @@ class PoolSerializer(
             "name",
             "description",
             "ip_range",
-            "client_class_definitions",
-            "client_class",
-            "require_client_classes",
+            "client_classes",
             "evaluate_additional_classes",
             "hostname_char_set",
             "hostname_char_replacement",
@@ -70,36 +70,30 @@ class PoolSerializer(
     )
 
     def create(self, validated_data):
-        client_class_definitions = validated_data.pop("client_class_definitions", None)
-        require_client_classes = validated_data.pop("require_client_classes", None)
+        client_classes = validated_data.pop("client_classes", None)
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
 
         pool = super().create(validated_data)
 
-        if client_class_definitions is not None:
-            pool.client_class_definitions.set(client_class_definitions)
-        if require_client_classes is not None:
-            pool.require_client_classes.set(require_client_classes)
+        if client_classes is not None:
+            pool.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             pool.evaluate_additional_classes.set(evaluate_additional_classes)
 
         return pool
 
     def update(self, instance, validated_data):
-        client_class_definitions = validated_data.pop("client_class_definitions", None)
-        require_client_classes = validated_data.pop("require_client_classes", None)
+        client_classes = validated_data.pop("client_classes", None)
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
 
         pool = super().update(instance, validated_data)
 
-        if client_class_definitions is not None:
-            pool.client_class_definitions.set(client_class_definitions)
-        if require_client_classes is not None:
-            pool.require_client_classes.set(require_client_classes)
+        if client_classes is not None:
+            pool.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             pool.evaluate_additional_classes.set(evaluate_additional_classes)
 

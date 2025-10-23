@@ -5,7 +5,11 @@ from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import Pool
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    ClientClassTableMixin,
+    EvaluateClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+)
 
 __all__ = (
     "PoolTable",
@@ -13,7 +17,12 @@ __all__ = (
 )
 
 
-class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
+class PoolTable(
+    ClientClassTableMixin,
+    EvaluateClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = Pool
 
@@ -21,11 +30,9 @@ class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
             "name",
             "description",
             "ip_range",
-            "client_class_definitions",
-            "client_class",
-            "require_client_classes",
             "user_context",
             "comment",
+            "client_classes",
             "evaluate_additional_classes",
             "tags",
         )
@@ -39,22 +46,6 @@ class PoolTable(NetBoxDHCPTableMixin, NetBoxTable):
     ip_range = tables.Column(
         verbose_name=_("IP Range"),
         linkify=True,
-    )
-    client_class_definitions = tables.Column(
-        verbose_name=_("Client Class Definitions"),
-        linkify=True,
-    )
-    client_class = tables.Column(
-        verbose_name=_("Client Class"),
-        linkify=True,
-    )
-    require_client_classes = tables.ManyToManyColumn(
-        verbose_name=_("Require Client Classes"),
-        linkify_item=True,
-    )
-    evaluate_additional_classes = tables.ManyToManyColumn(
-        verbose_name=_("Evaluate Additional Classes"),
-        linkify_item=True,
     )
 
 

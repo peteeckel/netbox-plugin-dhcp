@@ -11,7 +11,7 @@ from netbox.search import SearchIndex, register_search
 from netbox_dhcp.choices import OptionTypeChoices, OptionSendChoices
 from netbox_dhcp.validators import validate_data
 
-from .mixins import ClientClassAssignmentModelMixin
+from .mixins import ClientClassModelMixin
 
 __all__ = (
     "Option",
@@ -19,7 +19,7 @@ __all__ = (
 )
 
 
-class Option(ClientClassAssignmentModelMixin, NetBoxModel):
+class Option(ClientClassModelMixin, NetBoxModel):
     class Meta:
         verbose_name = _("Option")
         verbose_name_plural = _("Options")

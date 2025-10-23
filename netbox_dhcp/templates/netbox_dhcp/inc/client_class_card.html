@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load netbox_dhcp %}
+
+<div class="card">
+    <h5 class="card-header">{% trans "Client Classes" %}</h5>
+    <table class="table table-hover attr-table">
+        <tr>
+            <th scope="row">{% trans "Client Classes" %}</th>
+            {% if object.client_classes.exists %}
+            <td>
+                <table>
+                    {% for class in object.client_classes.all %}
+                        <tr><td>{{ class|linkify|placeholder }}</td></tr>
+                    {% endfor %}
+                </table>
+            </td>
+            {% else %}
+            <td>{{ ''|placeholder }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Evaluate Additional Classes" %}</th>
+            {% if object.evaluate_additional_classes.exists %}
+            <td>
+                <table>
+                    {% for class in object.evaluate_additional_classes.all %}
+                        <tr><th/><td>{{ class|linkify|placeholder }}</td></tr>
+                    {% endfor %}
+                </table>
+            </td>
+            {% else %}
+            <td>{{ ''|placeholder }}</td>
+            {% endif %}
+        </tr>
+    </table>
+</div>

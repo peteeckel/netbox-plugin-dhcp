@@ -25,9 +25,8 @@ from netbox_dhcp.choices import (
 
 __all__ = (
     "BOOTPImportFormMixin",
-    "ClientClassAssignmentImportFormMixin",
-    "ClientClassDefinitionImportFormMixin",
     "ClientClassImportFormMixin",
+    "EvaluateClientClassImportFormMixin",
     "PrefixImportFormMixin",
     "DDNSUpdateImportFormMixin",
     "LifetimeImportFormMixin",
@@ -37,7 +36,6 @@ __all__ = (
     "ChildPoolImportFormMixin",
     "ChildPDPoolImportFormMixin",
     "ChildHostReservationImportFormMixin",
-    "ChildClientClassImportFormMixin",
     "NetworkImportFormMixin",
 )
 
@@ -50,56 +48,27 @@ class BOOTPImportFormMixin(forms.Form):
     ]
 
 
-class ClientClassAssignmentImportFormMixin(forms.Form):
-    assign_client_classes = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Assign Client Classes"),
-    )
-
-
-class ClientClassDefinitionImportFormMixin(forms.Form):
-    client_class_definitions = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Client Class Definitions"),
-    )
-
-
-class ClientClassImportFormMixin(ClientClassDefinitionImportFormMixin):
+class ClientClassImportFormMixin(forms.Form):
     FIELDS = [
-        "client_class",
-        "require_client_classes",
-        "client_class_definitions",
+        "client_classes",
+    ]
+
+    client_classes = CSVModelMultipleChoiceField(
+        queryset=ClientClass.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Client class %(value)s not found"),
+        },
+        label=_("Client Classes"),
+    )
+
+
+class EvaluateClientClassImportFormMixin(forms.Form):
+    FIELDS = [
         "evaluate_additional_classes",
     ]
 
-    client_class = CSVModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Client Class"),
-    )
-    require_client_classes = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Require Client Classes"),
-    )
     evaluate_additional_classes = CSVModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -252,18 +221,6 @@ class ChildHostReservationImportFormMixin(forms.Form):
             "invalid_choice": _("Host Reservation %(value)s not found"),
         },
         label=_("Host Reservations"),
-    )
-
-
-class ChildClientClassImportFormMixin(forms.Form):
-    child_client_classes = CSVModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Client class %(value)s not found"),
-        },
-        label=_("Client Classes"),
     )
 
 

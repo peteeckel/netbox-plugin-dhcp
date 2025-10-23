@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 from netbox_dhcp.models import DHCPServer
 
 from .mixins import (
+    ClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
 )
@@ -28,7 +29,10 @@ __all__ = ("NetBoxDHCPServerFilter",)
 
 @strawberry_django.filter_type(DHCPServer, lookups=True)
 class NetBoxDHCPServerFilter(
-    BOOTPGraphQLFilterMixin, DDNSUpdateGraphQLFilterMixin, NetBoxModelFilterMixin
+    ClientClassGraphQLFilterMixin,
+    BOOTPGraphQLFilterMixin,
+    DDNSUpdateGraphQLFilterMixin,
+    NetBoxModelFilterMixin,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()

@@ -21,9 +21,8 @@ from netbox_dhcp.choices import (
 __all__ = (
     "NetBoxDHCPBulkEditFormMixin",
     "BOOTPBulkEditFormMixin",
-    "ClientClassAssignmentBulkEditFormMixin",
-    "ClientClassDefinitionBulkEditFormMixin",
     "ClientClassBulkEditFormMixin",
+    "EvaluateClientClassBulkEditFormMixin",
     "OfferLifetimeBulkEditFormMixin",
     "LifetimeBulkEditFormMixin",
     "CommonBulkEditFormMixin",
@@ -34,7 +33,6 @@ __all__ = (
     "ChildSubnetBulkEditFormMixin",
     "ChildSharedNetworkBulkEditFormMixin",
     "ChildHostReservationBulkEditFormMixin",
-    "ChildClientClassBulkEditFormMixin",
 )
 
 
@@ -72,8 +70,19 @@ class BOOTPBulkEditFormMixin(forms.Form):
     )
 
 
-class ClientClassAssignmentBulkEditFormMixin(forms.Form):
-    assign_client_classes = DynamicModelMultipleChoiceField(
+class ClientClassBulkEditFormMixin(forms.Form):
+    FIELDS = [
+        "client_classes",
+    ]
+    FIELDSET = FieldSet(
+        "client_classes",
+        name=_("Client Classes"),
+    )
+    NULLABLE_FIELDS = [
+        "client_classes",
+    ]
+
+    client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         quick_add=True,
@@ -81,42 +90,18 @@ class ClientClassAssignmentBulkEditFormMixin(forms.Form):
     )
 
 
-class ClientClassDefinitionBulkEditFormMixin(forms.Form):
-    client_class_definitions = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        quick_add=True,
-        label=_("Client Class Definitions"),
-    )
-
-
-class ClientClassBulkEditFormMixin(ClientClassDefinitionBulkEditFormMixin):
+class EvaluateClientClassBulkEditFormMixin(forms.Form):
+    FIELDS = [
+        "evaluate_additional_classes",
+    ]
     FIELDSET = FieldSet(
-        "client_class",
-        "require_client_classes",
-        "client_class_definitions",
         "evaluate_additional_classes",
         name=_("Client Classes"),
     )
     NULLABLE_FIELDS = [
-        "client_class",
-        "require_client_classes",
-        "client_class_definitions",
         "evaluate_additional_classes",
     ]
 
-    client_class = DynamicModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        quick_add=True,
-        label=_("Client Class"),
-    )
-    require_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        quick_add=True,
-        label=_("Require Client Classes"),
-    )
     evaluate_additional_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -486,12 +471,4 @@ class ChildHostReservationBulkEditFormMixin(forms.Form):
         queryset=HostReservation.objects.all(),
         required=False,
         label=_("Host Reservations"),
-    )
-
-
-class ChildClientClassBulkEditFormMixin(forms.Form):
-    child_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Classes"),
     )

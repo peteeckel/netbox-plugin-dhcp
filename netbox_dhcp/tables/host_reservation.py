@@ -5,7 +5,10 @@ from netbox.tables import NetBoxTable
 
 from netbox_dhcp.models import HostReservation
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    ClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+)
 
 __all__ = (
     "HostReservationTable",
@@ -13,7 +16,11 @@ __all__ = (
 )
 
 
-class HostReservationTable(NetBoxDHCPTableMixin, NetBoxTable):
+class HostReservationTable(
+    ClientClassTableMixin,
+    NetBoxDHCPTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = HostReservation
 
@@ -24,7 +31,7 @@ class HostReservationTable(NetBoxDHCPTableMixin, NetBoxTable):
             "circuit_id",
             "client_id",
             "flex_id",
-            "client_class_definitions",
+            "client_classes",
             "next_server",
             "server_hostname",
             "boot_file_name",

@@ -9,8 +9,9 @@ from netbox_dhcp.models import SharedNetwork
 
 from .mixins import (
     PrefixFilterMixin,
-    BOOTPFilterMixin,
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
+    BOOTPFilterMixin,
     DDNSUpdateFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
@@ -24,11 +25,12 @@ __all__ = ("SharedNetworkFilterSet",)
 
 class SharedNetworkFilterSet(
     PrefixFilterMixin,
+    ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
     DDNSUpdateFilterMixin,
-    ClientClassFilterMixin,
     ChildSubnetFilterMixin,
     ParentDHCPServerFilterMixin,
     NetBoxModelFilterSet,

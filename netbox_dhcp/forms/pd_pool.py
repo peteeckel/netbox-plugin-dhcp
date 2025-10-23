@@ -24,6 +24,10 @@ from .mixins import (
     ClientClassFilterFormMixin,
     ClientClassFormMixin,
     ClientClassImportFormMixin,
+    EvaluateClientClassBulkEditFormMixin,
+    EvaluateClientClassFilterFormMixin,
+    EvaluateClientClassFormMixin,
+    EvaluateClientClassImportFormMixin,
     CommonBulkEditFormMixin,
     CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
@@ -39,7 +43,11 @@ __all__ = (
 )
 
 
-class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
+class PDPoolForm(
+    ClientClassFormMixin,
+    EvaluateClientClassFormMixin,
+    NetBoxModelForm,
+):
     class Meta:
         model = PDPool
 
@@ -49,9 +57,10 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            *ClientClassFormMixin.FIELDS,
             "user_context",
             "comment",
+            *ClientClassFormMixin.FIELDS,
+            *EvaluateClientClassFormMixin.FIELDS,
             "tags",
         )
 
@@ -64,11 +73,15 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
             "excluded_prefix",
             name=_("Prefix Delegation Pool"),
         ),
-        ClientClassFormMixin.FIELDSET,
         FieldSet(
             "user_context",
             "comment",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            *ClientClassFormMixin.FIELDS,
+            *EvaluateClientClassFormMixin.FIELDS,
+            name=_("Client Classes"),
         ),
         FieldSet(
             "tags",
@@ -99,6 +112,7 @@ class PDPoolForm(ClientClassFormMixin, NetBoxModelForm):
 class PDPoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
+    EvaluateClientClassFilterFormMixin,
     CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
@@ -118,10 +132,14 @@ class PDPoolFilterForm(
             "excluded_prefix_id",
             name=_("Prefix Delegation Pool"),
         ),
-        ClientClassFilterFormMixin.FIELDSET,
         FieldSet(
             "comment",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            *ClientClassFilterFormMixin.FIELDS,
+            *EvaluateClientClassFilterFormMixin.FIELDS,
+            name=_("Client Classes"),
         ),
     )
 
@@ -151,6 +169,7 @@ class PDPoolFilterForm(
 
 class PDPoolImportForm(
     ClientClassImportFormMixin,
+    EvaluateClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -162,9 +181,10 @@ class PDPoolImportForm(
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            *ClientClassImportFormMixin.FIELDS,
             "user_context",
             "comment",
+            *ClientClassImportFormMixin.FIELDS,
+            *EvaluateClientClassImportFormMixin.FIELDS,
             "tags",
         )
 
@@ -191,6 +211,7 @@ class PDPoolImportForm(
 class PDPoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
+    EvaluateClientClassBulkEditFormMixin,
     CommonBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
@@ -202,11 +223,15 @@ class PDPoolBulkEditForm(
             "delegated_length",
             name=_("Prefix Delegation Pool"),
         ),
-        ClientClassBulkEditFormMixin.FIELDSET,
         FieldSet(
             "user_context",
             "comment",
             name=_("Assignment"),
+        ),
+        FieldSet(
+            *ClientClassBulkEditFormMixin.FIELDS,
+            *EvaluateClientClassBulkEditFormMixin.FIELDS,
+            name=_("Client Classes"),
         ),
         FieldSet(
             "tags",
@@ -217,9 +242,10 @@ class PDPoolBulkEditForm(
     nullable_fields = (
         "description",
         "excluded_prefix",
-        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         "user_context",
         "comment",
+        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
+        *EvaluateClientClassBulkEditFormMixin.NULLABLE_FIELDS,
     )
 
     delegated_length = forms.CharField(

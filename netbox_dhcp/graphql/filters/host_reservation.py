@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 from netbox_dhcp.models import HostReservation
 
 from .mixins import (
+    ClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
 )
 
@@ -22,7 +23,11 @@ __all__ = ("NetBoxDHCPHostReservationFilter",)
 
 
 @strawberry_django.filter_type(HostReservation, lookups=True)
-class NetBoxDHCPHostReservationFilter(BOOTPGraphQLFilterMixin, NetBoxModelFilterMixin):
+class NetBoxDHCPHostReservationFilter(
+    ClientClassGraphQLFilterMixin,
+    BOOTPGraphQLFilterMixin,
+    NetBoxModelFilterMixin,
+):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     duid: FilterLookup[str] | None = strawberry_django.filter_field()
@@ -50,11 +55,11 @@ class NetBoxDHCPHostReservationFilter(BOOTPGraphQLFilterMixin, NetBoxModelFilter
         Annotated["PrefixFilter", strawberry.lazy("ipam.graphql.filters")] | None
     )
     excluded_ipv6_prefix_id: ID | None = strawberry_django.filter_field()
-    assign_client_class: (
+    client_class: (
         Annotated[
             "NetBoxDHCPClientClassFilter",
             strawberry.lazy("netbox_dhcp.graphql.filters"),
         ]
         | None
     )
-    assign_client_class_id: ID | None = strawberry_django.filter_field()
+    client_class_id: ID | None = strawberry_django.filter_field()

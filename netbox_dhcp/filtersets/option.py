@@ -7,13 +7,19 @@ from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Option, OptionDefinition
 from netbox_dhcp.choices import OptionSpaceChoices
-from .mixins import ClientClassAssignmentFilterMixin
+from .mixins import (
+    ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
+)
 
 
 __all__ = ("OptionFilterSet",)
 
 
-class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
+class OptionFilterSet(
+    ClientClassFilterMixin,
+    NetBoxModelFilterSet,
+):
     class Meta:
         model = Option
 
@@ -22,6 +28,7 @@ class OptionFilterSet(ClientClassAssignmentFilterMixin, NetBoxModelFilterSet):
             "data",
             "csv_format",
             "send_option",
+            *ClientClassFilterMixin.FILTER_FIELDS,
         )
 
     description = django_filters.CharFilter(

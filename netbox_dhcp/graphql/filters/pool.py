@@ -11,6 +11,7 @@ from netbox_dhcp.models import Pool
 
 from .mixins import (
     ClientClassGraphQLFilterMixin,
+    EvaluateClientClassGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
     ParentSubnetGraphQLFilterMixin,
 )
@@ -22,6 +23,7 @@ if TYPE_CHECKING:
 @strawberry_django.filter_type(Pool, lookups=True)
 class NetBoxDHCPPoolFilter(
     ClientClassGraphQLFilterMixin,
+    EvaluateClientClassGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
     ParentSubnetGraphQLFilterMixin,
     NetBoxModelFilterMixin,

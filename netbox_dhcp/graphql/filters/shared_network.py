@@ -8,6 +8,7 @@ from netbox_dhcp.models import SharedNetwork
 from .mixins import (
     PrefixGraphQLFilterMixin,
     ClientClassGraphQLFilterMixin,
+    EvaluateClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
     LifetimeGraphQLFilterMixin,
@@ -22,6 +23,7 @@ from .mixins import (
 class NetBoxDHCPSharedNetworkFilter(
     PrefixGraphQLFilterMixin,
     ClientClassGraphQLFilterMixin,
+    EvaluateClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
     LifetimeGraphQLFilterMixin,

@@ -6,13 +6,13 @@ from ipam.api.serializers import IPAddressSerializer, PrefixSerializer
 
 from netbox_dhcp.models import HostReservation
 
-from .mixins import ClientClassAssignmentSerializerMixin
+from .mixins import ClientClassSerializerMixin
 
 __all__ = ("HostReservationSerializer",)
 
 
 class HostReservationSerializer(
-    ClientClassAssignmentSerializerMixin,
+    ClientClassSerializerMixin,
     NetBoxModelSerializer,
 ):
     class Meta:
@@ -39,7 +39,7 @@ class HostReservationSerializer(
             "ipv6_addresses",
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            "assign_client_classes",
+            "client_classes",
         )
 
         brief_fields = (
@@ -94,15 +94,15 @@ class HostReservationSerializer(
     )
 
     def create(self, validated_data):
-        assign_client_classes = validated_data.pop("assign_client_classes", None)
+        client_classes = validated_data.pop("client_classes", None)
         ipv6_addresses = validated_data.pop("ipv6_addresses", None)
         ipv6_prefixes = validated_data.pop("ipv6_prefixes", None)
         excluded_ipv6_prefixes = validated_data.pop("excluded_ipv6_prefixes", None)
 
         host_reservation = super().create(validated_data)
 
-        if assign_client_classes is not None:
-            host_reservation.assign_client_classes.set(assign_client_classes)
+        if client_classes is not None:
+            host_reservation.client_classes.set(client_classes)
         if ipv6_addresses is not None:
             host_reservation.ipv6_addresses.set(ipv6_addresses)
         if ipv6_prefixes is not None:
@@ -113,15 +113,15 @@ class HostReservationSerializer(
         return host_reservation
 
     def update(self, instance, validated_data):
-        assign_client_classes = validated_data.pop("assign_client_classes", None)
+        client_classes = validated_data.pop("client_classes", None)
         ipv6_addresses = validated_data.pop("ipv6_addresses", None)
         ipv6_prefixes = validated_data.pop("ipv6_prefixes", None)
         excluded_ipv6_prefixes = validated_data.pop("excluded_ipv6_prefixes", None)
 
         host_reservation = super().update(instance, validated_data)
 
-        if assign_client_classes is not None:
-            host_reservation.assign_client_classes.set(assign_client_classes)
+        if client_classes is not None:
+            host_reservation.client_classes.set(client_classes)
         if ipv6_addresses is not None:
             host_reservation.ipv6_addresses.set(ipv6_addresses)
         if ipv6_prefixes is not None:

@@ -37,7 +37,6 @@ class ClientClass(
         "description",
         "test",
         "template_test",
-        "only_if_required",
         "only_in_additional_list",
         "next_server",
         "server_hostname",
@@ -61,12 +60,6 @@ class ClientClass(
         verbose_name=_("Template Test"),
         blank=True,
         max_length=255,
-    )
-    only_if_required = models.BooleanField(
-        verbose_name=_("Only if required"),
-        help_text=_("Evaluate the client class test only if it is required"),
-        null=True,
-        blank=True,
     )
     only_in_additional_list = models.BooleanField(
         verbose_name=_("Only in additional list"),

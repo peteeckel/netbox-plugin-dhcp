@@ -5,8 +5,8 @@ from netbox.tables import TagColumn, ChoiceFieldColumn, NetBoxTable
 
 __all__ = (
     "NetBoxDHCPTableMixin",
-    "ClientClassDefinitionTableMixin",
     "ClientClassTableMixin",
+    "EvaluateClientClassTableMixin",
     "DDNSUpdateTableMixin",
     "LeaseTableMixin",
 )
@@ -22,22 +22,14 @@ class NetBoxDHCPTableMixin(NetBoxTable):
     )
 
 
-class ClientClassDefinitionTableMixin(NetBoxTable):
-    client_class_definitions = tables.ManyToManyColumn(
-        verbose_name=_("Client Class Definitions"),
+class ClientClassTableMixin(NetBoxTable):
+    client_classes = tables.ManyToManyColumn(
+        verbose_name=_("Client Classes"),
         linkify_item=True,
     )
 
 
-class ClientClassTableMixin(ClientClassDefinitionTableMixin):
-    client_class = tables.Column(
-        verbose_name=_("Client Class"),
-        linkify=True,
-    )
-    require_client_classes = tables.ManyToManyColumn(
-        verbose_name=_("Require Client Classes"),
-        linkify_item=True,
-    )
+class EvaluateClientClassTableMixin(NetBoxTable):
     evaluate_additional_classes = tables.ManyToManyColumn(
         verbose_name=_("Evaluate Additional Classes"),
         linkify_item=True,

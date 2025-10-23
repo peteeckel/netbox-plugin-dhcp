@@ -26,9 +26,8 @@ from netbox_dhcp.choices import (
 
 __all__ = (
     "BOOTPFormMixin",
-    "ClientClassAssignmentFormMixin",
-    "ClientClassDefinitionFormMixin",
     "ClientClassFormMixin",
+    "EvaluateClientClassFormMixin",
     "PrefixFormMixin",
     "DDNSUpdateFormMixin",
     "LeaseFormMixin",
@@ -38,7 +37,6 @@ __all__ = (
     "ChildPoolFormMixin",
     "ChildPDPoolFormMixin",
     "ChildHostReservationFormMixin",
-    "ChildClientClassFormMixin",
     "NetworkFormMixin",
 )
 
@@ -57,8 +55,16 @@ class BOOTPFormMixin:
     )
 
 
-class ClientClassAssignmentFormMixin(forms.Form):
-    assign_client_classes = DynamicModelMultipleChoiceField(
+class ClientClassFormMixin(forms.Form):
+    FIELDS = [
+        "client_classes",
+    ]
+    FIELDSET = FieldSet(
+        "client_classes",
+        name=_("Client Classes"),
+    )
+
+    client_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
         quick_add=True,
@@ -66,42 +72,15 @@ class ClientClassAssignmentFormMixin(forms.Form):
     )
 
 
-class ClientClassDefinitionFormMixin(forms.Form):
-    client_class_definitions = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        quick_add=True,
-        label=_("Client Class Definitions"),
-    )
-
-
-class ClientClassFormMixin(ClientClassDefinitionFormMixin):
+class EvaluateClientClassFormMixin(forms.Form):
     FIELDS = [
-        "client_class",
-        "require_client_classes",
-        "client_class_definitions",
         "evaluate_additional_classes",
     ]
     FIELDSET = FieldSet(
-        "client_class",
-        "require_client_classes",
-        "client_class_definitions",
         "evaluate_additional_classes",
         name=_("Client Classes"),
     )
 
-    client_class = DynamicModelChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        quick_add=True,
-        label=_("Client Class"),
-    )
-    require_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        quick_add=True,
-        label=_("Require Client Classes"),
-    )
     evaluate_additional_classes = DynamicModelMultipleChoiceField(
         queryset=ClientClass.objects.all(),
         required=False,
@@ -397,14 +376,6 @@ class ChildHostReservationFormMixin(forms.Form):
         queryset=HostReservation.objects.all(),
         required=False,
         label=_("Host Reservations"),
-    )
-
-
-class ChildClientClassFormMixin(forms.Form):
-    child_client_classes = DynamicModelMultipleChoiceField(
-        queryset=ClientClass.objects.all(),
-        required=False,
-        label=_("Client Classes"),
     )
 
 

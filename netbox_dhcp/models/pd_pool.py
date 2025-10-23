@@ -14,6 +14,7 @@ from ipam.choices import IPAddressFamilyChoices
 from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
+    EvaluateClientClassModelMixin,
     CommonModelMixin,
 )
 from .option import Option
@@ -27,6 +28,7 @@ __all__ = (
 class PDPool(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
+    EvaluateClientClassModelMixin,
     CommonModelMixin,
     NetBoxModel,
 ):
@@ -40,9 +42,7 @@ class PDPool(
         "name",
         "description",
         "delegated_length",
-        "client_class_definitions",
-        "client_class",
-        "require_client_classes",
+        "client_classes",
         "evaluate_additional_classes",
         "comment",
     )

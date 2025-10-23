@@ -26,13 +26,7 @@
                     </tr>
                 </table>
             </div>
-            {% include './inc/client_class_definitions_card.html' %}
-            <div class="card">
-                <h5 class="card-header">{% trans "Selection" %}</h5>
-                <table class="table table-hover attr-table">
-                    {% include './inc/client_class_selection_fields.html' %}
-                </table>
-            </div>
+            {% include './inc/client_class_card.html' %}
             {% include './inc/parent_object_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
         </div>
@@ -41,7 +35,6 @@
                 <h5 class="card-header">{% trans "Assignment" %}</h5>
                 <table class="table table-hover attr-table">
                     {% include './inc/context_comment_fields.html' %}
-                    {% include './inc/client_class_evaluation_fields.html' %}
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}

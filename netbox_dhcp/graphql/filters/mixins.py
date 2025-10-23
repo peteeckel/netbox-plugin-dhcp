@@ -35,8 +35,7 @@ __all__ = (
     "LifetimeGraphQLFilterMixin",
     "LeaseGraphQLFilterMixin",
     "ClientClassGraphQLFilterMixin",
-    "ClientClassDefinitionGraphQLFilterMixin",
-    "ClientClassAssignmentGraphQLFilterMixin",
+    "EvaluateClientClassGraphQLFilterMixin",
     "PrefixGraphQLFilterMixin",
     "ParentSubnetGraphQLFilterMixin",
     "ParentSharedNetworkGraphQLFilterMixin",
@@ -145,14 +144,10 @@ class ClientClassGraphQLFilterMixin:
         | None
     ) = strawberry_django.filter_field()
     client_class_id: ID | None = strawberry_django.filter_field()
-    required_client_class: (
-        Annotated[
-            "NetBoxDHCPClientClassFilter",
-            strawberry.lazy("netbox_dhcp.graphql.filters"),
-        ]
-        | None
-    ) = strawberry_django.filter_field()
-    required_client_class_id: ID | None = strawberry_django.filter_field()
+
+
+@dataclass
+class EvaluateClientClassGraphQLFilterMixin:
     evaluate_additional_class: (
         Annotated[
             "NetBoxDHCPClientClassFilter",
@@ -161,30 +156,6 @@ class ClientClassGraphQLFilterMixin:
         | None
     ) = strawberry_django.filter_field()
     evaluate_additional_class_id: ID | None = strawberry_django.filter_field()
-
-
-@dataclass
-class ClientClassDefinitionGraphQLFilterMixin:
-    client_class_definition: (
-        Annotated[
-            "NetBoxDHCPClientClassFilter",
-            strawberry.lazy("netbox_dhcp.graphql.filters"),
-        ]
-        | None
-    ) = strawberry_django.filter_field()
-    client_class_definition_id: ID | None = strawberry_django.filter_field()
-
-
-@dataclass
-class ClientClassAssignmentGraphQLFilterMixin:
-    client_class_definition: (
-        Annotated[
-            "NetBoxDHCPClientClassFilter",
-            strawberry.lazy("netbox_dhcp.graphql.filters"),
-        ]
-        | None
-    ) = strawberry_django.filter_field()
-    client_class_definition_id: ID | None = strawberry_django.filter_field()
 
 
 @dataclass

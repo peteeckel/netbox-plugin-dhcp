@@ -20,7 +20,6 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
             "comment",
             "test",
             "tenplate_test",
-            "only_if_required",
             "only_in_additional_list",
             "next_server",
             "server_hostname",
@@ -39,13 +38,9 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
             "name",
             "test",
             "template_test",
-            "only_if_required",
             "only_in_additional_list",
         )
 
-    only_if_required = tables.BooleanColumn(
-        verbose_name=_("Only if required"),
-    )
     only_in_additional_list = tables.BooleanColumn(
         verbose_name=_("Only in additional list"),
     )

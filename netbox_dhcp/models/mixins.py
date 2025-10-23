@@ -12,9 +12,8 @@ __all__ = (
     "NetBoxDHCPModelMixin",
     "BOOTPModelMixin",
     "CommonModelMixin",
-    "ClientClassAssignmentModelMixin",
-    "ClientClassDefinitionModelMixin",
     "ClientClassModelMixin",
+    "EvaluateClientClassModelMixin",
     "LifetimeModelMixin",
     "OfferLifetimeModelMixin",
     "DDNSUpdateModelMixin",
@@ -25,7 +24,6 @@ __all__ = (
     "ChildPDPoolModelMixin",
     "ChildSubnetModelMixin",
     "ChildSharedNetworkModelMixin",
-    "ChildClientClassModelMixin",
 )
 
 
@@ -90,52 +88,26 @@ class CommonModelMixin(models.Model):
     )
 
 
-class ClientClassAssignmentModelMixin(models.Model):
+class ClientClassModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    assign_client_classes = models.ManyToManyField(
+    client_classes = models.ManyToManyField(
         verbose_name=_("Client Classes"),
         to="ClientClass",
-        related_name="assign_%(class)ss",
+        related_name="%(class)s_set",
         blank=True,
     )
 
 
-class ClientClassDefinitionModelMixin(models.Model):
+class EvaluateClientClassModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    client_class_definitions = models.ManyToManyField(
-        verbose_name=_("Client Class Definitions"),
-        to="ClientClass",
-        related_name="definition_%(class)ss",
-        blank=True,
-    )
-
-
-class ClientClassModelMixin(ClientClassDefinitionModelMixin):
-    class Meta:
-        abstract = True
-
-    client_class = models.ForeignKey(
-        verbose_name=_("Client Class"),
-        to="ClientClass",
-        related_name="%(class)s",
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-    require_client_classes = models.ManyToManyField(
-        verbose_name=_("Require Client Classes"),
-        to="ClientClass",
-        related_name="require_%(class)ss",
-        blank=True,
-    )
     evaluate_additional_classes = models.ManyToManyField(
         verbose_name=_("Evaluate Additional Classes"),
         to="ClientClass",
-        related_name="evaluate_%(class)ss",
+        related_name="evaluate_%(class)s_set",
         blank=True,
     )
 
@@ -423,7 +395,7 @@ class ChildHostReservationModelMixin(models.Model):
     child_host_reservations = models.ManyToManyField(
         verbose_name=_("Host Reservations"),
         to="HostReservation",
-        related_name="parent_%(class)ss",
+        related_name="parent_%(class)s_set",
         blank=True,
     )
 
@@ -435,7 +407,7 @@ class ChildPoolModelMixin(models.Model):
     child_pools = models.ManyToManyField(
         verbose_name=_("Pools"),
         to="Pool",
-        related_name="parent_%(class)ss",
+        related_name="parent_%(class)s_set",
         blank=True,
     )
 
@@ -447,7 +419,7 @@ class ChildPDPoolModelMixin(models.Model):
     child_pd_pools = models.ManyToManyField(
         verbose_name=_("Prefix Delegation Pools"),
         to="PDPool",
-        related_name="parent_%(class)ss",
+        related_name="parent_%(class)s_set",
         blank=True,
     )
 
@@ -459,7 +431,7 @@ class ChildSubnetModelMixin(models.Model):
     child_subnets = models.ManyToManyField(
         verbose_name=_("Subnets"),
         to="Subnet",
-        related_name="parent_%(class)ss",
+        related_name="parent_%(class)s_set",
         blank=True,
     )
 
@@ -471,18 +443,6 @@ class ChildSharedNetworkModelMixin(models.Model):
     child_shared_networks = models.ManyToManyField(
         verbose_name=_("Shared Networks"),
         to="SharedNetwork",
-        related_name="parent_%(class)ss",
-        blank=True,
-    )
-
-
-class ChildClientClassModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    child_client_classes = models.ManyToManyField(
-        verbose_name=_("Client Classes"),
-        to="ClientClass",
-        related_name="parent_%(class)ss",
+        related_name="parent_%(class)s_set",
         blank=True,
     )

@@ -154,23 +154,23 @@ class DHCPServerChildHostReservationListView(generic.ObjectChildrenView):
         return parent.child_host_reservations.restrict(request.user, "view")
 
 
-@register_model_view(DHCPServer, "child_client_classes")
-class DHCPServerChildClientClassListView(generic.ObjectChildrenView):
+@register_model_view(DHCPServer, "client_classes")
+class DHCPServerClientClassListView(generic.ObjectChildrenView):
     queryset = DHCPServer.objects.all()
     child_model = ClientClass
     table = ClientClassTable
     filterset = ClientClassFilterSet
-    template_name = "netbox_dhcp/dhcpserver/child_client_classes.html"
+    template_name = "netbox_dhcp/dhcpserver/client_classes.html"
 
     tab = ViewTab(
         label=_("Client Classes"),
         permission="netbox_dhcp.view_clientclass",
-        badge=lambda obj: obj.child_client_classes.count(),
+        badge=lambda obj: obj.client_classes.count(),
         hide_if_empty=True,
     )
 
     def get_children(self, request, parent):
-        return parent.child_client_classes.restrict(request.user, "view")
+        return parent.client_classes.restrict(request.user, "view")
 
 
 @register_model_view(DHCPServer, "options")

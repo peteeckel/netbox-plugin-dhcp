@@ -10,6 +10,7 @@ from netbox_dhcp.models import Pool
 
 from .mixins import (
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     DDNSUpdateFilterMixin,
     ParentSubnetFilterMixin,
 )
@@ -19,6 +20,7 @@ __all__ = ("PoolFilterSet",)
 
 class PoolFilterSet(
     ClientClassFilterMixin,
+    EvaluateClientClassFilterMixin,
     DDNSUpdateFilterMixin,
     ParentSubnetFilterMixin,
     NetBoxModelFilterSet,

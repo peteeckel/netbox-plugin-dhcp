@@ -25,6 +25,10 @@ from .mixins import (
     ClientClassFilterFormMixin,
     ClientClassFormMixin,
     ClientClassImportFormMixin,
+    EvaluateClientClassBulkEditFormMixin,
+    EvaluateClientClassFilterFormMixin,
+    EvaluateClientClassFormMixin,
+    EvaluateClientClassImportFormMixin,
     CommonBulkEditFormMixin,
     CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
@@ -46,6 +50,7 @@ __all__ = (
 
 class PoolForm(
     ClientClassFormMixin,
+    EvaluateClientClassFormMixin,
     DDNSUpdateFormMixin,
     NetBoxModelForm,
 ):
@@ -56,10 +61,11 @@ class PoolForm(
             "name",
             "description",
             "ip_range",
-            *ClientClassFormMixin.FIELDS,
-            *DDNSUpdateFormMixin.FIELDS,
             "user_context",
             "comment",
+            *ClientClassFormMixin.FIELDS,
+            *EvaluateClientClassFormMixin.FIELDS,
+            *DDNSUpdateFormMixin.FIELDS,
             "tags",
         )
 
@@ -70,13 +76,17 @@ class PoolForm(
             "ip_range",
             name=_("Address Pool"),
         ),
-        ClientClassFormMixin.FIELDSET,
-        DDNSUpdateFormMixin.FIELDSET,
         FieldSet(
             "user_context",
             "comment",
             name=_("Assignment"),
         ),
+        FieldSet(
+            *ClientClassFormMixin.FIELDS,
+            *EvaluateClientClassFormMixin.FIELDS,
+            name=_("Client Classes"),
+        ),
+        DDNSUpdateFormMixin.FIELDSET,
         FieldSet(
             "tags",
             name=_("Tags"),
@@ -95,6 +105,7 @@ class PoolForm(
 class PoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
+    EvaluateClientClassFilterFormMixin,
     CommonFilterFormMixin,
     DDNSUpdateFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -114,12 +125,16 @@ class PoolFilterForm(
             "ip_range_id",
             name=_("Address Pool"),
         ),
-        ClientClassFilterFormMixin.FIELDSET,
-        DDNSUpdateFilterFormMixin.FIELDSET,
         FieldSet(
             "comment",
             name=_("Assignment"),
         ),
+        FieldSet(
+            *ClientClassFilterFormMixin.FIELDS,
+            *EvaluateClientClassFilterFormMixin.FIELDS,
+            name=_("Client Classes"),
+        ),
+        DDNSUpdateFilterFormMixin.FIELDSET,
     )
 
     family = forms.ChoiceField(
@@ -141,6 +156,7 @@ class PoolFilterForm(
 
 class PoolImportForm(
     ClientClassImportFormMixin,
+    EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -151,10 +167,11 @@ class PoolImportForm(
             "name",
             "description",
             "ip_range",
-            *ClientClassImportFormMixin.FIELDS,
-            *DDNSUpdateImportFormMixin.FIELDS,
             "user_context",
             "comment",
+            *ClientClassImportFormMixin.FIELDS,
+            *EvaluateClientClassImportFormMixin.FIELDS,
+            *DDNSUpdateImportFormMixin.FIELDS,
             "tags",
         )
 
@@ -172,6 +189,7 @@ class PoolImportForm(
 class PoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
+    EvaluateClientClassBulkEditFormMixin,
     CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
     NetBoxModelBulkEditForm,
@@ -183,7 +201,11 @@ class PoolBulkEditForm(
             "description",
             name=_("Address Pool"),
         ),
-        ClientClassBulkEditFormMixin.FIELDSET,
+        FieldSet(
+            *ClientClassBulkEditFormMixin.FIELDS,
+            *EvaluateClientClassBulkEditFormMixin.FIELDS,
+            name=_("Client Classes"),
+        ),
         DDNSUpdateBulkEditFormMixin.FIELDSET,
         FieldSet(
             "user_context",
@@ -194,8 +216,8 @@ class PoolBulkEditForm(
 
     nullable_fields = (
         "description",
-        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
-        *DDNSUpdateBulkEditFormMixin.NULLABLE_FIELDS,
         "user_context",
         "comment",
+        *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
+        *DDNSUpdateBulkEditFormMixin.NULLABLE_FIELDS,
     )
