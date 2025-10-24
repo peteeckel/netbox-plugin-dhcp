@@ -77,7 +77,7 @@ class HostReservationAPITestCase(
                 "ipv6_addresses": [address.pk for address in ipv6_addresses[0:2]],
                 "ipv6_prefixes": [ipv6_prefixes[0].pk],
                 "excluded_ipv6_prefixes": [prefix.pk for prefix in ipv6_prefixes[1:3]],
-                "assign_client_classes": [
+                "client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
                 ],
             },
@@ -95,13 +95,11 @@ class HostReservationAPITestCase(
                 "client_id": None,
                 "hw_address": mac_addresses[2].pk,
                 "ipv4_address": ipv4_addresses[2].pk,
-                "assign_client_classes": [client_classes[0].pk],
+                "client_classes": [client_classes[0].pk],
             },
         ]
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
-            "assign_client_classes": [
-                client_class.pk for client_class in client_classes
-            ],
+            "client_classes": [client_class.pk for client_class in client_classes],
         }

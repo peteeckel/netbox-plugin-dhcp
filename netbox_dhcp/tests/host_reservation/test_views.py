@@ -48,16 +48,16 @@ class HostReservationViewTestCase(
         )
         HostReservation.objects.bulk_create(host_reservations)
 
-        host_reservations[0].assign_client_classes.set([client_classes[0]])
+        host_reservations[0].client_classes.set([client_classes[0]])
 
         host_reservations[1].ipv6_addresses.set([ipv6_addresses[1], ipv6_addresses[2]])
         host_reservations[1].ipv6_prefixes.set([ipv6_prefixes[0], ipv6_prefixes[1]])
-        host_reservations[1].assign_client_classes.set([client_classes[2]])
+        host_reservations[1].client_classes.set([client_classes[2]])
 
         host_reservations[2].ipv6_addresses.set([ipv6_addresses[0]])
         host_reservations[2].ipv6_prefixes.set([ipv6_prefixes[0], ipv6_prefixes[1]])
         host_reservations[2].excluded_ipv6_prefixes.set([ipv6_prefixes[2]])
-        host_reservations[2].assign_client_classes.set([client_classes[2]])
+        host_reservations[2].client_classes.set([client_classes[2]])
 
         cls.form_data = {
             "name": "test-host-reservation-7",
@@ -67,7 +67,7 @@ class HostReservationViewTestCase(
             "server_hostname": "tftp.example.com",
             "boot_file_name": "/tftpboot/file1.img",
             "ipv4_address": ipv4_addresses[0].pk,
-            "assign_client_classes": [client_classes[0].pk],
+            "client_classes": [client_classes[0].pk],
         }
 
         cls.bulk_edit_data = {
@@ -79,7 +79,7 @@ class HostReservationViewTestCase(
             "boot_file_name": "/tftpboot/file2.img",
             "ipv6_prefixes": [ipv6_prefixes[1].pk],
             "excluded_ipv6_prefixes": [ipv6_prefixes[2].pk],
-            "assign_client_classes": [client_classes[1].pk],
+            "client_classes": [client_classes[1].pk],
         }
 
         cls.csv_data = (

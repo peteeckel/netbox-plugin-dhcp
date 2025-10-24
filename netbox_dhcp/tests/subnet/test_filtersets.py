@@ -72,7 +72,6 @@ class SubnetFilterSetTestCase(
                 name="test-subnet-1",
                 description="Test Subnet 1",
                 prefix=cls.ipv4_prefixes[0],
-                client_class=cls.client_classes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
                 **BOOTPFilterSetTests.DATA[0],
                 **ValidLifetimeFilterSetTests.DATA[0],
@@ -83,7 +82,6 @@ class SubnetFilterSetTestCase(
                 name="test-subnet-2",
                 description="Test Subnet 2",
                 prefix=cls.ipv4_prefixes[1],
-                client_class=cls.client_classes[1],
                 **BOOTPFilterSetTests.DATA[1],
                 **OfferLifetimeFilterSetTests.DATA[1],
             ),
@@ -101,14 +99,12 @@ class SubnetFilterSetTestCase(
                 name="test-subnet-4",
                 description="Test Subnet 4",
                 prefix=cls.ipv6_prefixes[0],
-                client_class=cls.client_classes[1],
                 **PreferredLifetimeFilterSetTests.DATA[0],
             ),
             Subnet(
                 name="test-subnet-5",
                 description="Test Subnet 5",
                 prefix=cls.ipv6_prefixes[1],
-                client_class=cls.client_classes[2],
                 **DDNSUpdateFilterSetTests.DATA[2],
                 **ValidLifetimeFilterSetTests.DATA[2],
                 **PreferredLifetimeFilterSetTests.DATA[1],
@@ -133,14 +129,9 @@ class SubnetFilterSetTestCase(
             cls.ipv4_subnets[number].child_subnets.add(cls.subnets[number])
 
         for number in range(4):
-            cls.subnets[number].require_client_classes.add(
-                cls.client_classes[(number + 1) % 3]
-            )
+            cls.subnets[number].client_classes.add(cls.client_classes[number % 3])
             cls.subnets[number].evaluate_additional_classes.add(
                 cls.client_classes[(number + 2) % 3]
-            )
-            cls.subnets[number].client_class_definitions.add(
-                cls.client_classes[number % 3]
             )
 
     def test_name(self):
@@ -207,22 +198,16 @@ class SubnetFilterSetTestCase(
         params = {"parent_shared_network__iregex": r"ipv4-shared-network-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_client_class(self):
-        params = {"client_class_id": [self.client_classes[0].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"client_class": "client-class-2"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-    def test_require_client_classes(self):
+    def test_client_classes(self):
         params = {
-            "required_client_class_id": [
+            "client_class_id": [
                 self.client_classes[0].pk,
                 self.client_classes[1].pk,
             ]
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"required_client_class__iregex": r"client-class-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        params = {"client_class__iregex": r"client-class-[23]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_evaluate_additional_classes(self):
         params = {
@@ -234,14 +219,3 @@ class SubnetFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-
-    def test_client_class_definitions(self):
-        params = {
-            "client_class_definition_id": [
-                self.client_classes[0].pk,
-                self.client_classes[1].pk,
-            ]
-        }
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"client_class_definition__iregex": r"client-class-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

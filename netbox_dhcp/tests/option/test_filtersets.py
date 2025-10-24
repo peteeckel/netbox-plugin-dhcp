@@ -37,7 +37,7 @@ class OptionFilterSetTestCase(
     # class.
     # -
     filter_name_map = {
-        "client_class": "assign_client_class",
+        #        "client_class": "client_class",
     }
 
     @classmethod

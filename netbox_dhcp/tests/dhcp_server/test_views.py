@@ -71,9 +71,7 @@ class DHCPServerViewTestCase(
             "child_host_reservations": [
                 host_reservation.pk for host_reservation in host_reservations[1:3]
             ],
-            "child_client_classes": [
-                client_class.pk for client_class in client_classes[1:3]
-            ],
+            "client_classes": [client_class.pk for client_class in client_classes[1:3]],
         }
 
         cls.bulk_edit_data = {
@@ -87,15 +85,13 @@ class DHCPServerViewTestCase(
             ],
             "echo_client_id": True,
             "relay_supplied_options": "110,120,130",
+            "client_classes": [client_class.pk for client_class in client_classes],
             "child_subnets": [subnet.pk for subnet in subnets],
             "child_shared_networks": [
                 shared_network.pk for shared_network in shared_networks
             ],
             "child_host_reservations": [
                 host_reservation.pk for host_reservation in host_reservations
-            ],
-            "child_client_classes": [
-                client_class.pk for client_class in client_classes
             ],
         }
 

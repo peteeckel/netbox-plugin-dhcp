@@ -65,29 +65,19 @@ class PoolAPITestCase(
                 "name": "test-pool-5",
                 "description": "Test Pool 5",
                 "ip_range": ipv4_ranges[2].pk,
-                "client_class": client_classes[0].pk,
-                "client_class_definitions": [
-                    client_class.pk for client_class in client_classes
-                ],
+                "client_classes": [client_class.pk for client_class in client_classes],
             },
             {
                 "name": "test-pool-6",
                 "description": "Test Pool 6",
                 "ip_range": ipv6_ranges[2].pk,
-                "client_class": client_classes[1].pk,
-                "client_class_definitions": [
-                    client_class.pk for client_class in client_classes
-                ],
+                "client_classes": [client_class.pk for client_class in client_classes],
             },
         ]
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
-            "client_class": client_classes[2].pk,
-            "require_client_classes": [
-                client_class.pk for client_class in client_classes[1:3]
-            ],
-            "client_class_definitions": [],
+            "client_classes": [client_class.pk for client_class in client_classes[1:3]],
             "evaluate_additional_classes": [
                 client_class.pk for client_class in client_classes[0:2]
             ],

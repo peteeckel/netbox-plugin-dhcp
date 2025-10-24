@@ -66,7 +66,6 @@ class SharedNetworkFilterSetTestCase(
                 name="test-shared-network-1",
                 description="Test Shared Network 1",
                 prefix=cls.ipv4_prefixes[0],
-                client_class=cls.client_classes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
                 **BOOTPFilterSetTests.DATA[0],
                 **ValidLifetimeFilterSetTests.DATA[0],
@@ -77,7 +76,6 @@ class SharedNetworkFilterSetTestCase(
                 name="test-shared-network-2",
                 description="Test Shared Network 2",
                 prefix=cls.ipv4_prefixes[1],
-                client_class=cls.client_classes[1],
                 **BOOTPFilterSetTests.DATA[1],
                 **OfferLifetimeFilterSetTests.DATA[1],
             ),
@@ -95,14 +93,12 @@ class SharedNetworkFilterSetTestCase(
                 name="test-shared-network-4",
                 description="Test Shared Network 4",
                 prefix=cls.ipv6_prefixes[0],
-                client_class=cls.client_classes[1],
                 **PreferredLifetimeFilterSetTests.DATA[0],
             ),
             SharedNetwork(
                 name="test-shared-network-5",
                 description="Test Shared Network 5",
                 prefix=cls.ipv6_prefixes[1],
-                client_class=cls.client_classes[2],
                 **DDNSUpdateFilterSetTests.DATA[2],
                 **ValidLifetimeFilterSetTests.DATA[2],
                 **PreferredLifetimeFilterSetTests.DATA[1],
@@ -122,14 +118,9 @@ class SharedNetworkFilterSetTestCase(
             shared_networks[number + 3].child_subnets.add(cls.ipv6_subnets[number])
 
         for number in range(4):
-            shared_networks[number].require_client_classes.add(
-                cls.client_classes[(number + 1) % 3]
-            )
+            shared_networks[number].client_classes.add(cls.client_classes[number % 3])
             shared_networks[number].evaluate_additional_classes.add(
                 cls.client_classes[(number + 2) % 3]
-            )
-            shared_networks[number].client_class_definitions.add(
-                cls.client_classes[number % 3]
             )
 
     def test_name(self):
@@ -164,22 +155,16 @@ class SharedNetworkFilterSetTestCase(
         params = {"child_subnet__iregex": r"ipv4-subnet-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_client_class(self):
-        params = {"client_class_id": [self.client_classes[0].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"client_class": "client-class-2"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-    def test_require_client_classes(self):
+    def test_client_classes(self):
         params = {
-            "required_client_class_id": [
+            "client_class_id": [
                 self.client_classes[0].pk,
                 self.client_classes[1].pk,
             ]
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"required_client_class__iregex": r"client-class-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        params = {"client_class__iregex": r"client-class-[23]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_evaluate_additional_classes(self):
         params = {
@@ -191,14 +176,3 @@ class SharedNetworkFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-
-    def test_client_class_definitions(self):
-        params = {
-            "client_class_definition_id": [
-                self.client_classes[0].pk,
-                self.client_classes[1].pk,
-            ]
-        }
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"client_class_definition__iregex": r"client-class-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

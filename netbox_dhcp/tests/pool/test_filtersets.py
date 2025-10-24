@@ -53,7 +53,6 @@ class PoolFilterSetTestCase(
                 description="Test Pool 1",
                 ip_range=cls.ipv4_ranges[0],
                 pool_id=23,
-                client_class=cls.client_classes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
             ),
             Pool(
@@ -61,7 +60,6 @@ class PoolFilterSetTestCase(
                 description="Test Pool 2",
                 ip_range=cls.ipv4_ranges[1],
                 pool_id=42,
-                client_class=cls.client_classes[1],
                 **DDNSUpdateFilterSetTests.DATA[1],
             ),
             Pool(
@@ -69,7 +67,6 @@ class PoolFilterSetTestCase(
                 description="Test Pool 3",
                 ip_range=cls.ipv6_ranges[0],
                 pool_id=1337,
-                client_class=cls.client_classes[1],
                 **DDNSUpdateFilterSetTests.DATA[2],
             ),
             Pool(
@@ -77,7 +74,6 @@ class PoolFilterSetTestCase(
                 description="Test Pool 4",
                 ip_range=cls.ipv6_ranges[1],
                 pool_id=4711,
-                client_class=cls.client_classes[2],
             ),
         )
         Pool.objects.bulk_create(pools)
@@ -88,13 +84,10 @@ class PoolFilterSetTestCase(
         cls.ipv6_subnets[1].child_pools.add(pools[3])
 
         for number in range(4):
-            pools[number].require_client_classes.add(
-                cls.client_classes[(number + 1) % 3]
-            )
+            pools[number].client_classes.add(cls.client_classes[(number + 1) % 3])
             pools[number].evaluate_additional_classes.add(
                 cls.client_classes[(number + 2) % 3]
             )
-            pools[number].client_class_definitions.add(cls.client_classes[number % 3])
 
     def test_name(self):
         params = {"name__iregex": r"test-pool-[12]"}
@@ -126,21 +119,15 @@ class PoolFilterSetTestCase(
         params = {"parent_subnet__iregex": r"ipv6-subnet-[12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_client_class(self):
-        params = {"client_class_id": [self.client_classes[0].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"client_class": "client-class-2"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-    def test_require_client_classes(self):
+    def test_client_classes(self):
         params = {
-            "required_client_class_id": [
+            "client_class_id": [
                 self.client_classes[0].pk,
                 self.client_classes[1].pk,
             ]
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"required_client_class__iregex": r"client-class-[23]"}
+        params = {"client_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
 
     def test_evaluate_additional_classes(self):
@@ -153,14 +140,3 @@ class PoolFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-
-    def test_client_class_definitions(self):
-        params = {
-            "client_class_definition_id": [
-                self.client_classes[0].pk,
-                self.client_classes[1].pk,
-            ]
-        }
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"client_class_definition__iregex": r"client-class-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

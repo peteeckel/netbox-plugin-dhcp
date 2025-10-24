@@ -96,7 +96,7 @@ class OptionAPITestCase(
                 "assigned_object_type": cls.dhcp_server_contenttype,
                 "data": "192.0.2.1, 192.0.2.2",
                 "send_option": OptionSendChoices.ALWAYS_SEND,
-                "assign_client_classes": [
+                "client_classes": [
                     client_class.pk for client_class in cls.client_classes[0:2]
                 ],
             },
@@ -106,7 +106,7 @@ class OptionAPITestCase(
                 "assigned_object_id": cls.dhcp_server.pk,
                 "assigned_object_type": cls.dhcp_server_contenttype,
                 "data": "192.0.2.3, 192.0.2.4",
-                "assign_client_classes": [cls.client_classes[2].pk],
+                "client_classes": [cls.client_classes[2].pk],
             },
             {
                 "definition": cls.option_definitions[2].pk,
@@ -120,6 +120,6 @@ class OptionAPITestCase(
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
-            "assign_client_classes": [],
+            "client_classes": [],
             "send_option": None,
         }

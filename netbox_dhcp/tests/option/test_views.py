@@ -78,7 +78,7 @@ class OptionViewTestCase(
             "description": "Test Option 4",
             "data": "192.0.2.1, 192.0.2.2",
             "send_option": OptionSendChoices.ALWAYS_SEND,
-            "assign_client_classes": [
+            "client_classes": [
                 client_class.pk for client_class in cls.client_classes[0:2]
             ],
             "assigned_object_id": cls.dhcp_servers[0].pk,
@@ -89,13 +89,13 @@ class OptionViewTestCase(
             "definition": cls.option_definitions[1].pk,
             "description": "Test Description Update",
             "data": "192.0.2.1, 192.0.2.2",
-            "assign_client_classes": [
+            "client_classes": [
                 client_class.pk for client_class in cls.client_classes[1:3]
             ],
         }
 
         cls.csv_data = (
-            "description,space,name,code,data,dhcp_server,send_option,csv_format,assign_client_classes",  # noqa: E501
+            "description,space,name,code,data,dhcp_server,send_option,csv_format,client_classes",  # noqa: E501
             f'Test Option 1,dhcp4,routers,,"192.0.2.1,192.0.2.2",{cls.dhcp_servers[0].name},,true,"{cls.client_classes[0].name},{cls.client_classes[2].name}"',  # noqa: E501
             f'Test Option 2,dhcp4,,3,"192.0.2.3,192.0.2.4",{cls.dhcp_servers[1].name},{OptionSendChoices.NEVER_SEND},false,"{cls.client_classes[1].name},{cls.client_classes[2].name}"',  # noqa: E501
             f'Test Option 3,dhcp4,domain-name-servers,,"192.0.2.5,192.0.2.6",{cls.dhcp_servers[2].name},{OptionSendChoices.ALWAYS_SEND},false,"{cls.client_classes[0].name},{cls.client_classes[1].name}"',  # noqa: E501

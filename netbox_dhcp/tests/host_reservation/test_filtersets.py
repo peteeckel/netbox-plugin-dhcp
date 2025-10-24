@@ -41,7 +41,6 @@ class HostReservationFilterSetTestCase(
     filter_name_map = {
         "dhcp_server": "parent_dhcp_server",
         "subnet": "parent_subnet",
-        "client_class": "assign_client_class",
     }
 
     @classmethod
@@ -116,9 +115,9 @@ class HostReservationFilterSetTestCase(
             [cls.ipv6_prefixes[0], cls.ipv6_prefixes[2]]
         )
 
-        cls.host_reservations[0].assign_client_classes.set(cls.client_classes[0:2])
-        cls.host_reservations[1].assign_client_classes.set(cls.client_classes[1:3])
-        cls.host_reservations[2].assign_client_classes.set(
+        cls.host_reservations[0].client_classes.set(cls.client_classes[0:2])
+        cls.host_reservations[1].client_classes.set(cls.client_classes[1:3])
+        cls.host_reservations[2].client_classes.set(
             [cls.client_classes[0], cls.client_classes[2]]
         )
 

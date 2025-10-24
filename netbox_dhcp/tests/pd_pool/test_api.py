@@ -64,8 +64,7 @@ class PDPoolAPITestCase(
                 "prefix": ipv6_prefixes[0].pk,
                 "delegated_length": 64,
                 "excluded_prefix": ipv6_prefixes[1].pk,
-                "client_class": client_classes[0].pk,
-                "require_client_classes": [
+                "client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
                 ],
             },
@@ -74,21 +73,19 @@ class PDPoolAPITestCase(
                 "description": "Test Prefix Delegation Pool 5",
                 "prefix": ipv6_prefixes[1].pk,
                 "delegated_length": 64,
-                "client_class": client_classes[1].pk,
             },
             {
                 "name": "test-pd-pool-6",
                 "description": "Test Prefix Delegation Pool 6",
                 "prefix": ipv6_prefixes[2].pk,
                 "delegated_length": 64,
-                "client_class": client_classes[1].pk,
             },
         ]
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
-            "client_class": client_classes[0].pk,
-            "require_client_classes": [
-                client_class.pk for client_class in client_classes
+            "client_classes": [client_class.pk for client_class in client_classes],
+            "evaluate_additional_classes": [
+                client_class.pk for client_class in client_classes[0:2]
             ],
         }

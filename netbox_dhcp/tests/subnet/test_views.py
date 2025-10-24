@@ -52,13 +52,7 @@ class SubnetViewTestCase(
             "name": "test-subnet-4",
             "description": "Test Subnet 4",
             "prefix": ipv6_prefixes[0].pk,
-            "client_class": client_classes[0].pk,
-            "client_class_definitions": [
-                client_class.pk for client_class in client_classes[0:2]
-            ],
-            "require_client_classes": [
-                client_class.pk for client_class in client_classes[1:3]
-            ],
+            "client_classes": [client_class.pk for client_class in client_classes[0:2]],
             "evaluate_additional_classes": [
                 client_class.pk for client_class in client_classes[0:2]
             ],
@@ -70,21 +64,20 @@ class SubnetViewTestCase(
 
         cls.bulk_edit_data = {
             "description": "Test Description Update",
-            "client_class_definitions": [client_classes[0].pk],
-            "require_client_classes": [client_classes[1].pk],
+            "client_classes": [client_classes[0].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
         }
 
         cls.csv_data = (
-            "name,description,prefix,client_class,client_class_definitions,require_client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
-            f'test-shared-network-4,Test Subnet 4,{ipv4_prefixes[0].prefix},{client_classes[0].name},"{client_classes[0].name},{client_classes[1].name}","{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
-            f'test-shared-network-5,Test Subnet 5,{ipv4_prefixes[1].prefix},{client_classes[1].name},"{client_classes[1].name},{client_classes[2].name}","{client_classes[1].name},{client_classes[2].name}","{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
-            f'test-shared-network-6,Test Subnet 6,{ipv4_prefixes[2].prefix},{client_classes[2].name},"{client_classes[2].name},{client_classes[0].name}","{client_classes[2].name},{client_classes[0].name}","{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
+            "name,description,prefix,client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
+            f'test-shared-network-4,Test Subnet 4,{ipv4_prefixes[0].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
+            f'test-shared-network-5,Test Subnet 5,{ipv4_prefixes[1].prefix},"{client_classes[1].name},{client_classes[2].name}","{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
+            f'test-shared-network-6,Test Subnet 6,{ipv4_prefixes[2].prefix},"{client_classes[2].name},{client_classes[0].name}","{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
         )
 
         cls.csv_update_data = (
-            "id,description,client_class,client_class_definitions,require_client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
-            f'{subnets[0].pk},Test Subnet 1 (updated),{client_classes[1].name},"{client_classes[1].name},{client_classes[2].name}","{client_classes[1].name},{client_classes[2].name}","{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
-            f'{subnets[1].pk},Test Subnet 2 (updated),{client_classes[2].name},"{client_classes[2].name},{client_classes[0].name}","{client_classes[2].name},{client_classes[0].name}","{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
-            f'{subnets[2].pk},Test Subnet 3 (updated),{client_classes[0].name},"{client_classes[0].name},{client_classes[1].name}","{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
+            "id,description,client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
+            f'{subnets[0].pk},Test Subnet 1 (updated),"{client_classes[1].name},{client_classes[2].name}","{client_classes[1].name},{client_classes[2].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
+            f'{subnets[1].pk},Test Subnet 2 (updated),"{client_classes[2].name},{client_classes[0].name}","{client_classes[2].name},{client_classes[0].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
+            f'{subnets[2].pk},Test Subnet 3 (updated),"{client_classes[0].name},{client_classes[1].name}","{client_classes[0].name},{client_classes[1].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
         )

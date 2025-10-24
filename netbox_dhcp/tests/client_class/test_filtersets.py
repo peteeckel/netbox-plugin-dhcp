@@ -26,21 +26,17 @@ class ClientClassFilterSetTestCase(
     ignore_fields = (
         "user_context",
         "comment",
-        "assign_options",
-        "assign_hostreservations",
-        "parent_dhcpservers",
-        "definition_pdpools",
-        "require_pdpools",
-        "evaluate_pdpools",
-        "definition_pools",
-        "require_pools",
-        "evaluate_pools",
-        "definition_sharednetworks",
-        "require_sharednetworks",
-        "evaluate_sharednetworks",
-        "definition_subnets",
-        "require_subnets",
-        "evaluate_subnets",
+        "option_set",
+        "hostreservation_set",
+        "dhcpserver_set",
+        "pdpool_set",
+        "evaluate_pdpool_set",
+        "pool_set",
+        "evaluate_pool_set",
+        "sharednetwork_set",
+        "evaluate_sharednetwork_set",
+        "subnet_set",
+        "evaluate_subnet_set",
     )
 
     @classmethod
@@ -51,7 +47,6 @@ class ClientClassFilterSetTestCase(
                 description="Test Client Class 1",
                 test="substring(option[61].hex,0,3) == 'foo'",
                 template_test="substring(option[23].hex,0,3)",
-                only_if_required=False,
                 only_in_additional_list=False,
                 **BOOTPFilterSetTests.DATA[0],
                 **ValidLifetimeFilterSetTests.DATA[0],
@@ -63,7 +58,6 @@ class ClientClassFilterSetTestCase(
                 description="Test Client Class 2",
                 test="substring(option[61].hex,0,3) == 'bar'",
                 template_test="substring(option[42].hex,0,3)",
-                only_if_required=True,
                 only_in_additional_list=True,
                 **BOOTPFilterSetTests.DATA[1],
                 **ValidLifetimeFilterSetTests.DATA[1],
@@ -75,7 +69,6 @@ class ClientClassFilterSetTestCase(
                 description="Test Client Class 3",
                 test="substring(option[61].hex,0,3) == 'baz'",
                 template_test="substring(option[66].hex,0,3)",
-                only_if_required=False,
                 only_in_additional_list=True,
                 **BOOTPFilterSetTests.DATA[2],
                 **ValidLifetimeFilterSetTests.DATA[2],
@@ -108,12 +101,6 @@ class ClientClassFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"template_test": "substring(option[66].hex,0,3)"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-
-    def test_only_if_required(self):
-        params = {"only_if_required": True}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"only_if_required": False}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_only_in_additional_list(self):
         params = {"only_in_additional_list": True}

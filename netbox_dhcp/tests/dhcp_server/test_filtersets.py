@@ -52,7 +52,6 @@ class DHCPServerFilterSetTestCase(
         "host_reservation": "child_host_reservation",
         "subnet": "child_subnet",
         "shared_network": "child_shared_network",
-        "client_class": "child_client_class",
     }
 
     @classmethod
@@ -144,9 +143,9 @@ class DHCPServerFilterSetTestCase(
             [cls.host_reservations[0], cls.host_reservations[2]]
         )
 
-        cls.dhcp_servers[0].child_client_classes.set(cls.client_classes[0:2])
-        cls.dhcp_servers[1].child_client_classes.set(cls.client_classes[1:3])
-        cls.dhcp_servers[2].child_client_classes.set(
+        cls.dhcp_servers[0].client_classes.set(cls.client_classes[0:2])
+        cls.dhcp_servers[1].client_classes.set(cls.client_classes[1:3])
+        cls.dhcp_servers[2].client_classes.set(
             [cls.client_classes[0], cls.client_classes[2]]
         )
 
@@ -245,8 +244,8 @@ class DHCPServerFilterSetTestCase(
         params = {"child_host_reservation_id": [self.host_reservations[2].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_child_client_classes(self):
-        params = {"child_client_class": self.client_classes[0].name}
+    def test_client_classes(self):
+        params = {"client_class": self.client_classes[0].name}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"child_client_class_id": [self.client_classes[2].pk]}
+        params = {"client_class_id": [self.client_classes[2].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
