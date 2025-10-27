@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable
+from netbox.tables import NetBoxTable, BooleanColumn
 
 from netbox_dhcp.models import ClientClass
 
@@ -41,6 +41,6 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
             "only_in_additional_list",
         )
 
-    only_in_additional_list = tables.BooleanColumn(
+    only_in_additional_list = BooleanColumn(
         verbose_name=_("Only in additional list"),
     )

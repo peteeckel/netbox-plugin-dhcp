@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable
+from netbox.tables import NetBoxTable, TemplateColumn
 
 from netbox_dhcp.models import OptionDefinition
 
@@ -39,7 +39,7 @@ class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
     code = tables.Column(
         verbose_name=_("Option Code"),
     )
-    record_types = tables.TemplateColumn(
+    record_types = TemplateColumn(
         verbose_name=_("Record Types"),
         template_code="{% for record_type in value %}{{ record_type }}&nbsp;{% endfor %}",
     )
