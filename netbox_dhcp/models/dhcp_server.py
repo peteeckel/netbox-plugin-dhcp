@@ -10,9 +10,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 
-from dcim.models import Device
-from virtualization.models import VirtualMachine
-
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
     HostReservationIdentifierChoices,
@@ -84,7 +81,7 @@ class DHCPServer(
         null=True,
     )
     device = models.ForeignKey(
-        to=Device,
+        to="dcim.Device",
         verbose_name=_("Device"),
         on_delete=models.SET_NULL,
         related_name="netbox_dhcp_dhcp_servers",
@@ -92,7 +89,7 @@ class DHCPServer(
         null=True,
     )
     virtual_machine = models.ForeignKey(
-        to=VirtualMachine,
+        to="virtualization.VirtualMachine",
         verbose_name=_("Virtual Machine"),
         on_delete=models.SET_NULL,
         related_name="netbox_dhcp_dhcp_servers",
@@ -148,6 +145,18 @@ class DHCPServer(
 
     def get_server_id_color(self):
         return DHCPServerIDTypeChoices.colors.get(self.server_id)
+
+    def clean(self):
+        super().clean()
+
+        if self.device and self.virtual_machine:
+            error_message = _("Specifying both a device and a virtual machine is not supported"),
+            raise ValidationError(
+                {
+                    device: error_message,
+                    virtual_machine: error_message,
+                }
+            )
 
 
 @register_search
