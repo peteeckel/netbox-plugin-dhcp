@@ -7,10 +7,7 @@ from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Option, OptionDefinition
 from netbox_dhcp.choices import OptionSpaceChoices
-from .mixins import (
-    ClientClassFilterMixin,
-    EvaluateClientClassFilterMixin,
-)
+from .mixins import ClientClassFilterMixin
 
 
 __all__ = ("OptionFilterSet",)

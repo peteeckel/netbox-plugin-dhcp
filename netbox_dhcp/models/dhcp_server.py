@@ -4,6 +4,7 @@ from django.core.validators import (
     MinValueValidator,
     MaxValueValidator,
 )
+from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -88,6 +89,12 @@ class DHCPServer(
         blank=True,
         null=True,
     )
+    device_interfaces = models.ManyToManyField(
+        to="dcim.Interface",
+        verbose_name=_("Interfaces"),
+        related_name="netbox_dhcp_dhcp_servers",
+        blank=True,
+    )
     virtual_machine = models.ForeignKey(
         to="virtualization.VirtualMachine",
         verbose_name=_("Virtual Machine"),
@@ -95,6 +102,12 @@ class DHCPServer(
         related_name="netbox_dhcp_dhcp_servers",
         blank=True,
         null=True,
+    )
+    virtual_machine_interfaces = models.ManyToManyField(
+        to="virtualization.VMInterface",
+        verbose_name=_("Interfaces"),
+        related_name="netbox_dhcp_dhcp_servers",
+        blank=True,
     )
 
     # TODO: option_definitions, interfaces
@@ -150,11 +163,13 @@ class DHCPServer(
         super().clean()
 
         if self.device and self.virtual_machine:
-            error_message = _("Specifying both a device and a virtual machine is not supported"),
+            error_message = (
+                _("Specifying both a device and a virtual machine is not supported"),
+            )
             raise ValidationError(
                 {
-                    device: error_message,
-                    virtual_machine: error_message,
+                    "device": error_message,
+                    "virtual_machine": error_message,
                 }
             )
 

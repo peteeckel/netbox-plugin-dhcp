@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, ChoiceFieldColumn
+from netbox.tables import NetBoxTable, ChoiceFieldColumn, columns
 
 from netbox_dhcp.models import DHCPServer
 
@@ -52,9 +52,17 @@ class DHCPServerTable(
         verbose_name=_("Device"),
         linkify=True,
     )
+    device_interfaces = columns.ManyToManyColumn(
+        verbose_name=_("Device Interfaces"),
+        linkify_item=True,
+    )
     virtual_machine = tables.Column(
         verbose_name=_("Virtual Machine"),
         linkify=True,
+    )
+    virtual_machine_interfaces = columns.ManyToManyColumn(
+        verbose_name=_("Virtual Machine Interfaces"),
+        linkify_item=True,
     )
     server_id = ChoiceFieldColumn(
         verbose_name=_("Server ID"),

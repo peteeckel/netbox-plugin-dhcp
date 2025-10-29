@@ -3,13 +3,14 @@ from typing import Annotated, TYPE_CHECKING
 import strawberry
 import strawberry_django
 from strawberry_django import FilterLookup
+from strawberry.scalars import ID
 
 from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
 
 if TYPE_CHECKING:
     from netbox.graphql.filter_lookups import IntegerArrayLookup
-    from dcim.graphql.filters import DeviceFilter
-    from virtualization.graphql.filters import VirtualMachineFilter
+    from dcim.graphql.filters import DeviceFilter, InterfaceFilter
+    from virtualization.graphql.filters import VirtualMachineFilter, VMInterfaceFilter
     from .enums import (
         NetBoxDHCPServerStatusEnum,
         NetBoxDHCPServerIDTypeEnum,
@@ -62,15 +63,26 @@ class NetBoxDHCPServerFilter(
         ]
         | None
     ) = strawberry_django.filter_field()
+    dhcp_cluster_id: ID | None = strawberry_django.filter_field()
     device: (
         Annotated["DeviceFilter", strawberry.lazy("dcim.graphql.filters")] | None
     ) = strawberry_django.filter_field()
+    device_id: ID | None = strawberry_django.filter_field()
+    device_interface: (
+        Annotated["InterfaceFilter", strawberry.lazy("dcim.graphql.filters")] | None
+    ) = strawberry_django.filter_field()
+    device_interface_id: ID | None = strawberry_django.filter_field()
     virtual_machine: (
         Annotated[
             "VirtualMachineFilter", strawberry.lazy("virtualization.graphql.filters")
         ]
         | None
     ) = strawberry_django.filter_field()
-    decline_probation_period: FilterLookup[float] | None = (
-        strawberry_django.filter_field()
-    )
+    virtual_machine_id: ID | None = strawberry_django.filter_field()
+    virtual_machine_interface: (
+        Annotated[
+            "VMInterfaceFilter", strawberry.lazy("virtualization.graphql.filters")
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    virtual_machine_interface_id: ID | None = strawberry_django.filter_field()

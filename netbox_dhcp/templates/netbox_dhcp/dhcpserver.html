@@ -62,6 +62,16 @@
                             <th scope="row">{% trans "Device" %}</th>
                             <td>{{ object.device|linkify|placeholder }}</td>
                         </tr>
+                        <tr>
+                            <th scope="row">{% trans "Interfaces" %}</th>
+                            <td>
+                                <table>
+                                    {% for interface in object.device_interfaces.all %}
+                                        <tr><td>{{ interface|linkify }}</td></tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             {% endif %}
@@ -72,6 +82,16 @@
                         <tr>
                             <th scope="row">{% trans "Virtual Machine" %}</th>
                             <td>{{ object.virtual_machine|linkify|placeholder }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{% trans "Interfaces" %}</th>
+                            <td>
+                                <table>
+                                    {% for interface in object.virtual_machine_interfaces.all %}
+                                        <tr><td>{{ interface|linkify }}</td></tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </div>

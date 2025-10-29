@@ -14,7 +14,11 @@ from utilities.forms.fields import (
     CSVMultipleChoiceField,
 )
 from utilities.forms.rendering import FieldSet
-from utilities.forms import get_field_value, add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms import (
+    get_field_value,
+    add_blank_choice,
+    BOOLEAN_WITH_BLANK_CHOICES,
+)
 from utilities.forms.widgets import HTMXSelect
 from ipam.choices import IPAddressFamilyChoices
 

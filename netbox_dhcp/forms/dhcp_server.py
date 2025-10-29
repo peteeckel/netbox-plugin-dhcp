@@ -14,12 +14,13 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
     CSVChoiceField,
     CSVModelChoiceField,
+    CSVModelMultipleChoiceField,
 )
 from utilities.forms.rendering import FieldSet, TabbedGroups
 from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
 
-from dcim.models import Device
-from virtualization.models import VirtualMachine
+from dcim.models import Device, Interface
+from virtualization.models import VirtualMachine, VMInterface
 
 from netbox_dhcp.models import DHCPServer, DHCPCluster
 from netbox_dhcp.choices import (
@@ -74,7 +75,9 @@ class DHCPServerForm(
             "status",
             "dhcp_cluster",
             "device",
+            "device_interfaces",
             "virtual_machine",
+            "virtual_machine_interfaces",
             "server_id",
             "host_reservation_identifiers",
             "echo_client_id",
@@ -96,8 +99,16 @@ class DHCPServerForm(
         ),
         FieldSet(
             TabbedGroups(
-                FieldSet("device", name=_("Physical")),
-                FieldSet("virtual_machine", name=_("Virtual")),
+                FieldSet(
+                    "device",
+                    "device_interfaces",
+                    name=_("Physical"),
+                ),
+                FieldSet(
+                    "virtual_machine",
+                    "virtual_machine_interfaces",
+                    name=_("Virtual"),
+                ),
             ),
             name=_("Assignment"),
         ),
@@ -139,11 +150,27 @@ class DHCPServerForm(
         label=_("Device"),
         selector=True,
     )
+    device_interfaces = DynamicModelMultipleChoiceField(
+        queryset=Interface.objects.all(),
+        query_params={
+            "device_id": "$device",
+        },
+        required=False,
+        label=_("Interfaces"),
+    )
     virtual_machine = DynamicModelChoiceField(
         queryset=VirtualMachine.objects.all(),
         required=False,
         label=_("Virtual Machine"),
         selector=True,
+    )
+    virtual_machine_interfaces = DynamicModelMultipleChoiceField(
+        queryset=VMInterface.objects.all(),
+        query_params={
+            "virtual_machine_id": "$virtual_machine",
+        },
+        required=False,
+        label=_("Interfaces"),
     )
     echo_client_id = forms.NullBooleanField(
         label=_("Echo Client ID"),
@@ -164,6 +191,12 @@ class DHCPServerForm(
                     "virtual_machine": error_text,
                 }
             )
+
+        if self.cleaned_data["device"]:
+            self.cleaned_data["virtual_machine_interfaces"] = None
+
+        if self.cleaned_data["virtual_machine"]:
+            self.cleaned_data["device_interfaces"] = None
 
 
 class DHCPServerFilterForm(
@@ -190,14 +223,6 @@ class DHCPServerFilterForm(
             name=_("DHCP Server"),
         ),
         FieldSet(
-            "device_id",
-            name=_("Physical"),
-        ),
-        FieldSet(
-            "virtual_machine_id",
-            name=_("Virtual"),
-        ),
-        FieldSet(
             "server_id",
             "host_reservation_identifiers",
             "echo_client_id",
@@ -222,17 +247,6 @@ class DHCPServerFilterForm(
         queryset=DHCPCluster.objects.all(),
         required=False,
         label=_("DHCP Cluster"),
-    )
-
-    device_id = DynamicModelMultipleChoiceField(
-        queryset=Device.objects.all(),
-        required=False,
-        label=_("Device"),
-    )
-    virtual_machine_id = DynamicModelMultipleChoiceField(
-        queryset=VirtualMachine.objects.all(),
-        required=False,
-        label=_("Virtual Machine"),
     )
 
     server_id = forms.MultipleChoiceField(
@@ -265,7 +279,9 @@ class DHCPServerImportForm(
             "status",
             "dhcp_cluster",
             "device",
+            "device_interfaces",
             "virtual_machine",
+            "virtual_machine_interfaces",
             "server_id",
             "host_reservation_identifiers",
             "echo_client_id",
@@ -276,6 +292,27 @@ class DHCPServerImportForm(
             *ClientClassImportFormMixin.FIELDS,
             "tags",
         )
+
+    def __init__(self, data=None, *args, **kwargs):
+        super().__init__(data, *args, **kwargs)
+
+        if not data:
+            return
+
+        device = data.get("device")
+        virtual_machine = data.get("virtual_machine")
+
+        if device:
+            queryset = self.fields["device_interfaces"].queryset.filter(
+                device__name=device
+            )
+            self.fields["device_interfaces"].queryset = queryset
+
+        if virtual_machine:
+            queryset = self.fields["virtual_machine_interfaces"].queryset.filter(
+                virtual_machine__name=virtual_machine
+            )
+            self.fields["virtual_machine_interfaces"].queryset = queryset
 
     status = CSVChoiceField(
         choices=DHCPServerStatusChoices,
@@ -301,14 +338,32 @@ class DHCPServerImportForm(
         },
         label=_("Device"),
     )
+    device_interfaces = CSVModelMultipleChoiceField(
+        queryset=Interface.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Interface %(value)s not found"),
+        },
+        label=_("Device Interfaces"),
+    )
     virtual_machine = CSVModelChoiceField(
-        queryset=Device.objects.all(),
+        queryset=VirtualMachine.objects.all(),
         required=False,
         to_field_name="name",
         error_messages={
             "invalid_choice": _("Virtual machine %(value)s not found"),
         },
         label=_("Virtual Machine"),
+    )
+    virtual_machine_interfaces = CSVModelMultipleChoiceField(
+        queryset=VMInterface.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Interface %(value)s not found"),
+        },
+        label=_("Virtual Machine Interfaces"),
     )
 
 

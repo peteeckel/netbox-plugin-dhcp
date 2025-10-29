@@ -6,8 +6,8 @@ from netbox.graphql.types import NetBoxObjectType
 
 if TYPE_CHECKING:
     from ipam.graphql.types import IPAddressType, PrefixType, IPRangeType
-    from dcim.graphql.types import MACAddressType, DeviceType
-    from virtualization.graphql.types import VirtualMachineType
+    from dcim.graphql.types import MACAddressType, DeviceType, InterfaceType
+    from virtualization.graphql.types import VirtualMachineType, VMInterfaceType
 
 from netbox_dhcp.models import (
     ClientClass,
@@ -203,8 +203,19 @@ class NetBoxDHCPDHCPServerType(
         | None
     )
     device: Annotated["DeviceType", strawberry.lazy("dcim.graphql.types")] | None
+    device_interfaces: (
+        List[Annotated["InterfaceType", strawberry.lazy("dcim.graphql.types")]] | None
+    )
     virtual_machine: (
         Annotated["VirtualMachineType", strawberry.lazy("virtualization.graphql.types")]
+        | None
+    )
+    virtual_machine_interfaces: (
+        List[
+            Annotated[
+                "VMInterfaceType", strawberry.lazy("virtualization.graphql.types")
+            ]
+        ]
         | None
     )
     decline_probation_period: float | None

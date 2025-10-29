@@ -3,8 +3,8 @@ from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
-from dcim.models import Device
-from virtualization.models import VirtualMachine
+from dcim.models import Device, Interface
+from virtualization.models import VirtualMachine, VMInterface
 from utilities.filters import MultiValueCharFilter
 
 from netbox_dhcp.models import DHCPServer, DHCPCluster
@@ -52,7 +52,9 @@ class DHCPServerFilterSet(
             "status",
             "dhcp_cluster",
             "device",
+            "device_interfaces",
             "virtual_machine",
+            "virtual_machine_interfaces",
             "decline_probation_period",
             *ClientClassFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
@@ -99,6 +101,17 @@ class DHCPServerFilterSet(
         to_field_name="name",
         label=_("Device"),
     )
+    device_interface_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Interface.objects.all(),
+        field_name="device_interfaces",
+        label=_("Device Interface ID"),
+    )
+    device_interface = django_filters.ModelMultipleChoiceFilter(
+        queryset=Interface.objects.all(),
+        field_name="device_interfaces__name",
+        to_field_name="name",
+        label=_("Device Interface"),
+    )
     virtual_machine_id = django_filters.ModelMultipleChoiceFilter(
         queryset=VirtualMachine.objects.all(),
         field_name="virtual_machine",
@@ -109,6 +122,17 @@ class DHCPServerFilterSet(
         field_name="virtual_machine__name",
         to_field_name="name",
         label=_("Virtual Machine"),
+    )
+    virtual_machine_interface_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=VMInterface.objects.all(),
+        field_name="virtual_machine_interfaces",
+        label=_("Virtual Machine Interface ID"),
+    )
+    virtual_machine_interface = django_filters.ModelMultipleChoiceFilter(
+        queryset=VMInterface.objects.all(),
+        field_name="virtual_machine_interfaces__name",
+        to_field_name="name",
+        label=_("Virtual Machine Interface"),
     )
     host_reservation_identifiers = django_filters.MultipleChoiceFilter(
         choices=HostReservationIdentifierChoices,

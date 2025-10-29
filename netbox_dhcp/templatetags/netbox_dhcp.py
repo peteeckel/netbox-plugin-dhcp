@@ -15,7 +15,7 @@ def null_checkmark(value, true=_("Yes"), false=_("No")):
 
 @register.filter(name="display_list")
 def display_list(elements):
-    if not type(elements) == list:
+    if not isinstance(elements, list):
         elements = [elements]
 
     return ", ".join(elements)

@@ -1,6 +1,9 @@
 from django.test import TestCase
 
 from utilities.testing import ChangeLoggedFilterSetTests
+from dcim.models import Interface
+from dcim.choices import InterfaceTypeChoices
+from virtualization.models import VMInterface
 
 from netbox_dhcp.models import DHCPServer
 from netbox_dhcp.filtersets import DHCPServerFilterSet
@@ -36,6 +39,8 @@ class DHCPServerFilterSetTestCase(
     ignore_fields = (
         "user_context",
         "comment",
+        "device_interfaces",
+        "virtual_machine_interfaces",
     )
 
     # +
@@ -149,6 +154,30 @@ class DHCPServerFilterSetTestCase(
             [cls.client_classes[0], cls.client_classes[2]]
         )
 
+        cls.device_interfaces = [
+            Interface(
+                name=f"eth{number}",
+                device=cls.devices[0],
+                type=InterfaceTypeChoices.TYPE_1GE_FIXED,
+            )
+            for number in range(8)
+        ]
+        Interface.objects.bulk_create(cls.device_interfaces)
+
+        cls.virtual_machine_interfaces = [
+            VMInterface(
+                name=f"veth{number}",
+                virtual_machine=cls.virtual_machines[2],
+            )
+            for number in range(8)
+        ]
+        VMInterface.objects.bulk_create(cls.virtual_machine_interfaces)
+
+        cls.dhcp_servers[0].device_interfaces.set(cls.device_interfaces)
+        cls.dhcp_servers[2].virtual_machine_interfaces.set(
+            cls.virtual_machine_interfaces
+        )
+
     def test_name(self):
         params = {"name__iregex": r"test-server-[12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
@@ -249,3 +278,19 @@ class DHCPServerFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"client_class_id": [self.client_classes[2].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_device_interfaces(self):
+        params = {"device_interface": [self.device_interfaces[0].name]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+        params = {"device_interface_id": [self.device_interfaces[4].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_virtual_machine_interfaces(self):
+        params = {
+            "virtual_machine_interface": [self.virtual_machine_interfaces[0].name]
+        }
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+        params = {
+            "virtual_machine_interface_id": [self.virtual_machine_interfaces[4].pk]
+        }
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

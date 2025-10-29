@@ -3,8 +3,11 @@ from rest_framework import serializers
 
 from netbox.api.serializers import NetBoxModelSerializer
 
-from dcim.api.serializers import DeviceSerializer
-from virtualization.api.serializers import VirtualMachineSerializer
+from dcim.api.serializers import DeviceSerializer, InterfaceSerializer
+from virtualization.api.serializers import (
+    VirtualMachineSerializer,
+    VMInterfaceSerializer,
+)
 
 from ..nested_serializers import NestedDHCPClusterSerializer
 from .mixins import (
@@ -40,7 +43,9 @@ class DHCPServerSerializer(
             "status",
             "dhcp_cluster",
             "device",
+            "device_interfaces",
             "virtual_machine",
+            "virtual_machine_interfaces",
             "host_reservation_identifiers",
             "echo_client_id",
             "relay_supplied_options",
@@ -78,6 +83,14 @@ class DHCPServerSerializer(
         default=None,
         help_text=_("Device"),
     )
+    device_interfaces = InterfaceSerializer(
+        nested=True,
+        many=True,
+        read_only=False,
+        required=False,
+        default=None,
+        help_text=_("Interfaces"),
+    )
     virtual_machine = VirtualMachineSerializer(
         nested=True,
         many=False,
@@ -86,12 +99,24 @@ class DHCPServerSerializer(
         default=None,
         help_text=_("Virtual Machine"),
     )
+    virtual_machine_interfaces = VMInterfaceSerializer(
+        nested=True,
+        many=True,
+        read_only=False,
+        required=False,
+        default=None,
+        help_text=_("Virtual Interfaces"),
+    )
 
     def create(self, validated_data):
         client_classes = validated_data.pop("client_classes", None)
         child_subnets = validated_data.pop("child_subnets", None)
         child_shared_networks = validated_data.pop("child_shared_networks", None)
         child_host_reservations = validated_data.pop("child_host_reservations", None)
+        device_interfaces = validated_data.pop("device_interfaces", None)
+        virtual_machine_interfaces = validated_data.pop(
+            "virtual_machine_interfaces", None
+        )
 
         dhcp_server = super().create(validated_data)
 
@@ -103,6 +128,10 @@ class DHCPServerSerializer(
             dhcp_server.child_shared_networks.set(child_shared_networks)
         if child_host_reservations is not None:
             dhcp_server.child_host_reservations.set(child_host_reservations)
+        if device_interfaces is not None:
+            dhcp_server.device_interfaces.set(device_interfaces)
+        if virtual_machine_interfaces is not None:
+            dhcp_server.virtual_machine_interfaces.set(virtual_machine_interfaces)
 
         return dhcp_server
 
@@ -111,6 +140,10 @@ class DHCPServerSerializer(
         child_subnets = validated_data.pop("child_subnets", None)
         child_shared_networks = validated_data.pop("child_shared_networks", None)
         child_host_reservations = validated_data.pop("child_host_reservations", None)
+        device_interfaces = validated_data.pop("device_interfaces", None)
+        virtual_machine_interfaces = validated_data.pop(
+            "virtual_machine_interfaces", None
+        )
 
         dhcp_server = super().update(instance, validated_data)
 
@@ -122,5 +155,9 @@ class DHCPServerSerializer(
             dhcp_server.child_shared_networks.set(child_shared_networks)
         if child_host_reservations is not None:
             dhcp_server.child_host_reservations.set(child_host_reservations)
+        if device_interfaces is not None:
+            dhcp_server.device_interfaces.set(device_interfaces)
+        if virtual_machine_interfaces is not None:
+            dhcp_server.virtual_machine_interfaces.set(virtual_machine_interfaces)
 
         return dhcp_server
