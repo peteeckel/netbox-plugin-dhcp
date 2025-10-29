@@ -51,15 +51,13 @@ class ClientClass(
         "comment",
     )
 
-    test = models.CharField(
+    test = models.TextField(
         verbose_name=_("Test"),
         blank=True,
-        max_length=255,
     )
-    template_test = models.CharField(
+    template_test = models.TextField(
         verbose_name=_("Template Test"),
         blank=True,
-        max_length=255,
     )
     only_in_additional_list = models.BooleanField(
         verbose_name=_("Only in additional list"),

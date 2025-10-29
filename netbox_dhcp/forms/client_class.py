@@ -51,6 +51,11 @@ class ClientClassForm(NetBoxModelForm):
             "tags",
         )
 
+        widgets = {
+            "test": forms.Textarea(attrs={"rows": 2}),
+            "template_test": forms.Textarea(attrs={"rows": 2}),
+        }
+
     fieldsets = (
         FieldSet(
             "name",
@@ -184,14 +189,12 @@ class ClientClassBulkEditForm(
     )
 
     test = forms.CharField(
-        required=False,
-        max_length=255,
-        label=_("Test"),
+        required=False, label=_("Test"), widget=forms.Textarea(attrs={"rows": 2})
     )
     template_test = forms.CharField(
         required=False,
-        max_length=255,
         label=_("Template Test"),
+        widget=forms.Textarea(attrs={"rows": 2}),
     )
     only_in_additional_list = forms.NullBooleanField(
         required=False,
