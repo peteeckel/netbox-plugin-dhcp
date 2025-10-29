@@ -50,8 +50,13 @@ class ClientClassForm(NetBoxModelForm):
         )
 
         widgets = {
+<<<<<<< HEAD
             "test": forms.Textarea(attrs={"rows": 2}),
             "template_test": forms.Textarea(attrs={"rows": 2}),
+=======
+            "test": forms.Textarea(attrs={'rows': 2}),
+            "template_test": forms.Textarea(attrs={'rows': 2}),
+>>>>>>> d62b6f3 (CS Feedback: Remove max length on ClientClass test and template_test)
         }
 
     fieldsets = (
@@ -169,7 +174,9 @@ class ClientClassBulkEditForm(
     )
 
     test = forms.CharField(
-        required=False, label=_("Test"), widget=forms.Textarea(attrs={"rows": 2})
+        required=False,
+        label=_("Test"),
+        widget=forms.Textarea(attrs={"rows": 2}),
     )
     template_test = forms.CharField(
         required=False,
