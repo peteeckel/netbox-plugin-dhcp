@@ -312,7 +312,6 @@ class LeaseBulkEditFormMixin(forms.Form):
         "store_extended_info",
         "allocator",
         "pd_allocator",
-        "rapid_commit",
         name=_("Lease"),
     )
     NULLABLE_FIELDS = [
@@ -325,7 +324,6 @@ class LeaseBulkEditFormMixin(forms.Form):
         "cache_max_age",
         "relay",
         "interface_id",
-        "rapid_commit",
     ]
 
     renew_timer = forms.IntegerField(

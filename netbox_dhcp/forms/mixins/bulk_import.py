@@ -149,7 +149,6 @@ class LeaseImportFormMixin(forms.Form):
         "store_extended_info",
         "allocator",
         "pd_allocator",
-        "rapid_commit",
     ]
 
     allocator = CSVChoiceField(

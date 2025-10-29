@@ -228,7 +228,6 @@ class LeaseFormMixin(forms.Form):
         "store_extended_info",
         "allocator",
         "pd_allocator",
-        "rapid_commit",
     ]
     FIELDSET = FieldSet(
         "renew_timer",
@@ -247,7 +246,6 @@ class LeaseFormMixin(forms.Form):
         "store_extended_info",
         "allocator",
         "pd_allocator",
-        "rapid_commit",
         name=_("Lease"),
     )
 
@@ -283,11 +281,6 @@ class LeaseFormMixin(forms.Form):
     )
     store_extended_info = forms.NullBooleanField(
         label=_("Store extended info"),
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-        required=False,
-    )
-    rapid_commit = forms.NullBooleanField(
-        label=_("Rapid Commit"),
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
         required=False,
     )
@@ -390,4 +383,10 @@ class NetworkFormMixin(forms.Form):
         "interface_id",
         "rapid_commit",
         name=_("Network"),
+    )
+
+    rapid_commit = forms.NullBooleanField(
+        label=_("Rapid Commit"),
+        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        required=False,
     )
