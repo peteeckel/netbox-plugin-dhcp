@@ -187,6 +187,9 @@ class NetBoxDHCPDHCPClusterType(NetBoxObjectType):
 class NetBoxDHCPDHCPServerType(
     BOOTPGraphQLTypeMixin,
     DDNSUpdateGraphQLTypeMixin,
+    LifetimeGraphQLTypeMixin,
+    LeaseGraphQLTypeMixin,
+    ChildSubnetGraphQLTypeMixin,
     NetBoxObjectType,
 ):
     name: str
