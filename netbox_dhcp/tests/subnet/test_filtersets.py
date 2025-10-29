@@ -51,7 +51,6 @@ class SubnetFilterSetTestCase(
     filter_name_map = {
         "pool": "child_pool",
         "prefix_delegation_pool": "child_pd_pool",
-        "subnet": "child_subnet",
         "host_reservation": "child_host_reservation",
         "dhcp_server": "parent_dhcp_server",
         "shared_network": "parent_shared_network",
@@ -120,13 +119,10 @@ class SubnetFilterSetTestCase(
         Subnet.objects.bulk_create(cls.subnets)
 
         for number in range(3):
-            cls.subnets[number].child_subnets.add(cls.ipv4_subnets[number])
-            cls.subnets[number + 3].child_subnets.add(cls.ipv6_subnets[number])
             cls.subnets[number + 3].child_host_reservations.add(
                 cls.host_reservations[number]
             )
             cls.ipv4_shared_networks[number].child_subnets.add(cls.subnets[number])
-            cls.ipv4_subnets[number].child_subnets.add(cls.subnets[number])
 
         for number in range(4):
             cls.subnets[number].client_classes.add(cls.client_classes[number % 3])
@@ -156,16 +152,6 @@ class SubnetFilterSetTestCase(
         params = {"prefix__iregex": r"192.0.2.(0|64)/26"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_child_subnet(self):
-        params = {"child_subnet_id": [self.ipv6_subnets[0].pk, self.ipv6_subnets[1].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"child_subnet__iregex": r"ipv6-subnet-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"child_subnet_id": [self.ipv4_subnets[0].pk, self.ipv4_subnets[1].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"child_subnet__iregex": r"ipv4-subnet-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
     def test_child_host_reservations(self):
         params = {
             "child_host_reservation_id": [
@@ -175,16 +161,6 @@ class SubnetFilterSetTestCase(
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"child_host_reservation__iregex": r"host-reservation-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-    def test_parent_subnet(self):
-        params = {
-            "parent_subnet_id": [self.ipv4_subnets[0].pk, self.ipv4_subnets[1].pk]
-        }
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"parent_subnet__iregex": r"test-subnet-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"parent_subnet__iregex": r"test-subnet-[56]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_parent_shared_network(self):

@@ -16,12 +16,10 @@ from .mixins import (
     LifetimeFilterMixin,
     LeaseFilterMixin,
     NetworkFilterMixin,
-    ChildSubnetFilterMixin,
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
     ParentSharedNetworkFilterMixin,
-    ParentSubnetFilterMixin,
     ParentDHCPServerFilterMixin,
 )
 
@@ -37,12 +35,10 @@ class SubnetFilterSet(
     LifetimeFilterMixin,
     LeaseFilterMixin,
     NetworkFilterMixin,
-    ChildSubnetFilterMixin,
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
     ParentSharedNetworkFilterMixin,
-    ParentSubnetFilterMixin,
     ParentDHCPServerFilterMixin,
     NetBoxModelFilterSet,
 ):

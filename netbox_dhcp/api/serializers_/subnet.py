@@ -8,7 +8,6 @@ from netbox_dhcp.models import Subnet
 from .mixins import (
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    ChildSubnetSerializerMixin,
     ChildPoolSerializerMixin,
     ChildPDPoolSerializerMixin,
     ChildHostReservationSerializerMixin,
@@ -20,7 +19,6 @@ __all__ = ("SubnetSerializer",)
 class SubnetSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    ChildSubnetSerializerMixin,
     ChildPoolSerializerMixin,
     ChildPDPoolSerializerMixin,
     ChildHostReservationSerializerMixin,
@@ -36,7 +34,6 @@ class SubnetSerializer(
             "name",
             "description",
             "subnet_id",
-            "child_subnets",
             "child_pools",
             "child_pd_pools",
             "child_host_reservations",
@@ -114,7 +111,6 @@ class SubnetSerializer(
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
-        child_subnets = validated_data.pop("child_subnets", None)
         child_pools = validated_data.pop("child_pools", None)
         child_pd_pools = validated_data.pop("child_pd_pools", None)
         child_host_reservations = validated_data.pop("child_host_reservations", None)
@@ -125,8 +121,6 @@ class SubnetSerializer(
             subnet.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             subnet.evaluate_additional_classes.set(evaluate_additional_classes)
-        if child_subnets is not None:
-            subnet.child_subnets.set(child_subnets)
         if child_pools is not None:
             subnet.child_pools.set(child_pools)
         if child_pd_pools is not None:
@@ -141,7 +135,6 @@ class SubnetSerializer(
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
-        child_subnets = validated_data.pop("child_subnets", None)
         child_pools = validated_data.pop("child_pools", None)
         child_pd_pools = validated_data.pop("child_pd_pools", None)
         child_host_reservations = validated_data.pop("child_host_reservations", None)
@@ -152,8 +145,6 @@ class SubnetSerializer(
             subnet.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             subnet.evaluate_additional_classes.set(evaluate_additional_classes)
-        if child_subnets is not None:
-            subnet.child_subnets.set(child_subnets)
         if child_pools is not None:
             subnet.child_pools.set(child_pools)
         if child_pd_pools is not None:

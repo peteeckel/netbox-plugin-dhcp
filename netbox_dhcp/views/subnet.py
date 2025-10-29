@@ -34,7 +34,6 @@ __all__ = (
     "SubnetBulkImportView",
     "SubnetBulkEditView",
     "SubnetBulkDeleteView",
-    "SubnetChildSubnetListView",
     "SubnetChildPoolListView",
     "SubnetChildPDPoolListView",
     "SubnetChildHostReservationListView",
@@ -87,25 +86,6 @@ class SubnetBulkDeleteView(generic.BulkDeleteView):
     queryset = Subnet.objects.all()
     filterset = SubnetFilterSet
     table = SubnetTable
-
-
-@register_model_view(Subnet, "child_subnets")
-class SubnetChildSubnetListView(generic.ObjectChildrenView):
-    queryset = Subnet.objects.all()
-    child_model = Subnet
-    table = SubnetTable
-    filterset = SubnetFilterSet
-    template_name = "netbox_dhcp/subnet/child_subnets.html"
-
-    tab = ViewTab(
-        label=_("Child Subnets"),
-        permission="netbox_dhcp.view_subnet",
-        badge=lambda obj: obj.child_subnets.count(),
-        hide_if_empty=True,
-    )
-
-    def get_children(self, request, parent):
-        return parent.child_subnets.restrict(request.user, "view")
 
 
 @register_model_view(Subnet, "child_pools")

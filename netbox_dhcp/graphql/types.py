@@ -111,19 +111,19 @@ class ChildSubnetGraphQLTypeMixin:
 
 # @strawberry.type
 # class ChildSharedNetworkGraphQLTypeMixin:
-#     child_subnets: List[Annotated["NetBoxDHCPSharedNetworkType", strawberry.lazy("netbox_dhcp.graphql.types")]]
+#     child_shared_networks: List[Annotated["NetBoxDHCPSharedNetworkType", strawberry.lazy("netbox_dhcp.graphql.types")]]
 
 
 @strawberry.type
 class ChildPDPoolGraphQLTypeMixin:
-    child_subnets: List[
+    child_pd_pools: List[
         Annotated["NetBoxDHCPPDPoolType", strawberry.lazy("netbox_dhcp.graphql.types")]
     ]
 
 
 @strawberry.type
 class ChildPoolGraphQLTypeMixin:
-    child_pd_pools: List[
+    child_pools: List[
         Annotated["NetBoxDHCPPoolType", strawberry.lazy("netbox_dhcp.graphql.types")]
     ]
 
@@ -370,7 +370,6 @@ class NetBoxDHCPSubnetType(
     LifetimeGraphQLTypeMixin,
     LeaseGraphQLTypeMixin,
     NetworkGraphQLTypeMixin,
-    ChildSubnetGraphQLTypeMixin,
     ChildPoolGraphQLTypeMixin,
     ChildPDPoolGraphQLTypeMixin,
     ChildHostReservationGraphQLTypeMixin,

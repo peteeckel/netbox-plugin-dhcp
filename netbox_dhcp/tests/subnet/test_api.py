@@ -33,7 +33,6 @@ class SubnetAPITestCase(
         ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         client_classes = TestObjects.get_client_classes()
-        ipv6_subnets = TestObjects.get_ipv6_subnets()
         host_reservations = TestObjects.get_host_reservations()
 
         subnets = (
@@ -66,7 +65,6 @@ class SubnetAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "child_subnets": [ipv6_subnets[1].pk],
                 "child_host_reservations": [
                     host_reservation.pk for host_reservation in host_reservations[0:2]
                 ],
@@ -81,7 +79,6 @@ class SubnetAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "child_subnets": [ipv6_subnets[0].pk, ipv6_subnets[2].pk],
                 "child_host_reservations": [
                     host_reservation.pk for host_reservation in host_reservations[1:3]
                 ],
@@ -104,6 +101,5 @@ class SubnetAPITestCase(
             "prefix": ipv6_prefixes[1].pk,
             "client_classes": [client_classes[0].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
-            "child_subnets": [subnet.pk for subnet in subnets[0:2]],
             "child_host_reservations": [host_reservations[0].pk],
         }
