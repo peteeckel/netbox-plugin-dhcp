@@ -248,10 +248,10 @@ menu = PluginMenu(
         (
             _("Network"),
             (
-                subnet_menu_item,
                 shared_netwok_menu_item,
-                pool_menu_item,
+                subnet_menu_item,
                 pd_pool_menu_item,
+                pool_menu_item,
             ),
         ),
         (
