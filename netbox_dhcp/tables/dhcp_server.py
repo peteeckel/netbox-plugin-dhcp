@@ -65,5 +65,5 @@ class DHCPServerTable(
         linkify_item=True,
     )
     server_id = ChoiceFieldColumn(
-        verbose_name=_("Server ID"),
+        verbose_name=_("Server DUID"),
     )

@@ -252,7 +252,7 @@ class DHCPServerFilterForm(
     server_id = forms.MultipleChoiceField(
         choices=DHCPServerIDTypeChoices,
         required=False,
-        label=_("Server ID"),
+        label=_("Server DUID"),
     )
     host_reservation_identifiers = forms.MultipleChoiceField(
         choices=HostReservationIdentifierChoices,
@@ -427,7 +427,7 @@ class DHCPServerBulkEditForm(
     server_id = forms.ChoiceField(
         choices=DHCPServerIDTypeChoices,
         required=False,
-        label=_("Server ID"),
+        label=_("Server DUID"),
     )
     host_reservation_identifiers = forms.MultipleChoiceField(
         choices=HostReservationIdentifierChoices,

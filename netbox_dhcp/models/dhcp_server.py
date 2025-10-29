@@ -142,7 +142,7 @@ class DHCPServer(
         default=list,
     )
     server_id = models.CharField(
-        verbose_name=_("Server ID"),
+        verbose_name=_("Server DUID"),
         choices=DHCPServerIDTypeChoices,
         blank=True,
         null=True,
