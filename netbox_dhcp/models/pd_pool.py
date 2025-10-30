@@ -10,6 +10,7 @@ from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
 from ipam.choices import IPAddressFamilyChoices
+from utilities.querysets import RestrictedQuerySet
 
 from .mixins import (
     NetBoxDHCPModelMixin,
@@ -22,6 +23,20 @@ __all__ = (
     "PDPool",
     "PDPoolIndex",
 )
+
+
+class PDPoolManager(models.Manager.from_queryset(RestrictedQuerySet)):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .annotate(
+                prefix_display=models.ExpressionWrapper(
+                    models.F("prefix__prefix"),
+                    output_field=models.CharField(),
+                )
+            )
+        )
 
 
 class PDPool(
@@ -50,6 +65,8 @@ class PDPool(
         on_delete=models.CASCADE,
         related_name="child_pd_pools",
     )
+
+    objects = PDPoolManager()
 
     pool_id = models.PositiveIntegerField(
         verbose_name=_("Pool ID"),

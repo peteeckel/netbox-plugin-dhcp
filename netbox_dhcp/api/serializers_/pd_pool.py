@@ -31,6 +31,7 @@ class PDPoolSerializer(
             "description",
             "subnet",
             "prefix",
+            "prefix_display",
             "delegated_length",
             "excluded_prefix",
             "client_classes",
@@ -44,6 +45,7 @@ class PDPoolSerializer(
             "display",
             "name",
             "description",
+            "prefix_display",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -59,6 +61,10 @@ class PDPoolSerializer(
         nested=True,
         read_only=False,
         required=True,
+    )
+    prefix_display = serializers.CharField(
+        required=False,
+        read_only=True,
     )
     excluded_prefix = PrefixSerializer(
         nested=True,

@@ -31,6 +31,7 @@ class PoolSerializer(
             "description",
             "subnet",
             "ip_range",
+            "ip_range_display",
             "client_classes",
             "evaluate_additional_classes",
             "hostname_char_set",
@@ -58,6 +59,7 @@ class PoolSerializer(
             "description",
             "subnet",
             "ip_range",
+            "ip_range_display",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -73,6 +75,10 @@ class PoolSerializer(
         nested=True,
         read_only=False,
         required=False,
+    )
+    ip_range_display = serializers.CharField(
+        required=False,
+        read_only=True,
     )
 
     def create(self, validated_data):

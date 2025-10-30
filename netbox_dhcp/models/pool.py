@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import IPRange
+from utilities.querysets import RestrictedQuerySet
 
 from .mixins import (
     NetBoxDHCPModelMixin,
@@ -61,6 +62,7 @@ class Pool(
         related_name="child_pools",
         on_delete=models.CASCADE,
     )
+
     pool_id = models.PositiveIntegerField(
         verbose_name=_("Pool ID"),
         blank=True,

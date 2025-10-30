@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
+from django.db.models import F
 
 from utilities.forms.fields import (
     DynamicModelChoiceField,
@@ -337,6 +338,7 @@ class SubnetFormMixin(forms.Form):
         queryset=Subnet.objects.all(),
         required=False,
         label=_("Subnet"),
+        context={"description": "prefix_display"},
     )
 
 
@@ -361,6 +363,7 @@ class SharedNetworkFormMixin(forms.Form):
         queryset=SharedNetwork.objects.all(),
         required=False,
         label=_("Shared Network"),
+        context={"description": "prefix_display"},
     )
 
 

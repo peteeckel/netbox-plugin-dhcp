@@ -42,6 +42,7 @@ class SubnetSerializer(
             "child_pd_pools",
             "child_host_reservations",
             "prefix",
+            "prefix_display",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -96,6 +97,7 @@ class SubnetSerializer(
             "display",
             "name",
             "description",
+            "prefix_display",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -116,6 +118,10 @@ class SubnetSerializer(
         nested=True,
         read_only=False,
         required=True,
+    )
+    prefix_display = serializers.CharField(
+        required=False,
+        read_only=True,
     )
 
     child_pd_pools = NestedPDPoolSerializer(

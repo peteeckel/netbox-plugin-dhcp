@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
+from utilities.querysets import RestrictedQuerySet
 
 from .mixins import (
     NetBoxDHCPModelMixin,
@@ -23,6 +24,20 @@ __all__ = (
     "Subnet",
     "SubnetIndex",
 )
+
+
+class SubnetManager(models.Manager.from_queryset(RestrictedQuerySet)):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .annotate(
+                prefix_display=models.ExpressionWrapper(
+                    models.F("prefix__prefix"),
+                    output_field=models.CharField(),
+                )
+            )
+        )
 
 
 class Subnet(
@@ -106,6 +121,8 @@ class Subnet(
         "ddns_ttl_min",
         "ddns_ttl_max",
     )
+
+    objects = SubnetManager()
 
     subnet_id = models.PositiveIntegerField(
         verbose_name=_("Subnet ID"),

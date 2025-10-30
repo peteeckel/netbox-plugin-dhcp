@@ -32,6 +32,7 @@ class SharedNetworkSerializer(
             "description",
             "dhcp_server",
             "prefix",
+            "prefix_display",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -87,6 +88,7 @@ class SharedNetworkSerializer(
             "display",
             "name",
             "description",
+            "prefix_display",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -102,6 +104,10 @@ class SharedNetworkSerializer(
         nested=True,
         read_only=False,
         required=True,
+    )
+    prefix_display = serializers.CharField(
+        required=False,
+        read_only=True,
     )
 
     child_subnets = NestedSubnetSerializer(
