@@ -223,10 +223,10 @@ class DHCPServerForm(
             )
 
         if self.cleaned_data["device"]:
-            self.cleaned_data["virtual_machine_interfaces"] = None
+            self.cleaned_data["virtual_machine_interfaces"] = VMInterface.objects.none()
 
         if self.cleaned_data["virtual_machine"]:
-            self.cleaned_data["device_interfaces"] = None
+            self.cleaned_data["device_interfaces"] = Interface.objects.none()
 
 
 class DHCPServerFilterForm(
