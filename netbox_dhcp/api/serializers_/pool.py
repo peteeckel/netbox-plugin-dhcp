@@ -10,6 +10,8 @@ from .mixins import (
     EvaluateClientClassSerializerMixin,
 )
 
+from .subnet import SubnetSerializer
+
 __all__ = ("PoolSerializer",)
 
 
@@ -27,6 +29,7 @@ class PoolSerializer(
             "display",
             "name",
             "description",
+            "subnet",
             "ip_range",
             "client_classes",
             "evaluate_additional_classes",
@@ -53,6 +56,7 @@ class PoolSerializer(
             "display",
             "name",
             "description",
+            "subnet",
             "ip_range",
         )
 
@@ -60,6 +64,11 @@ class PoolSerializer(
         view_name="plugins-api:netbox_dhcp-api:pool-detail"
     )
 
+    subnet = SubnetSerializer(
+        nested=True,
+        read_only=False,
+        required=True,
+    )
     ip_range = IPRangeSerializer(
         nested=True,
         read_only=False,

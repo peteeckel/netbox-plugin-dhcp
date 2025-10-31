@@ -154,7 +154,8 @@ class NestedPoolSerializer(WritableNestedSerializer):
         "display",
         "name",
         "description",
-        "prefix",
+        "subnet",
+        "ip_range",
     )
 
     url = serializers.HyperlinkedIdentityField(

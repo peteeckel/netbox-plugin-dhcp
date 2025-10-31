@@ -33,7 +33,6 @@ __all__ = (
     "SubnetImportFormMixin",
     "DHCPServerImportFormMixin",
     "ChildSubnetImportFormMixin",
-    "ChildPoolImportFormMixin",
     "ChildHostReservationImportFormMixin",
     "NetworkImportFormMixin",
 )
@@ -203,18 +202,6 @@ class ChildSubnetImportFormMixin(forms.Form):
             "invalid_choice": _("Subnet %(value)s not found"),
         },
         label=_("Subnets"),
-    )
-
-
-class ChildPoolImportFormMixin(forms.Form):
-    child_pools = CSVModelMultipleChoiceField(
-        queryset=Pool.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Pool %(value)s not found"),
-        },
-        label=_("Pools"),
     )
 
 

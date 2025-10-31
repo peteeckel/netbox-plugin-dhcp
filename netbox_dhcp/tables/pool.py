@@ -6,6 +6,7 @@ from netbox.tables import NetBoxTable
 from netbox_dhcp.models import Pool
 
 from .mixins import (
+    SubnetTableMixin,
     ClientClassTableMixin,
     EvaluateClientClassTableMixin,
     NetBoxDHCPTableMixin,
@@ -18,6 +19,7 @@ __all__ = (
 
 
 class PoolTable(
+    SubnetTableMixin,
     ClientClassTableMixin,
     EvaluateClientClassTableMixin,
     NetBoxDHCPTableMixin,
@@ -29,6 +31,7 @@ class PoolTable(
         fields = (
             "name",
             "description",
+            "subnet",
             "ip_range",
             "client_classes",
             "evaluate_additional_classes",
@@ -37,6 +40,7 @@ class PoolTable(
 
         default_columns = (
             "name",
+            "subnet",
             "ip_range",
             "tags",
         )
@@ -52,11 +56,13 @@ class RelatedPoolTable(PoolTable):
         fields = (
             "name",
             "description",
+            "subnet",
         )
 
         default_columns = (
             "name",
             "description",
+            "subnet",
         )
 
     actions = None

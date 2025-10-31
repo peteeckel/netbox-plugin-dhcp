@@ -9,20 +9,20 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import Pool
 
 from .mixins import (
+    SubnetFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
     DDNSUpdateFilterMixin,
-    ParentSubnetFilterMixin,
 )
 
 __all__ = ("PoolFilterSet",)
 
 
 class PoolFilterSet(
+    SubnetFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
     DDNSUpdateFilterMixin,
-    ParentSubnetFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
@@ -32,6 +32,7 @@ class PoolFilterSet(
             "id",
             "name",
             "description",
+            *SubnetFilterMixin.FILTER_FIELDS,
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
         )
 

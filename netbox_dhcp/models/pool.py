@@ -36,6 +36,7 @@ class Pool(
     clone_fields = (
         "name",
         "description",
+        "subnet",
         "client_classes",
         "evaluate_additional_classes",
         "hostname_char_set",
@@ -54,6 +55,12 @@ class Pool(
         "ddns_ttl_max",
     )
 
+    subnet = models.ForeignKey(
+        verbose_name=_("Subnet"),
+        to="netbox_dhcp.Subnet",
+        related_name="child_pools",
+        on_delete=models.CASCADE,
+    )
     pool_id = models.PositiveIntegerField(
         verbose_name=_("Pool ID"),
         blank=True,

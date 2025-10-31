@@ -34,7 +34,6 @@ __all__ = (
     "SubnetFormMixin",
     "DHCPServerFormMixin",
     "ChildSubnetFormMixin",
-    "ChildPoolFormMixin",
     "ChildHostReservationFormMixin",
     "NetworkFormMixin",
 )
@@ -360,14 +359,6 @@ class ChildSubnetFormMixin(forms.Form):
         queryset=Subnet.objects.all(),
         required=False,
         label=_("Subnets"),
-    )
-
-
-class ChildPoolFormMixin(forms.Form):
-    child_pools = DynamicModelMultipleChoiceField(
-        queryset=Pool.objects.all(),
-        required=False,
-        label=_("Pools"),
     )
 
 

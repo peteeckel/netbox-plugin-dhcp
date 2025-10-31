@@ -19,7 +19,6 @@ __all__ = (
     "LeaseModelMixin",
     "NetworkModelMixin",
     "ChildHostReservationModelMixin",
-    "ChildPoolModelMixin",
     "ChildSubnetModelMixin",
 )
 
@@ -386,18 +385,6 @@ class ChildHostReservationModelMixin(models.Model):
     child_host_reservations = models.ManyToManyField(
         verbose_name=_("Host Reservations"),
         to="HostReservation",
-        related_name="parent_%(class)s_set",
-        blank=True,
-    )
-
-
-class ChildPoolModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    child_pools = models.ManyToManyField(
-        verbose_name=_("Pools"),
-        to="Pool",
         related_name="parent_%(class)s_set",
         blank=True,
     )

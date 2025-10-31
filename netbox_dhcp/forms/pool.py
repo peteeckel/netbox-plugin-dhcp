@@ -21,6 +21,10 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import Pool
 
 from .mixins import (
+    SubnetFormMixin,
+    SubnetFilterFormMixin,
+    SubnetImportFormMixin,
+    SubnetBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     ClientClassFilterFormMixin,
     ClientClassFormMixin,
@@ -47,6 +51,7 @@ __all__ = (
 
 
 class PoolForm(
+    SubnetFormMixin,
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
     DDNSUpdateFormMixin,
@@ -58,6 +63,7 @@ class PoolForm(
         fields = (
             "name",
             "description",
+            *SubnetFormMixin.FIELDS,
             "ip_range",
             *ClientClassFormMixin.FIELDS,
             *EvaluateClientClassFormMixin.FIELDS,
@@ -69,6 +75,7 @@ class PoolForm(
         FieldSet(
             "name",
             "description",
+            *SubnetFormMixin.FIELDS,
             "ip_range",
             name=_("Address Pool"),
         ),
@@ -94,6 +101,7 @@ class PoolForm(
 
 
 class PoolFilterForm(
+    SubnetFilterFormMixin,
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     EvaluateClientClassFilterFormMixin,
@@ -112,6 +120,7 @@ class PoolFilterForm(
             "name",
             "description",
             "family",
+            *SubnetFilterFormMixin.FIELDS,
             "ip_range_id",
             name=_("Address Pool"),
         ),
@@ -141,6 +150,7 @@ class PoolFilterForm(
 
 
 class PoolImportForm(
+    SubnetImportFormMixin,
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
@@ -152,6 +162,7 @@ class PoolImportForm(
         fields = (
             "name",
             "description",
+            *SubnetImportFormMixin.FIELDS,
             "ip_range",
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,
@@ -171,6 +182,7 @@ class PoolImportForm(
 
 
 class PoolBulkEditForm(
+    SubnetBulkEditFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
@@ -182,6 +194,7 @@ class PoolBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            *SubnetBulkEditFormMixin.FIELDS,
             name=_("Address Pool"),
         ),
         FieldSet(

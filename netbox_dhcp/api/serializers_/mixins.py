@@ -58,7 +58,7 @@ class ChildSharedNetworkSerializerMixin:
 class ChildPoolSerializerMixin:
     child_pools = NestedPoolSerializer(
         many=True,
-        read_only=False,
+        read_only=True,
         required=False,
     )
 

@@ -15,7 +15,6 @@ from .mixins import (
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    ChildPoolModelMixin,
     ChildHostReservationModelMixin,
 )
 from .option import Option
@@ -35,7 +34,6 @@ class Subnet(
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    ChildPoolModelMixin,
     ChildHostReservationModelMixin,
     NetBoxModel,
 ):

@@ -17,13 +17,16 @@
                         <td>IPv{{ object.family }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "Subnet" %}</th>
+                        <td>{{ object.subnet|linkify }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "IP Range" %}</th>
                         <td>{{ object.ip_range|linkify }}</td>
                     </tr>
                 </table>
             </div>
             {% include './inc/client_class_card.html' %}
-            {% include './inc/parent_object_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">
