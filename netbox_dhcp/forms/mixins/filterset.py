@@ -37,6 +37,7 @@ __all__ = (
     "DDNSUpdateFilterFormMixin",
     "LeaseFilterFormMixin",
     "NetworkFilterFormMixin",
+    "SubnetFilterFormMixin",
     "ChildSubnetFilterFormMixin",
     "ChildSharedNetworkFilterFormMixin",
     "ChildPoolFilterFormMixin",
@@ -430,6 +431,18 @@ class NetworkFilterFormMixin(forms.Form):
         label=_("Rapid Commit"),
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+    )
+
+
+class SubnetFilterFormMixin(forms.Form):
+    FIELDS = [
+        "subnet_id",
+    ]
+
+    subnet_id = DynamicModelMultipleChoiceField(
+        queryset=Subnet.objects.all(),
+        required=False,
+        label=_("Subnet"),
     )
 
 

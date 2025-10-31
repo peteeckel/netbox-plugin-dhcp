@@ -10,6 +10,8 @@ from .mixins import (
     EvaluateClientClassSerializerMixin,
 )
 
+from .subnet import SubnetSerializer
+
 __all__ = ("PDPoolSerializer",)
 
 
@@ -27,6 +29,7 @@ class PDPoolSerializer(
             "display",
             "name",
             "description",
+            "subnet",
             "prefix",
             "delegated_length",
             "excluded_prefix",
@@ -41,13 +44,17 @@ class PDPoolSerializer(
             "display",
             "name",
             "description",
-            "prefix",
         )
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:pdpool-detail"
     )
 
+    subnet = SubnetSerializer(
+        nested=True,
+        read_only=False,
+        required=True,
+    )
     prefix = PrefixSerializer(
         nested=True,
         read_only=False,

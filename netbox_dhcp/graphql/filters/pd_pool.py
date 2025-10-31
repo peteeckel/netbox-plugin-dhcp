@@ -10,6 +10,7 @@ from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
+    SubnetGraphQLFilterMixin,
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,
     PrefixGraphQLFilterMixin,
@@ -22,6 +23,7 @@ if TYPE_CHECKING:
 
 @strawberry_django.filter_type(PDPool, lookups=True)
 class NetBoxDHCPPDPoolFilter(
+    SubnetGraphQLFilterMixin,
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,
     PrefixGraphQLFilterMixin,

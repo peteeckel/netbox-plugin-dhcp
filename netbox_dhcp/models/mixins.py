@@ -20,7 +20,6 @@ __all__ = (
     "NetworkModelMixin",
     "ChildHostReservationModelMixin",
     "ChildPoolModelMixin",
-    "ChildPDPoolModelMixin",
     "ChildSubnetModelMixin",
     "ChildSharedNetworkModelMixin",
 )
@@ -389,18 +388,6 @@ class ChildPoolModelMixin(models.Model):
     child_pools = models.ManyToManyField(
         verbose_name=_("Pools"),
         to="Pool",
-        related_name="parent_%(class)s_set",
-        blank=True,
-    )
-
-
-class ChildPDPoolModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    child_pd_pools = models.ManyToManyField(
-        verbose_name=_("Prefix Delegation Pools"),
-        to="PDPool",
         related_name="parent_%(class)s_set",
         blank=True,
     )

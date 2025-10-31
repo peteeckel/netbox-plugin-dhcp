@@ -66,7 +66,7 @@ class ChildPoolSerializerMixin:
 class ChildPDPoolSerializerMixin:
     child_pd_pools = NestedPDPoolSerializer(
         many=True,
-        read_only=False,
+        read_only=True,
         required=False,
     )
 

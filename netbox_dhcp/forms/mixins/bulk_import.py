@@ -13,7 +13,6 @@ from netbox_dhcp.models import (
     Subnet,
     SharedNetwork,
     Pool,
-    PDPool,
     HostReservation,
 )
 from netbox_dhcp.choices import (
@@ -31,10 +30,10 @@ __all__ = (
     "DDNSUpdateImportFormMixin",
     "LifetimeImportFormMixin",
     "LeaseImportFormMixin",
+    "SubnetImportFormMixin",
     "ChildSubnetImportFormMixin",
     "ChildSharedNetworkImportFormMixin",
     "ChildPoolImportFormMixin",
-    "ChildPDPoolImportFormMixin",
     "ChildHostReservationImportFormMixin",
     "NetworkImportFormMixin",
 )
@@ -163,6 +162,22 @@ class LeaseImportFormMixin(forms.Form):
     )
 
 
+class SubnetImportFormMixin(forms.Form):
+    FIELDS = [
+        "subnet",
+    ]
+
+    subnet = CSVModelChoiceField(
+        queryset=Subnet.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Subnet %(value)s not found"),
+        },
+        label=_("Subnet"),
+    )
+
+
 class ChildSubnetImportFormMixin(forms.Form):
     child_subnets = CSVModelMultipleChoiceField(
         queryset=Subnet.objects.all(),
@@ -196,18 +211,6 @@ class ChildPoolImportFormMixin(forms.Form):
             "invalid_choice": _("Pool %(value)s not found"),
         },
         label=_("Pools"),
-    )
-
-
-class ChildPDPoolImportFormMixin(forms.Form):
-    child_pd_pools = CSVModelMultipleChoiceField(
-        queryset=PDPool.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Prefix Delegation Pool %(value)s not found"),
-        },
-        label=_("Prefix Delegation Pools"),
     )
 
 

@@ -9,6 +9,7 @@ __all__ = (
     "EvaluateClientClassTableMixin",
     "DDNSUpdateTableMixin",
     "LeaseTableMixin",
+    "SubnetTableMixin",
 )
 
 
@@ -58,4 +59,11 @@ class LeaseTableMixin(NetBoxTable):
     )
     pd_allocator = ChoiceFieldColumn(
         verbose_name=_("Prefix Delegation Allocator"),
+    )
+
+
+class SubnetTableMixin(NetBoxTable):
+    subnet = tables.Column(
+        verbose_name=_("Subnet"),
+        linkify=True,
     )

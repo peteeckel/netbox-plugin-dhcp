@@ -46,6 +46,7 @@ __all__ = (
     "ChildPoolGraphQLFilterMixin",
     "ChildHostReservationGraphQLFilterMixin",
     "NetworkGraphQLFilterMixin",
+    "SubnetGraphQLFilterMixin",
 )
 
 
@@ -262,3 +263,17 @@ class NetworkGraphQLFilterMixin:
     relay: FilterLookup[str] | None = strawberry_django.filter_field()
     interface_id: FilterLookup[int] | None = strawberry_django.filter_field()
     rapid_commit: FilterLookup[bool] | None = strawberry_django.filter_field()
+
+
+@dataclass
+class SubnetGraphQLFilterMixin:
+    subnet: (
+        Annotated[
+            "NetBoxDHCPSubnetFilter",
+            strawberry.lazy("netbox_dhcp.graphql.filters"),
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    subnet_id: ID | None = strawberry_django.filter_field()
+
+

@@ -6,6 +6,7 @@ from netbox.tables import NetBoxTable
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
+    SubnetTableMixin,
     ClientClassTableMixin,
     EvaluateClientClassTableMixin,
     NetBoxDHCPTableMixin,
@@ -18,6 +19,7 @@ __all__ = (
 
 
 class PDPoolTable(
+    SubnetTableMixin,
     ClientClassTableMixin,
     EvaluateClientClassTableMixin,
     NetBoxDHCPTableMixin,
@@ -29,6 +31,7 @@ class PDPoolTable(
         fields = (
             "name",
             "description",
+            "subnet",
             "prefix",
             "delegated_length",
             "excluded_prefix",
@@ -39,6 +42,7 @@ class PDPoolTable(
 
         default_columns = (
             "name",
+            "subnet",
             "prefix",
             "delegated_length",
             "tags",
@@ -59,12 +63,14 @@ class RelatedPDPoolTable(PDPoolTable):
         fields = (
             "name",
             "description",
+            "subnet",
             "excluded_prefix",
         )
 
         default_columns = (
             "name",
             "description",
+            "subnet",
             "excluded_prefix",
         )
 

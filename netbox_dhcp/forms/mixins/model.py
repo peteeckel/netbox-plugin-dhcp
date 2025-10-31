@@ -14,7 +14,6 @@ from netbox_dhcp.models import (
     Subnet,
     SharedNetwork,
     Pool,
-    PDPool,
     HostReservation,
 )
 from netbox_dhcp.choices import (
@@ -32,10 +31,10 @@ __all__ = (
     "DDNSUpdateFormMixin",
     "LeaseFormMixin",
     "LifetimeFormMixin",
+    "SubnetFormMixin",
     "ChildSubnetFormMixin",
     "ChildSharedNetworkFormMixin",
     "ChildPoolFormMixin",
-    "ChildPDPoolFormMixin",
     "ChildHostReservationFormMixin",
     "NetworkFormMixin",
 )
@@ -332,6 +331,18 @@ class LeaseFormMixin(forms.Form):
     )
 
 
+class SubnetFormMixin(forms.Form):
+    FIELDS = [
+        "subnet",
+    ]
+
+    subnet = DynamicModelChoiceField(
+        queryset=Subnet.objects.all(),
+        required=False,
+        label=_("Subnet"),
+    )
+
+
 class ChildSubnetFormMixin(forms.Form):
     child_subnets = DynamicModelMultipleChoiceField(
         queryset=Subnet.objects.all(),
@@ -353,14 +364,6 @@ class ChildPoolFormMixin(forms.Form):
         queryset=Pool.objects.all(),
         required=False,
         label=_("Pools"),
-    )
-
-
-class ChildPDPoolFormMixin(forms.Form):
-    child_pd_pools = DynamicModelMultipleChoiceField(
-        queryset=PDPool.objects.all(),
-        required=False,
-        label=_("Prefix Delegation Pools"),
     )
 
 

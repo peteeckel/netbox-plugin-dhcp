@@ -342,6 +342,9 @@ class NetBoxDHCPPDPoolType(
     # +
     # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
     # -
+    subnet: Annotated[
+        "NetBoxDHCPSubnetType", strawberry.lazy("netbox_dhcp.graphql.types")
+    ]
     prefix: Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None
     excluded_prefix: (
         Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None

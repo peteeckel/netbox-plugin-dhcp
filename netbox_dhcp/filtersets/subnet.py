@@ -75,8 +75,5 @@ class SubnetFilterSet(
     def search(self, queryset, name, value):
         if not value.strip():
             return queryset
-        qs_filter = (
-            Q(name__icontains=value)
-            | Q(boot_file_name__icontains=value)
-        )
+        qs_filter = Q(name__icontains=value) | Q(boot_file_name__icontains=value)
         return queryset.filter(qs_filter)

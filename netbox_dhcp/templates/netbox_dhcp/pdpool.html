@@ -13,6 +13,10 @@
                         <td>{{ object.pool_id }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "Subnet" %}</th>
+                        <td>{{ object.subnet|linkify }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "IPv6 Prefix" %}</th>
                         <td>{{ object.prefix|linkify|placeholder }}</td>
                     </tr>
@@ -27,7 +31,6 @@
                 </table>
             </div>
             {% include './inc/client_class_card.html' %}
-            {% include './inc/parent_object_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">

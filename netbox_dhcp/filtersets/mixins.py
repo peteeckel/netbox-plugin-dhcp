@@ -29,6 +29,7 @@ __all__ = (
     "ClientClassFilterMixin",
     "EvaluateClientClassFilterMixin",
     "DDNSUpdateFilterMixin",
+    "SubnetFilterMixin",
     "ChildSubnetFilterMixin",
     "ChildSharedNetworkFilterMixin",
     "ChildPoolFilterMixin",
@@ -250,6 +251,22 @@ class PrefixFilterMixin(NetBoxModelFilterSet):
     prefix = django_filters.CharFilter(
         field_name="prefix__prefix",
         label=_("Prefix"),
+    )
+
+
+class SubnetFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "subnet",
+    ]
+
+    subnet = django_filters.CharFilter(
+        field_name="subnet__name",
+        label=_("Subnet"),
+    )
+    subnet_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Subnet.objects.all(),
+        field_name="subnet",
+        label=_("Subnet ID"),
     )
 
 

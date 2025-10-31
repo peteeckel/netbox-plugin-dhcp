@@ -152,7 +152,8 @@ class NestedPDPoolSerializer(WritableNestedSerializer):
         "display",
         "name",
         "description",
-        "ip_range",
+        "subnet",
+        "prefix",
     )
 
     url = serializers.HyperlinkedIdentityField(

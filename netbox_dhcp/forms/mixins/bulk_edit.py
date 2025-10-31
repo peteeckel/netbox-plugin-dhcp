@@ -29,6 +29,7 @@ __all__ = (
     "DDNSUpdateBulkEditFormMixin",
     "LeaseBulkEditFormMixin",
     "NetworkBulkEditFormMixin",
+    "SubnetBulkEditFormMixin",
     "ChildSubnetBulkEditFormMixin",
     "ChildSharedNetworkBulkEditFormMixin",
     "ChildHostReservationBulkEditFormMixin",
@@ -432,6 +433,18 @@ class NetworkBulkEditFormMixin(forms.Form):
         label=_("Rapid Commit"),
         widget=BulkEditNullBooleanSelect(),
         required=False,
+    )
+
+
+class SubnetBulkEditFormMixin(forms.Form):
+    FIELDS = [
+        "subnet",
+    ]
+
+    subnet = DynamicModelChoiceField(
+        queryset=Subnet.objects.all(),
+        required=False,
+        label=_("Subnet"),
     )
 
 

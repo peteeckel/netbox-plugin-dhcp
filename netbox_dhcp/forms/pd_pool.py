@@ -17,7 +17,7 @@ from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import PDPool
+from netbox_dhcp.models import PDPool, Subnet
 
 from .mixins import (
     ClientClassBulkEditFormMixin,
@@ -52,6 +52,7 @@ class PDPoolForm(
         fields = (
             "name",
             "description",
+            "subnet",
             "prefix",
             "delegated_length",
             "excluded_prefix",
@@ -64,6 +65,7 @@ class PDPoolForm(
         FieldSet(
             "name",
             "description",
+            "subnet",
             "prefix",
             "delegated_length",
             "excluded_prefix",
@@ -80,10 +82,24 @@ class PDPoolForm(
         ),
     )
 
+    subnet = DynamicModelChoiceField(
+        queryset=Subnet.objects.filter(
+            prefix__prefix__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        query_params={
+            "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        required=True,
+        selector=True,
+        label=_("Subnet"),
+    )
     prefix = DynamicModelChoiceField(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        context={
+            "depth": None,
         },
         required=True,
         selector=True,
@@ -93,6 +109,9 @@ class PDPoolForm(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        context={
+            "depth": None,
         },
         required=False,
         selector=True,
@@ -117,6 +136,7 @@ class PDPoolFilterForm(
         FieldSet(
             "name",
             "description",
+            "subnet_id",
             "prefix_id",
             "delegated_length",
             "excluded_prefix_id",
@@ -129,10 +149,23 @@ class PDPoolFilterForm(
         ),
     )
 
+    subnet_id = DynamicModelMultipleChoiceField(
+        queryset=Subnet.objects.filter(
+            prefix__prefix__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        query_params={
+            "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        required=False,
+        label=_("Subnet"),
+    )
     prefix_id = DynamicModelMultipleChoiceField(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        context={
+            "depth": None,
         },
         required=False,
         label=_("IPv6 Prefix"),
@@ -145,6 +178,9 @@ class PDPoolFilterForm(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        context={
+            "depth": None,
         },
         required=False,
         label=_("Excluded IPv6 Prefix"),
@@ -164,6 +200,7 @@ class PDPoolImportForm(
         fields = (
             "name",
             "description",
+            "subnet",
             "prefix",
             "delegated_length",
             "excluded_prefix",
@@ -172,6 +209,17 @@ class PDPoolImportForm(
             "tags",
         )
 
+    subnet = CSVModelChoiceField(
+        queryset=Subnet.objects.filter(
+            prefix__prefix__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        required=True,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("Subnet %(value)s not found"),
+        },
+        label=_("Subnet"),
+    )
     prefix = CSVModelChoiceField(
         queryset=Prefix.objects.filter(prefix__family=IPAddressFamilyChoices.FAMILY_6),
         required=True,
@@ -203,6 +251,7 @@ class PDPoolBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "subnet",
             "delegated_length",
             name=_("Prefix Delegation Pool"),
         ),
@@ -224,6 +273,16 @@ class PDPoolBulkEditForm(
         *EvaluateClientClassBulkEditFormMixin.NULLABLE_FIELDS,
     )
 
+    subnet = DynamicModelChoiceField(
+        queryset=Subnet.objects.filter(
+            prefix__prefix__family=IPAddressFamilyChoices.FAMILY_6
+        ),
+        query_params={
+            "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        required=False,
+        label=_("Subnet"),
+    )
     delegated_length = forms.CharField(
         required=False,
         label=_("Delegated Length"),

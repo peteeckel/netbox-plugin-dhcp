@@ -44,6 +44,13 @@ class PDPool(
         "evaluate_additional_classes",
     )
 
+    subnet = models.ForeignKey(
+        verbose_name=_("Parent Subnet"),
+        to="netbox_dhcp.Subnet",
+        on_delete=models.CASCADE,
+        related_name="child_pd_pools",
+    )
+
     pool_id = models.PositiveIntegerField(
         verbose_name=_("Pool ID"),
         blank=True,
@@ -67,6 +74,7 @@ class PDPool(
         null=True,
         on_delete=models.SET_NULL,
     )
+
     options = GenericRelation(
         to=Option,
         content_type_field="assigned_object_type",

@@ -8,28 +8,26 @@ from ipam.models import Prefix
 from netbox_dhcp.models import PDPool
 
 from .mixins import (
+    SubnetFilterMixin,
     PrefixFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
-    ParentSubnetFilterMixin,
 )
 
 __all__ = ("PDPoolFilterSet",)
 
 
 class PDPoolFilterSet(
+    SubnetFilterMixin,
     PrefixFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
-    ParentSubnetFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
         model = PDPool
 
-        fields = (
-            "id",
-        )
+        fields = ("id",)
 
     name = django_filters.CharFilter(
         label=_("Name"),
