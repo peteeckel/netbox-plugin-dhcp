@@ -11,7 +11,6 @@ from .mixins import (
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
     BOOTPModelMixin,
-    CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
@@ -33,7 +32,6 @@ class Subnet(
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
     BOOTPModelMixin,
-    CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
@@ -97,7 +95,6 @@ class Subnet(
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
-        "comment",
     )
 
     subnet_id = models.PositiveIntegerField(
@@ -133,5 +130,4 @@ class SubnetIndex(SearchIndex):
         ("next_server", 300),
         ("server_hostname", 300),
         ("boot_file_name", 300),
-        ("comment", 200),
     )

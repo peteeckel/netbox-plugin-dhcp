@@ -37,8 +37,6 @@ class DHCPServerFilterSetTestCase(
     filterset = DHCPServerFilterSet
 
     ignore_fields = (
-        "user_context",
-        "comment",
         "device_interfaces",
         "virtual_machine_interfaces",
     )

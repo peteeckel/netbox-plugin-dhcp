@@ -32,8 +32,6 @@ class HostReservationSerializer(
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "user_context",
-            "comment",
             "hostname",
             "ipv4_address",
             "ipv6_addresses",
@@ -56,8 +54,6 @@ class HostReservationSerializer(
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "user_context",
-            "comment",
             "hostname",
         )
 

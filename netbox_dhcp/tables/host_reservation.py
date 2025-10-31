@@ -36,8 +36,6 @@ class HostReservationTable(
             "server_hostname",
             "boot_file_name",
             "hostname",
-            "user_context",
-            "comment",
         )
 
         default_columns = (
@@ -45,7 +43,6 @@ class HostReservationTable(
             "hostname",
             "ipv4_address",
             "ipv6_addresses",
-            "comment",
         )
 
     hw_address = tables.Column(

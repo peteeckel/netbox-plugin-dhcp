@@ -66,8 +66,6 @@ class PDPoolViewTestCase(
             "evaluate_additional_classes": [
                 client_class.pk for client_class in client_classes[1:3]
             ],
-            "user_context": '{"test_key": "test_value"}',
-            "comment": "test comment",
         }
 
         cls.csv_data = (

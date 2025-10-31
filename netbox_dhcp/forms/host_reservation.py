@@ -31,8 +31,6 @@ from .mixins import (
     BOOTPFilterFormMixin,
     BOOTPImportFormMixin,
     BOOTPBulkEditFormMixin,
-    CommonBulkEditFormMixin,
-    CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     NetBoxDHCPFilterFormMixin,
 )
@@ -63,8 +61,6 @@ class HostReservationForm(ClientClassFormMixin, NetBoxModelForm):
             "ipv6_addresses",
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            "user_context",
-            "comment",
             *ClientClassFormMixin.FIELDS,
             *BOOTPFormMixin.FIELDS,
             "tags",
@@ -90,8 +86,6 @@ class HostReservationForm(ClientClassFormMixin, NetBoxModelForm):
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
             "hostname",
-            "user_context",
-            "comment",
             name=_("Assignment"),
         ),
         ClientClassFormMixin.FIELDSET,
@@ -154,7 +148,6 @@ class HostReservationFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     BOOTPFilterFormMixin,
-    CommonFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = HostReservation
@@ -185,7 +178,6 @@ class HostReservationFilterForm(
             "ipv6_prefix_id",
             "excluded_ipv6_prefix_id",
             "hostname",
-            "comment",
             name=_("Assignment"),
         ),
         ClientClassFilterFormMixin.FIELDSET,
@@ -275,8 +267,6 @@ class HostReservationImportForm(
             "ipv6_addresses",
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            "user_context",
-            "comment",
             *ClientClassImportFormMixin.FIELDS,
             *BOOTPImportFormMixin.FIELDS,
             "tags",
@@ -338,7 +328,6 @@ class HostReservationImportForm(
 class HostReservationBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
-    CommonBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
@@ -357,8 +346,6 @@ class HostReservationBulkEditForm(
         FieldSet(
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
-            "user_context",
-            "comment",
             name=_("Assignment"),
         ),
         ClientClassBulkEditFormMixin.FIELDSET,
@@ -374,8 +361,6 @@ class HostReservationBulkEditForm(
         "flex_id",
         "ipv6_prefixes",
         "excluded_ipv6_prefixes",
-        "user_context",
-        "comment",
         *BOOTPBulkEditFormMixin.NULLABLE_FIELDS,
         *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
     )

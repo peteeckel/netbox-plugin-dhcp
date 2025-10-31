@@ -10,7 +10,6 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
-    CommonModelMixin,
     DDNSUpdateModelMixin,
 )
 from .option import Option
@@ -25,7 +24,6 @@ class Pool(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
-    CommonModelMixin,
     DDNSUpdateModelMixin,
     NetBoxModel,
 ):
@@ -54,7 +52,6 @@ class Pool(
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
-        "comment",
     )
 
     pool_id = models.PositiveIntegerField(
@@ -86,5 +83,4 @@ class PoolIndex(SearchIndex):
     fields = (
         ("name", 100),
         ("description", 200),
-        ("comment", 200),
     )

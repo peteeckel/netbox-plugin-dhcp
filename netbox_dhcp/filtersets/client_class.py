@@ -31,7 +31,6 @@ class ClientClassFilterSet(
             "only_in_additional_list",
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
-            "comment",
         )
 
     name = django_filters.CharFilter(
@@ -55,6 +54,5 @@ class ClientClassFilterSet(
             | Q(test__icontains=value)
             | Q(template_test__icontains=value)
             | Q(boot_file_name__icontains=value)
-            | Q(comment__icontains=value)
         )
         return queryset.filter(qs_filter)

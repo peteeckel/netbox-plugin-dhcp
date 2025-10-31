@@ -32,8 +32,6 @@ class PDPoolTable(
             "prefix",
             "delegated_length",
             "excluded_prefix",
-            "user_context",
-            "comment",
             "client_classes",
             "evaluate_additional_classes",
             "tags",

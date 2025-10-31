@@ -21,8 +21,6 @@ class HostReservationFilterSetTestCase(
     # test as well
     # -
     ignore_fields = (
-        "user_context",
-        "comment",
         "ipv6_addresses",
         "ipv6_prefixes",
         "excluded_ipv6_prefixes",

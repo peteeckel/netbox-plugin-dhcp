@@ -33,7 +33,6 @@ class PoolFilterSet(
             "name",
             "description",
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
-            "comment",
         )
 
     name = django_filters.CharFilter(
@@ -60,5 +59,5 @@ class PoolFilterSet(
     def search(self, queryset, name, value):
         if not value.strip():
             return queryset
-        qs_filter = Q(name__icontains=value) | Q(comment__icontains=value)
+        qs_filter = Q(name__icontains=value)
         return queryset.filter(qs_filter)

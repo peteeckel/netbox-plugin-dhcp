@@ -25,7 +25,6 @@ __all__ = (
     "EvaluateClientClassBulkEditFormMixin",
     "OfferLifetimeBulkEditFormMixin",
     "LifetimeBulkEditFormMixin",
-    "CommonBulkEditFormMixin",
     "PrefixBulkEditFormMixin",
     "DDNSUpdateBulkEditFormMixin",
     "LeaseBulkEditFormMixin",
@@ -168,18 +167,6 @@ class LifetimeBulkEditFormMixin(OfferLifetimeBulkEditFormMixin):
         required=False,
         min_value=1,
         label=_("Maximum Preferred Lifetime"),
-    )
-
-
-class CommonBulkEditFormMixin(forms.Form):
-    # TODO: option_data_list
-    user_context = forms.JSONField(
-        required=False,
-        label=_("User Context"),
-    )
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
     )
 
 

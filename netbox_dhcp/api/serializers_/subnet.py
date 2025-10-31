@@ -83,8 +83,6 @@ class SubnetSerializer(
             "ddns_ttl",
             "ddns_ttl_min",
             "ddns_ttl_max",
-            "user_context",
-            "comment",
             "tags",
         )
 

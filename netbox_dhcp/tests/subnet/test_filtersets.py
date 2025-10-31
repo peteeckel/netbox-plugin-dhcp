@@ -29,16 +29,6 @@ class SubnetFilterSetTestCase(
     filterset = SubnetFilterSet
 
     # +
-    # Because of the misbehaviour mentioned below, ipv6_addresses, ipv6_prefixes
-    # and excluded_ipv6_prefixes need to be ignored by the missing_filters
-    # test as well
-    # -
-    ignore_fields = (
-        "user_context",
-        "comment",
-    )
-
-    # +
     # This is a dirty hack and does not work for all models.
     #
     # What really needs to be fixed is the get_m2m_filter_name() method in

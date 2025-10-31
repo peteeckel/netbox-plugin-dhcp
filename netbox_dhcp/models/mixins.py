@@ -11,7 +11,6 @@ from netbox_dhcp.choices import (
 __all__ = (
     "NetBoxDHCPModelMixin",
     "BOOTPModelMixin",
-    "CommonModelMixin",
     "ClientClassModelMixin",
     "EvaluateClientClassModelMixin",
     "LifetimeModelMixin",
@@ -68,23 +67,6 @@ class BOOTPModelMixin(models.Model):
         blank=True,
         null=True,
         max_length=128,
-    )
-
-
-class CommonModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    user_context = models.JSONField(
-        verbose_name=_("User Context"),
-        blank=True,
-        default=dict,
-    )
-    comment = models.CharField(
-        verbose_name=_("Comment"),
-        blank=True,
-        null=True,
-        max_length=255,
     )
 
 

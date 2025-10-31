@@ -44,8 +44,6 @@ class PoolSerializer(
             "ddns_ttl",
             "ddns_ttl_min",
             "ddns_ttl_max",
-            "user_context",
-            "comment",
             "tags",
         )
 
@@ -56,7 +54,6 @@ class PoolSerializer(
             "name",
             "description",
             "ip_range",
-            "comment",
         )
 
     url = serializers.HyperlinkedIdentityField(

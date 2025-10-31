@@ -24,8 +24,6 @@ class ClientClassSerializer(NetBoxModelSerializer):
             "next_server",
             "server_hostname",
             "boot_file_name",
-            "user_context",
-            "comment",
             "offer_lifetime",
             "valid_lifetime",
             "min_valid_lifetime",

@@ -30,8 +30,6 @@ class PoolTable(
             "name",
             "description",
             "ip_range",
-            "user_context",
-            "comment",
             "client_classes",
             "evaluate_additional_classes",
             "tags",

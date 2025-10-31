@@ -21,7 +21,6 @@ class PDPoolAPITestCase(
     model = PDPool
 
     brief_fields = [
-        "comment",
         "description",
         "display",
         "id",

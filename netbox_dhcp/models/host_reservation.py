@@ -12,7 +12,6 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     BOOTPModelMixin,
-    CommonModelMixin,
 )
 from .option import Option
 
@@ -26,7 +25,6 @@ class HostReservation(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     BOOTPModelMixin,
-    CommonModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -42,7 +40,6 @@ class HostReservation(
         "flex_id",
         "hostname",
         "client_classes",
-        "comment",
     )
 
     duid = models.CharField(
@@ -129,5 +126,4 @@ class HostReservationIndex(SearchIndex):
         ("flex_id", 150),
         ("hostname", 180),
         ("description", 200),
-        ("comment", 400),
     )

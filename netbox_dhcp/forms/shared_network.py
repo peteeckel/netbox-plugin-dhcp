@@ -16,8 +16,6 @@ from netbox_dhcp.models import SharedNetwork
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    CommonFilterFormMixin,
-    CommonBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
@@ -89,8 +87,6 @@ class SharedNetworkForm(
             *LifetimeFormMixin.FIELDS,
             *LeaseFormMixin.FIELDS,
             *DDNSUpdateFormMixin.FIELDS,
-            "user_context",
-            "comment",
             "tags",
         )
 
@@ -116,11 +112,6 @@ class SharedNetworkForm(
         LeaseFormMixin.FIELDSET,
         DDNSUpdateFormMixin.FIELDSET,
         FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
-        ),
-        FieldSet(
             "tags",
             name=_("Tags"),
         ),
@@ -133,7 +124,6 @@ class SharedNetworkFilterForm(
     BOOTPFilterFormMixin,
     ClientClassFilterFormMixin,
     EvaluateClientClassFilterFormMixin,
-    CommonFilterFormMixin,
     LifetimeFilterFormMixin,
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
@@ -155,10 +145,6 @@ class SharedNetworkFilterForm(
             "family",
             "prefix_id",
             name=_("Shared Network"),
-        ),
-        FieldSet(
-            "comment",
-            name=_("Assignment"),
         ),
         FieldSet(
             *ClientClassFilterFormMixin.FIELDS,
@@ -202,8 +188,6 @@ class SharedNetworkImportForm(
             "description",
             "prefix",
             "child_subnets",
-            "user_context",
-            "comment",
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,
             *NetworkImportFormMixin.FIELDS,
@@ -222,7 +206,6 @@ class SharedNetworkBulkEditForm(
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
-    CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
@@ -246,11 +229,6 @@ class SharedNetworkBulkEditForm(
             *EvaluateClientClassBulkEditFormMixin.FIELDS,
             name=_("Client Classes"),
         ),
-        FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
-        ),
         NetworkBulkEditFormMixin.FIELDSET,
         BOOTPBulkEditFormMixin.FIELDSET,
         LifetimeBulkEditFormMixin.FIELDSET,
@@ -260,8 +238,6 @@ class SharedNetworkBulkEditForm(
 
     nullable_fields = (
         "description",
-        "user_context",
-        "comment",
         *NetworkBulkEditFormMixin.NULLABLE_FIELDS,
         *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         *EvaluateClientClassBulkEditFormMixin.NULLABLE_FIELDS,

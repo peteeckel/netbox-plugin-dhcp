@@ -9,7 +9,6 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
     LifetimeModelMixin,
-    CommonModelMixin,
 )
 from .option import Option
 
@@ -23,7 +22,6 @@ class ClientClass(
     NetBoxDHCPModelMixin,
     BOOTPModelMixin,
     LifetimeModelMixin,
-    CommonModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -48,7 +46,6 @@ class ClientClass(
         "preferred_lifetime",
         "min_preferred_lifetime",
         "max_preferred_lifetime",
-        "comment",
     )
 
     test = models.TextField(
@@ -84,5 +81,4 @@ class ClientClassIndex(SearchIndex):
         ("next_server", 300),
         ("server_hostname", 300),
         ("boot_file_name", 300),
-        ("comment", 200),
     )

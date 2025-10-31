@@ -33,7 +33,6 @@ class HostReservationFilterSet(
             "circuit_id",
             "client_id",
             "flex_id",
-            "comment",
             "hostname",
             *ClientClassFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,

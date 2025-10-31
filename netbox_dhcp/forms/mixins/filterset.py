@@ -30,7 +30,6 @@ __all__ = (
     "ClientClassFilterFormMixin",
     "EvaluateClientClassFilterFormMixin",
     "BOOTPFilterFormMixin",
-    "CommonFilterFormMixin",
     "NetBoxDHCPFilterFormMixin",
     "OfferLifetimeFilterFormMixin",
     "LifetimeFilterFormMixin",
@@ -174,13 +173,6 @@ class EvaluateClientClassFilterFormMixin(forms.Form):
         queryset=ClientClass.objects.all(),
         required=False,
         label=_("Evaluate Additional Classes"),
-    )
-
-
-class CommonFilterFormMixin(forms.Form):
-    comment = forms.CharField(
-        required=False,
-        label=_("Comment"),
     )
 
 

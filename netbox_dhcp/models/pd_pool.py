@@ -15,7 +15,6 @@ from .mixins import (
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
-    CommonModelMixin,
 )
 from .option import Option
 
@@ -29,7 +28,6 @@ class PDPool(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
-    CommonModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -44,7 +42,6 @@ class PDPool(
         "delegated_length",
         "client_classes",
         "evaluate_additional_classes",
-        "comment",
     )
 
     pool_id = models.PositiveIntegerField(
@@ -88,5 +85,4 @@ class PDPoolIndex(SearchIndex):
     fields = (
         ("name", 100),
         ("description", 200),
-        ("comment", 200),
     )

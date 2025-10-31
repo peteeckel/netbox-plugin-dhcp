@@ -29,7 +29,6 @@ class PDPoolFilterSet(
 
         fields = (
             "id",
-            "comment",
         )
 
     name = django_filters.CharFilter(

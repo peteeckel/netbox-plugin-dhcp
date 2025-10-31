@@ -46,8 +46,6 @@ class ClientClassForm(NetBoxModelForm):
             "only_in_additional_list",
             *BOOTPFormMixin.FIELDS,
             *LifetimeFormMixin.FIELDS,
-            "user_context",
-            "comment",
             "tags",
         )
 
@@ -67,11 +65,6 @@ class ClientClassForm(NetBoxModelForm):
         ),
         BOOTPFormMixin.FIELDSET,
         LifetimeFormMixin.FIELDSET,
-        FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
-        ),
         FieldSet(
             "tags",
             name=_("Tags"),
@@ -109,10 +102,6 @@ class ClientClassFilterForm(
         ),
         BOOTPFilterFormMixin.FIELDSET,
         LifetimeFilterFormMixin.FIELDSET,
-        FieldSet(
-            "comment",
-            name=_("Assignment"),
-        ),
     )
 
     test = forms.CharField(
@@ -144,8 +133,6 @@ class ClientClassImportForm(NetBoxModelImportForm):
             "only_in_additional_list",
             *BOOTPImportFormMixin.FIELDS,
             *LifetimeImportFormMixin.FIELDS,
-            "user_context",
-            "comment",
             "tags",
         )
 
@@ -171,21 +158,14 @@ class ClientClassBulkEditForm(
         ),
         BOOTPBulkEditFormMixin.FIELDSET,
         LifetimeBulkEditFormMixin.FIELDSET,
-        FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
-        ),
     )
 
     nullable_fields = (
         "description",
-        "comment",
         "test",
         "template_test",
         *BOOTPBulkEditFormMixin.NULLABLE_FIELDS,
         *LifetimeBulkEditFormMixin.NULLABLE_FIELDS,
-        "user_context",
     )
 
     test = forms.CharField(

@@ -32,8 +32,6 @@ class PDPoolSerializer(
             "excluded_prefix",
             "client_classes",
             "evaluate_additional_classes",
-            "user_context",
-            "comment",
             "tags",
         )
 
@@ -44,7 +42,6 @@ class PDPoolSerializer(
             "name",
             "description",
             "prefix",
-            "comment",
         )
 
     url = serializers.HyperlinkedIdentityField(

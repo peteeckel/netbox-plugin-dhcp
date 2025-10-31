@@ -24,7 +24,6 @@ class HostReservationAPITestCase(
         "boot_file_name",
         "circuit_id",
         "client_id",
-        "comment",
         "description",
         "display",
         "duid",
@@ -36,7 +35,6 @@ class HostReservationAPITestCase(
         "next_server",
         "server_hostname",
         "url",
-        "user_context",
     ]
 
     @classmethod

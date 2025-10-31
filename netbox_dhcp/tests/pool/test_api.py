@@ -21,7 +21,6 @@ class PoolAPITestCase(
     model = Pool
 
     brief_fields = [
-        "comment",
         "description",
         "display",
         "id",

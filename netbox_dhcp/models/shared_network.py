@@ -11,7 +11,6 @@ from .mixins import (
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
     BOOTPModelMixin,
-    CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
@@ -31,7 +30,6 @@ class SharedNetwork(
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
     BOOTPModelMixin,
-    CommonModelMixin,
     LifetimeModelMixin,
     DDNSUpdateModelMixin,
     LeaseModelMixin,
@@ -93,7 +91,6 @@ class SharedNetwork(
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
-        "comment",
     )
 
     prefix = models.ForeignKey(
@@ -124,5 +121,4 @@ class SharedNetworkIndex(SearchIndex):
         ("next_server", 300),
         ("server_hostname", 300),
         ("boot_file_name", 300),
-        ("comment", 200),
     )

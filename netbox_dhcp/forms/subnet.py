@@ -16,8 +16,6 @@ from netbox_dhcp.models import Subnet
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    CommonFilterFormMixin,
-    CommonBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
@@ -93,8 +91,6 @@ class SubnetForm(
             "child_pools",
             "child_pd_pools",
             "child_host_reservations",
-            "user_context",
-            "comment",
             *NetworkFormMixin.FIELDS,
             *ClientClassFormMixin.FIELDS,
             *EvaluateClientClassFormMixin.FIELDS,
@@ -130,11 +126,6 @@ class SubnetForm(
         LeaseFormMixin.FIELDSET,
         DDNSUpdateFormMixin.FIELDSET,
         FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
-        ),
-        FieldSet(
             "tags",
             name=_("Tags"),
         ),
@@ -148,7 +139,6 @@ class SubnetFilterForm(
     ClientClassFilterFormMixin,
     EvaluateClientClassFilterFormMixin,
     LifetimeFilterFormMixin,
-    CommonFilterFormMixin,
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
@@ -178,10 +168,6 @@ class SubnetFilterForm(
             "child_pd_pool_id",
             "child_host_reservation_id",
             name=_("Child Objects"),
-        ),
-        FieldSet(
-            "comment",
-            name=_("Assignment"),
         ),
         FieldSet(
             *ClientClassFilterFormMixin.FIELDS,
@@ -232,8 +218,6 @@ class SubnetImportForm(
             *LifetimeImportFormMixin.FIELDS,
             *LeaseImportFormMixin.FIELDS,
             *DDNSUpdateImportFormMixin.FIELDS,
-            "user_context",
-            "comment",
             "tags",
         )
 
@@ -245,7 +229,6 @@ class SubnetBulkEditForm(
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
-    CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
@@ -258,11 +241,6 @@ class SubnetBulkEditForm(
             "description",
             "prefix",
             name=_("Subnet"),
-        ),
-        FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
         ),
         FieldSet(
             *ClientClassBulkEditFormMixin.FIELDS,
@@ -278,8 +256,6 @@ class SubnetBulkEditForm(
 
     nullable_fields = (
         "description",
-        "user_context",
-        "comment",
         *NetworkBulkEditFormMixin.NULLABLE_FIELDS,
         *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         *EvaluateClientClassBulkEditFormMixin.NULLABLE_FIELDS,

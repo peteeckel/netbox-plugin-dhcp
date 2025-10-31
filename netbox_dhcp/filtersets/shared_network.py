@@ -50,7 +50,6 @@ class SharedNetworkFilterSet(
             *NetworkFilterMixin.FILTER_FIELDS,
             *ChildSubnetFilterMixin.FILTER_FIELDS,
             *ParentDHCPServerFilterMixin.FILTER_FIELDS,
-            "comment",
         )
 
     name = django_filters.CharFilter(
@@ -72,6 +71,5 @@ class SharedNetworkFilterSet(
         qs_filter = (
             Q(name__icontains=value)
             | Q(boot_file_name__icontains=value)
-            | Q(comment__icontains=value)
         )
         return queryset.filter(qs_filter)

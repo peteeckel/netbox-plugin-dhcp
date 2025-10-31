@@ -57,7 +57,6 @@ class SubnetFilterSet(
             *LeaseFilterMixin.FILTER_FIELDS,
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
             *NetworkFilterMixin.FILTER_FIELDS,
-            "comment",
         )
 
     name = django_filters.CharFilter(
@@ -79,6 +78,5 @@ class SubnetFilterSet(
         qs_filter = (
             Q(name__icontains=value)
             | Q(boot_file_name__icontains=value)
-            | Q(comment__icontains=value)
         )
         return queryset.filter(qs_filter)

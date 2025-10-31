@@ -29,8 +29,6 @@ from .mixins import (
     EvaluateClientClassFilterFormMixin,
     EvaluateClientClassFormMixin,
     EvaluateClientClassImportFormMixin,
-    CommonBulkEditFormMixin,
-    CommonFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     NetBoxDHCPFilterFormMixin,
     DDNSUpdateFormMixin,
@@ -61,8 +59,6 @@ class PoolForm(
             "name",
             "description",
             "ip_range",
-            "user_context",
-            "comment",
             *ClientClassFormMixin.FIELDS,
             *EvaluateClientClassFormMixin.FIELDS,
             *DDNSUpdateFormMixin.FIELDS,
@@ -75,11 +71,6 @@ class PoolForm(
             "description",
             "ip_range",
             name=_("Address Pool"),
-        ),
-        FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
         ),
         FieldSet(
             *ClientClassFormMixin.FIELDS,
@@ -106,7 +97,6 @@ class PoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     EvaluateClientClassFilterFormMixin,
-    CommonFilterFormMixin,
     DDNSUpdateFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
@@ -124,10 +114,6 @@ class PoolFilterForm(
             "family",
             "ip_range_id",
             name=_("Address Pool"),
-        ),
-        FieldSet(
-            "comment",
-            name=_("Assignment"),
         ),
         FieldSet(
             *ClientClassFilterFormMixin.FIELDS,
@@ -167,8 +153,6 @@ class PoolImportForm(
             "name",
             "description",
             "ip_range",
-            "user_context",
-            "comment",
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,
             *DDNSUpdateImportFormMixin.FIELDS,
@@ -190,7 +174,6 @@ class PoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
-    CommonBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
@@ -207,17 +190,10 @@ class PoolBulkEditForm(
             name=_("Client Classes"),
         ),
         DDNSUpdateBulkEditFormMixin.FIELDSET,
-        FieldSet(
-            "user_context",
-            "comment",
-            name=_("Assignment"),
-        ),
     )
 
     nullable_fields = (
         "description",
-        "user_context",
-        "comment",
         *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         *DDNSUpdateBulkEditFormMixin.NULLABLE_FIELDS,
     )

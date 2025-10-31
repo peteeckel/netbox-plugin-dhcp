@@ -24,8 +24,6 @@ class ClientClassFilterSetTestCase(
     filterset = ClientClassFilterSet
 
     ignore_fields = (
-        "user_context",
-        "comment",
         "option_set",
         "hostreservation_set",
         "dhcpserver_set",
