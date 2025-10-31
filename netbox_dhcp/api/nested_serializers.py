@@ -4,6 +4,7 @@ from netbox.api.serializers import WritableNestedSerializer
 
 from netbox_dhcp.models import (
     DHCPCluster,
+    DHCPServer,
     ClientClass,
     Subnet,
     SharedNetwork,
@@ -14,6 +15,7 @@ from netbox_dhcp.models import (
 
 __all__ = (
     "NestedDHCPClusterSerializer",
+    "NestedDHCPServerSerializer",
     "NestedClientClassSerializer",
     "NestedSubnetSerializer",
     "NestedSharedNetworkSerializer",
@@ -26,6 +28,24 @@ __all__ = (
 class NestedDHCPClusterSerializer(WritableNestedSerializer):
     class Meta:
         model = DHCPCluster
+
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "description",
+            "status",
+        )
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_dhcp-api:dhcpcluster-detail"
+    )
+
+
+class NestedDHCPServerSerializer(WritableNestedSerializer):
+    class Meta:
+        model = DHCPServer
 
         fields = (
             "id",

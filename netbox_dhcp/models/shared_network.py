@@ -46,6 +46,7 @@ class SharedNetwork(
     clone_fields = (
         "name",
         "description",
+        "dhcp_server",
         "next_server",
         "server_hostname",
         "boot_file_name",
@@ -93,6 +94,12 @@ class SharedNetwork(
         "ddns_ttl_max",
     )
 
+    dhcp_server = models.ForeignKey(
+        verbose_name=_("DHCP Server"),
+        to="netbox_dhcp.DHCPServer",
+        related_name="child_shared_networks",
+        on_delete=models.CASCADE,
+    )
     prefix = models.ForeignKey(
         verbose_name=_("Prefix"),
         to=Prefix,

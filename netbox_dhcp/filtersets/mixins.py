@@ -30,6 +30,7 @@ __all__ = (
     "EvaluateClientClassFilterMixin",
     "DDNSUpdateFilterMixin",
     "SubnetFilterMixin",
+    "DHCPServerFilterMixin",
     "ChildSubnetFilterMixin",
     "ChildSharedNetworkFilterMixin",
     "ChildPoolFilterMixin",
@@ -267,6 +268,22 @@ class SubnetFilterMixin(NetBoxModelFilterSet):
         queryset=Subnet.objects.all(),
         field_name="subnet",
         label=_("Subnet ID"),
+    )
+
+
+class DHCPServerFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "dhcp_server",
+    ]
+
+    dhcp_server = django_filters.CharFilter(
+        field_name="dhcp_server__name",
+        label=_("DHCP Server"),
+    )
+    dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=DHCPServer.objects.all(),
+        field_name="dhcp_server",
+        label=_("DHCP Server ID"),
     )
 
 

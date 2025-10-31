@@ -47,6 +47,7 @@ __all__ = (
     "ChildHostReservationGraphQLFilterMixin",
     "NetworkGraphQLFilterMixin",
     "SubnetGraphQLFilterMixin",
+    "DHCPServerGraphQLFilterMixin",
 )
 
 
@@ -277,3 +278,13 @@ class SubnetGraphQLFilterMixin:
     subnet_id: ID | None = strawberry_django.filter_field()
 
 
+@dataclass
+class DHCPServerGraphQLFilterMixin:
+    dhcp_server: (
+        Annotated[
+            "NetBoxDHCPServerFilter",
+            strawberry.lazy("netbox_dhcp.graphql.filters"),
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    dhcp_server_id: ID | None = strawberry_django.filter_field()

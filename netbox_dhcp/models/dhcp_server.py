@@ -26,7 +26,6 @@ from .mixins import (
     DDNSUpdateModelMixin,
     LifetimeModelMixin,
     ChildSubnetModelMixin,
-    ChildSharedNetworkModelMixin,
     ChildHostReservationModelMixin,
 )
 from .option import Option
@@ -45,7 +44,6 @@ class DHCPServer(
     DDNSUpdateModelMixin,
     LifetimeModelMixin,
     ChildSubnetModelMixin,
-    ChildSharedNetworkModelMixin,
     ChildHostReservationModelMixin,
     NetBoxModel,
 ):

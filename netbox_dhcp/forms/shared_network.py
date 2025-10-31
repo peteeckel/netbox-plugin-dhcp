@@ -16,6 +16,10 @@ from netbox_dhcp.models import SharedNetwork
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
+    DHCPServerFormMixin,
+    DHCPServerFilterFormMixin,
+    DHCPServerImportFormMixin,
+    DHCPServerBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
@@ -64,6 +68,7 @@ __all__ = (
 
 
 class SharedNetworkForm(
+    DHCPServerFormMixin,
     PrefixFormMixin,
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
@@ -78,6 +83,7 @@ class SharedNetworkForm(
         fields = (
             "name",
             "description",
+            *DHCPServerFormMixin.FIELDS,
             "prefix",
             "child_subnets",
             *ClientClassFormMixin.FIELDS,
@@ -94,6 +100,7 @@ class SharedNetworkForm(
         FieldSet(
             "name",
             "description",
+            *DHCPServerFormMixin.FIELDS,
             "prefix",
             name=_("Shared Network"),
         ),
@@ -120,6 +127,7 @@ class SharedNetworkForm(
 
 class SharedNetworkFilterForm(
     NetBoxDHCPFilterFormMixin,
+    DHCPServerFilterFormMixin,
     PrefixFilterFormMixin,
     BOOTPFilterFormMixin,
     ClientClassFilterFormMixin,
@@ -143,6 +151,7 @@ class SharedNetworkFilterForm(
             "name",
             "description",
             "family",
+            *DHCPServerFilterFormMixin.FIELDS,
             "prefix_id",
             name=_("Shared Network"),
         ),
@@ -172,6 +181,7 @@ class SharedNetworkFilterForm(
 
 
 class SharedNetworkImportForm(
+    DHCPServerImportFormMixin,
     PrefixImportFormMixin,
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
@@ -186,6 +196,7 @@ class SharedNetworkImportForm(
         fields = (
             "name",
             "description",
+            *DHCPServerImportFormMixin.FIELDS,
             "prefix",
             "child_subnets",
             *ClientClassImportFormMixin.FIELDS,
@@ -201,6 +212,7 @@ class SharedNetworkImportForm(
 
 class SharedNetworkBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
+    DHCPServerBulkEditFormMixin,
     PrefixBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
@@ -218,6 +230,7 @@ class SharedNetworkBulkEditForm(
         FieldSet(
             "description",
             "prefix",
+            *DHCPServerBulkEditFormMixin.FIELDS,
             name=_("Shared Network"),
         ),
         FieldSet(

@@ -36,10 +36,7 @@ from .mixins import (
     ChildSubnetFilterFormMixin,
     ChildSubnetImportFormMixin,
     ChildSubnetBulkEditFormMixin,
-    ChildSharedNetworkFormMixin,
     ChildSharedNetworkFilterFormMixin,
-    ChildSharedNetworkImportFormMixin,
-    ChildSharedNetworkBulkEditFormMixin,
     ChildHostReservationFormMixin,
     ChildHostReservationFilterFormMixin,
     ChildHostReservationImportFormMixin,
@@ -82,7 +79,6 @@ class DHCPServerForm(
     DDNSUpdateFormMixin,
     ClientClassFormMixin,
     ChildSubnetFormMixin,
-    ChildSharedNetworkFormMixin,
     ChildHostReservationFormMixin,
     NetBoxModelForm,
 ):
@@ -109,7 +105,6 @@ class DHCPServerForm(
             *DDNSUpdateFormMixin.FIELDS,
             *ClientClassFormMixin.FIELDS,
             "child_subnets",
-            "child_shared_networks",
             "child_host_reservations",
             "tags",
         )
@@ -152,7 +147,6 @@ class DHCPServerForm(
         ClientClassFormMixin.FIELDSET,
         FieldSet(
             "child_subnets",
-            "child_shared_networks",
             "child_host_reservations",
             name=_("Child Objects"),
         ),
@@ -309,7 +303,6 @@ class DHCPServerImportForm(
     DDNSUpdateImportFormMixin,
     ClientClassImportFormMixin,
     ChildSubnetImportFormMixin,
-    ChildSharedNetworkImportFormMixin,
     ChildHostReservationImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -331,7 +324,6 @@ class DHCPServerImportForm(
             "relay_supplied_options",
             "decline_probation_period",
             "child_subnets",
-            "child_shared_networks",
             "child_host_reservations",
             *BOOTPImportFormMixin.FIELDS,
             *LifetimeImportFormMixin.FIELDS,
@@ -423,7 +415,6 @@ class DHCPServerBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     ChildSubnetBulkEditFormMixin,
-    ChildSharedNetworkBulkEditFormMixin,
     ChildHostReservationBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
@@ -451,7 +442,6 @@ class DHCPServerBulkEditForm(
         ClientClassBulkEditFormMixin.FIELDSET,
         FieldSet(
             "child_subnets",
-            "child_shared_networks",
             "child_host_reservations",
             name=_("Child Objects"),
         ),
@@ -466,7 +456,6 @@ class DHCPServerBulkEditForm(
         "relay_supplied_options",
         "decline_probation_period",
         "child_subnets",
-        "child_shared_networks",
         "child_host_reservations",
         *BOOTPBulkEditFormMixin.NULLABLE_FIELDS,
         *LifetimeBulkEditFormMixin.NULLABLE_FIELDS,

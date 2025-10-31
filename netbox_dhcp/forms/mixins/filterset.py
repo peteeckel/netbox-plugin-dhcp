@@ -14,6 +14,7 @@ from ipam.models import Prefix
 from netbox_dhcp.models import (
     ClientClass,
     Subnet,
+    DHCPServer,
     SharedNetwork,
     Pool,
     PDPool,
@@ -38,6 +39,7 @@ __all__ = (
     "LeaseFilterFormMixin",
     "NetworkFilterFormMixin",
     "SubnetFilterFormMixin",
+    "DHCPServerFilterFormMixin",
     "ChildSubnetFilterFormMixin",
     "ChildSharedNetworkFilterFormMixin",
     "ChildPoolFilterFormMixin",
@@ -443,6 +445,18 @@ class SubnetFilterFormMixin(forms.Form):
         queryset=Subnet.objects.all(),
         required=False,
         label=_("Subnet"),
+    )
+
+
+class DHCPServerFilterFormMixin(forms.Form):
+    FIELDS = [
+        "dhcp_server_id",
+    ]
+
+    dhcp_server_id = DynamicModelMultipleChoiceField(
+        queryset=DHCPServer.objects.all(),
+        required=False,
+        label=_("DHCP Server"),
     )
 
 

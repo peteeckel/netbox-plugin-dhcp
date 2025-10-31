@@ -116,7 +116,7 @@ class DHCPServerChildSubnetListView(generic.ObjectChildrenView):
         return parent.child_subnets.restrict(request.user, "view")
 
 
-@register_model_view(DHCPServer, "child_subnets")
+@register_model_view(DHCPServer, "child_shared_networks")
 class DHCPServerChildSharedNetworkListView(generic.ObjectChildrenView):
     queryset = DHCPServer.objects.all()
     child_model = SharedNetwork

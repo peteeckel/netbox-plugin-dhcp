@@ -403,6 +403,9 @@ class NetBoxDHCPSharedNetworkType(
 ):
     name: str
     description: str | None
+    dhcp_server: Annotated[
+        "NetBoxDHCPDHCPServerType", strawberry.lazy("netbox_dhcp.graphql.types")
+    ]
     # +
     # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
     # -

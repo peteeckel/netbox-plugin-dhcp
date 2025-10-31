@@ -13,6 +13,10 @@
                         <td>IPv{{ object.family }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "DHCP Server" %}</th>
+                        <td>{{ object.dhcp_server|linkify }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "Prefix" %}</th>
                         <td>{{ object.prefix|linkify }}</td>
                     </tr>

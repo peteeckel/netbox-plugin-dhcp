@@ -11,6 +11,8 @@ from .mixins import (
     ChildSubnetSerializerMixin,
 )
 
+from ..nested_serializers import NestedDHCPServerSerializer
+
 __all__ = ("SharedNetworkSerializer",)
 
 
@@ -29,6 +31,7 @@ class SharedNetworkSerializer(
             "display",
             "name",
             "description",
+            "dhcp_server",
             "prefix",
             "next_server",
             "server_hostname",
@@ -91,6 +94,10 @@ class SharedNetworkSerializer(
         view_name="plugins-api:netbox_dhcp-api:sharednetwork-detail"
     )
 
+    dhcp_server = NestedDHCPServerSerializer(
+        read_only=False,
+        required=True,
+    )
     prefix = PrefixSerializer(
         nested=True,
         read_only=False,

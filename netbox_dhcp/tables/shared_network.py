@@ -34,8 +34,9 @@ class SharedNetworkTable(
 
         fields = (
             "name",
-            "prefix",
             "description",
+            "dhcp_server",
+            "prefix",
             "next_server",
             "server_hostname",
             "boot_file_name",
@@ -85,6 +86,7 @@ class SharedNetworkTable(
 
         default_columns = (
             "name",
+            "dhcp_server",
             "prefix",
         )
 
@@ -94,11 +96,13 @@ class RelatedSharedNetworkTable(SharedNetworkTable):
         fields = (
             "name",
             "description",
+            "dhcp_server",
         )
 
         default_columns = (
             "name",
             "description",
+            "dhcp_server",
         )
 
     actions = None

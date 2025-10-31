@@ -10,7 +10,7 @@ from utilities.forms.widgets import BulkEditNullBooleanSelect
 from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 
-from netbox_dhcp.models import ClientClass, Subnet, SharedNetwork, HostReservation
+from netbox_dhcp.models import ClientClass, Subnet, DHCPServer, HostReservation
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
     DDNSConflictResolutionModeChoices,
@@ -30,8 +30,8 @@ __all__ = (
     "LeaseBulkEditFormMixin",
     "NetworkBulkEditFormMixin",
     "SubnetBulkEditFormMixin",
+    "DHCPServerBulkEditFormMixin",
     "ChildSubnetBulkEditFormMixin",
-    "ChildSharedNetworkBulkEditFormMixin",
     "ChildHostReservationBulkEditFormMixin",
 )
 
@@ -448,19 +448,23 @@ class SubnetBulkEditFormMixin(forms.Form):
     )
 
 
+class DHCPServerBulkEditFormMixin(forms.Form):
+    FIELDS = [
+        "dhcp_server",
+    ]
+
+    dhcp_server = DynamicModelChoiceField(
+        queryset=DHCPServer.objects.all(),
+        required=False,
+        label=_("DHCP Server"),
+    )
+
+
 class ChildSubnetBulkEditFormMixin(forms.Form):
     child_subnets = DynamicModelMultipleChoiceField(
         queryset=Subnet.objects.all(),
         required=False,
         label=_("Subnets"),
-    )
-
-
-class ChildSharedNetworkBulkEditFormMixin(forms.Form):
-    child_shared_networks = DynamicModelMultipleChoiceField(
-        queryset=SharedNetwork.objects.all(),
-        required=False,
-        label=_("Shared Networks"),
     )
 
 

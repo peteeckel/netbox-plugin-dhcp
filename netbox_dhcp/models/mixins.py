@@ -21,11 +21,15 @@ __all__ = (
     "ChildHostReservationModelMixin",
     "ChildPoolModelMixin",
     "ChildSubnetModelMixin",
-    "ChildSharedNetworkModelMixin",
 )
 
 
 class NetBoxDHCPModelMixin(models.Model):
+    FIELDS = [
+        "name",
+        "description",
+    ]
+
     class Meta:
         abstract = True
 
@@ -46,6 +50,12 @@ class NetBoxDHCPModelMixin(models.Model):
 
 
 class BOOTPModelMixin(models.Model):
+    FIELDS = [
+        "next_server",
+        "server_hostname",
+        "boot_file_name",
+    ]
+
     class Meta:
         abstract = True
 
@@ -400,18 +410,6 @@ class ChildSubnetModelMixin(models.Model):
     child_subnets = models.ManyToManyField(
         verbose_name=_("Subnets"),
         to="Subnet",
-        related_name="parent_%(class)s_set",
-        blank=True,
-    )
-
-
-class ChildSharedNetworkModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    child_shared_networks = models.ManyToManyField(
-        verbose_name=_("Shared Networks"),
-        to="SharedNetwork",
         related_name="parent_%(class)s_set",
         blank=True,
     )

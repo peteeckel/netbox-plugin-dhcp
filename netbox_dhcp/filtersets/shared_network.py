@@ -8,6 +8,7 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import SharedNetwork
 
 from .mixins import (
+    DHCPServerFilterMixin,
     PrefixFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
@@ -17,13 +18,13 @@ from .mixins import (
     LeaseFilterMixin,
     NetworkFilterMixin,
     ChildSubnetFilterMixin,
-    ParentDHCPServerFilterMixin,
 )
 
 __all__ = ("SharedNetworkFilterSet",)
 
 
 class SharedNetworkFilterSet(
+    DHCPServerFilterMixin,
     PrefixFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
@@ -32,7 +33,6 @@ class SharedNetworkFilterSet(
     LeaseFilterMixin,
     DDNSUpdateFilterMixin,
     ChildSubnetFilterMixin,
-    ParentDHCPServerFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:
@@ -42,6 +42,7 @@ class SharedNetworkFilterSet(
             "id",
             "name",
             "description",
+            *DHCPServerFilterMixin.FILTER_FIELDS,
             *PrefixFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
@@ -49,7 +50,6 @@ class SharedNetworkFilterSet(
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
             *NetworkFilterMixin.FILTER_FIELDS,
             *ChildSubnetFilterMixin.FILTER_FIELDS,
-            *ParentDHCPServerFilterMixin.FILTER_FIELDS,
         )
 
     name = django_filters.CharFilter(

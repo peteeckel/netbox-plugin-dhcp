@@ -11,7 +11,7 @@ from ipam.models import Prefix
 from netbox_dhcp.models import (
     ClientClass,
     Subnet,
-    SharedNetwork,
+    DHCPServer,
     Pool,
     HostReservation,
 )
@@ -31,8 +31,8 @@ __all__ = (
     "LifetimeImportFormMixin",
     "LeaseImportFormMixin",
     "SubnetImportFormMixin",
+    "DHCPServerImportFormMixin",
     "ChildSubnetImportFormMixin",
-    "ChildSharedNetworkImportFormMixin",
     "ChildPoolImportFormMixin",
     "ChildHostReservationImportFormMixin",
     "NetworkImportFormMixin",
@@ -178,6 +178,22 @@ class SubnetImportFormMixin(forms.Form):
     )
 
 
+class DHCPServerImportFormMixin(forms.Form):
+    FIELDS = [
+        "dhcp_server",
+    ]
+
+    dhcp_server = CSVModelChoiceField(
+        queryset=DHCPServer.objects.all(),
+        required=False,
+        to_field_name="name",
+        error_messages={
+            "invalid_choice": _("DHCP Server %(value)s not found"),
+        },
+        label=_("DHCP Server"),
+    )
+
+
 class ChildSubnetImportFormMixin(forms.Form):
     child_subnets = CSVModelMultipleChoiceField(
         queryset=Subnet.objects.all(),
@@ -187,18 +203,6 @@ class ChildSubnetImportFormMixin(forms.Form):
             "invalid_choice": _("Subnet %(value)s not found"),
         },
         label=_("Subnets"),
-    )
-
-
-class ChildSharedNetworkImportFormMixin(forms.Form):
-    child_shared_networks = CSVModelMultipleChoiceField(
-        queryset=SharedNetwork.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Shared Network %(value)s not found"),
-        },
-        label=_("Shared Networks"),
     )
 
 

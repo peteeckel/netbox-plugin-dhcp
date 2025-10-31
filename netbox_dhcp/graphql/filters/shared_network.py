@@ -6,6 +6,7 @@ from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
 from netbox_dhcp.models import SharedNetwork
 
 from .mixins import (
+    DHCPServerGraphQLFilterMixin,
     PrefixGraphQLFilterMixin,
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,
@@ -21,6 +22,7 @@ from .mixins import (
 
 @strawberry_django.filter_type(SharedNetwork, lookups=True)
 class NetBoxDHCPSharedNetworkFilter(
+    DHCPServerGraphQLFilterMixin,
     PrefixGraphQLFilterMixin,
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,

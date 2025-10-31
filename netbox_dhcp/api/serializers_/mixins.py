@@ -50,7 +50,7 @@ class ChildSubnetSerializerMixin:
 class ChildSharedNetworkSerializerMixin:
     child_shared_networks = NestedSharedNetworkSerializer(
         many=True,
-        read_only=False,
+        read_only=True,
         required=False,
     )
 
