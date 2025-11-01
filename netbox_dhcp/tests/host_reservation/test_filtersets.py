@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from utilities.testing import ChangeLoggedFilterSetTests
 
-from netbox_dhcp.models import HostReservation
+from netbox_dhcp.models import HostReservation, Subnet
 from netbox_dhcp.filtersets import HostReservationFilterSet
 from netbox_dhcp.tests.custom import TestObjects, BOOTPFilterSetTests
 
@@ -15,46 +15,45 @@ class HostReservationFilterSetTestCase(
     queryset = HostReservation.objects.all()
     filterset = HostReservationFilterSet
 
-    # +
-    # Because of the misbehaviour mentioned below, ipv6_addresses, ipv6_prefixes
-    # and excluded_ipv6_prefixes need to be ignored by the missing_filters
-    # test as well
-    # -
     ignore_fields = (
         "ipv6_addresses",
         "ipv6_prefixes",
         "excluded_ipv6_prefixes",
     )
 
-    # +
-    # This is a dirty hack and does not work for all models.
-    #
-    # What really needs to be fixed is the get_m2m_filter_name() method in
-    # netbox/utilities/testing/filtersets.py, which returns a filter name
-    # based on the target model verbose name instead of the field name.
-    #
-    # Obviously this fails if there are multiple m2m relations to the same
-    # class.
-    # -
-    filter_name_map = {
-        "dhcp_server": "parent_dhcp_server",
-        "subnet": "parent_subnet",
-    }
-
     @classmethod
     def setUpTestData(cls):
+        cls.dhcp_servers = TestObjects.get_dhcp_servers()
         cls.mac_addresses = TestObjects.get_mac_addresses()
         cls.ipv4_addresses = TestObjects.get_ipv4_addresses()
         cls.ipv6_addresses = TestObjects.get_ipv6_addresses()
         cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         cls.client_classes = TestObjects.get_client_classes()
-        cls.dhcp_servers = TestObjects.get_dhcp_servers()
-        cls.subnets = TestObjects.get_ipv4_subnets()
+
+        cls.subnets = (
+            Subnet(
+                name="test-subnet-1",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv6_prefixes[0],
+            ),
+            Subnet(
+                name="test-subnet-2",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=cls.ipv6_prefixes[1],
+            ),
+            Subnet(
+                name="test-subnet-3",
+                dhcp_server=cls.dhcp_servers[2],
+                prefix=cls.ipv6_prefixes[2],
+            ),
+        )
+        Subnet.objects.bulk_create(cls.subnets)
 
         cls.host_reservations = (
             HostReservation(
                 name="test-host-reservation-1",
                 description="Test Host Reservation 1",
+                dhcp_server=cls.dhcp_servers[0],
                 circuit_id="ge0/0/0:vlan42",
                 client_id="sample.client.1",
                 duid="00:02:00:00:3e:20:ff:00:00:00:00:01",
@@ -67,6 +66,7 @@ class HostReservationFilterSetTestCase(
             HostReservation(
                 name="test-host-reservation-2",
                 description="Test Host Reservation 2",
+                dhcp_server=cls.dhcp_servers[1],
                 circuit_id="ge0/0/1:vlan42",
                 client_id="sample.client.2",
                 duid="00:02:00:00:3e:20:ff:00:00:00:00:02",
@@ -79,6 +79,7 @@ class HostReservationFilterSetTestCase(
             HostReservation(
                 name="test-host-reservation-3",
                 description="Test Host Reservation 3",
+                dhcp_server=cls.dhcp_servers[2],
                 circuit_id="ge0/0/2:vlan43",
                 client_id="sample.client.3",
                 duid="00:02:00:00:3e:20:ff:00:00:00:00:03",
@@ -88,12 +89,23 @@ class HostReservationFilterSetTestCase(
                 ipv4_address=cls.ipv4_addresses[2],
                 **BOOTPFilterSetTests.DATA[2],
             ),
+            HostReservation(
+                name="test-host-reservation-4",
+                description="Test Host Reservation 4",
+                subnet=cls.subnets[0],
+            ),
+            HostReservation(
+                name="test-host-reservation-5",
+                description="Test Host Reservation 5",
+                subnet=cls.subnets[1],
+            ),
+            HostReservation(
+                name="test-host-reservation-6",
+                description="Test Host Reservation 6",
+                subnet=cls.subnets[2],
+            ),
         )
         HostReservation.objects.bulk_create(cls.host_reservations)
-
-        for number, host_reservation in enumerate(cls.host_reservations):
-            cls.dhcp_servers[number].child_host_reservations.set([host_reservation])
-            cls.subnets[number].child_host_reservations.set([host_reservation])
 
         cls.host_reservations[0].ipv6_addresses.set(cls.ipv6_addresses[0:2])
         cls.host_reservations[1].ipv6_addresses.set(cls.ipv6_addresses[1:3])
@@ -185,16 +197,14 @@ class HostReservationFilterSetTestCase(
         params = {"excluded_ipv6_prefix_id": [self.ipv6_prefixes[0].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_parent_dhcp_server(self):
-        params = {"parent_dhcp_server__iregex": r"server-[12]"}
+    def test_dhcp_server(self):
+        params = {"dhcp_server__iregex": r"server-[12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {
-            "parent_dhcp_server_id": [self.dhcp_servers[0].pk, self.dhcp_servers[1].pk]
-        }
+        params = {"dhcp_server_id": [self.dhcp_servers[0].pk, self.dhcp_servers[1].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_parent_subnet(self):
-        params = {"parent_subnet__iregex": r"subnet-[12]"}
+    def test_subnet(self):
+        params = {"subnet__iregex": r"subnet-[12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"parent_subnet_id": [self.subnets[0].pk, self.subnets[1].pk]}
+        params = {"subnet_id": [self.subnets[0].pk, self.subnets[1].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

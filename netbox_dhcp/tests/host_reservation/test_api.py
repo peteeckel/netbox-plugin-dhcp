@@ -39,6 +39,7 @@ class HostReservationAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
+        dhcp_servers = TestObjects.get_dhcp_servers()
         client_classes = TestObjects.get_client_classes()
         mac_addresses = TestObjects.get_mac_addresses()
         ipv4_addresses = TestObjects.get_ipv4_addresses()
@@ -48,12 +49,15 @@ class HostReservationAPITestCase(
         host_reservations = (
             HostReservation(
                 name="test-host-reservation-1",
+                dhcp_server=dhcp_servers[0],
             ),
             HostReservation(
                 name="test-host-reservation-2",
+                dhcp_server=dhcp_servers[0],
             ),
             HostReservation(
                 name="test-host-reservation-3",
+                dhcp_server=dhcp_servers[0],
             ),
         )
         HostReservation.objects.bulk_create(host_reservations)
@@ -62,6 +66,7 @@ class HostReservationAPITestCase(
             {
                 "name": "test-host-reservation-4",
                 "description": "Test Host Reservation 4",
+                "dhcp_server": dhcp_servers[1].pk,
                 "circuit_id": None,
                 "client_id": None,
                 "duid": None,
@@ -81,6 +86,7 @@ class HostReservationAPITestCase(
             },
             {
                 "name": "test-host-reservation-5",
+                "dhcp_server": dhcp_servers[1].pk,
                 "description": "Test Host Reservation 5",
                 "circuit_id": "Test-1234",
                 "client_id": "Test-4321",
@@ -88,6 +94,7 @@ class HostReservationAPITestCase(
             },
             {
                 "name": "test-host-reservation-6",
+                "dhcp_server": dhcp_servers[2].pk,
                 "description": "Test Host Reservation 6",
                 "circuit_id": None,
                 "client_id": None,
@@ -99,5 +106,6 @@ class HostReservationAPITestCase(
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
+            "dhcp_server": dhcp_servers[2].pk,
             "client_classes": [client_class.pk for client_class in client_classes],
         }
