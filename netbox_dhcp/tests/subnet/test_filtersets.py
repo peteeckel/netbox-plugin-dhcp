@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from utilities.testing import ChangeLoggedFilterSetTests
 
-from netbox_dhcp.models import Subnet
+from netbox_dhcp.models import Subnet, SharedNetwork, HostReservation
 from netbox_dhcp.filtersets import SubnetFilterSet
 from netbox_dhcp.tests.custom import (
     TestObjects,
@@ -42,24 +42,48 @@ class SubnetFilterSetTestCase(
         "pool": "child_pool",
         "prefix_delegation_pool": "child_pd_pool",
         "host_reservation": "child_host_reservation",
-        "dhcp_server": "parent_dhcp_server",
-        "shared_network": "parent_shared_network",
     }
 
     @classmethod
     def setUpTestData(cls):
+        cls.dhcp_servers = TestObjects.get_dhcp_servers()
         cls.ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         cls.client_classes = TestObjects.get_client_classes()
-        cls.ipv4_subnets = TestObjects.get_ipv4_subnets()
-        cls.ipv6_subnets = TestObjects.get_ipv6_subnets()
-        cls.ipv4_shared_networks = TestObjects.get_ipv4_shared_networks()
-        cls.host_reservations = TestObjects.get_host_reservations()
 
-        cls.subnets = (
+        cls.shared_networks = (
+            SharedNetwork(
+                name="test-ipv4-shared-network-1",
+                description="Test Shared Network 1",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv4_prefixes[0],
+            ),
+            SharedNetwork(
+                name="test-ipv4-shared-network-2",
+                description="Test Shared Network 2",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv4_prefixes[1],
+            ),
+            SharedNetwork(
+                name="test-ipv6-shared-network-1",
+                description="Test Shared Network 3",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv6_prefixes[2],
+            ),
+            SharedNetwork(
+                name="test-ipv6-shared-network-2",
+                description="Test Shared Network 4",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv6_prefixes[2],
+            ),
+        )
+        SharedNetwork.objects.bulk_create(cls.shared_networks)
+
+        cls.ipv4_subnets = (
             Subnet(
                 name="test-subnet-1",
                 description="Test Subnet 1",
+                dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv4_prefixes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
                 **BOOTPFilterSetTests.DATA[0],
@@ -70,6 +94,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-2",
                 description="Test Subnet 2",
+                dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv4_prefixes[1],
                 **BOOTPFilterSetTests.DATA[1],
                 **OfferLifetimeFilterSetTests.DATA[1],
@@ -77,6 +102,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-3",
                 description="Test Subnet 3",
+                shared_network=cls.shared_networks[0],
                 prefix=cls.ipv4_prefixes[2],
                 **BOOTPFilterSetTests.DATA[2],
                 **DDNSUpdateFilterSetTests.DATA[1],
@@ -84,15 +110,21 @@ class SubnetFilterSetTestCase(
                 **OfferLifetimeFilterSetTests.DATA[2],
                 **LeaseFilterSetTests.DATA[1],
             ),
+        )
+        Subnet.objects.bulk_create(cls.ipv4_subnets)
+
+        cls.ipv6_subnets = (
             Subnet(
                 name="test-subnet-4",
                 description="Test Subnet 4",
+                dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv6_prefixes[0],
                 **PreferredLifetimeFilterSetTests.DATA[0],
             ),
             Subnet(
                 name="test-subnet-5",
                 description="Test Subnet 5",
+                dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv6_prefixes[1],
                 **DDNSUpdateFilterSetTests.DATA[2],
                 **ValidLifetimeFilterSetTests.DATA[2],
@@ -102,22 +134,33 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-6",
                 description="Test Subnet 6",
+                shared_network=cls.shared_networks[2],
                 prefix=cls.ipv6_prefixes[2],
                 **PreferredLifetimeFilterSetTests.DATA[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.subnets)
+        Subnet.objects.bulk_create(cls.ipv6_subnets)
+
+        cls.host_reservations = (
+            HostReservation(
+                name="test-host-reservation-1",
+                subnet=cls.ipv4_subnets[0],
+            ),
+            HostReservation(
+                name="test-host-reservation-2",
+                subnet=cls.ipv4_subnets[1],
+            ),
+            HostReservation(
+                name="test-host-reservation-3",
+                subnet=cls.ipv4_subnets[2],
+            ),
+        )
+        HostReservation.objects.bulk_create(cls.host_reservations)
 
         for number in range(3):
-            cls.subnets[number + 3].child_host_reservations.add(
-                cls.host_reservations[number]
-            )
-            cls.ipv4_shared_networks[number].child_subnets.add(cls.subnets[number])
-
-        for number in range(4):
-            cls.subnets[number].client_classes.add(cls.client_classes[number % 3])
-            cls.subnets[number].evaluate_additional_classes.add(
-                cls.client_classes[(number + 2) % 3]
+            cls.ipv4_subnets[number].client_classes.add(cls.client_classes[number])
+            cls.ipv4_subnets[number].evaluate_additional_classes.add(
+                cls.client_classes[2 - number]
             )
 
     def test_name(self):
@@ -153,16 +196,27 @@ class SubnetFilterSetTestCase(
         params = {"child_host_reservation__iregex": r"host-reservation-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_parent_shared_network(self):
+    def test_shared_network(self):
         params = {
-            "parent_shared_network_id": [
-                self.ipv4_shared_networks[0].pk,
-                self.ipv4_shared_networks[1].pk,
+            "shared_network_id": [
+                self.shared_networks[0].pk,
+                self.shared_networks[2].pk,
             ]
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"parent_shared_network__iregex": r"ipv4-shared-network-[23]"}
+        params = {"shared_network__iregex": r"ipv[46]-shared-network-[12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_dhcp_server(self):
+        params = {
+            "dhcp_server_id": [
+                self.dhcp_servers[0].pk,
+                self.dhcp_servers[1].pk,
+            ]
+        }
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 4)
+        params = {"dhcp_server__iregex": r"test-server-[12]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 4)
 
     def test_client_classes(self):
         params = {
@@ -171,7 +225,7 @@ class SubnetFilterSetTestCase(
                 self.client_classes[1].pk,
             ]
         }
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"client_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
@@ -184,4 +238,4 @@ class SubnetFilterSetTestCase(
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

@@ -30,24 +30,27 @@ class SubnetAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
+        dhcp_servers = TestObjects.get_dhcp_servers()
         ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         client_classes = TestObjects.get_client_classes()
-        host_reservations = TestObjects.get_host_reservations()
 
         subnets = (
             Subnet(
                 name="test-subnet-1",
                 description="Test Subnet 1",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[0],
             ),
             Subnet(
                 name="test-subnet-2",
+                dhcp_server=dhcp_servers[0],
                 description="Test Subnet 2",
                 prefix=ipv4_prefixes[1],
             ),
             Subnet(
                 name="test-subnet-3",
+                dhcp_server=dhcp_servers[0],
                 description="Test Subnet 3",
                 prefix=ipv4_prefixes[2],
             ),
@@ -58,6 +61,7 @@ class SubnetAPITestCase(
             {
                 "name": "test-subnet-4",
                 "description": "Test Subnet 4",
+                "dhcp_server": dhcp_servers[1].pk,
                 "prefix": ipv6_prefixes[0].pk,
                 "client_classes": [
                     client_class.pk for client_class in client_classes[0:2]
@@ -65,13 +69,11 @@ class SubnetAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "child_host_reservations": [
-                    host_reservation.pk for host_reservation in host_reservations[0:2]
-                ],
             },
             {
                 "name": "test-subnet-5",
                 "description": "Test Subnet 5",
+                "dhcp_server": dhcp_servers[1].pk,
                 "prefix": ipv6_prefixes[1].pk,
                 "client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
@@ -79,13 +81,11 @@ class SubnetAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "child_host_reservations": [
-                    host_reservation.pk for host_reservation in host_reservations[1:3]
-                ],
             },
             {
                 "name": "test-subnet-6",
                 "description": "Test Subnet 6",
+                "dhcp_server": dhcp_servers[1].pk,
                 "prefix": ipv6_prefixes[2].pk,
                 "client_classes": [
                     client_class.pk for client_class in client_classes[0:3]
@@ -101,5 +101,4 @@ class SubnetAPITestCase(
             "prefix": ipv6_prefixes[1].pk,
             "client_classes": [client_classes[0].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
-            "child_host_reservations": [host_reservations[0].pk],
         }
