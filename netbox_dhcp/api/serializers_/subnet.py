@@ -4,12 +4,14 @@ from netbox.api.serializers import NetBoxModelSerializer
 from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import Subnet
+from ..nested_serializers import (
+    NestedPDPoolSerializer,
+    NestedPoolSerializer,
+)
 
 from .mixins import (
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    ChildPoolSerializerMixin,
-    ChildPDPoolSerializerMixin,
     ChildHostReservationSerializerMixin,
 )
 
@@ -19,8 +21,6 @@ __all__ = ("SubnetSerializer",)
 class SubnetSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    ChildPoolSerializerMixin,
-    ChildPDPoolSerializerMixin,
     ChildHostReservationSerializerMixin,
     NetBoxModelSerializer,
 ):

@@ -8,10 +8,9 @@ from netbox_dhcp.models import SharedNetwork
 from .mixins import (
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    ChildSubnetSerializerMixin,
 )
 
-from ..nested_serializers import NestedDHCPServerSerializer
+from ..nested_serializers import NestedDHCPServerSerializer, NestedSubnetSerializer
 
 __all__ = ("SharedNetworkSerializer",)
 
@@ -19,7 +18,6 @@ __all__ = ("SharedNetworkSerializer",)
 class SharedNetworkSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    ChildSubnetSerializerMixin,
     NetBoxModelSerializer,
 ):
     class Meta:
@@ -103,6 +101,13 @@ class SharedNetworkSerializer(
         read_only=False,
         required=True,
     )
+
+    child_subnets = NestedSubnetSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+    )
+
 
     def create(self, validated_data):
         client_classes = validated_data.pop("client_classes", None)

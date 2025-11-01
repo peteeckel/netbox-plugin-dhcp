@@ -9,12 +9,12 @@ from virtualization.api.serializers import (
     VMInterfaceSerializer,
 )
 
-from ..nested_serializers import NestedDHCPClusterSerializer
-from .mixins import (
-    ClientClassSerializerMixin,
-    ChildSubnetSerializerMixin,
-    ChildSharedNetworkSerializerMixin,
-    ChildHostReservationSerializerMixin,
+from ..nested_serializers import (
+    NestedDHCPClusterSerializer,
+    NestedClientClassSerializer,
+    NestedSharedNetworkSerializer,
+    NestedSubnetSerializer,
+    NestedHostReservationSerializer,
 )
 
 from netbox_dhcp.models import DHCPServer
@@ -23,13 +23,7 @@ from netbox_dhcp.models import DHCPServer
 __all__ = ("DHCPServerSerializer",)
 
 
-class DHCPServerSerializer(
-    ClientClassSerializerMixin,
-    ChildSubnetSerializerMixin,
-    ChildSharedNetworkSerializerMixin,
-    ChildHostReservationSerializerMixin,
-    NetBoxModelSerializer,
-):
+class DHCPServerSerializer(NetBoxModelSerializer):
     class Meta:
         model = DHCPServer
 
@@ -106,6 +100,29 @@ class DHCPServerSerializer(
         required=False,
         default=None,
         help_text=_("Virtual Interfaces"),
+    )
+
+    client_classes = NestedClientClassSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        help_text=_("Client Classes"),
+    )
+
+    child_shared_networks = NestedSharedNetworkSerializer(
+        many=True,
+        read_only=True,
+        required=False,
+    )
+    child_subnets = NestedSubnetSerializer(
+        many=True,
+        read_only=True,
+        required=False,
+    )
+    child_host_reservations = NestedHostReservationSerializer(
+        many=True,
+        read_only=True,
+        required=False,
     )
 
     def create(self, validated_data):
