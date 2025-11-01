@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from utilities.testing import ChangeLoggedFilterSetTests
 
-from netbox_dhcp.models import Pool
+from netbox_dhcp.models import Pool, Subnet
 from netbox_dhcp.filtersets import PoolFilterSet
 from netbox_dhcp.tests.custom import TestObjects, DDNSUpdateFilterSetTests
 
@@ -15,32 +15,58 @@ class PoolFilterSetTestCase(
     queryset = Pool.objects.all()
     filterset = PoolFilterSet
 
-    # +
-    # This is a dirty hack and does not work for all models.
-    #
-    # What really needs to be fixed is the get_m2m_filter_name() method in
-    # netbox/utilities/testing/filtersets.py, which returns a filter name
-    # based on the target model verbose name instead of the field name.
-    #
-    # Obviously this fails if there are multiple m2m relations to the same
-    # class.
-    # -
-    filter_name_map = {
-        "subnet": "parent_subnet",
-    }
-
     @classmethod
     def setUpTestData(cls):
+        cls.dhcp_servers = TestObjects.get_dhcp_servers()
         cls.client_classes = TestObjects.get_client_classes()
-        cls.ipv4_subnets = TestObjects.get_ipv4_subnets()
-        cls.ipv6_subnets = TestObjects.get_ipv6_subnets()
+        cls.ipv4_prefixes = TestObjects.get_ipv4_prefixes()
+        cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         cls.ipv4_ranges = TestObjects.get_ipv4_ranges()
         cls.ipv6_ranges = TestObjects.get_ipv6_ranges()
+
+        cls.ipv4_subnets = (
+            Subnet(
+                name="test-ipv4-subnet-1",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv4_prefixes[0],
+            ),
+            Subnet(
+                name="test-ipv4-subnet-2",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=cls.ipv4_prefixes[1],
+            ),
+            Subnet(
+                name="test-ipv4-subnet-3",
+                dhcp_server=cls.dhcp_servers[2],
+                prefix=cls.ipv4_prefixes[2],
+            ),
+        )
+        Subnet.objects.bulk_create(cls.ipv4_subnets)
+
+        cls.ipv6_subnets = (
+            Subnet(
+                name="test-ipv6-subnet-1",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=cls.ipv6_prefixes[0],
+            ),
+            Subnet(
+                name="test-ipv6-subnet-2",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=cls.ipv6_prefixes[1],
+            ),
+            Subnet(
+                name="test-ipv6-subnet-3",
+                dhcp_server=cls.dhcp_servers[2],
+                prefix=cls.ipv6_prefixes[2],
+            ),
+        )
+        Subnet.objects.bulk_create(cls.ipv6_subnets)
 
         pools = (
             Pool(
                 name="test-pool-1",
                 description="Test Pool 1",
+                subnet=cls.ipv4_subnets[0],
                 ip_range=cls.ipv4_ranges[0],
                 pool_id=23,
                 **DDNSUpdateFilterSetTests.DATA[0],
@@ -48,6 +74,7 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-2",
                 description="Test Pool 2",
+                subnet=cls.ipv4_subnets[1],
                 ip_range=cls.ipv4_ranges[1],
                 pool_id=42,
                 **DDNSUpdateFilterSetTests.DATA[1],
@@ -55,6 +82,7 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-3",
                 description="Test Pool 3",
+                subnet=cls.ipv6_subnets[0],
                 ip_range=cls.ipv6_ranges[0],
                 pool_id=1337,
                 **DDNSUpdateFilterSetTests.DATA[2],
@@ -62,16 +90,12 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-4",
                 description="Test Pool 4",
+                subnet=cls.ipv6_subnets[1],
                 ip_range=cls.ipv6_ranges[1],
                 pool_id=4711,
             ),
         )
         Pool.objects.bulk_create(pools)
-
-        cls.ipv4_subnets[0].child_pools.add(pools[0])
-        cls.ipv4_subnets[1].child_pools.add(pools[1])
-        cls.ipv6_subnets[0].child_pools.add(pools[2])
-        cls.ipv6_subnets[1].child_pools.add(pools[3])
 
         for number in range(4):
             pools[number].client_classes.add(cls.client_classes[(number + 1) % 3])
@@ -101,12 +125,10 @@ class PoolFilterSetTestCase(
         params = {"ip_range_id": [self.ipv6_ranges[0].pk, self.ipv4_ranges[0].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
-    def test_parent_subnet(self):
-        params = {
-            "parent_subnet_id": [self.ipv6_subnets[0].pk, self.ipv6_subnets[1].pk]
-        }
+    def test_subnet(self):
+        params = {"subnet_id": [self.ipv6_subnets[0].pk, self.ipv6_subnets[1].pk]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"parent_subnet__iregex": r"ipv6-subnet-[12]"}
+        params = {"subnet__iregex": r"ipv6-subnet-[12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_client_classes(self):
