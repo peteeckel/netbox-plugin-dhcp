@@ -55,9 +55,6 @@ from .mixins import (
     NetworkFilterFormMixin,
     NetworkImportFormMixin,
     NetworkBulkEditFormMixin,
-    ChildPDPoolFilterFormMixin,
-    ChildPoolFilterFormMixin,
-    ChildHostReservationFilterFormMixin,
 )
 
 
@@ -147,9 +144,6 @@ class SubnetFilterForm(
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
-    ChildPoolFilterFormMixin,
-    ChildPDPoolFilterFormMixin,
-    ChildHostReservationFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = Subnet
@@ -169,12 +163,6 @@ class SubnetFilterForm(
             *SharedNetworkFilterFormMixin.FIELDS,
             "prefix_id",
             name=_("Subnet"),
-        ),
-        FieldSet(
-            "child_pool_id",
-            "child_pd_pool_id",
-            "child_host_reservation_id",
-            name=_("Child Objects"),
         ),
         FieldSet(
             *ClientClassFilterFormMixin.FIELDS,

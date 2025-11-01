@@ -52,7 +52,6 @@ from .mixins import (
     NetworkFilterFormMixin,
     NetworkImportFormMixin,
     NetworkBulkEditFormMixin,
-    ChildSubnetFilterFormMixin,
 )
 
 
@@ -127,7 +126,6 @@ class SharedNetworkFilterForm(
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
-    ChildSubnetFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = SharedNetwork
@@ -156,10 +154,6 @@ class SharedNetworkFilterForm(
         LifetimeFilterFormMixin.FIELDSET,
         LeaseFilterFormMixin.FIELDSET,
         DDNSUpdateFilterFormMixin.FIELDSET,
-        FieldSet(
-            "child_subnet_id",
-            name=_("Child Objects"),
-        ),
     )
 
     family = forms.ChoiceField(

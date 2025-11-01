@@ -32,9 +32,6 @@ from netbox_dhcp.choices import (
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
-    ChildSubnetFilterFormMixin,
-    ChildSharedNetworkFilterFormMixin,
-    ChildHostReservationFilterFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
@@ -215,9 +212,6 @@ class DHCPServerFilterForm(
     DDNSUpdateFilterFormMixin,
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
-    ChildSubnetFilterFormMixin,
-    ChildSharedNetworkFilterFormMixin,
-    ChildHostReservationFilterFormMixin,
     NetBoxModelFilterSetForm,
 ):
     model = DHCPServer
@@ -248,12 +242,6 @@ class DHCPServerFilterForm(
         LeaseFilterFormMixin.FIELDSET,
         DDNSUpdateFilterFormMixin.FIELDSET,
         ClientClassFilterFormMixin.FIELDSET,
-        FieldSet(
-            "child_subnet_id",
-            "child_shared_network_id",
-            "child_host_reservation_id",
-            name=_("Child Objects"),
-        ),
     )
 
     status = forms.MultipleChoiceField(
