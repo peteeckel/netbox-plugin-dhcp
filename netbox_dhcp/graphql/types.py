@@ -160,6 +160,39 @@ class EvaluateClientClassGraphQLTypeMixin:
     ]
 
 
+@strawberry.type
+class DHCPServerGraphQLTypeMixin:
+    dhcp_server: (
+        Annotated[
+            "NetBoxDHCPDHCPServerType",
+            strawberry.lazy("netbox_dhcp.graphql.types"),
+        ]
+        | None
+    )
+
+
+@strawberry.type
+class SubnetGraphQLTypeMixin:
+    subnet: (
+        Annotated[
+            "NetBoxDHCPSubnetType",
+            strawberry.lazy("netbox_dhcp.graphql.types"),
+        ]
+        | None
+    )
+
+
+@strawberry.type
+class SharedNetworkGraphQLTypeMixin:
+    shared_network: (
+        Annotated[
+            "NetBoxDHCPSharedNetworkType",
+            strawberry.lazy("netbox_dhcp.graphql.types"),
+        ]
+        | None
+    )
+
+
 @strawberry_django.type(
     ClientClass, fields="__all__", filters=NetBoxDHCPClientClassFilter
 )
@@ -234,6 +267,8 @@ class NetBoxDHCPDHCPServerType(
     HostReservation, fields="__all__", filters=NetBoxDHCPHostReservationFilter
 )
 class NetBoxDHCPHostReservationType(
+    DHCPServerGraphQLTypeMixin,
+    SubnetGraphQLTypeMixin,
     BOOTPGraphQLTypeMixin,
     NetBoxObjectType,
 ):
@@ -337,6 +372,7 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
 
 @strawberry_django.type(PDPool, fields="__all__", filters=NetBoxDHCPPDPoolFilter)
 class NetBoxDHCPPDPoolType(
+    SubnetGraphQLTypeMixin,
     ClientClassGraphQLTypeMixin,
     EvaluateClientClassGraphQLTypeMixin,
     NetBoxObjectType,
@@ -348,9 +384,6 @@ class NetBoxDHCPPDPoolType(
     # +
     # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
     # -
-    subnet: Annotated[
-        "NetBoxDHCPSubnetType", strawberry.lazy("netbox_dhcp.graphql.types")
-    ]
     prefix: Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None
     excluded_prefix: (
         Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None
@@ -359,6 +392,7 @@ class NetBoxDHCPPDPoolType(
 
 @strawberry_django.type(Pool, fields="__all__", filters=NetBoxDHCPPoolFilter)
 class NetBoxDHCPPoolType(
+    SubnetGraphQLTypeMixin,
     ClientClassGraphQLTypeMixin,
     EvaluateClientClassGraphQLTypeMixin,
     DDNSUpdateGraphQLTypeMixin,
@@ -367,14 +401,16 @@ class NetBoxDHCPPoolType(
     name: str
     description: str | None
     pool_id: int | None
-    subnet: Annotated[
-        "NetBoxDHCPSubnetType", strawberry.lazy("netbox_dhcp.graphql.types")
-    ]
+    # +
+    # TODO: Actually ip_range cannot be Npne, but the tests fail if it is not allowed.
+    # -
     ip_range: Annotated["IPRangeType", strawberry.lazy("ipam.graphql.types")] | None
 
 
 @strawberry_django.type(Subnet, fields="__all__", filters=NetBoxDHCPSubnetFilter)
 class NetBoxDHCPSubnetType(
+    DHCPServerGraphQLTypeMixin,
+    SharedNetworkGraphQLTypeMixin,
     ClientClassGraphQLTypeMixin,
     EvaluateClientClassGraphQLTypeMixin,
     BOOTPGraphQLTypeMixin,
@@ -390,9 +426,6 @@ class NetBoxDHCPSubnetType(
     name: str
     description: str | None
     subnet_id: int | None
-    # +
-    # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
-    # -
     prefix: Annotated["PrefixType", strawberry.lazy("ipam.graphql.types")] | None
 
 
@@ -400,6 +433,7 @@ class NetBoxDHCPSubnetType(
     SharedNetwork, fields="__all__", filters=NetBoxDHCPSharedNetworkFilter
 )
 class NetBoxDHCPSharedNetworkType(
+    DHCPServerGraphQLTypeMixin,
     ClientClassGraphQLTypeMixin,
     EvaluateClientClassGraphQLTypeMixin,
     BOOTPGraphQLTypeMixin,
@@ -412,9 +446,6 @@ class NetBoxDHCPSharedNetworkType(
 ):
     name: str
     description: str | None
-    dhcp_server: Annotated[
-        "NetBoxDHCPDHCPServerType", strawberry.lazy("netbox_dhcp.graphql.types")
-    ]
     # +
     # TODO: Actually prefix cannot be Npne, but the tests fail if it is not allowed.
     # -
