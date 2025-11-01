@@ -290,12 +290,12 @@ class SharedNetworkFilterMixin(NetBoxModelFilterSet):
         "shared_network",
     ]
 
-    subnet = django_filters.CharFilter(
+    shared_network = django_filters.CharFilter(
         field_name="shared_network__name",
         label=_("Shared Network"),
     )
-    subnet_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=Subnet.objects.all(),
+    shared_network_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=SharedNetwork.objects.all(),
         field_name="shared_network",
         label=_("Shared Network ID"),
     )
