@@ -24,6 +24,8 @@ class HostReservationSerializer(
             "display",
             "name",
             "description",
+            "dhcp_server",
+            "subnet",
             "duid",
             "hw_address",
             "circuit_id",
