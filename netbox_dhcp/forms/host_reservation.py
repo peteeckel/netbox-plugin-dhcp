@@ -14,7 +14,7 @@ from utilities.forms.fields import (
     CSVModelChoiceField,
     CSVModelMultipleChoiceField,
 )
-from utilities.forms.rendering import FieldSet
+from utilities.forms.rendering import FieldSet, TabbedGroups
 
 from ipam.models import IPAddress, Prefix
 from ipam.choices import IPAddressFamilyChoices
@@ -23,6 +23,14 @@ from dcim.models import MACAddress
 from netbox_dhcp.models import HostReservation
 
 from .mixins import (
+    DHCPServerFormMixin,
+    DHCPServerFilterFormMixin,
+    DHCPServerImportFormMixin,
+    DHCPServerBulkEditFormMixin,
+    SubnetFormMixin,
+    SubnetFilterFormMixin,
+    SubnetImportFormMixin,
+    SubnetBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
@@ -44,13 +52,20 @@ __all__ = (
 )
 
 
-class HostReservationForm(ClientClassFormMixin, NetBoxModelForm):
+class HostReservationForm(
+    DHCPServerFormMixin,
+    SubnetFormMixin,
+    ClientClassFormMixin,
+    NetBoxModelForm,
+):
     class Meta:
         model = HostReservation
 
         fields = (
             "name",
             "description",
+            *DHCPServerFormMixin.FIELDS,
+            *SubnetFormMixin.FIELDS,
             "duid",
             "hw_address",
             "circuit_id",
@@ -70,6 +85,16 @@ class HostReservationForm(ClientClassFormMixin, NetBoxModelForm):
         FieldSet(
             "name",
             "description",
+            TabbedGroups(
+                FieldSet(
+                    *DHCPServerFormMixin.FIELDS,
+                    name=_("DHCP Server"),
+                ),
+                FieldSet(
+                    *SubnetFormMixin.FIELDS,
+                    name=_("Subnet"),
+                ),
+            ),
             name=_("Host Reservation"),
         ),
         FieldSet(
@@ -145,6 +170,8 @@ class HostReservationForm(ClientClassFormMixin, NetBoxModelForm):
 
 
 class HostReservationFilterForm(
+    DHCPServerFilterFormMixin,
+    SubnetFilterFormMixin,
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     BOOTPFilterFormMixin,
@@ -161,6 +188,8 @@ class HostReservationFilterForm(
         FieldSet(
             "name",
             "description",
+            *DHCPServerFilterFormMixin.FIELDS,
+            *SubnetFilterFormMixin.FIELDS,
             name=_("Host Reservation"),
         ),
         FieldSet(
@@ -248,6 +277,8 @@ class HostReservationFilterForm(
 
 
 class HostReservationImportForm(
+    DHCPServerImportFormMixin,
+    SubnetImportFormMixin,
     ClientClassImportFormMixin,
     NetBoxModelImportForm,
 ):
@@ -257,6 +288,8 @@ class HostReservationImportForm(
         fields = (
             "name",
             "description",
+            *DHCPServerImportFormMixin.FIELDS,
+            *SubnetImportFormMixin.FIELDS,
             "duid",
             "hw_address",
             "circuit_id",
@@ -326,6 +359,8 @@ class HostReservationImportForm(
 
 
 class HostReservationBulkEditForm(
+    DHCPServerBulkEditFormMixin,
+    SubnetBulkEditFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
@@ -336,6 +371,16 @@ class HostReservationBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            TabbedGroups(
+                FieldSet(
+                    *DHCPServerBulkEditFormMixin.FIELDS,
+                    name=_("DHCP Server"),
+                ),
+                FieldSet(
+                    *SubnetBulkEditFormMixin.FIELDS,
+                    name=_("Subnet"),
+                ),
+            ),
             name=_("Host Reservation"),
         ),
         FieldSet(
@@ -358,6 +403,8 @@ class HostReservationBulkEditForm(
 
     nullable_fields = (
         "description",
+        *DHCPServerBulkEditFormMixin.NULLABLE_FIELDS,
+        *SubnetBulkEditFormMixin.NULLABLE_FIELDS,
         "flex_id",
         "ipv6_prefixes",
         "excluded_ipv6_prefixes",

@@ -13,7 +13,6 @@ from netbox_dhcp.models import (
     Subnet,
     DHCPServer,
     SharedNetwork,
-    HostReservation,
 )
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
@@ -33,7 +32,6 @@ __all__ = (
     "SubnetImportFormMixin",
     "DHCPServerImportFormMixin",
     "SharedNetworkImportFormMixin",
-    "ChildHostReservationImportFormMixin",
     "NetworkImportFormMixin",
 )
 
@@ -206,18 +204,6 @@ class SharedNetworkImportFormMixin(forms.Form):
             "invalid_choice": _("Shared Network %(value)s not found"),
         },
         label=_("Shared Network"),
-    )
-
-
-class ChildHostReservationImportFormMixin(forms.Form):
-    child_host_reservations = CSVModelMultipleChoiceField(
-        queryset=HostReservation.objects.all(),
-        required=False,
-        to_field_name="name",
-        error_messages={
-            "invalid_choice": _("Host Reservation %(value)s not found"),
-        },
-        label=_("Host Reservations"),
     )
 
 

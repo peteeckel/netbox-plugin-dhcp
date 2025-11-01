@@ -8,6 +8,8 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import Subnet
 
 from .mixins import (
+    DHCPServerFilterMixin,
+    SharedNetworkFilterMixin,
     PrefixFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
@@ -25,6 +27,8 @@ __all__ = ("SubnetFilterSet",)
 
 
 class SubnetFilterSet(
+    DHCPServerFilterMixin,
+    SharedNetworkFilterMixin,
     PrefixFilterMixin,
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,

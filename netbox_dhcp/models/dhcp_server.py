@@ -25,7 +25,6 @@ from .mixins import (
     LeaseModelMixin,
     DDNSUpdateModelMixin,
     LifetimeModelMixin,
-    ChildHostReservationModelMixin,
 )
 from .option import Option
 
@@ -42,7 +41,6 @@ class DHCPServer(
     LeaseModelMixin,
     DDNSUpdateModelMixin,
     LifetimeModelMixin,
-    ChildHostReservationModelMixin,
     NetBoxModel,
 ):
     class Meta:

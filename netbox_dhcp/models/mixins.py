@@ -18,7 +18,6 @@ __all__ = (
     "DDNSUpdateModelMixin",
     "LeaseModelMixin",
     "NetworkModelMixin",
-    "ChildHostReservationModelMixin",
 )
 
 
@@ -373,17 +372,5 @@ class NetworkModelMixin(models.Model):
     rapid_commit = models.BooleanField(
         verbose_name=_("Rapid Commit"),
         null=True,
-        blank=True,
-    )
-
-
-class ChildHostReservationModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    child_host_reservations = models.ManyToManyField(
-        verbose_name=_("Host Reservations"),
-        to="HostReservation",
-        related_name="parent_%(class)s_set",
         blank=True,
     )

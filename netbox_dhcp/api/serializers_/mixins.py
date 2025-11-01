@@ -8,7 +8,6 @@ from ..nested_serializers import (
 __all__ = (
     "ClientClassSerializerMixin",
     "EvaluateClientClassSerializerMixin",
-    "ChildHostReservationSerializerMixin",
 )
 
 
@@ -27,12 +26,4 @@ class EvaluateClientClassSerializerMixin:
         read_only=False,
         required=False,
         help_text=_("Client classes to evaluate after matching"),
-    )
-
-
-class ChildHostReservationSerializerMixin:
-    child_host_reservations = NestedHostReservationSerializer(
-        many=True,
-        read_only=False,
-        required=False,
     )

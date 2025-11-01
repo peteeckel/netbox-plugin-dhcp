@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -33,12 +34,27 @@ class HostReservation(
 
         ordering = ("name",)
 
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(
+                    Q(dhcp_server__isnull=False, subnet__isnull=True)
+                    | Q(dhcp_server__isnull=True, subnet__isnull=False)
+                ),
+                name="host_reservation_unique_parent_object",
+                violation_error_message=_(
+                    "Either DHCP Server or Subnet is required, not both"
+                ),
+            )
+        ]
+
     clone_fields = (
         "name",
         "description",
         "circuit_id",
         "flex_id",
         "hostname",
+        "dhcp_server",
+        "subnet",
         "client_classes",
     )
 
@@ -76,13 +92,30 @@ class HostReservation(
         null=True,
         max_length=255,
     )
-
     hostname = models.CharField(
         verbose_name=_("Hostname"),
         blank=True,
         null=True,
         max_length=255,
     )
+
+    dhcp_server = models.ForeignKey(
+        verbose_name=_("DHCP Server"),
+        to="netbox_dhcp.DHCPServer",
+        on_delete=models.CASCADE,
+        related_name="child_host_reservations",
+        blank=True,
+        null=True,
+    )
+    subnet = models.ForeignKey(
+        verbose_name=_("Subnet"),
+        to="netbox_dhcp.Subnet",
+        on_delete=models.CASCADE,
+        related_name="child_host_reservations",
+        blank=True,
+        null=True,
+    )
+
     ipv4_address = models.ForeignKey(
         verbose_name=_("IPv4 Addresses"),
         to=IPAddress,

@@ -7,9 +7,11 @@ from dcim.models import MACAddress
 from ipam.models import IPAddress, Prefix
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import HostReservation, DHCPServer, Subnet
+from netbox_dhcp.models import HostReservation
 
 from .mixins import (
+    DHCPServerFilterMixin,
+    SubnetFilterMixin,
     ClientClassFilterMixin,
     BOOTPFilterMixin,
 )
@@ -18,6 +20,8 @@ __all__ = ("HostReservationFilterSet",)
 
 
 class HostReservationFilterSet(
+    DHCPServerFilterMixin,
+    SubnetFilterMixin,
     ClientClassFilterMixin,
     BOOTPFilterMixin,
     NetBoxModelFilterSet,
@@ -108,27 +112,6 @@ class HostReservationFilterSet(
         field_name="excluded_ipv6_prefixes__prefix",
         distinct=True,
         label=_("Excluded IPv6 Prefix"),
-    )
-
-    parent_dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=DHCPServer.objects.all(),
-        field_name="parent_dhcpserver_set",
-        label=_("Parent DHCP Server ID"),
-    )
-    parent_dhcp_server = django_filters.CharFilter(
-        field_name="parent_dhcpserver_set__name",
-        distinct=True,
-        label=_("Parent DHCP Server"),
-    )
-    parent_subnet_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=Subnet.objects.all(),
-        field_name="parent_subnet_set",
-        label=_("Parent Subnet ID"),
-    )
-    parent_subnet = django_filters.CharFilter(
-        field_name="parent_subnet_set__name",
-        distinct=True,
-        label=_("Parent Subnet"),
     )
 
     def search(self, queryset, name, value):

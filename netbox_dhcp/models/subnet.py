@@ -16,7 +16,6 @@ from .mixins import (
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    ChildHostReservationModelMixin,
 )
 from .option import Option
 
@@ -35,7 +34,6 @@ class Subnet(
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    ChildHostReservationModelMixin,
     NetBoxModel,
 ):
     class Meta:
@@ -50,8 +48,10 @@ class Subnet(
                     Q(dhcp_server__isnull=False, shared_network__isnull=True)
                     | Q(dhcp_server__isnull=True, shared_network__isnull=False)
                 ),
-                name="unique_parent_object",
-                violation_error_message=_("Either DHCP Server or Shared Network is required, not both")
+                name="subnet_unique_parent_object",
+                violation_error_message=_(
+                    "Either DHCP Server or Shared Network is required, not both"
+                ),
             )
         ]
 

@@ -43,7 +43,6 @@ from .mixins import (
     PrefixFormMixin,
     PrefixFilterFormMixin,
     PrefixImportFormMixin,
-    PrefixBulkEditFormMixin,
     DDNSUpdateFormMixin,
     DDNSUpdateFilterFormMixin,
     DDNSUpdateImportFormMixin,
@@ -58,9 +57,7 @@ from .mixins import (
     NetworkBulkEditFormMixin,
     ChildPDPoolFilterFormMixin,
     ChildPoolFilterFormMixin,
-    ChildHostReservationFormMixin,
     ChildHostReservationFilterFormMixin,
-    ChildHostReservationImportFormMixin,
 )
 
 
@@ -81,7 +78,6 @@ class SubnetForm(
     DDNSUpdateFormMixin,
     NetworkFormMixin,
     LeaseFormMixin,
-    ChildHostReservationFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -94,7 +90,6 @@ class SubnetForm(
             *DHCPServerFormMixin.FIELDS,
             *SharedNetworkFormMixin.FIELDS,
             "prefix",
-            "child_host_reservations",
             *NetworkFormMixin.FIELDS,
             *ClientClassFormMixin.FIELDS,
             *EvaluateClientClassFormMixin.FIELDS,
@@ -110,7 +105,6 @@ class SubnetForm(
             "name",
             "description",
             "subnet_id",
-            "prefix",
             TabbedGroups(
                 FieldSet(
                     *DHCPServerFormMixin.FIELDS,
@@ -121,12 +115,8 @@ class SubnetForm(
                     name=_("Shared Network"),
                 ),
             ),
+            "prefix",
             name=_("Subnet"),
-        ),
-        FieldSet(
-            "child_pools",
-            "child_host_reservations",
-            name=_("Child Objects"),
         ),
         FieldSet(
             *ClientClassFormMixin.FIELDS,
@@ -214,7 +204,6 @@ class SubnetImportForm(
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
-    ChildHostReservationImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -227,7 +216,6 @@ class SubnetImportForm(
             *DHCPServerImportFormMixin.FIELDS,
             *SharedNetworkImportFormMixin.FIELDS,
             "prefix",
-            "child_host_reservations",
             *NetworkImportFormMixin.FIELDS,
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,

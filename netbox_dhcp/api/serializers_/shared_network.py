@@ -110,7 +110,6 @@ class SharedNetworkSerializer(
         required=False,
     )
 
-
     def create(self, validated_data):
         client_classes = validated_data.pop("client_classes", None)
         evaluate_additional_classes = validated_data.pop(

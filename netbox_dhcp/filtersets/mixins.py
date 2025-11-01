@@ -31,14 +31,12 @@ __all__ = (
     "DDNSUpdateFilterMixin",
     "SubnetFilterMixin",
     "DHCPServerFilterMixin",
+    "SharedNetworkFilterMixin",
     "ChildSubnetFilterMixin",
     "ChildSharedNetworkFilterMixin",
     "ChildPoolFilterMixin",
     "ChildPDPoolFilterMixin",
     "ChildHostReservationFilterMixin",
-    "ParentSubnetFilterMixin",
-    "ParentSharedNetworkFilterMixin",
-    "ParentDHCPServerFilterMixin",
 )
 
 
@@ -255,6 +253,22 @@ class PrefixFilterMixin(NetBoxModelFilterSet):
     )
 
 
+class DHCPServerFilterMixin(NetBoxModelFilterSet):
+    FILTER_FIELDS = [
+        "dhcp_server",
+    ]
+
+    dhcp_server = django_filters.CharFilter(
+        field_name="dhcp_server__name",
+        label=_("DHCP Server"),
+    )
+    dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=DHCPServer.objects.all(),
+        field_name="dhcp_server",
+        label=_("DHCP Server ID"),
+    )
+
+
 class SubnetFilterMixin(NetBoxModelFilterSet):
     FILTER_FIELDS = [
         "subnet",
@@ -271,19 +285,19 @@ class SubnetFilterMixin(NetBoxModelFilterSet):
     )
 
 
-class DHCPServerFilterMixin(NetBoxModelFilterSet):
+class SharedNetworkFilterMixin(NetBoxModelFilterSet):
     FILTER_FIELDS = [
-        "dhcp_server",
+        "shared_network",
     ]
 
-    dhcp_server = django_filters.CharFilter(
-        field_name="dhcp_server__name",
-        label=_("DHCP Server"),
+    subnet = django_filters.CharFilter(
+        field_name="shared_network__name",
+        label=_("Shared Network"),
     )
-    dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=DHCPServer.objects.all(),
-        field_name="dhcp_server",
-        label=_("DHCP Server ID"),
+    subnet_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Subnet.objects.all(),
+        field_name="shared_network",
+        label=_("Shared Network ID"),
     )
 
 
@@ -364,52 +378,4 @@ class ChildHostReservationFilterMixin(NetBoxModelFilterSet):
         queryset=HostReservation.objects.all(),
         field_name="child_host_reservations",
         label=_("Host Reservation ID"),
-    )
-
-
-class ParentSubnetFilterMixin(NetBoxModelFilterSet):
-    FILTER_FIELDS = [
-        "parent_subnet_set",
-    ]
-
-    parent_subnet = django_filters.CharFilter(
-        field_name="parent_subnet_set__name",
-        label=_("Parent Subnet"),
-    )
-    parent_subnet_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=Subnet.objects.all(),
-        field_name="parent_subnet_set",
-        label=_("Parent Subnet ID"),
-    )
-
-
-class ParentSharedNetworkFilterMixin(NetBoxModelFilterSet):
-    FILTER_FIELDS = [
-        "parent_sharednetworks",
-    ]
-
-    parent_shared_network = django_filters.CharFilter(
-        field_name="parent_sharednetwork_set__name",
-        label=_("Parent Shared Network"),
-    )
-    parent_shared_network_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=SharedNetwork.objects.all(),
-        field_name="parent_sharednetwork_set",
-        label=_("Parent Shared Network ID"),
-    )
-
-
-class ParentDHCPServerFilterMixin(NetBoxModelFilterSet):
-    FILTER_FIELDS = [
-        "parent_dhcpserver_set",
-    ]
-
-    parent_dhcp_server = django_filters.CharFilter(
-        field_name="parent_dhcpserver_set__name",
-        label=_("Parent DHCP Server"),
-    )
-    parent_dhcp_server_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=DHCPServer.objects.all(),
-        field_name="parent_dhcpserver_set",
-        label=_("Parent DHCP Server ID"),
     )

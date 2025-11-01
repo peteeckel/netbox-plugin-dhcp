@@ -14,7 +14,6 @@ from netbox_dhcp.models import (
     Subnet,
     SharedNetwork,
     DHCPServer,
-    HostReservation,
 )
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
@@ -34,7 +33,6 @@ __all__ = (
     "SubnetFormMixin",
     "DHCPServerFormMixin",
     "SharedNetworkFormMixin",
-    "ChildHostReservationFormMixin",
     "NetworkFormMixin",
 )
 
@@ -363,14 +361,6 @@ class SharedNetworkFormMixin(forms.Form):
         queryset=SharedNetwork.objects.all(),
         required=False,
         label=_("Shared Network"),
-    )
-
-
-class ChildHostReservationFormMixin(forms.Form):
-    child_host_reservations = DynamicModelMultipleChoiceField(
-        queryset=HostReservation.objects.all(),
-        required=False,
-        label=_("Host Reservations"),
     )
 
 
