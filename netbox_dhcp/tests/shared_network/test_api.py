@@ -30,25 +30,28 @@ class SharedNetworkAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
+        dhcp_servers = TestObjects.get_dhcp_servers()
         ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         client_classes = TestObjects.get_client_classes()
-        subnets = TestObjects.get_ipv6_subnets()
 
         shared_networks = (
             SharedNetwork(
                 name="test-shared-network-1",
                 description="Test Shared Network 1",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[0],
             ),
             SharedNetwork(
                 name="test-shared-network-2",
                 description="Test Shared Network 2",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[1],
             ),
             SharedNetwork(
                 name="test-shared-network-3",
                 description="Test Shared Network 3",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[2],
             ),
         )
@@ -58,6 +61,7 @@ class SharedNetworkAPITestCase(
             {
                 "name": "test-shared-network-4",
                 "description": "Test Shared Network 4",
+                "dhcp_server": dhcp_servers[0].pk,
                 "prefix": ipv6_prefixes[0].pk,
                 "client_classes": [
                     client_class.pk for client_class in client_classes[0:2]
@@ -65,11 +69,11 @@ class SharedNetworkAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "child_subnets": [subnets[0].pk],
             },
             {
                 "name": "test-shared-network-5",
                 "description": "Test Shared Network 5",
+                "dhcp_server": dhcp_servers[0].pk,
                 "prefix": ipv6_prefixes[1].pk,
                 "client_classes": [
                     client_class.pk for client_class in client_classes[1:3]
@@ -77,11 +81,11 @@ class SharedNetworkAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[0:2]
                 ],
-                "child_subnets": [subnets[0].pk, subnets[1].pk],
             },
             {
                 "name": "test-shared-network-6",
                 "description": "Test Shared Network 6",
+                "dhcp_server": dhcp_servers[0].pk,
                 "prefix": ipv6_prefixes[2].pk,
                 "client_classes": [
                     client_class.pk for client_class in client_classes[0:3]
@@ -89,7 +93,6 @@ class SharedNetworkAPITestCase(
                 "evaluate_additional_classes": [
                     client_class.pk for client_class in client_classes[1:2]
                 ],
-                "child_subnets": [subnet.pk for subnet in subnets],
             },
         ]
 
@@ -98,5 +101,4 @@ class SharedNetworkAPITestCase(
             "prefix": ipv6_prefixes[1].pk,
             "client_classes": [client_classes[0].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
-            "child_subnets": [subnet.pk for subnet in subnets[0:2]],
         }

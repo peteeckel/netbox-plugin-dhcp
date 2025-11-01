@@ -23,25 +23,28 @@ class SharedNetworkViewTestCase(
 
     @classmethod
     def setUpTestData(cls):
+        dhcp_servers = TestObjects.get_dhcp_servers()
         ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         client_classes = TestObjects.get_client_classes()
-        subnets = TestObjects.get_ipv6_subnets()
 
         shared_networks = (
             SharedNetwork(
                 name="test-shared-network-1",
                 description="Test Shared Network 1",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[0],
             ),
             SharedNetwork(
                 name="test-shared-network-2",
                 description="Test Shared Network 2",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[1],
             ),
             SharedNetwork(
                 name="test-shared-network-3",
                 description="Test Shared Network 3",
+                dhcp_server=dhcp_servers[0],
                 prefix=ipv4_prefixes[2],
             ),
         )
@@ -50,12 +53,12 @@ class SharedNetworkViewTestCase(
         cls.form_data = {
             "name": "test-shared-network-4",
             "description": "Test Shared Network 4",
+            "dhcp_server": dhcp_servers[0].pk,
             "prefix": ipv6_prefixes[0].pk,
             "client_classes": [client_class.pk for client_class in client_classes[0:2]],
             "evaluate_additional_classes": [
                 client_class.pk for client_class in client_classes[0:2]
             ],
-            "child_subnets": [subnets[0].pk],
         }
 
         cls.bulk_edit_data = {
@@ -63,21 +66,20 @@ class SharedNetworkViewTestCase(
             "prefix": ipv6_prefixes[1].pk,
             "client_classes": [client_classes[0].pk],
             "evaluate_additional_classes": [client_classes[2].pk],
-            "child_subnets": [subnet.pk for subnet in subnets[0:2]],
         }
 
         cls.csv_data = (
-            "name,description,prefix,client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
-            f'test-shared-network-4,Test Shared Network 4,{ipv4_prefixes[0].prefix},{client_classes[0].name},"{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
-            f'test-shared-network-5,Test Shared Network 5,{ipv4_prefixes[1].prefix},{client_classes[1].name},"{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
-            f'test-shared-network-6,Test Shared Network 6,{ipv4_prefixes[2].prefix},{client_classes[2].name},"{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
+            "name,description,dhcp_server,prefix,client_classes,evaluate_additional_classes",  # noqa: E501
+            f'test-shared-network-4,Test Shared Network 4,{dhcp_servers[0].name},{ipv4_prefixes[0].prefix},{client_classes[0].name},"{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'test-shared-network-5,Test Shared Network 5,{dhcp_servers[1].name},{ipv4_prefixes[1].prefix},{client_classes[1].name},"{client_classes[2].name},{client_classes[0].name}"',  # noqa: E501
+            f'test-shared-network-6,Test Shared Network 6,{dhcp_servers[2].name},{ipv4_prefixes[2].prefix},{client_classes[2].name},"{client_classes[0].name},{client_classes[1].name}"',  # noqa: E501
         )
 
         cls.csv_update_data = (
-            "id,description,client_classes,evaluate_additional_classes,child_subnets",  # noqa: E501
-            f'{shared_networks[0].pk},Test Shared Network 1 (updated),{client_classes[1].name},"{client_classes[2].name},{client_classes[0].name}","{subnets[1].name},{subnets[0].name}"',  # noqa: E501
-            f'{shared_networks[1].pk},Test Shared Network 2 (updated),{client_classes[2].name},"{client_classes[0].name},{client_classes[1].name}","{subnets[2].name},{subnets[1].name}"',  # noqa: E501
-            f'{shared_networks[2].pk},Test Shared Network 3 (updated),{client_classes[0].name},"{client_classes[1].name},{client_classes[2].name}","{subnets[0].name},{subnets[2].name}"',  # noqa: E501
+            "id,description,client_classes,evaluate_additional_classes",  # noqa: E501
+            f'{shared_networks[0].pk},Test Shared Network 1 (updated),{client_classes[1].name},"{client_classes[2].name},{client_classes[0].name}"',  # noqa: E501
+            f'{shared_networks[1].pk},Test Shared Network 2 (updated),{client_classes[2].name},"{client_classes[0].name},{client_classes[1].name}"',  # noqa: E501
+            f'{shared_networks[2].pk},Test Shared Network 3 (updated),{client_classes[0].name},"{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
         )
 
     maxDiff = None

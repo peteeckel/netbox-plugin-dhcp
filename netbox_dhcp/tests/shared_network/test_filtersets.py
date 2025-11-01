@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from utilities.testing import ChangeLoggedFilterSetTests
 
-from netbox_dhcp.models import SharedNetwork
+from netbox_dhcp.models import SharedNetwork, Subnet
 from netbox_dhcp.filtersets import SharedNetworkFilterSet
 from netbox_dhcp.tests.custom import (
     TestObjects,
@@ -28,33 +28,18 @@ class SharedNetworkFilterSetTestCase(
     queryset = SharedNetwork.objects.all()
     filterset = SharedNetworkFilterSet
 
-    # +
-    # This is a dirty hack and does not work for all models.
-    #
-    # What really needs to be fixed is the get_m2m_filter_name() method in
-    # netbox/utilities/testing/filtersets.py, which returns a filter name
-    # based on the target model verbose name instead of the field name.
-    #
-    # Obviously this fails if there are multiple m2m relations to the same
-    # class.
-    # -
-    filter_name_map = {
-        "subnet": "child_subnet",
-        "dhcp_server": "parent_dhcp_server",
-    }
-
     @classmethod
     def setUpTestData(cls):
+        cls.dhcp_servers = TestObjects.get_dhcp_servers()
         cls.ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         cls.client_classes = TestObjects.get_client_classes()
-        cls.ipv4_subnets = TestObjects.get_ipv4_subnets()
-        cls.ipv6_subnets = TestObjects.get_ipv6_subnets()
 
         shared_networks = (
             SharedNetwork(
                 name="test-shared-network-1",
                 description="Test Shared Network 1",
+                dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv4_prefixes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
                 **BOOTPFilterSetTests.DATA[0],
@@ -65,6 +50,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-2",
                 description="Test Shared Network 2",
+                dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv4_prefixes[1],
                 **BOOTPFilterSetTests.DATA[1],
                 **OfferLifetimeFilterSetTests.DATA[1],
@@ -72,6 +58,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-3",
                 description="Test Shared Network 3",
+                dhcp_server=cls.dhcp_servers[2],
                 prefix=cls.ipv4_prefixes[2],
                 **BOOTPFilterSetTests.DATA[2],
                 **DDNSUpdateFilterSetTests.DATA[1],
@@ -82,12 +69,14 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-4",
                 description="Test Shared Network 4",
+                dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv6_prefixes[0],
                 **PreferredLifetimeFilterSetTests.DATA[0],
             ),
             SharedNetwork(
                 name="test-shared-network-5",
                 description="Test Shared Network 5",
+                dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv6_prefixes[1],
                 **DDNSUpdateFilterSetTests.DATA[2],
                 **ValidLifetimeFilterSetTests.DATA[2],
@@ -97,15 +86,50 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-6",
                 description="Test Shared Network 6",
+                dhcp_server=cls.dhcp_servers[2],
                 prefix=cls.ipv6_prefixes[2],
                 **PreferredLifetimeFilterSetTests.DATA[2],
             ),
         )
         SharedNetwork.objects.bulk_create(shared_networks)
 
-        for number in range(3):
-            shared_networks[number].child_subnets.add(cls.ipv4_subnets[number])
-            shared_networks[number + 3].child_subnets.add(cls.ipv6_subnets[number])
+        cls.ipv4_subnets = (
+            Subnet(
+                name="test-ipv4-subnet-1",
+                shared_network=shared_networks[0],
+                prefix=cls.ipv4_prefixes[0],
+            ),
+            Subnet(
+                name="test-ipv4-subnet-2",
+                shared_network=shared_networks[1],
+                prefix=cls.ipv4_prefixes[1],
+            ),
+            Subnet(
+                name="test-ipv4-subnet-3",
+                shared_network=shared_networks[2],
+                prefix=cls.ipv4_prefixes[2],
+            ),
+        )
+        Subnet.objects.bulk_create(cls.ipv4_subnets)
+
+        cls.ipv6_subnets = (
+            Subnet(
+                name="test-ipv6-subnet-1",
+                shared_network=shared_networks[3],
+                prefix=cls.ipv6_prefixes[0],
+            ),
+            Subnet(
+                name="test-ipv6-subnet-2",
+                shared_network=shared_networks[4],
+                prefix=cls.ipv6_prefixes[1],
+            ),
+            Subnet(
+                name="test-ipv6-subnet-3",
+                shared_network=shared_networks[5],
+                prefix=cls.ipv6_prefixes[2],
+            ),
+        )
+        Subnet.objects.bulk_create(cls.ipv6_subnets)
 
         for number in range(4):
             shared_networks[number].client_classes.add(cls.client_classes[number % 3])
