@@ -4,14 +4,7 @@ from ipam.models import IPAddress, IPRange, Prefix
 from dcim.models import Device, Manufacturer, DeviceRole, DeviceType, Site, MACAddress
 from virtualization.models import VirtualMachine, Cluster, ClusterType
 
-from netbox_dhcp.models import (
-    Subnet,
-    SharedNetwork,
-    HostReservation,
-    ClientClass,
-    DHCPCluster,
-    DHCPServer,
-)
+from netbox_dhcp.models import DHCPCluster, DHCPServer, ClientClass
 
 __all__ = ("TestObjects",)
 
@@ -166,82 +159,6 @@ class TestObjects:
         MACAddress.objects.bulk_create(mac_addresses)
 
         return mac_addresses
-
-    @staticmethod
-    def get_ipv4_subnets():
-        prefixes = TestObjects.get_ipv4_prefixes(offset=1)
-
-        subnets = [
-            Subnet(
-                name=f"ipv4-subnet-{number}",
-                prefix=prefix,
-            )
-            for number, prefix in enumerate(prefixes, start=1)
-        ]
-
-        Subnet.objects.bulk_create(subnets)
-
-        return subnets
-
-    @staticmethod
-    def get_ipv6_subnets():
-        prefixes = TestObjects.get_ipv6_prefixes(offset=3)
-
-        subnets = [
-            Subnet(
-                name=f"ipv6-subnet-{number}",
-                prefix=prefix,
-            )
-            for number, prefix in enumerate(prefixes, start=1)
-        ]
-
-        Subnet.objects.bulk_create(subnets)
-
-        return subnets
-
-    @staticmethod
-    def get_ipv4_shared_networks():
-        prefixes = TestObjects.get_ipv4_prefixes(offset=2)
-
-        shared_networks = [
-            SharedNetwork(
-                name=f"ipv4-shared-network-{number}",
-                prefix=prefix,
-            )
-            for number, prefix in enumerate(prefixes, start=1)
-        ]
-
-        SharedNetwork.objects.bulk_create(shared_networks)
-
-        return shared_networks
-
-    @staticmethod
-    def get_ipv6_shared_networks():
-        prefixes = TestObjects.get_ipv6_prefixes(offset=6)
-
-        shared_networks = [
-            SharedNetwork(
-                name=f"ipv6-shared-network-{number}",
-                prefix=prefix,
-            )
-            for number, prefix in enumerate(prefixes, start=1)
-        ]
-
-        SharedNetwork.objects.bulk_create(shared_networks)
-
-        return shared_networks
-
-    @staticmethod
-    def get_host_reservations():
-        host_reservations = (
-            HostReservation(name="host-reservation-1"),
-            HostReservation(name="host-reservation-2"),
-            HostReservation(name="host-reservation-3"),
-        )
-
-        HostReservation.objects.bulk_create(host_reservations)
-
-        return host_reservations
 
     @staticmethod
     def get_client_classes():
