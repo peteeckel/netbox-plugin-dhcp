@@ -102,9 +102,6 @@ class DHCPServerForm(
             "description",
             "status",
             "dhcp_cluster",
-            name=_("DHCP Server"),
-        ),
-        FieldSet(
             TabbedGroups(
                 FieldSet(
                     "device",
@@ -117,7 +114,7 @@ class DHCPServerForm(
                     name=_("Virtual"),
                 ),
             ),
-            name=_("Assignment"),
+            name=_("DHCP Server"),
         ),
         FieldSet(
             "server_id",

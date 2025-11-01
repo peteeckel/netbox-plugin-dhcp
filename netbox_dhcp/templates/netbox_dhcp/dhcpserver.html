@@ -14,17 +14,12 @@
                         <td>{% badge object.get_status_display bg_color=object.get_status_color %}</td>
                     </tr>
                     {% if object.dhcp_cluster %}
-                    <tr>
-                        <th scope="row">{% trans "DHCP Cluster" %}</th>
-                        <td>{{ object.dhcp_cluster|linkify|placeholder }}</td>
-                    </tr>
+                        <tr>
+                            <th scope="row">{% trans "DHCP Cluster" %}</th>
+                            <td>{{ object.dhcp_cluster|linkify|placeholder }}</td>
+                        </tr>
                     {% endif %}
-                </table>
-            </div>
-            {% if object.device %}
-                <div class="card">
-                    <h5 class="card-header">{% trans "DCIM" %}</h5>
-                    <table class="table table-hover attr-table">
+                    {% if object.device %}
                         <tr>
                             <th scope="row">{% trans "Device" %}</th>
                             <td>{{ object.device|linkify|placeholder }}</td>
@@ -39,13 +34,7 @@
                                 </table>
                             </td>
                         </tr>
-                    </table>
-                </div>
-            {% endif %}
-            {% if object.virtual_machine %}
-                <div class="card">
-                    <h5 class="card-header">{% trans "Virtualization" %}</h5>
-                    <table class="table table-hover attr-table">
+                    {% elif object.virtual_machine %}
                         <tr>
                             <th scope="row">{% trans "Virtual Machine" %}</th>
                             <td>{{ object.virtual_machine|linkify|placeholder }}</td>
@@ -60,9 +49,9 @@
                                 </table>
                             </td>
                         </tr>
-                    </table>
-                </div>
-            {% endif %}
+                    {% endif %}
+                </table>
+            </div>
             <div class="card">
                 <h5 class="card-header">{% trans "Configuration" %}</h5>
                 <table class="table table-hover attr-table">
