@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load netbox_dhcp %}
+
+<div class="card">
+    <h5 class="card-header">{% trans "Network" %}</h5>
+    <table class="table table-hover attr-table">
+        <tr>
+            <th scope="row">{% trans "Relay" %}</th>
+            <td>{{ object.relay|placeholder }}</td>
+        </tr>
+        {% if object.family is none or object.family == 6 %}
+        <tr>
+            <th scope="row">{% trans "Interface ID" %}</th>
+            <td>{{ object.interface_id|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Rapid Commit" %}</th>
+            <td>{% null_checkmark object.rapid_commit %}</td>
+        </tr>
+        {% endif %}
+    </table>
+</div>

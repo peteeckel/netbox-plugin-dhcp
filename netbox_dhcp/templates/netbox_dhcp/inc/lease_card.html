@@ -64,9 +64,11 @@
             <th scope="row">{% trans "Allocator" %}</th>
             <td>{% badge object.get_allocator_display bg_color=object.get_allocator_color %}</td>
         </tr>
+        {% if object.family is none or object.family == 6 %}
         <tr>
             <th scope="row">{% trans "Prefix Delegation Allocator" %}</th>
             <td>{% badge object.get_pd_allocator_display bg_color=object.get_pd_allocator_color %}</td>
         </tr>
+        {% endif %}
     </table>
 </div>

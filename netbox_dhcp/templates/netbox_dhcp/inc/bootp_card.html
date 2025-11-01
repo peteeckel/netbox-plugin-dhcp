@@ -1,5 +1,6 @@
 {% load i18n %}
 
+{% if object.family is none or object.family == 4 %}
 <div class="card">
     <h5 class="card-header">{% trans "BOOTP" %}</h5>
     <table class="table table-hover attr-table">
@@ -17,3 +18,4 @@
         </tr>
     </table>
 </div>
+{% endif %}

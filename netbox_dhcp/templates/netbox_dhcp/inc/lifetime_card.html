@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<div class="card">
+    <h5 class="card-header">{% trans "Lifetimes" %}</h5>
+    <table class="table table-hover attr-table">
+        {% if object.family is none or object.family == 4 %}
+        <tr>
+            <th scope="row">{% trans "Offer Lifetime" %}</th>
+            <td>{{ object.offer_lifetime|placeholder }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th scope="row">{% trans "Valid Lifetime" %}</th>
+            <td>{{ object.valid_lifetime|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Minimum Valid Lifetime" %}</th>
+            <td>{{ object.min_valid_lifetime|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Maximum Valid Lifetime" %}</th>
+            <td>{{ object.max_valid_lifetime|placeholder }}</td>
+        </tr>
+        {% if object.family is none or object.family == 6 %}
+        <tr>
+            <th scope="row">{% trans "Preferred Lifetime" %}</th>
+            <td>{{ object.preferred_lifetime|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Minimum Preferred Lifetime" %}</th>
+            <td>{{ object.min_preferred_lifetime|placeholder }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{% trans "Maximum Preferred Lifetime" %}</th>
+            <td>{{ object.max_preferred_lifetime|placeholder }}</td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
