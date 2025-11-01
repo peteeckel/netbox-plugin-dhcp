@@ -5,7 +5,7 @@ from netbox_dhcp.tests.custom import (
     APITestCase,
     NetBoxDHCPGraphQLMixin,
 )
-from netbox_dhcp.models import DHCPServer, DHCPCluster
+from netbox_dhcp.models import DHCPServer
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
     DHCPServerIDTypeChoices,
@@ -36,15 +36,6 @@ class DHCPServerAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
-        dhcp_cluster = DHCPCluster.objects.create(
-            name="test-cluster-1",
-        )
-
-        subnets = TestObjects.get_ipv6_subnets()
-        shared_networks = TestObjects.get_ipv6_shared_networks()
-        host_reservations = TestObjects.get_host_reservations()
-        client_classes = TestObjects.get_client_classes()
-
         dhcp_servers = (
             DHCPServer(
                 name="test-server-1",
@@ -58,22 +49,34 @@ class DHCPServerAPITestCase(
         )
         DHCPServer.objects.bulk_create(dhcp_servers)
 
+        dhcp_clusters = TestObjects.get_dhcp_clusters()
+        client_classes = TestObjects.get_client_classes()
+
         cls.create_data = [
             {
                 "name": "test-server-4",
+                "client_classes": [
+                    client_class.pk for client_class in client_classes[0:2]
+                ],
+                "dhcp_cluster": dhcp_clusters[0].pk,
             },
             {
                 "name": "test-server-5",
+                "client_classes": [
+                    client_class.pk for client_class in client_classes[1:3]
+                ],
+                "dhcp_cluster": dhcp_clusters[1].pk,
             },
             {
                 "name": "test-server-6",
+                "dhcp_cluster": dhcp_clusters[2].pk,
             },
         ]
 
         cls.bulk_update_data = {
             "description": "Test Description Update",
             "status": DHCPServerStatusChoices.STATUS_INACTIVE,
-            "dhcp_cluster": dhcp_cluster.pk,
+            "dhcp_cluster": dhcp_clusters[2].pk,
             "server_id": DHCPServerIDTypeChoices.ID_EN,
             "host_reservation_identifiers": [
                 HostReservationIdentifierChoices.HW_ADDRESS,
@@ -82,11 +85,4 @@ class DHCPServerAPITestCase(
             "echo_client_id": True,
             "relay_supplied_options": [110, 120, 130],
             "client_classes": [client_class.pk for client_class in client_classes],
-            "child_subnets": [subnet.pk for subnet in subnets],
-            "child_shared_networks": [
-                shared_network.pk for shared_network in shared_networks
-            ],
-            "child_host_reservations": [
-                host_reservation.pk for host_reservation in host_reservations
-            ],
         }

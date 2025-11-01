@@ -5,7 +5,7 @@ from dcim.models import Interface
 from dcim.choices import InterfaceTypeChoices
 from virtualization.models import VMInterface
 
-from netbox_dhcp.models import DHCPServer
+from netbox_dhcp.models import DHCPServer, Subnet, SharedNetwork, HostReservation
 from netbox_dhcp.filtersets import DHCPServerFilterSet
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
@@ -62,10 +62,9 @@ class DHCPServerFilterSetTestCase(
         cls.dhcp_clusters = TestObjects.get_dhcp_clusters()
         cls.devices = TestObjects.get_devices()
         cls.virtual_machines = TestObjects.get_virtual_machines()
-        cls.subnets = TestObjects.get_ipv4_subnets()
-        cls.shared_networks = TestObjects.get_ipv4_shared_networks()
-        cls.host_reservations = TestObjects.get_host_reservations()
         cls.client_classes = TestObjects.get_client_classes()
+
+        prefixes = TestObjects.get_ipv6_prefixes()
 
         cls.dhcp_servers = (
             DHCPServer(
@@ -130,27 +129,65 @@ class DHCPServerFilterSetTestCase(
         )
         DHCPServer.objects.bulk_create(cls.dhcp_servers)
 
-        cls.dhcp_servers[0].child_subnets.set(cls.subnets[0:2])
-        cls.dhcp_servers[1].child_subnets.set(cls.subnets[1:3])
-        cls.dhcp_servers[2].child_subnets.set([cls.subnets[0], cls.subnets[2]])
-
-        cls.dhcp_servers[0].child_shared_networks.set(cls.shared_networks[0:2])
-        cls.dhcp_servers[1].child_shared_networks.set(cls.shared_networks[1:3])
-        cls.dhcp_servers[2].child_shared_networks.set(
-            [cls.shared_networks[0], cls.shared_networks[2]]
-        )
-
-        cls.dhcp_servers[0].child_host_reservations.set(cls.host_reservations[0:2])
-        cls.dhcp_servers[1].child_host_reservations.set(cls.host_reservations[1:3])
-        cls.dhcp_servers[2].child_host_reservations.set(
-            [cls.host_reservations[0], cls.host_reservations[2]]
-        )
-
         cls.dhcp_servers[0].client_classes.set(cls.client_classes[0:2])
         cls.dhcp_servers[1].client_classes.set(cls.client_classes[1:3])
         cls.dhcp_servers[2].client_classes.set(
             [cls.client_classes[0], cls.client_classes[2]]
         )
+
+        cls.subnets = (
+            Subnet(
+                name="test-subnet-1",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=prefixes[0],
+            ),
+            Subnet(
+                name="test-subnet-2",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=prefixes[1],
+            ),
+            Subnet(
+                name="test-subnet-3",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=prefixes[2],
+            ),
+        )
+        Subnet.objects.bulk_create(cls.subnets)
+
+        cls.shared_networks = (
+            SharedNetwork(
+                name="test-shared-network-1",
+                dhcp_server=cls.dhcp_servers[0],
+                prefix=prefixes[0],
+            ),
+            SharedNetwork(
+                name="test-shared-network-2",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=prefixes[1],
+            ),
+            SharedNetwork(
+                name="test-shared-network-3",
+                dhcp_server=cls.dhcp_servers[1],
+                prefix=prefixes[2],
+            ),
+        )
+        SharedNetwork.objects.bulk_create(cls.shared_networks)
+
+        cls.host_reservations = (
+            HostReservation(
+                name="test-host-reservation-1",
+                dhcp_server=cls.dhcp_servers[0],
+            ),
+            HostReservation(
+                name="test-host-reservation-2",
+                dhcp_server=cls.dhcp_servers[1],
+            ),
+            HostReservation(
+                name="test-host-reservation-3",
+                dhcp_server=cls.dhcp_servers[1],
+            ),
+        )
+        HostReservation.objects.bulk_create(cls.host_reservations)
 
         cls.device_interfaces = [
             Interface(
@@ -255,21 +292,21 @@ class DHCPServerFilterSetTestCase(
 
     def test_child_subnets(self):
         params = {"child_subnet": self.subnets[0].name}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
         params = {"child_subnet_id": [self.subnets[2].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_child_shared_networks(self):
         params = {"child_shared_network": self.shared_networks[0].name}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
         params = {"child_shared_network_id": [self.shared_networks[2].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_child_host_reservations(self):
         params = {"child_host_reservation": self.host_reservations[0].name}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
         params = {"child_host_reservation_id": [self.host_reservations[2].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_client_classes(self):
         params = {"client_class": self.client_classes[0].name}
