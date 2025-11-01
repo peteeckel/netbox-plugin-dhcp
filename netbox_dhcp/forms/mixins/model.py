@@ -12,8 +12,8 @@ from ipam.models import Prefix
 from netbox_dhcp.models import (
     ClientClass,
     Subnet,
+    SharedNetwork,
     DHCPServer,
-    Pool,
     HostReservation,
 )
 from netbox_dhcp.choices import (
@@ -33,7 +33,7 @@ __all__ = (
     "LifetimeFormMixin",
     "SubnetFormMixin",
     "DHCPServerFormMixin",
-    "ChildSubnetFormMixin",
+    "SharedNetworkFormMixin",
     "ChildHostReservationFormMixin",
     "NetworkFormMixin",
 )
@@ -347,18 +347,22 @@ class DHCPServerFormMixin(forms.Form):
         "dhcp_server",
     ]
 
-    subnet = DynamicModelChoiceField(
+    dhcp_server = DynamicModelChoiceField(
         queryset=DHCPServer.objects.all(),
         required=False,
         label=_("DHCP Server"),
     )
 
 
-class ChildSubnetFormMixin(forms.Form):
-    child_subnets = DynamicModelMultipleChoiceField(
-        queryset=Subnet.objects.all(),
+class SharedNetworkFormMixin(forms.Form):
+    FIELDS = [
+        "shared_network",
+    ]
+
+    shared_network = DynamicModelChoiceField(
+        queryset=SharedNetwork.objects.all(),
         required=False,
-        label=_("Subnets"),
+        label=_("Shared Network"),
     )
 
 

@@ -8,7 +8,7 @@ from netbox.forms import (
     NetBoxModelForm,
 )
 from utilities.forms.fields import TagFilterField
-from utilities.forms.rendering import FieldSet
+from utilities.forms.rendering import FieldSet, TabbedGroups
 from utilities.forms import add_blank_choice
 from ipam.choices import IPAddressFamilyChoices
 
@@ -16,6 +16,14 @@ from netbox_dhcp.models import Subnet
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
+    DHCPServerFormMixin,
+    DHCPServerFilterFormMixin,
+    DHCPServerImportFormMixin,
+    DHCPServerBulkEditFormMixin,
+    SharedNetworkFormMixin,
+    SharedNetworkFilterFormMixin,
+    SharedNetworkImportFormMixin,
+    SharedNetworkBulkEditFormMixin,
     ClientClassFormMixin,
     ClientClassFilterFormMixin,
     ClientClassImportFormMixin,
@@ -65,6 +73,8 @@ __all__ = (
 
 
 class SubnetForm(
+    DHCPServerFormMixin,
+    SharedNetworkFormMixin,
     PrefixFormMixin,
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
@@ -81,6 +91,8 @@ class SubnetForm(
             "name",
             "description",
             "subnet_id",
+            *DHCPServerFormMixin.FIELDS,
+            *SharedNetworkFormMixin.FIELDS,
             "prefix",
             "child_host_reservations",
             *NetworkFormMixin.FIELDS,
@@ -99,6 +111,16 @@ class SubnetForm(
             "description",
             "subnet_id",
             "prefix",
+            TabbedGroups(
+                FieldSet(
+                    *DHCPServerFormMixin.FIELDS,
+                    name=_("DHCP Server"),
+                ),
+                FieldSet(
+                    *SharedNetworkFormMixin.FIELDS,
+                    name=_("Shared Network"),
+                ),
+            ),
             name=_("Subnet"),
         ),
         FieldSet(
@@ -125,6 +147,8 @@ class SubnetForm(
 
 class SubnetFilterForm(
     NetBoxDHCPFilterFormMixin,
+    DHCPServerFilterFormMixin,
+    SharedNetworkFilterFormMixin,
     PrefixFilterFormMixin,
     BOOTPFilterFormMixin,
     ClientClassFilterFormMixin,
@@ -151,6 +175,8 @@ class SubnetFilterForm(
             "description",
             "family",
             "subnet_id",
+            *DHCPServerFilterFormMixin.FIELDS,
+            *SharedNetworkFilterFormMixin.FIELDS,
             "prefix_id",
             name=_("Subnet"),
         ),
@@ -182,6 +208,8 @@ class SubnetFilterForm(
 
 
 class SubnetImportForm(
+    DHCPServerImportFormMixin,
+    SharedNetworkImportFormMixin,
     PrefixImportFormMixin,
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
@@ -196,6 +224,8 @@ class SubnetImportForm(
             "name",
             "description",
             "subnet_id",
+            *DHCPServerImportFormMixin.FIELDS,
+            *SharedNetworkImportFormMixin.FIELDS,
             "prefix",
             "child_host_reservations",
             *NetworkImportFormMixin.FIELDS,
@@ -211,7 +241,8 @@ class SubnetImportForm(
 
 class SubnetBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    PrefixBulkEditFormMixin,
+    DHCPServerBulkEditFormMixin,
+    SharedNetworkBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
@@ -226,7 +257,16 @@ class SubnetBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
-            "prefix",
+            TabbedGroups(
+                FieldSet(
+                    *DHCPServerBulkEditFormMixin.FIELDS,
+                    name=_("DHCP Server"),
+                ),
+                FieldSet(
+                    *SharedNetworkBulkEditFormMixin.FIELDS,
+                    name=_("Shared Network"),
+                ),
+            ),
             name=_("Subnet"),
         ),
         FieldSet(
@@ -243,6 +283,8 @@ class SubnetBulkEditForm(
 
     nullable_fields = (
         "description",
+        *DHCPServerBulkEditFormMixin.NULLABLE_FIELDS,
+        *SharedNetworkBulkEditFormMixin.NULLABLE_FIELDS,
         *NetworkBulkEditFormMixin.NULLABLE_FIELDS,
         *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         *EvaluateClientClassBulkEditFormMixin.NULLABLE_FIELDS,

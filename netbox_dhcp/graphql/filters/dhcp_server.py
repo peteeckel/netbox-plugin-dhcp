@@ -23,6 +23,9 @@ from .mixins import (
     ClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
+    ChildSharedNetworkGraphQLFilterMixin,
+    ChildSubnetGraphQLFilterMixin,
+    ChildHostReservationGraphQLFilterMixin,
 )
 
 __all__ = ("NetBoxDHCPServerFilter",)
@@ -34,6 +37,9 @@ class NetBoxDHCPServerFilter(
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
     NetBoxModelFilterMixin,
+    ChildSharedNetworkGraphQLFilterMixin,
+    ChildSubnetGraphQLFilterMixin,
+    ChildHostReservationGraphQLFilterMixin,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()

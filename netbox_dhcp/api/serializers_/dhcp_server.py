@@ -9,9 +9,9 @@ from virtualization.api.serializers import (
     VMInterfaceSerializer,
 )
 
+from .dhcp_cluster import DHCPClusterSerializer
+from .client_class import ClientClassSerializer
 from ..nested_serializers import (
-    NestedDHCPClusterSerializer,
-    NestedClientClassSerializer,
     NestedSharedNetworkSerializer,
     NestedSubnetSerializer,
     NestedHostReservationSerializer,
@@ -62,8 +62,8 @@ class DHCPServerSerializer(NetBoxModelSerializer):
         view_name="plugins-api:netbox_dhcp-api:dhcpserver-detail"
     )
 
-    dhcp_cluster = NestedDHCPClusterSerializer(
-        many=False,
+    dhcp_cluster = DHCPClusterSerializer(
+        nested=True,
         read_only=False,
         required=False,
         default=None,
@@ -71,7 +71,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
     )
     device = DeviceSerializer(
         nested=True,
-        many=False,
         read_only=False,
         required=False,
         default=None,
@@ -87,7 +86,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
     )
     virtual_machine = VirtualMachineSerializer(
         nested=True,
-        many=False,
         read_only=False,
         required=False,
         default=None,
@@ -102,7 +100,8 @@ class DHCPServerSerializer(NetBoxModelSerializer):
         help_text=_("Virtual Interfaces"),
     )
 
-    client_classes = NestedClientClassSerializer(
+    client_classes = ClientClassSerializer(
+        nested=True,
         many=True,
         read_only=False,
         required=False,
@@ -127,7 +126,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
 
     def create(self, validated_data):
         client_classes = validated_data.pop("client_classes", None)
-        child_subnets = validated_data.pop("child_subnets", None)
         child_host_reservations = validated_data.pop("child_host_reservations", None)
         device_interfaces = validated_data.pop("device_interfaces", None)
         virtual_machine_interfaces = validated_data.pop(
@@ -138,8 +136,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
 
         if client_classes is not None:
             dhcp_server.client_classes.set(client_classes)
-        if child_subnets is not None:
-            dhcp_server.child_subnets.set(child_subnets)
         if child_host_reservations is not None:
             dhcp_server.child_host_reservations.set(child_host_reservations)
         if device_interfaces is not None:
@@ -151,7 +147,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
 
     def update(self, instance, validated_data):
         client_classes = validated_data.pop("client_classes", None)
-        child_subnets = validated_data.pop("child_subnets", None)
         child_host_reservations = validated_data.pop("child_host_reservations", None)
         device_interfaces = validated_data.pop("device_interfaces", None)
         virtual_machine_interfaces = validated_data.pop(
@@ -162,8 +157,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
 
         if client_classes is not None:
             dhcp_server.client_classes.set(client_classes)
-        if child_subnets is not None:
-            dhcp_server.child_subnets.set(child_subnets)
         if child_host_reservations is not None:
             dhcp_server.child_host_reservations.set(child_host_reservations)
         if device_interfaces is not None:

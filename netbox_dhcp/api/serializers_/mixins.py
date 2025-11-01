@@ -2,11 +2,6 @@ from django.utils.translation import gettext as _
 
 from ..nested_serializers import (
     NestedClientClassSerializer,
-    NestedSubnetSerializer,
-    NestedSharedNetworkSerializer,
-    NestedPoolSerializer,
-    NestedPDPoolSerializer,
-    NestedHostReservationSerializer,
 )
 
 

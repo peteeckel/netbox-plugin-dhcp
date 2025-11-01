@@ -10,7 +10,8 @@ from .mixins import (
     EvaluateClientClassSerializerMixin,
 )
 
-from ..nested_serializers import NestedDHCPServerSerializer, NestedSubnetSerializer
+from .dhcp_server import DHCPServerSerializer
+from ..nested_serializers import NestedSubnetSerializer
 
 __all__ = ("SharedNetworkSerializer",)
 
@@ -92,7 +93,8 @@ class SharedNetworkSerializer(
         view_name="plugins-api:netbox_dhcp-api:sharednetwork-detail"
     )
 
-    dhcp_server = NestedDHCPServerSerializer(
+    dhcp_server = DHCPServerSerializer(
+        nested=True,
         read_only=False,
         required=True,
     )
@@ -114,7 +116,6 @@ class SharedNetworkSerializer(
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
-        child_subnets = validated_data.pop("child_subnets", None)
 
         shared_network = super().create(validated_data)
 
@@ -122,8 +123,6 @@ class SharedNetworkSerializer(
             shared_network.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             shared_network.evaluate_additional_classes.set(evaluate_additional_classes)
-        if child_subnets is not None:
-            shared_network.child_subnets.set(child_subnets)
 
         return shared_network
 
@@ -132,7 +131,6 @@ class SharedNetworkSerializer(
         evaluate_additional_classes = validated_data.pop(
             "evaluate_additional_classes", None
         )
-        child_subnets = validated_data.pop("child_subnets", None)
 
         shared_network = super().update(instance, validated_data)
 
@@ -140,7 +138,5 @@ class SharedNetworkSerializer(
             shared_network.client_classes.set(client_classes)
         if evaluate_additional_classes is not None:
             shared_network.evaluate_additional_classes.set(evaluate_additional_classes)
-        if child_subnets is not None:
-            shared_network.child_subnets.set(child_subnets)
 
         return shared_network

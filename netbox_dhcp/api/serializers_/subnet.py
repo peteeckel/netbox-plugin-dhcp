@@ -4,6 +4,9 @@ from netbox.api.serializers import NetBoxModelSerializer
 from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import Subnet
+from .dhcp_server import DHCPServerSerializer
+from .shared_network import SharedNetworkSerializer
+
 from ..nested_serializers import (
     NestedPDPoolSerializer,
     NestedPoolSerializer,
@@ -34,6 +37,8 @@ class SubnetSerializer(
             "name",
             "description",
             "subnet_id",
+            "dhcp_server",
+            "shared_network",
             "child_pools",
             "child_pd_pools",
             "child_host_reservations",
@@ -98,10 +103,36 @@ class SubnetSerializer(
         view_name="plugins-api:netbox_dhcp-api:subnet-detail"
     )
 
+    dhcp_server = DHCPServerSerializer(
+        nested=True,
+        read_only=False,
+        required=True,
+    )
+    shared_network = SharedNetworkSerializer(
+        nested=True,
+        read_only=False,
+        required=True,
+    )
     prefix = PrefixSerializer(
         nested=True,
         read_only=False,
         required=True,
+    )
+
+    child_pd_pools = NestedPDPoolSerializer(
+        many=True,
+        read_only=True,
+        required=False,
+    )
+    child_pools = NestedPoolSerializer(
+        many=True,
+        read_only=True,
+        required=False,
+    )
+    child_host_reservations = NestedHostReservationSerializer(
+        many=True,
+        read_only=True,
+        required=False,
     )
 
     def create(self, validated_data):

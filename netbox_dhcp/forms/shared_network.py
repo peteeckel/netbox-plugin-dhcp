@@ -52,10 +52,7 @@ from .mixins import (
     NetworkFilterFormMixin,
     NetworkImportFormMixin,
     NetworkBulkEditFormMixin,
-    ChildSubnetFormMixin,
     ChildSubnetFilterFormMixin,
-    ChildSubnetImportFormMixin,
-    ChildSubnetBulkEditFormMixin,
 )
 
 
@@ -74,7 +71,6 @@ class SharedNetworkForm(
     EvaluateClientClassFormMixin,
     DDNSUpdateFormMixin,
     LeaseFormMixin,
-    ChildSubnetFormMixin,
     NetBoxModelForm,
 ):
     class Meta:
@@ -85,7 +81,6 @@ class SharedNetworkForm(
             "description",
             *DHCPServerFormMixin.FIELDS,
             "prefix",
-            "child_subnets",
             *ClientClassFormMixin.FIELDS,
             *EvaluateClientClassFormMixin.FIELDS,
             *NetworkFormMixin.FIELDS,
@@ -103,10 +98,6 @@ class SharedNetworkForm(
             *DHCPServerFormMixin.FIELDS,
             "prefix",
             name=_("Shared Network"),
-        ),
-        FieldSet(
-            "child_subnets",
-            name=_("Child Objects"),
         ),
         FieldSet(
             *ClientClassFormMixin.FIELDS,
@@ -187,7 +178,6 @@ class SharedNetworkImportForm(
     EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
     LeaseImportFormMixin,
-    ChildSubnetImportFormMixin,
     NetBoxModelImportForm,
 ):
     class Meta:
@@ -198,7 +188,6 @@ class SharedNetworkImportForm(
             "description",
             *DHCPServerImportFormMixin.FIELDS,
             "prefix",
-            "child_subnets",
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,
             *NetworkImportFormMixin.FIELDS,
@@ -221,7 +210,6 @@ class SharedNetworkBulkEditForm(
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
-    ChildSubnetBulkEditFormMixin,
     NetBoxModelBulkEditForm,
 ):
     model = SharedNetwork
@@ -232,10 +220,6 @@ class SharedNetworkBulkEditForm(
             "prefix",
             *DHCPServerBulkEditFormMixin.FIELDS,
             name=_("Shared Network"),
-        ),
-        FieldSet(
-            "child_subnets",
-            name=_("Child Objects"),
         ),
         FieldSet(
             *ClientClassBulkEditFormMixin.FIELDS,

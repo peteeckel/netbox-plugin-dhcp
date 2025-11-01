@@ -34,6 +34,8 @@ class SubnetTable(
 
         fields = (
             "name",
+            "dhcp_server",
+            "shared_network",
             "prefix",
             "description",
             "next_server",

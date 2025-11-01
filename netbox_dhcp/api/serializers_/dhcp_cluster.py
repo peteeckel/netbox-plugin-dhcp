@@ -5,7 +5,7 @@ from netbox.api.serializers import NetBoxModelSerializer
 
 from netbox_dhcp.models import DHCPCluster
 
-from .dhcp_server import DHCPServerSerializer
+from ..nested_serializers import NestedDHCPServerSerializer
 
 
 __all__ = ("DHCPClusterSerializer",)
@@ -38,11 +38,9 @@ class DHCPClusterSerializer(NetBoxModelSerializer):
         view_name="plugins-api:netbox_dhcp-api:dhcpcluster-detail"
     )
 
-    dhcp_servers = DHCPServerSerializer(
+    dhcp_servers = NestedDHCPServerSerializer(
         many=True,
-        nested=True,
         read_only=True,
         required=False,
-        allow_null=True,
         help_text=_("DHCP servers assigned to the cluster"),
     )

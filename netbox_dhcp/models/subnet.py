@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -43,9 +44,22 @@ class Subnet(
 
         ordering = ("name",)
 
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(
+                    Q(dhcp_server__isnull=False, shared_network__isnull=True)
+                    | Q(dhcp_server__isnull=True, shared_network__isnull=False)
+                ),
+                name="unique_parent_object",
+                violation_error_message=_("Either DHCP Server or Shared Network is required, not both")
+            )
+        ]
+
     clone_fields = (
         "name",
         "description",
+        "dhcp_server",
+        "shared_network",
         "next_server",
         "server_hostname",
         "boot_file_name",
@@ -98,6 +112,24 @@ class Subnet(
         blank=True,
         null=True,
     )
+
+    dhcp_server = models.ForeignKey(
+        verbose_name=_("DHCP Server"),
+        to="netbox_dhcp.DHCPServer",
+        on_delete=models.CASCADE,
+        related_name="child_subnets",
+        blank=True,
+        null=True,
+    )
+    shared_network = models.ForeignKey(
+        verbose_name=_("Shared Network"),
+        to="netbox_dhcp.SharedNetwork",
+        on_delete=models.CASCADE,
+        related_name="child_subnets",
+        blank=True,
+        null=True,
+    )
+
     prefix = models.ForeignKey(
         verbose_name=_("Prefix"),
         to=Prefix,

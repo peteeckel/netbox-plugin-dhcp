@@ -19,8 +19,6 @@ from .mixins import (
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
-    ParentSharedNetworkFilterMixin,
-    ParentDHCPServerFilterMixin,
 )
 
 __all__ = ("SubnetFilterSet",)
@@ -38,8 +36,6 @@ class SubnetFilterSet(
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
-    ParentSharedNetworkFilterMixin,
-    ParentDHCPServerFilterMixin,
     NetBoxModelFilterSet,
 ):
     class Meta:

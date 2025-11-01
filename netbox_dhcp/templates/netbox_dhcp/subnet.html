@@ -16,6 +16,17 @@
                         <th scope="row">{% trans "Address Family" %}</th>
                         <td>IPv{{ object.family }}</td>
                     </tr>
+                    {% if object.dhcp_server %}
+                        <tr>
+                            <th scope="row">{% trans "DHCP Server" %}</th>
+                            <td>{{ object.dhcp_server|linkify }}</td>
+                        </tr>
+                    {% elif object.shared_network %}
+                        <tr>
+                            <th scope="row">{% trans "Shared Network" %}</th>
+                            <td>{{ object.shared_network|linkify }}</td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <th scope="row">{% trans "Prefix" %}</th>
                         <td>{{ object.prefix|linkify }}</td>
@@ -36,7 +47,6 @@
                     {% include './inc/lifetime_fields.html' %}
                 </table>
             </div>
-            {% include './inc/parent_object_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">
@@ -46,5 +56,3 @@
         </div>
     </div>
 {% endblock %}
-
-

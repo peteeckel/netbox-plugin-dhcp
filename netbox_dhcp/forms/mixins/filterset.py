@@ -40,6 +40,7 @@ __all__ = (
     "NetworkFilterFormMixin",
     "SubnetFilterFormMixin",
     "DHCPServerFilterFormMixin",
+    "SharedNetworkFilterFormMixin",
     "ChildSubnetFilterFormMixin",
     "ChildSharedNetworkFilterFormMixin",
     "ChildPoolFilterFormMixin",
@@ -457,6 +458,18 @@ class DHCPServerFilterFormMixin(forms.Form):
         queryset=DHCPServer.objects.all(),
         required=False,
         label=_("DHCP Server"),
+    )
+
+
+class SharedNetworkFilterFormMixin(forms.Form):
+    FIELDS = [
+        "shared_network_id",
+    ]
+
+    shared_network_id = DynamicModelMultipleChoiceField(
+        queryset=SharedNetwork.objects.all(),
+        required=False,
+        label=_("Shared Network"),
     )
 
 

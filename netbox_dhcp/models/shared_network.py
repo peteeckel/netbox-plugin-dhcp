@@ -15,7 +15,6 @@ from .mixins import (
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    ChildSubnetModelMixin,
 )
 from .option import Option
 
@@ -34,7 +33,6 @@ class SharedNetwork(
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    ChildSubnetModelMixin,
     NetBoxModel,
 ):
     class Meta:
