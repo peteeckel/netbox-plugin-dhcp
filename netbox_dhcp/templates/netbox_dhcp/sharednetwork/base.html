@@ -9,6 +9,11 @@
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option" %}
     </button>
 </a>
+<a href="{% url 'plugins:netbox_dhcp:subnet_add' %}?shared_network={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:sharednetwork_child_subnets' pk=object.pk %}">
+    <button type="submit" class="btn btn-primary" name="add-subnet">
+        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Subnet" %}
+    </button>
+</a>
 {% endif %}
 {{ block.super }}
 {% endblock %}
