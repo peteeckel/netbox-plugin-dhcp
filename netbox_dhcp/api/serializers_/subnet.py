@@ -105,12 +105,12 @@ class SubnetSerializer(
     dhcp_server = DHCPServerSerializer(
         nested=True,
         read_only=False,
-        required=True,
+        required=False,
     )
     shared_network = SharedNetworkSerializer(
         nested=True,
         read_only=False,
-        required=True,
+        required=False,
     )
     prefix = PrefixSerializer(
         nested=True,
