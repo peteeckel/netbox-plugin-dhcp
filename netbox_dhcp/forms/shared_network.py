@@ -68,6 +68,7 @@ class SharedNetworkForm(
     PrefixFormMixin,
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
+    NetworkFormMixin,
     DDNSUpdateFormMixin,
     LeaseFormMixin,
     NetBoxModelForm,

@@ -25,6 +25,7 @@ class PDPoolAPITestCase(
         "display",
         "id",
         "name",
+        "prefix_display",
         "url",
     ]
 

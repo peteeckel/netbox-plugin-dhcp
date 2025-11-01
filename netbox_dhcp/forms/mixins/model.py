@@ -337,8 +337,10 @@ class SubnetFormMixin(forms.Form):
     subnet = DynamicModelChoiceField(
         queryset=Subnet.objects.all(),
         required=False,
+        context={
+            "description": "prefix_display",
+        },
         label=_("Subnet"),
-        context={"description": "prefix_display"},
     )
 
 
@@ -362,8 +364,10 @@ class SharedNetworkFormMixin(forms.Form):
     shared_network = DynamicModelChoiceField(
         queryset=SharedNetwork.objects.all(),
         required=False,
+        context={
+            "description": "prefix_display",
+        },
         label=_("Shared Network"),
-        context={"description": "prefix_display"},
     )
 
 

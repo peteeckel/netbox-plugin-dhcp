@@ -25,6 +25,7 @@ class SharedNetworkAPITestCase(
         "display",
         "id",
         "name",
+        "prefix_display",
         "url",
     ]
 

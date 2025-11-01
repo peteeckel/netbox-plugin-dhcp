@@ -89,6 +89,9 @@ class PDPoolForm(
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
         },
+        context={
+            "description": "prefix_display",
+        },
         required=True,
         selector=True,
         label=_("Subnet"),
@@ -155,6 +158,9 @@ class PDPoolFilterForm(
         ),
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        context={
+            "description": "prefix_display",
         },
         required=False,
         label=_("Subnet"),
@@ -279,6 +285,9 @@ class PDPoolBulkEditForm(
         ),
         query_params={
             "family": IPAddressFamilyChoices.FAMILY_6,
+        },
+        context={
+            "description": "prefix_display",
         },
         required=False,
         label=_("Subnet"),

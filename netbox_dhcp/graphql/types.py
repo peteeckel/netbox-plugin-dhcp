@@ -110,6 +110,15 @@ class ChildSubnetGraphQLTypeMixin:
 
 
 @strawberry.type
+class ChildSharedNetworkGraphQLTypeMixin:
+    child_shared_networks: List[
+        Annotated[
+            "NetBoxDHCPSharedNetworkType", strawberry.lazy("netbox_dhcp.graphql.types")
+        ]
+    ]
+
+
+@strawberry.type
 class ChildPDPoolGraphQLTypeMixin:
     child_pd_pools: List[
         Annotated["NetBoxDHCPPDPoolType", strawberry.lazy("netbox_dhcp.graphql.types")]

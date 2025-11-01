@@ -181,7 +181,7 @@ class PrefixFilterFormMixin(forms.Form):
         required=False,
         selector=True,
         context={
-            "depth": False,
+            "depth": None,
         },
         label=_("Prefix"),
     )
@@ -440,6 +440,9 @@ class SubnetFilterFormMixin(forms.Form):
     subnet_id = DynamicModelMultipleChoiceField(
         queryset=Subnet.objects.all(),
         required=False,
+        context={
+            "description": "prefix_display",
+        },
         label=_("Subnet"),
     )
 
@@ -464,5 +467,8 @@ class SharedNetworkFilterFormMixin(forms.Form):
     shared_network_id = DynamicModelMultipleChoiceField(
         queryset=SharedNetwork.objects.all(),
         required=False,
+        context={
+            "description": "prefix_display",
+        },
         label=_("Shared Network"),
     )

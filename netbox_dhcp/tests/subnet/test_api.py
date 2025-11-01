@@ -25,6 +25,7 @@ class SubnetAPITestCase(
         "display",
         "id",
         "name",
+        "prefix_display",
         "url",
     ]
 

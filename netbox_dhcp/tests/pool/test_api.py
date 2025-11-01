@@ -24,9 +24,7 @@ class PoolAPITestCase(
         "description",
         "display",
         "id",
-        "ip_range",
         "name",
-        "subnet",
         "url",
     ]
 

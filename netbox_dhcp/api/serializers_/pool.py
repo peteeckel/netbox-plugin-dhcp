@@ -56,8 +56,6 @@ class PoolSerializer(
             "display",
             "name",
             "description",
-            "subnet",
-            "ip_range",
         )
 
     url = serializers.HyperlinkedIdentityField(
