@@ -94,23 +94,23 @@ class NestedSubnetSerializer(WritableNestedSerializer):
     class Meta:
         model = Subnet
 
-    fields = (
-        "id",
-        "url",
-        "display",
-        "name",
-        "description",
-        "next_server",
-        "server_hostname",
-        "boot_file_name",
-        "offer_lifetime",
-        "valid_lifetime",
-        "min_valid_lifetime",
-        "max_valid_lifetime",
-        "preferred_lifetime",
-        "min_preferred_lifetime",
-        "max_preferred_lifetime",
-    )
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "description",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "offer_lifetime",
+            "valid_lifetime",
+            "min_valid_lifetime",
+            "max_valid_lifetime",
+            "preferred_lifetime",
+            "min_preferred_lifetime",
+            "max_preferred_lifetime",
+        )
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:subnet-detail"
@@ -148,15 +148,15 @@ class NestedPoolSerializer(WritableNestedSerializer):
     class Meta:
         model = Pool
 
-    fields = (
-        "id",
-        "url",
-        "display",
-        "name",
-        "description",
-        "subnet",
-        "ip_range",
-    )
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "description",
+            "subnet",
+            "ip_range",
+        )
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:pool-detail"
@@ -167,15 +167,15 @@ class NestedPDPoolSerializer(WritableNestedSerializer):
     class Meta:
         model = PDPool
 
-    fields = (
-        "id",
-        "url",
-        "display",
-        "name",
-        "description",
-        "subnet",
-        "prefix",
-    )
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "description",
+            "subnet",
+            "prefix",
+        )
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:pdpool-detail"
@@ -186,22 +186,22 @@ class NestedHostReservationSerializer(WritableNestedSerializer):
     class Meta:
         model = HostReservation
 
-    fields = (
-        "id",
-        "url",
-        "display",
-        "name",
-        "description",
-        "duid",
-        "hw_address",
-        "circuit_id",
-        "client_id",
-        "flex_id",
-        "next_server",
-        "server_hostname",
-        "boot_file_name",
-        "hostname",
-    )
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "description",
+            "duid",
+            "hw_address",
+            "circuit_id",
+            "client_id",
+            "flex_id",
+            "next_server",
+            "server_hostname",
+            "boot_file_name",
+            "hostname",
+        )
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:hostreservation-detail"
