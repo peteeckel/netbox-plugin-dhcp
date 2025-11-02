@@ -28,18 +28,22 @@
             <th scope="row">{% trans "Adaptive Lease Time Threshold" %}</th>
             <td>{{ object.adaptive_lease_time_threshold|placeholder }}</td>
         </tr>
+        {% if object.family is none or object.family == 4 %}
         <tr>
             <th scope="row">{% trans "Match Client ID" %}</th>
             <td>{% null_checkmark object.match_client_id %}</td>
         </tr>
+        {% endif %}
         <tr>
             <th scope="row">{% trans "Store Extended Info" %}</th>
             <td>{% null_checkmark object.store_extended_info %}</td>
         </tr>
+        {% if object.family is none or object.family == 4 %}
         <tr>
             <th scope="row">{% trans "Authoritative" %}</th>
             <td>{% null_checkmark object.authoritative %}</td>
         </tr>
+        {% endif %}
         <tr>
             <th scope="row">{% trans "Global reservations" %}</th>
             <td>{% null_checkmark object.reservations_global %}</td>
