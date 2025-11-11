@@ -102,6 +102,7 @@ class OptionFilterSetTestCase(
                 data="1380",
                 send_option=OptionSendChoices.NEVER_SEND,
                 assigned_object=cls.ipv4_prefixes[1],
+                weight=50,
             ),
             Option(
                 definition=cls.option_definitions[3],
@@ -109,6 +110,7 @@ class OptionFilterSetTestCase(
                 data="true",
                 csv_format=False,
                 assigned_object=cls.ipv4_prefixes[2],
+                weight=50,
             ),
             Option(
                 definition=cls.option_definitions[4],
@@ -117,6 +119,7 @@ class OptionFilterSetTestCase(
                 csv_format=True,
                 send_option=OptionSendChoices.NEVER_SEND,
                 assigned_object=cls.ipv6_prefixes[0],
+                weight=200,
             ),
             Option(
                 definition=cls.option_definitions[5],
@@ -124,6 +127,7 @@ class OptionFilterSetTestCase(
                 data="example.com",
                 csv_format=False,
                 assigned_object=cls.ipv6_prefixes[1],
+                weight=200,
             ),
         )
         Option.objects.bulk_create(cls.options)
@@ -181,3 +185,11 @@ class OptionFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"send_option": OptionSendChoices.NEVER_SEND}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_weight(self):
+        params = {"weight": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        params = {"weight__gt": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"weight__lte": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)

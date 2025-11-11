@@ -329,6 +329,7 @@ class NetBoxDHCPOptionType(NetBoxObjectType):
         "NetBoxDHCPOptionDefinitionType", strawberry.lazy("netbox_dhcp.graphql.types")
     ]
     data: str | None
+    weight: int | None
     description: str | None
     csv_format: bool | None
     send_option: str | None

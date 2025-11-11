@@ -30,6 +30,7 @@ class OptionAPITestCase(
         "id",
         "send_option",
         "url",
+        "weight",
     ]
 
     user_permissions = ("netbox_dhcp.view_optiondefinition",)

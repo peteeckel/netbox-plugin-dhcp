@@ -57,6 +57,9 @@ class OptionFilterSet(
         lookup_expr="icontains",
         field_name="data",
     )
+    weight = django_filters.NumberFilter(
+        label=_("Weight"),
+    )
     definition_id = django_filters.ModelMultipleChoiceFilter(
         label=_("Option Definition ID"),
         queryset=OptionDefinition.objects.all(),

@@ -35,6 +35,10 @@
                         <td>{{ object.data }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "Weight" %}</th>
+                        <td>{{ object.definition.weight }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "CSV Format" %}</th>
                         <td>{% null_checkmark object.csv_format %}</td>
                     </tr>

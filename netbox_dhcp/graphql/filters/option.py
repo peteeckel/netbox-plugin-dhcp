@@ -43,6 +43,7 @@ class NetBoxDHCPOptionFilter(
         Annotated["IPAddressFamilyEnum", strawberry.lazy("ipam.graphql.enums")] | None
     ) = strawberry_django.filter_field()
     data: FilterLookup[str] | None = strawberry_django.filter_field()
+    weight: FilterLookup[int] | None = strawberry_django.filter_field()
     csv_format: FilterLookup[bool] | None = strawberry_django.filter_field()
     send_option: FilterLookup[str] | None = strawberry_django.filter_field()
     assigned_object_type: (

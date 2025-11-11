@@ -48,6 +48,7 @@ class OptionForm(ClientClassFormMixin, NetBoxModelForm):
             "definition",
             "description",
             "data",
+            "weight",
             "csv_format",
             "send_option",
             "assigned_object_id",
@@ -66,6 +67,7 @@ class OptionForm(ClientClassFormMixin, NetBoxModelForm):
             "definition",
             "description",
             "data",
+            "weight",
             "csv_format",
             "send_option",
             name=_("Option"),
@@ -107,6 +109,7 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
             "code",
             "definition_id",
             "data_ic",
+            "weight",
             "csv_format",
             "send_option",
             name=_("Option"),
@@ -137,8 +140,16 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
         help_text=_("Case-insensitive substring match"),
         required=False,
     )
-    code = forms.CharField(
+    code = forms.IntegerField(
         label=_("Code"),
+        min_value=1,
+        max_value=255,
+        required=False,
+    )
+    weight = forms.IntegerField(
+        label=_("Weight"),
+        min_value=0,
+        max_value=32767,
         required=False,
     )
     csv_format = forms.NullBooleanField(
@@ -173,6 +184,7 @@ class OptionImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
             "client_class",
             "description",
             "data",
+            "weight",
             "csv_format",
             "send_option",
             *ClientClassImportFormMixin.FIELDS,
@@ -360,6 +372,7 @@ class OptionBulkEditForm(
             "definition",
             "description",
             "data",
+            "weight",
             "csv_format",
             "send_option",
             name=_("Option"),
@@ -386,6 +399,10 @@ class OptionBulkEditForm(
     )
     data = forms.CharField(
         label=_("Data"),
+        required=False,
+    )
+    weight = forms.IntegerField(
+        label=_("Weight"),
         required=False,
     )
     csv_format = forms.NullBooleanField(

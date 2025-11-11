@@ -32,6 +32,7 @@ class OptionTable(
             "assigned_object_type",
             "code",
             "data",
+            "weight",
             "csv_format",
             "send_option",
             "client_classes",
@@ -43,6 +44,7 @@ class OptionTable(
             "space",
             "code",
             "data",
+            "weight",
             "assigned_object",
             "assigned_object_type",
         )
@@ -85,4 +87,5 @@ class ChildOptionTable(OptionTable):
             "name",
             "code",
             "data",
+            "weight",
         )

@@ -28,6 +28,7 @@ class Option(ClientClassModelMixin, NetBoxModel):
             "definition__space",
             "definition__code",
             "definition__name",
+            "weight",
         )
 
     definition = models.ForeignKey(
@@ -68,6 +69,10 @@ class Option(ClientClassModelMixin, NetBoxModel):
         choices=OptionSendChoices,
         null=True,
         blank=True,
+    )
+    weight = models.PositiveSmallIntegerField(
+        verbose_name=_("Weight"),
+        default=100,
     )
 
     def __str__(self):
