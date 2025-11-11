@@ -5,7 +5,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import IPRange
-from utilities.querysets import RestrictedQuerySet
 
 from .mixins import (
     NetBoxDHCPModelMixin,

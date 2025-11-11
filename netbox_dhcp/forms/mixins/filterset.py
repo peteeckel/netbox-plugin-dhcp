@@ -16,9 +16,6 @@ from netbox_dhcp.models import (
     Subnet,
     DHCPServer,
     SharedNetwork,
-    Pool,
-    PDPool,
-    HostReservation,
 )
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
