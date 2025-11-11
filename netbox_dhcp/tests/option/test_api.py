@@ -23,12 +23,9 @@ class OptionAPITestCase(
     model = Option
 
     brief_fields = [
-        "csv_format",
-        "data",
         "description",
         "display",
         "id",
-        "send_option",
         "url",
         "weight",
     ]

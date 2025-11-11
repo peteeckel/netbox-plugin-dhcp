@@ -38,6 +38,7 @@ class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "definition",
             "description",
             "data",
@@ -56,11 +57,8 @@ class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
             "id",
             "url",
             "display",
-            "data",
-            "weight",
             "description",
-            "csv_format",
-            "send_option",
+            "weight",
         )
 
     url = serializers.HyperlinkedIdentityField(

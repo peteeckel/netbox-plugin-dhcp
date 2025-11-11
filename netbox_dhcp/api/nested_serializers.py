@@ -31,6 +31,7 @@ class NestedDHCPServerSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "status",
@@ -49,20 +50,9 @@ class NestedClientClassSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
-            "test",
-            "template_test",
-            "only_in_additional_list",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            "preferred_lifetime",
-            "min_preferred_lifetime",
-            "max_preferred_lifetime",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -78,18 +68,10 @@ class NestedSubnetSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "offer_lifetime",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            "preferred_lifetime",
-            "min_preferred_lifetime",
-            "max_preferred_lifetime",
+            "prefix",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -105,18 +87,10 @@ class NestedSharedNetworkSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "offer_lifetime",
-            "valid_lifetime",
-            "min_valid_lifetime",
-            "max_valid_lifetime",
-            "preferred_lifetime",
-            "min_preferred_lifetime",
-            "max_preferred_lifetime",
+            "prefix",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -132,9 +106,9 @@ class NestedPoolSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
-            "subnet",
             "ip_range",
         )
 
@@ -151,9 +125,9 @@ class NestedPDPoolSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
-            "subnet",
             "prefix",
         )
 
@@ -170,6 +144,7 @@ class NestedHostReservationSerializer(WritableNestedSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "duid",
@@ -177,10 +152,6 @@ class NestedHostReservationSerializer(WritableNestedSerializer):
             "circuit_id",
             "client_id",
             "flex_id",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "hostname",
         )
 
     url = serializers.HyperlinkedIdentityField(

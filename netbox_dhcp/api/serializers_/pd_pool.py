@@ -27,6 +27,7 @@ class PDPoolSerializer(
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "subnet",
@@ -46,6 +47,7 @@ class PDPoolSerializer(
             "name",
             "description",
             "prefix_display",
+            "delegated_length",
         )
 
     url = serializers.HyperlinkedIdentityField(

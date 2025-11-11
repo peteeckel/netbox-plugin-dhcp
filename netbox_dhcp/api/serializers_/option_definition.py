@@ -16,6 +16,7 @@ class OptionDefinitionSerializer(NetBoxModelSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "family",
             "space",
             "name",
@@ -26,6 +27,17 @@ class OptionDefinitionSerializer(NetBoxModelSerializer):
             "encapsulate",
             "array",
             "standard",
+        )
+
+        brief_fields = (
+            "id",
+            "url",
+            "display",
+            "family",
+            "space",
+            "name",
+            "code",
+            "description",
         )
 
     url = serializers.HyperlinkedIdentityField(

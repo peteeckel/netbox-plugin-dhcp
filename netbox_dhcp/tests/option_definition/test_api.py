@@ -31,18 +31,13 @@ class OptionDefinitionAPITestCase(
         return self.model.objects.filter(standard=False)
 
     brief_fields = [
-        "array",
         "code",
         "description",
         "display",
-        "encapsulate",
         "family",
         "id",
         "name",
-        "record_types",
         "space",
-        "standard",
-        "type",
         "url",
     ]
 

@@ -28,6 +28,7 @@ class SharedNetworkSerializer(
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "dhcp_server",

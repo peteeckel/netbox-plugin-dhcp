@@ -21,19 +21,15 @@ class HostReservationAPITestCase(
     model = HostReservation
 
     brief_fields = [
-        "boot_file_name",
         "circuit_id",
         "client_id",
         "description",
         "display",
         "duid",
         "flex_id",
-        "hostname",
         "hw_address",
         "id",
         "name",
-        "next_server",
-        "server_hostname",
         "url",
     ]
 

@@ -16,6 +16,7 @@ class ClientClassSerializer(NetBoxModelSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "test",

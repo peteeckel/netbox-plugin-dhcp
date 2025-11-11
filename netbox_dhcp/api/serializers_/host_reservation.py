@@ -22,6 +22,7 @@ class HostReservationSerializer(
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "dhcp_server",
@@ -53,10 +54,6 @@ class HostReservationSerializer(
             "circuit_id",
             "client_id",
             "flex_id",
-            "next_server",
-            "server_hostname",
-            "boot_file_name",
-            "hostname",
         )
 
     url = serializers.HyperlinkedIdentityField(

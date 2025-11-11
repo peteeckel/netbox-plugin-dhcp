@@ -21,6 +21,7 @@ class PDPoolAPITestCase(
     model = PDPool
 
     brief_fields = [
+        "delegated_length",
         "description",
         "display",
         "id",

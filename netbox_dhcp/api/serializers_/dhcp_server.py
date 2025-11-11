@@ -10,7 +10,7 @@ from virtualization.api.serializers import (
 )
 
 from .dhcp_cluster import DHCPClusterSerializer
-from .client_class import ClientClassSerializer
+from .mixins import ClientClassSerializerMixin
 from ..nested_serializers import (
     NestedSharedNetworkSerializer,
     NestedSubnetSerializer,
@@ -23,7 +23,10 @@ from netbox_dhcp.models import DHCPServer
 __all__ = ("DHCPServerSerializer",)
 
 
-class DHCPServerSerializer(NetBoxModelSerializer):
+class DHCPServerSerializer(
+    ClientClassSerializerMixin,
+    NetBoxModelSerializer,
+):
     class Meta:
         model = DHCPServer
 
@@ -31,6 +34,7 @@ class DHCPServerSerializer(NetBoxModelSerializer):
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "server_id",
@@ -98,14 +102,6 @@ class DHCPServerSerializer(NetBoxModelSerializer):
         required=False,
         default=None,
         help_text=_("Virtual Interfaces"),
-    )
-
-    client_classes = ClientClassSerializer(
-        nested=True,
-        many=True,
-        read_only=False,
-        required=False,
-        help_text=_("Client Classes"),
     )
 
     child_shared_networks = NestedSharedNetworkSerializer(

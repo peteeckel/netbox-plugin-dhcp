@@ -1,5 +1,7 @@
 from django.utils.translation import gettext as _
 
+from netbox.api.serializers import NetBoxModelSerializer
+
 from ..nested_serializers import (
     NestedClientClassSerializer,
 )
@@ -11,7 +13,7 @@ __all__ = (
 )
 
 
-class ClientClassSerializerMixin:
+class ClientClassSerializerMixin(NetBoxModelSerializer):
     client_classes = NestedClientClassSerializer(
         many=True,
         read_only=False,
@@ -20,7 +22,7 @@ class ClientClassSerializerMixin:
     )
 
 
-class EvaluateClientClassSerializerMixin:
+class EvaluateClientClassSerializerMixin(NetBoxModelSerializer):
     evaluate_additional_classes = NestedClientClassSerializer(
         many=True,
         read_only=False,

@@ -33,6 +33,7 @@ class SubnetSerializer(
             "id",
             "url",
             "display",
+            "display_url",
             "name",
             "description",
             "subnet_id",
