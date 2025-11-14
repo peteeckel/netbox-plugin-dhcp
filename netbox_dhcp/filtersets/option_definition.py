@@ -65,5 +65,16 @@ class OptionDefinitionFilterSet(NetBoxModelFilterSet):
     def search(self, queryset, name, value):
         if not value.strip():
             return queryset
-        qs_filter = Q(name__icontains=value)
+
+
+        qs_filter = Q(
+            Q(name__icontains=value)
+            | Q(space__icontains=value)
+        )
+        try:
+            value = int(value)
+            qs_filter |= Q(code=value)
+        except ValueError:
+            pass
+
         return queryset.filter(qs_filter)
