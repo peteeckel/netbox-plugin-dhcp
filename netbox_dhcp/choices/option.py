@@ -25,10 +25,12 @@ class OptionSpaceChoices(ChoiceSet):
 
     DHCPV6 = "dhcp6"
     DHCPV4 = "dhcp4"
+    VENDOR = "vendor-specific-options-space"
 
     CHOICES = [
         (DHCPV6, "DHCPv6", "blue"),
         (DHCPV4, "DHCPv4", "green"),
+        (VENDOR, "Vendor Specific", "orange"),
     ]
 
 
