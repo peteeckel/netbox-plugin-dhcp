@@ -44,6 +44,8 @@ class OptionDefinitionForm(NetBoxModelForm):
         model = OptionDefinition
 
         fields = (
+            "dhcp_server",
+            "client_class",
             "family",
             "space",
             "name",
@@ -57,6 +59,8 @@ class OptionDefinitionForm(NetBoxModelForm):
 
         widgets = {
             "type": HTMXSelect(),
+            "dhcp_server": forms.HiddenInput(),
+            "client_class": forms.HiddenInput(),
         }
 
     fieldsets = (

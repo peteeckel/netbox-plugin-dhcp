@@ -39,6 +39,25 @@
                     {% endif %}
                 </table>
             </div>
+            {% if object.dhcp_server or object.client_class %}
+            <div class="card">
+                <h5 class="card-header">{% trans "Parent Object" %}</h5>
+                <table class="table table-hover attr-table">
+                    {% if object.dhcp_server %}
+                        <tr>
+                            <th scope="row">{% trans "DHCP Server" %}</th>
+                            <td>{{ object.dhcp_server }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if object.client_class %}
+                        <tr>
+                            <th scope="row">{% trans "Client Class" %}</th>
+                            <td>{{ object.client_class }}</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+            {% endif %}
             {% include 'inc/panels/custom_fields.html' %}
         </div>
         <div class="col col-md-6">

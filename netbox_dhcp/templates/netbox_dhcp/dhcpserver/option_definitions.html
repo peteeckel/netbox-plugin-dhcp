@@ -1,0 +1,12 @@
+{% extends './base.html' %}
+{% load helpers %}
+
+{% block content %}
+    {% include 'inc/table_controls_htmx.html' with table_modal="OptionDefinitionTable_config" %}
+    {% include '../inc/option_definition_table.html' %}
+{% endblock %}
+
+{% block modals %}
+    {{ block.super }}
+    {% table_config_form table %}
+{% endblock modals %}

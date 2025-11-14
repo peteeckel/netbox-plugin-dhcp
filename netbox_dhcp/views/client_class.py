@@ -3,15 +3,19 @@ from django.utils.translation import gettext_lazy as _
 from netbox.views import generic
 from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import ClientClass, Option
-from netbox_dhcp.filtersets import ClientClassFilterSet, OptionFilterSet
+from netbox_dhcp.models import ClientClass, Option, OptionDefinition
+from netbox_dhcp.filtersets import (
+    ClientClassFilterSet,
+    OptionFilterSet,
+    OptionDefinitionFilterSet,
+)
 from netbox_dhcp.forms import (
     ClientClassForm,
     ClientClassFilterForm,
     ClientClassImportForm,
     ClientClassBulkEditForm,
 )
-from netbox_dhcp.tables import ClientClassTable, ChildOptionTable
+from netbox_dhcp.tables import ClientClassTable, ChildOptionTable, OptionDefinitionTable
 
 
 __all__ = (
@@ -22,7 +26,8 @@ __all__ = (
     "ClientClassBulkImportView",
     "ClientClassBulkEditView",
     "ClientClassBulkDeleteView",
-    "ClientClassOptionsListView",
+    "ClientClassOptionListView",
+    "ClientClassOptionDefinitionListView",
 )
 
 
@@ -74,7 +79,7 @@ class ClientClassBulkDeleteView(generic.BulkDeleteView):
 
 
 @register_model_view(ClientClass, "options")
-class ClientClassOptionsListView(generic.ObjectChildrenView):
+class ClientClassOptionListView(generic.ObjectChildrenView):
     queryset = ClientClass.objects.all()
     child_model = Option
     table = ChildOptionTable
@@ -90,3 +95,22 @@ class ClientClassOptionsListView(generic.ObjectChildrenView):
 
     def get_children(self, request, parent):
         return parent.options.restrict(request.user, "view")
+
+
+@register_model_view(ClientClass, "option_definitions")
+class ClientClassOptionDefinitionListView(generic.ObjectChildrenView):
+    queryset = ClientClass.objects.all()
+    child_model = OptionDefinition
+    table = OptionDefinitionTable
+    filterset = OptionDefinitionFilterSet
+    template_name = "netbox_dhcp/clientclass/option_definitions.html"
+
+    tab = ViewTab(
+        label=_("Option Definitions"),
+        permission="netbox_dhcp.view_optiondefinition",
+        badge=lambda obj: obj.option_definitions.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.option_definitions.restrict(request.user, "view")

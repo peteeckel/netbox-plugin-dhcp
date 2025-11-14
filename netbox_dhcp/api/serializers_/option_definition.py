@@ -17,6 +17,8 @@ class OptionDefinitionSerializer(NetBoxModelSerializer):
             "url",
             "display",
             "display_url",
+            "dhcp_server",
+            "client_class",
             "family",
             "space",
             "name",

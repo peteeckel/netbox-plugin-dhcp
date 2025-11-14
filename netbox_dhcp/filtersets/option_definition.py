@@ -66,11 +66,7 @@ class OptionDefinitionFilterSet(NetBoxModelFilterSet):
         if not value.strip():
             return queryset
 
-
-        qs_filter = Q(
-            Q(name__icontains=value)
-            | Q(space__icontains=value)
-        )
+        qs_filter = Q(Q(name__icontains=value) | Q(space__icontains=value))
         try:
             value = int(value)
             qs_filter |= Q(code=value)

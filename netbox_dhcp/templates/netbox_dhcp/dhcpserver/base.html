@@ -3,22 +3,35 @@
 {% load i18n %}
 
 {% block extra_controls %}
+{% if perms.netbox_dhcp.add_optiondefinition %}
+<a href="{% url 'plugins:netbox_dhcp:optiondefinition_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_option_definitions' pk=object.pk %}">
+    <button type="submit" class="btn btn-primary" name="add-optiondefinition">
+        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option Definition" %}
+    </button>
+</a>
+{% endif %}
 {% if perms.netbox_dhcp.add_option %}
 <a href="{% url 'plugins:netbox_dhcp:option_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_options' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-option">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option" %}
     </button>
 </a>
+{% endif %}
+{% if perms.netbox_dhcp.add_hostreservation %}
 <a href="{% url 'plugins:netbox_dhcp:hostreservation_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_host_reservations' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-hostreservation">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Host Reservation" %}
     </button>
 </a>
+{% endif %}
+{% if perms.netbox_dhcp.add_sharednetwork %}
 <a href="{% url 'plugins:netbox_dhcp:sharednetwork_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_shared_networks' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-sharednetwork">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Shared Network" %}
     </button>
 </a>
+{% endif %}
+{% if perms.netbox_dhcp.add_subnet %}
 <a href="{% url 'plugins:netbox_dhcp:subnet_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_subnets' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-subnet">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Subnet" %}

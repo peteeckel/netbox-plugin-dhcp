@@ -29,11 +29,6 @@ class OptionDefinition(NetBoxModel):
             "name",
         )
 
-        constraints = [
-            models.UniqueConstraint(fields=["space", "code"], name="space_code_unique"),
-            models.UniqueConstraint(fields=["space", "name"], name="space_name_unique"),
-        ]
-
     clone_fields = ("space",)
 
     name = models.CharField(
@@ -100,6 +95,23 @@ class OptionDefinition(NetBoxModel):
         blank=False,
         null=False,
         default=False,
+    )
+
+    dhcp_server = models.ForeignKey(
+        verbose_name=_("DHCP Server"),
+        to="DHCPServer",
+        on_delete=models.CASCADE,
+        related_name="option_definitions",
+        blank=True,
+        null=True,
+    )
+    client_class = models.ForeignKey(
+        verbose_name=_("Client Class"),
+        to="ClientClass",
+        on_delete=models.CASCADE,
+        related_name="option_definitions",
+        blank=True,
+        null=True,
     )
 
     def __str__(self):

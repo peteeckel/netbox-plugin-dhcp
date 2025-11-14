@@ -10,6 +10,7 @@ from netbox_dhcp.models import (
     HostReservation,
     ClientClass,
     Option,
+    OptionDefinition,
 )
 from netbox_dhcp.filtersets import (
     DHCPServerFilterSet,
@@ -18,6 +19,7 @@ from netbox_dhcp.filtersets import (
     HostReservationFilterSet,
     ClientClassFilterSet,
     OptionFilterSet,
+    OptionDefinitionFilterSet,
 )
 from netbox_dhcp.forms import (
     DHCPServerForm,
@@ -32,6 +34,7 @@ from netbox_dhcp.tables import (
     HostReservationTable,
     ClientClassTable,
     ChildOptionTable,
+    OptionDefinitionTable,
 )
 
 
@@ -46,7 +49,8 @@ __all__ = (
     "DHCPServerChildSubnetListView",
     "DHCPServerChildSharedNetworkListView",
     "DHCPServerChildHostReservationListView",
-    "DHCPServerOptionsListView",
+    "DHCPServerOptionListView",
+    "DHCPServerOptionDefinitionListView",
 )
 
 
@@ -174,7 +178,7 @@ class DHCPServerClientClassListView(generic.ObjectChildrenView):
 
 
 @register_model_view(DHCPServer, "options")
-class DHCPServerOptionsListView(generic.ObjectChildrenView):
+class DHCPServerOptionListView(generic.ObjectChildrenView):
     queryset = DHCPServer.objects.all()
     child_model = Option
     table = ChildOptionTable
@@ -190,3 +194,22 @@ class DHCPServerOptionsListView(generic.ObjectChildrenView):
 
     def get_children(self, request, parent):
         return parent.options.restrict(request.user, "view")
+
+
+@register_model_view(DHCPServer, "option_definitions")
+class DHCPServerOptionDefinitionListView(generic.ObjectChildrenView):
+    queryset = DHCPServer.objects.all()
+    child_model = OptionDefinition
+    table = OptionDefinitionTable
+    filterset = OptionDefinitionFilterSet
+    template_name = "netbox_dhcp/dhcpserver/option_definitions.html"
+
+    tab = ViewTab(
+        label=_("Option Definitions"),
+        permission="netbox_dhcp.view_optiondefinition",
+        badge=lambda obj: obj.option_definitions.count(),
+        hide_if_empty=True,
+    )
+
+    def get_children(self, request, parent):
+        return parent.option_definitions.restrict(request.user, "view")

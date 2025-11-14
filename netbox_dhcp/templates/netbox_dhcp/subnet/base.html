@@ -9,18 +9,22 @@
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option" %}
     </button>
 </a>
-{% if object.family == 6 %}
+{% endif %}
+{% if object.family == 6 and perms.netbox_dhcp.add_pdpool %}
 <a href="{% url 'plugins:netbox_dhcp:pdpool_add' %}?subnet={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:subnet_child_pd_pools' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-pdpool">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Prefix Delegation Pool" %}
     </button>
 </a>
 {% endif %}
+{% if perms.netbox_dhcp.add_pool %}
 <a href="{% url 'plugins:netbox_dhcp:pool_add' %}?subnet={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:subnet_child_pools' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-pool">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Pool" %}
     </button>
 </a>
+{% endif %}
+{% if perms.netbox_dhcp.add_hostreservation %}
 <a href="{% url 'plugins:netbox_dhcp:hostreservation_add' %}?subnet={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:subnet_child_host_reservations' pk=object.pk %}">
     <button type="submit" class="btn btn-primary" name="add-hostreservation">
         <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Host Reservation" %}
