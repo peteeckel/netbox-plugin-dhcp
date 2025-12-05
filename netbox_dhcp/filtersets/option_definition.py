@@ -6,14 +6,20 @@ from netbox.filtersets import NetBoxModelFilterSet
 from utilities.filters import MultiValueCharFilter
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import OptionDefinition
+from netbox_dhcp.models import OptionDefinition, ClientClass
 from netbox_dhcp.choices import OptionSpaceChoices, OptionTypeChoices
 
+from .mixins import (
+    DHCPServerFilterMixin,
+    ClientClassFilterMixin,
+)
 
 __all__ = ("OptionDefinitionFilterSet",)
 
 
-class OptionDefinitionFilterSet(NetBoxModelFilterSet):
+class OptionDefinitionFilterSet(
+    DHCPServerFilterMixin, ClientClassFilterMixin, NetBoxModelFilterSet
+):
     class Meta:
         model = OptionDefinition
 
@@ -54,6 +60,16 @@ class OptionDefinitionFilterSet(NetBoxModelFilterSet):
     record_types = MultiValueCharFilter(
         method="filter_record_types",
         label=_("Record Types"),
+    )
+
+    client_class = django_filters.CharFilter(
+        field_name="client_class__name",
+        label=_("Client Class"),
+    )
+    client_class_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=ClientClass.objects.all(),
+        field_name="client_class",
+        label=_("Client Class ID"),
     )
 
     def filter_record_types(self, queryset, name, value):

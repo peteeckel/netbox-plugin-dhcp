@@ -6,7 +6,7 @@ from ipam.choices import IPAddressFamilyChoices
 from netbox_dhcp.models import OptionDefinition
 from netbox_dhcp.filtersets import OptionDefinitionFilterSet
 from netbox_dhcp.choices import OptionTypeChoices, OptionSpaceChoices
-
+from netbox_dhcp.tests.custom import TestObjects
 
 class OptionDefinitionFilterSetTestCase(
     TestCase,
@@ -20,6 +20,9 @@ class OptionDefinitionFilterSetTestCase(
 
     @classmethod
     def setUpTestData(cls):
+        cls.dhcp_servers = TestObjects.get_dhcp_servers()
+        cls.client_classes = TestObjects.get_client_classes()
+
         cls.option_definitions = (
             OptionDefinition(
                 name="test-option-definition-1",
@@ -29,6 +32,7 @@ class OptionDefinitionFilterSetTestCase(
                 type=OptionTypeChoices.TYPE_STRING,
                 space=OptionSpaceChoices.DHCPV4,
                 array=False,
+                dhcp_server=cls.dhcp_servers[0],
             ),
             OptionDefinition(
                 name="test-option-definition-2",
@@ -39,6 +43,7 @@ class OptionDefinitionFilterSetTestCase(
                 space=OptionSpaceChoices.DHCPV4,
                 encapsulate="xxx",
                 array=True,
+                dhcp_server=cls.dhcp_servers[0],
             ),
             OptionDefinition(
                 name="test-option-definition-3",
@@ -49,6 +54,7 @@ class OptionDefinitionFilterSetTestCase(
                 space=OptionSpaceChoices.DHCPV6,
                 encapsulate="isc",
                 array=True,
+                dhcp_server=cls.dhcp_servers[1],
             ),
             OptionDefinition(
                 name="test-option-definition-4",
@@ -62,6 +68,7 @@ class OptionDefinitionFilterSetTestCase(
                 ],
                 space=OptionSpaceChoices.DHCPV6,
                 encapsulate="isc",
+                client_class=cls.client_classes[0],
             ),
             OptionDefinition(
                 name="test-option-definition-5",
@@ -74,6 +81,7 @@ class OptionDefinitionFilterSetTestCase(
                     OptionTypeChoices.TYPE_IPV4_ADDRESS,
                 ],
                 space=OptionSpaceChoices.DHCPV4,
+                client_class=cls.client_classes[0],
             ),
         )
         OptionDefinition.objects.bulk_create(cls.option_definitions)
@@ -147,3 +155,15 @@ class OptionDefinitionFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"standard": False, "array": False}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_dhcp_server(self):
+        params = {"dhcp_server_id": [self.dhcp_servers[0].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"dhcp_server": self.dhcp_servers[1].name}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_client_class(self):
+        params = {"client_class_id": [self.client_classes[0].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"client_class": self.client_classes[0].name}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

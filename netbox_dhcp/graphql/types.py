@@ -317,6 +317,18 @@ class NetBoxDHCPOptionDefinitionType(NetBoxObjectType):
     family: int
     type: str
     record_types: List[str] | None
+    dhcp_server: (
+        Annotated[
+            "NetBoxDHCPDHCPServerType", strawberry.lazy("netbox_dhcp.graphql.types")
+        ]
+        | None
+    )
+    client_class: (
+        Annotated[
+            "NetBoxDHCPClientClassType", strawberry.lazy("netbox_dhcp.graphql.types")
+        ]
+        | None
+    )
 
 
 @strawberry_django.type(
