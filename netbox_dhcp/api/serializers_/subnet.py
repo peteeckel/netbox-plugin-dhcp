@@ -36,6 +36,7 @@ class SubnetSerializer(
             "display_url",
             "name",
             "description",
+            "weight",
             "subnet_id",
             "dhcp_server",
             "shared_network",
@@ -98,6 +99,7 @@ class SubnetSerializer(
             "display",
             "name",
             "description",
+            "weight",
             "prefix_display",
         )
 

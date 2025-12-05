@@ -83,6 +83,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-1",
                 description="Test Subnet 1",
+                weight=90,
                 dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv4_prefixes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
@@ -94,6 +95,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-2",
                 description="Test Subnet 2",
+                weight=100,
                 dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv4_prefixes[1],
                 **BOOTPFilterSetTests.DATA[1],
@@ -102,6 +104,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-3",
                 description="Test Subnet 3",
+                weight=110,
                 shared_network=cls.shared_networks[0],
                 prefix=cls.ipv4_prefixes[2],
                 **BOOTPFilterSetTests.DATA[2],
@@ -117,6 +120,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-4",
                 description="Test Subnet 4",
+                weight=90,
                 dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv6_prefixes[0],
                 **PreferredLifetimeFilterSetTests.DATA[0],
@@ -124,6 +128,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-5",
                 description="Test Subnet 5",
+                weight=100,
                 dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv6_prefixes[1],
                 **DDNSUpdateFilterSetTests.DATA[2],
@@ -134,6 +139,7 @@ class SubnetFilterSetTestCase(
             Subnet(
                 name="test-subnet-6",
                 description="Test Subnet 6",
+                weight=110,
                 shared_network=cls.shared_networks[2],
                 prefix=cls.ipv6_prefixes[2],
                 **PreferredLifetimeFilterSetTests.DATA[2],
@@ -238,4 +244,10 @@ class SubnetFilterSetTestCase(
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_weight(self):
+        params = {"weight": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"weight__lt": 100}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

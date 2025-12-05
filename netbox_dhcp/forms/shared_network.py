@@ -79,6 +79,7 @@ class SharedNetworkForm(
         fields = (
             "name",
             "description",
+            "weight",
             *DHCPServerFormMixin.FIELDS,
             "prefix",
             *ClientClassFormMixin.FIELDS,
@@ -95,6 +96,7 @@ class SharedNetworkForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             *DHCPServerFormMixin.FIELDS,
             "prefix",
             name=_("Shared Network"),
@@ -140,6 +142,7 @@ class SharedNetworkFilterForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "family",
             *DHCPServerFilterFormMixin.FIELDS,
             "prefix_id",
@@ -157,6 +160,10 @@ class SharedNetworkFilterForm(
         DDNSUpdateFilterFormMixin.FIELDSET,
     )
 
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
+    )
     family = forms.ChoiceField(
         choices=add_blank_choice(IPAddressFamilyChoices),
         required=False,
@@ -181,6 +188,7 @@ class SharedNetworkImportForm(
         fields = (
             "name",
             "description",
+            "weight",
             *DHCPServerImportFormMixin.FIELDS,
             "prefix",
             *ClientClassImportFormMixin.FIELDS,
@@ -212,6 +220,7 @@ class SharedNetworkBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "weight",
             "prefix",
             *DHCPServerBulkEditFormMixin.FIELDS,
             name=_("Shared Network"),
@@ -237,4 +246,9 @@ class SharedNetworkBulkEditForm(
         *LifetimeBulkEditFormMixin.NULLABLE_FIELDS,
         *LeaseBulkEditFormMixin.NULLABLE_FIELDS,
         *DDNSUpdateBulkEditFormMixin.NULLABLE_FIELDS,
+    )
+
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
     )

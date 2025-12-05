@@ -43,6 +43,7 @@ class ClientClassFilterSetTestCase(
             ClientClass(
                 name="test-client-class-1",
                 description="Test Client Class 1",
+                weight=90,
                 test="substring(option[61].hex,0,3) == 'foo'",
                 template_test="substring(option[23].hex,0,3)",
                 only_in_additional_list=False,
@@ -54,6 +55,7 @@ class ClientClassFilterSetTestCase(
             ClientClass(
                 name="test-client-class-2",
                 description="Test Client Class 2",
+                weight=100,
                 test="substring(option[61].hex,0,3) == 'bar'",
                 template_test="substring(option[42].hex,0,3)",
                 only_in_additional_list=True,
@@ -65,6 +67,7 @@ class ClientClassFilterSetTestCase(
             ClientClass(
                 name="test-client-class-3",
                 description="Test Client Class 3",
+                weight=110,
                 test="substring(option[61].hex,0,3) == 'baz'",
                 template_test="substring(option[66].hex,0,3)",
                 only_in_additional_list=True,
@@ -104,4 +107,10 @@ class ClientClassFilterSetTestCase(
         params = {"only_in_additional_list": True}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"only_in_additional_list": False}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_weight(self):
+        params = {"weight": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+        params = {"weight__lt": 100}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

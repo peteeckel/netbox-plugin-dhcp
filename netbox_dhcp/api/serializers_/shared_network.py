@@ -31,6 +31,7 @@ class SharedNetworkSerializer(
             "display_url",
             "name",
             "description",
+            "weight",
             "dhcp_server",
             "prefix",
             "prefix_display",
@@ -89,6 +90,7 @@ class SharedNetworkSerializer(
             "display",
             "name",
             "description",
+            "weight",
             "prefix_display",
         )
 

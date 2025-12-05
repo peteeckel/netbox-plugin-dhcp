@@ -31,6 +31,7 @@ class PDPoolTable(
         fields = (
             "name",
             "description",
+            "weight",
             "subnet",
             "prefix",
             "delegated_length",
@@ -42,6 +43,7 @@ class PDPoolTable(
 
         default_columns = (
             "name",
+            "weight",
             "subnet",
             "prefix",
             "delegated_length",

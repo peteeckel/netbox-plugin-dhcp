@@ -54,7 +54,10 @@ class SharedNetwork(
         verbose_name = _("Shared Network")
         verbose_name_plural = _("Shared Networks")
 
-        ordering = ("name",)
+        ordering = (
+            "-weight",
+            "name",
+        )
 
     clone_fields = (
         "name",
@@ -123,6 +126,11 @@ class SharedNetwork(
         on_delete=models.PROTECT,
         null=False,
     )
+    weight = models.PositiveSmallIntegerField(
+        verbose_name=_("Weight"),
+        default=100,
+    )
+
     options = GenericRelation(
         to=Option,
         content_type_field="assigned_object_type",

@@ -30,8 +30,6 @@ class PoolFilterSet(
 
         fields = (
             "id",
-            "name",
-            "description",
             *SubnetFilterMixin.FILTER_FIELDS,
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
         )
@@ -44,6 +42,9 @@ class PoolFilterSet(
     )
     pool_id = django_filters.NumberFilter(
         label=_("Pool ID"),
+    )
+    weight = django_filters.NumberFilter(
+        label=_("Weight"),
     )
     family = django_filters.ChoiceFilter(
         label=_("Address Family"),

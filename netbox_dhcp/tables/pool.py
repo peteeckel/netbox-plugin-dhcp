@@ -31,6 +31,7 @@ class PoolTable(
         fields = (
             "name",
             "description",
+            "weight",
             "subnet",
             "ip_range",
             "client_classes",
@@ -40,6 +41,7 @@ class PoolTable(
 
         default_columns = (
             "name",
+            "weight",
             "subnet",
             "ip_range",
             "tags",

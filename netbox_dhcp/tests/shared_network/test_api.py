@@ -27,6 +27,7 @@ class SharedNetworkAPITestCase(
         "name",
         "prefix_display",
         "url",
+        "weight",
     ]
 
     @classmethod

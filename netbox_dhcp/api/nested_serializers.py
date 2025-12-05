@@ -53,6 +53,7 @@ class NestedClientClassSerializer(WritableNestedSerializer):
             "display_url",
             "name",
             "description",
+            "weight",
         )
 
     url = serializers.HyperlinkedIdentityField(
@@ -71,6 +72,7 @@ class NestedSubnetSerializer(WritableNestedSerializer):
             "display_url",
             "name",
             "description",
+            "weight",
             "prefix",
         )
 
@@ -90,6 +92,7 @@ class NestedSharedNetworkSerializer(WritableNestedSerializer):
             "display_url",
             "name",
             "description",
+            "weight",
             "prefix",
         )
 
@@ -109,6 +112,7 @@ class NestedPoolSerializer(WritableNestedSerializer):
             "display_url",
             "name",
             "description",
+            "weight",
             "ip_range",
         )
 
@@ -128,6 +132,7 @@ class NestedPDPoolSerializer(WritableNestedSerializer):
             "display_url",
             "name",
             "description",
+            "weight",
             "prefix",
         )
 

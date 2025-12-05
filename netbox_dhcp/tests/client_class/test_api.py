@@ -27,6 +27,7 @@ class ClientClassAPITestCase(
         "template_test",
         "test",
         "url",
+        "weight",
     ]
 
     @classmethod

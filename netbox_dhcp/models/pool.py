@@ -31,7 +31,10 @@ class Pool(
         verbose_name = _("Pool")
         verbose_name_plural = _("Pools")
 
-        ordering = ("name",)
+        ordering = (
+            "-weight",
+            "name",
+        )
 
     clone_fields = (
         "name",
@@ -60,6 +63,10 @@ class Pool(
         to="netbox_dhcp.Subnet",
         related_name="child_pools",
         on_delete=models.CASCADE,
+    )
+    weight = models.PositiveSmallIntegerField(
+        verbose_name=_("Weight"),
+        default=100,
     )
 
     pool_id = models.PositiveIntegerField(

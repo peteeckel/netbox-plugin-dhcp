@@ -59,6 +59,7 @@ class PDPoolViewTestCase(
         cls.form_data = {
             "name": "test-pd-pool-7",
             "description": "Test Prefix Delegation Pool 7",
+            "weight": 100,
             "subnet": subnet.pk,
             "prefix": ipv6_prefixes[0].pk,
             "delegated_length": 64,
@@ -71,6 +72,7 @@ class PDPoolViewTestCase(
 
         cls.bulk_edit_data = {
             "description": "Test Description Bulk Update",
+            "weight": 100,
             "subnet": subnet.pk,
             "delegated_length": 56,
             "excluded_prefix": ipv6_prefixes[2].pk,
@@ -81,17 +83,17 @@ class PDPoolViewTestCase(
         }
 
         cls.csv_data = (
-            "name,description,subnet,prefix,delegated_length,excluded_prefix,client_classes,evaluate_additional_classes",  # noqa: E501
-            f'test-pd-pool-4,Test Prefix Delegation Pool 4),{subnet.name},{ipv6_prefixes[0].prefix},64,{ipv6_prefixes[1].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'test-pd-pool-5,Test Prefix Delegation Pool 5),{subnet.name},{ipv6_prefixes[1].prefix},64,{ipv6_prefixes[2].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'test-pd-pool-6,Test Prefix Delegation Pool 6),{subnet.name},{ipv6_prefixes[2].prefix},64,{ipv6_prefixes[0].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            "name,description,weight,subnet,prefix,delegated_length,excluded_prefix,client_classes,evaluate_additional_classes",  # noqa: E501
+            f'test-pd-pool-4,Test Prefix Delegation Pool 4,42,{subnet.name},{ipv6_prefixes[0].prefix},64,{ipv6_prefixes[1].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'test-pd-pool-5,Test Prefix Delegation Pool 5,23,{subnet.name},{ipv6_prefixes[1].prefix},64,{ipv6_prefixes[2].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'test-pd-pool-6,Test Prefix Delegation Pool 6,100,{subnet.name},{ipv6_prefixes[2].prefix},64,{ipv6_prefixes[0].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
         )
 
         cls.csv_update_data = (
-            "id,description,prefix,delegated_length,excluded_prefix,client_classes,evaluate_additional_classes",  # noqa: E501
-            f'{pd_pools[0].pk},Test Prefix Delegation Pool 4),{ipv6_prefixes[0].prefix},64,{ipv6_prefixes[1].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'{pd_pools[1].pk},Test Prefix Delegation Pool 5),{ipv6_prefixes[1].prefix},64,{ipv6_prefixes[2].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'{pd_pools[2].pk},Test Prefix Delegation Pool 6),{ipv6_prefixes[2].prefix},64,{ipv6_prefixes[0].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            "id,description,weight,prefix,delegated_length,excluded_prefix,client_classes,evaluate_additional_classes",  # noqa: E501
+            f'{pd_pools[0].pk},Test Prefix Delegation Pool 4,100,{ipv6_prefixes[0].prefix},64,{ipv6_prefixes[1].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'{pd_pools[1].pk},Test Prefix Delegation Pool 5,23,{ipv6_prefixes[1].prefix},64,{ipv6_prefixes[2].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'{pd_pools[2].pk},Test Prefix Delegation Pool 6,42,{ipv6_prefixes[2].prefix},64,{ipv6_prefixes[0].prefix},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
         )
 
     maxDiff = None

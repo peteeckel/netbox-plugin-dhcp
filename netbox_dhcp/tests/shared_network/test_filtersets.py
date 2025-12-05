@@ -39,6 +39,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-1",
                 description="Test Shared Network 1",
+                weight=90,
                 dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv4_prefixes[0],
                 **DDNSUpdateFilterSetTests.DATA[0],
@@ -50,6 +51,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-2",
                 description="Test Shared Network 2",
+                weight=100,
                 dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv4_prefixes[1],
                 **BOOTPFilterSetTests.DATA[1],
@@ -58,6 +60,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-3",
                 description="Test Shared Network 3",
+                weight=110,
                 dhcp_server=cls.dhcp_servers[2],
                 prefix=cls.ipv4_prefixes[2],
                 **BOOTPFilterSetTests.DATA[2],
@@ -69,6 +72,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-4",
                 description="Test Shared Network 4",
+                weight=90,
                 dhcp_server=cls.dhcp_servers[0],
                 prefix=cls.ipv6_prefixes[0],
                 **PreferredLifetimeFilterSetTests.DATA[0],
@@ -76,6 +80,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-5",
                 description="Test Shared Network 5",
+                weight=100,
                 dhcp_server=cls.dhcp_servers[1],
                 prefix=cls.ipv6_prefixes[1],
                 **DDNSUpdateFilterSetTests.DATA[2],
@@ -86,6 +91,7 @@ class SharedNetworkFilterSetTestCase(
             SharedNetwork(
                 name="test-shared-network-6",
                 description="Test Shared Network 6",
+                weight=110,
                 dhcp_server=cls.dhcp_servers[2],
                 prefix=cls.ipv6_prefixes[2],
                 **PreferredLifetimeFilterSetTests.DATA[2],
@@ -190,3 +196,9 @@ class SharedNetworkFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+
+    def test_weight(self):
+        params = {"weight": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"weight__lt": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

@@ -55,7 +55,10 @@ class Subnet(
         verbose_name = _("Subnet")
         verbose_name_plural = _("Subnets")
 
-        ordering = ("name",)
+        ordering = (
+            "-weight",
+            "name",
+        )
 
         constraints = [
             models.CheckConstraint(
@@ -154,6 +157,11 @@ class Subnet(
         on_delete=models.PROTECT,
         null=False,
     )
+    weight = models.PositiveSmallIntegerField(
+        verbose_name=_("Weight"),
+        default=100,
+    )
+
     options = GenericRelation(
         to=Option,
         content_type_field="assigned_object_type",

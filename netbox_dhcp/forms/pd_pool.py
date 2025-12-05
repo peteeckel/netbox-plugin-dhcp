@@ -52,6 +52,7 @@ class PDPoolForm(
         fields = (
             "name",
             "description",
+            "weight",
             "subnet",
             "prefix",
             "delegated_length",
@@ -65,6 +66,7 @@ class PDPoolForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "subnet",
             "prefix",
             "delegated_length",
@@ -139,6 +141,7 @@ class PDPoolFilterForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "subnet_id",
             "prefix_id",
             "delegated_length",
@@ -150,6 +153,11 @@ class PDPoolFilterForm(
             *EvaluateClientClassFilterFormMixin.FIELDS,
             name=_("Client Classes"),
         ),
+    )
+
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
     )
 
     subnet_id = DynamicModelMultipleChoiceField(
@@ -206,6 +214,7 @@ class PDPoolImportForm(
         fields = (
             "name",
             "description",
+            "weight",
             "subnet",
             "prefix",
             "delegated_length",
@@ -257,6 +266,7 @@ class PDPoolBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "weight",
             "subnet",
             "delegated_length",
             name=_("Prefix Delegation Pool"),
@@ -279,6 +289,10 @@ class PDPoolBulkEditForm(
         *EvaluateClientClassBulkEditFormMixin.NULLABLE_FIELDS,
     )
 
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
+    )
     subnet = DynamicModelChoiceField(
         queryset=Subnet.objects.filter(
             prefix__prefix__family=IPAddressFamilyChoices.FAMILY_6

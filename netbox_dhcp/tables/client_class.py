@@ -16,6 +16,7 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
         fields = (
             "name",
             "description",
+            "weight",
             "test",
             "tenplate_test",
             "only_in_additional_list",
@@ -34,6 +35,7 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
 
         default_columns = (
             "name",
+            "weight",
             "test",
             "template_test",
             "only_in_additional_list",

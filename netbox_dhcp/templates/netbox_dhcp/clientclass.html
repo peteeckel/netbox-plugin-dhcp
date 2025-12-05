@@ -9,6 +9,10 @@
                 <h5 class="card-header">{% trans "Client Class" %}</h5>
                 <table class="table table-hover attr-table">
                     {% include './inc/name_description_fields.html' %}
+                    <tr>
+                        <th scope="row">{% trans "Weight" %}</th>
+                        <td>{{ object.weight }}</td>
+                    </tr>
                 </table>
             </div>
             <div class="card">

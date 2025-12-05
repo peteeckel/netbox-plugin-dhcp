@@ -9,6 +9,10 @@
                 <table class="table table-hover attr-table">
                     {% include './inc/name_description_fields.html' %}
                     <tr>
+                        <th scope="row">{% trans "Weight" %}</th>
+                        <td>{{ object.weight }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "Pool ID" %}</th>
                         <td>{{ object.pool_id }}</td>
                     </tr>

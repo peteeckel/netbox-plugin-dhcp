@@ -28,7 +28,10 @@ class ClientClass(
         verbose_name = _("Client Class")
         verbose_name_plural = _("Client Classes")
 
-        ordering = ("name",)
+        ordering = (
+            "-weight",
+            "name",
+        )
 
     clone_fields = (
         "name",
@@ -48,6 +51,10 @@ class ClientClass(
         "max_preferred_lifetime",
     )
 
+    weight = models.PositiveSmallIntegerField(
+        verbose_name=_("Weight"),
+        default=100,
+    )
     test = models.TextField(
         verbose_name=_("Test"),
         blank=True,

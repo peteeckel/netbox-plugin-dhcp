@@ -40,8 +40,6 @@ class SharedNetworkFilterSet(
 
         fields = (
             "id",
-            "name",
-            "description",
             *DHCPServerFilterMixin.FILTER_FIELDS,
             *PrefixFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
@@ -57,6 +55,9 @@ class SharedNetworkFilterSet(
     )
     description = django_filters.CharFilter(
         label=_("Description"),
+    )
+    weight = django_filters.NumberFilter(
+        label=_("Weight"),
     )
     family = django_filters.ChoiceFilter(
         choices=IPAddressFamilyChoices,

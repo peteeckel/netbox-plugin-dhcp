@@ -19,6 +19,7 @@ class ClientClassSerializer(NetBoxModelSerializer):
             "display_url",
             "name",
             "description",
+            "weight",
             "test",
             "template_test",
             "only_in_additional_list",
@@ -40,6 +41,7 @@ class ClientClassSerializer(NetBoxModelSerializer):
             "display",
             "name",
             "description",
+            "weight",
             "test",
             "template_test",
         )

@@ -41,6 +41,7 @@ class ClientClassForm(NetBoxModelForm):
         fields = (
             "name",
             "description",
+            "weight",
             "test",
             "template_test",
             "only_in_additional_list",
@@ -58,6 +59,7 @@ class ClientClassForm(NetBoxModelForm):
         FieldSet(
             "name",
             "description",
+            "weight",
             "test",
             "template_test",
             "only_in_additional_list",
@@ -95,6 +97,7 @@ class ClientClassFilterForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "test",
             "template_test",
             "only_in_additional_list",
@@ -104,6 +107,10 @@ class ClientClassFilterForm(
         LifetimeFilterFormMixin.FIELDSET,
     )
 
+    weight = forms.IntegerField(
+        label=_("Weight"),
+        required=False,
+    )
     test = forms.CharField(
         required=False,
         label=_("Test"),
@@ -128,6 +135,7 @@ class ClientClassImportForm(NetBoxModelImportForm):
         fields = (
             "name",
             "description",
+            "weight",
             "test",
             "template_test",
             "only_in_additional_list",
@@ -148,6 +156,7 @@ class ClientClassBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "weight",
             name=_("Client Class"),
         ),
         FieldSet(
@@ -168,6 +177,10 @@ class ClientClassBulkEditForm(
         *LifetimeBulkEditFormMixin.NULLABLE_FIELDS,
     )
 
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
+    )
     test = forms.CharField(
         required=False,
         label=_("Test"),

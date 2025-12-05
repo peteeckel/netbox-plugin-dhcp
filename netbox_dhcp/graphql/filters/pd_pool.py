@@ -32,6 +32,7 @@ class NetBoxDHCPPDPoolFilter(
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
+    weight: FilterLookup[int] | None = strawberry_django.filter_field()
     pool_id: FilterLookup[int] | None = strawberry_django.filter_field()
     delegated_length: FilterLookup[int] | None = strawberry_django.filter_field()
     excluded_prefix: (

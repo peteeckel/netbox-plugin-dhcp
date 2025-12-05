@@ -35,6 +35,9 @@ class PDPoolFilterSet(
     description = django_filters.CharFilter(
         label=_("Description"),
     )
+    weight = django_filters.NumberFilter(
+        label=_("Weight"),
+    )
     pool_id = django_filters.NumberFilter(
         label=_("Pool ID"),
     )

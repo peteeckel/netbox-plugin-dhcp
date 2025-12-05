@@ -30,6 +30,7 @@ class PDPoolSerializer(
             "display_url",
             "name",
             "description",
+            "weight",
             "subnet",
             "prefix",
             "prefix_display",
@@ -46,6 +47,7 @@ class PDPoolSerializer(
             "display",
             "name",
             "description",
+            "weight",
             "prefix_display",
             "delegated_length",
         )

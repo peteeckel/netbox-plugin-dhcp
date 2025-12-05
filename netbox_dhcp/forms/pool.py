@@ -63,6 +63,7 @@ class PoolForm(
         fields = (
             "name",
             "description",
+            "weight",
             *SubnetFormMixin.FIELDS,
             "ip_range",
             *ClientClassFormMixin.FIELDS,
@@ -75,6 +76,7 @@ class PoolForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             *SubnetFormMixin.FIELDS,
             "ip_range",
             name=_("Address Pool"),
@@ -119,6 +121,7 @@ class PoolFilterForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "family",
             *SubnetFilterFormMixin.FIELDS,
             "ip_range_id",
@@ -132,6 +135,10 @@ class PoolFilterForm(
         DDNSUpdateFilterFormMixin.FIELDSET,
     )
 
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
+    )
     family = forms.ChoiceField(
         choices=add_blank_choice(IPAddressFamilyChoices),
         required=False,
@@ -162,6 +169,7 @@ class PoolImportForm(
         fields = (
             "name",
             "description",
+            "weight",
             *SubnetImportFormMixin.FIELDS,
             "ip_range",
             *ClientClassImportFormMixin.FIELDS,
@@ -194,6 +202,7 @@ class PoolBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "weight",
             *SubnetBulkEditFormMixin.FIELDS,
             name=_("Address Pool"),
         ),
@@ -209,4 +218,9 @@ class PoolBulkEditForm(
         "description",
         *ClientClassBulkEditFormMixin.NULLABLE_FIELDS,
         *DDNSUpdateBulkEditFormMixin.NULLABLE_FIELDS,
+    )
+
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
     )

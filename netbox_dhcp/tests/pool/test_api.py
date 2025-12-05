@@ -26,6 +26,7 @@ class PoolAPITestCase(
         "id",
         "name",
         "url",
+        "weight",
     ]
 
     @classmethod

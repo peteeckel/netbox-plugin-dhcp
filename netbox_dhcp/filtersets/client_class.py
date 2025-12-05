@@ -24,10 +24,6 @@ class ClientClassFilterSet(
 
         fields = (
             "id",
-            "name",
-            "description",
-            "test",
-            "template_test",
             "only_in_additional_list",
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
@@ -38,6 +34,9 @@ class ClientClassFilterSet(
     )
     description = django_filters.CharFilter(
         label=_("Description"),
+    )
+    weight = django_filters.NumberFilter(
+        label=_("Weight"),
     )
     test = django_filters.CharFilter(
         label=_("Test"),

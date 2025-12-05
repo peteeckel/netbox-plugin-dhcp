@@ -28,6 +28,7 @@ class PDPoolAPITestCase(
         "name",
         "prefix_display",
         "url",
+        "weight",
     ]
 
     @classmethod

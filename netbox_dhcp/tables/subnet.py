@@ -34,6 +34,7 @@ class SubnetTable(
 
         fields = (
             "name",
+            "weight",
             "dhcp_server",
             "shared_network",
             "prefix",
@@ -87,6 +88,7 @@ class SubnetTable(
 
         default_columns = (
             "name",
+            "weight",
             "prefix",
         )
 

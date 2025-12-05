@@ -27,6 +27,7 @@ class SubnetAPITestCase(
         "name",
         "prefix_display",
         "url",
+        "weight",
     ]
 
     @classmethod

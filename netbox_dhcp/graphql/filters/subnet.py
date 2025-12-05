@@ -39,4 +39,5 @@ class NetBoxDHCPSubnetFilter(
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
+    weight: FilterLookup[int] | None = strawberry_django.filter_field()
     subnet_id: FilterLookup[int] | None = strawberry_django.filter_field()

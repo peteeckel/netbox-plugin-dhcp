@@ -83,6 +83,7 @@ class SubnetForm(
         fields = (
             "name",
             "description",
+            "weight",
             "subnet_id",
             *DHCPServerFormMixin.FIELDS,
             *SharedNetworkFormMixin.FIELDS,
@@ -101,6 +102,7 @@ class SubnetForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "subnet_id",
             TabbedGroups(
                 FieldSet(
@@ -157,6 +159,7 @@ class SubnetFilterForm(
         FieldSet(
             "name",
             "description",
+            "weight",
             "family",
             "subnet_id",
             *DHCPServerFilterFormMixin.FIELDS,
@@ -176,6 +179,10 @@ class SubnetFilterForm(
         DDNSUpdateFilterFormMixin.FIELDSET,
     )
 
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
+    )
     family = forms.ChoiceField(
         choices=add_blank_choice(IPAddressFamilyChoices),
         required=False,
@@ -200,6 +207,7 @@ class SubnetImportForm(
         fields = (
             "name",
             "description",
+            "weight",
             "subnet_id",
             *DHCPServerImportFormMixin.FIELDS,
             *SharedNetworkImportFormMixin.FIELDS,
@@ -233,6 +241,7 @@ class SubnetBulkEditForm(
     fieldsets = (
         FieldSet(
             "description",
+            "weight",
             TabbedGroups(
                 FieldSet(
                     *DHCPServerBulkEditFormMixin.FIELDS,
@@ -268,4 +277,9 @@ class SubnetBulkEditForm(
         *LifetimeBulkEditFormMixin.NULLABLE_FIELDS,
         *LeaseBulkEditFormMixin.NULLABLE_FIELDS,
         *DDNSUpdateBulkEditFormMixin.NULLABLE_FIELDS,
+    )
+
+    weight = forms.IntegerField(
+        required=False,
+        label=_("Weight"),
     )

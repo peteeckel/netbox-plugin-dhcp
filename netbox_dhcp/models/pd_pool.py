@@ -49,7 +49,10 @@ class PDPool(
         verbose_name = _("Prefix Delegation Pool")
         verbose_name_plural = _("Prefix Delegation Pools")
 
-        ordering = ("name",)
+        ordering = (
+            "-weight",
+            "name",
+        )
 
     clone_fields = (
         "name",
@@ -64,6 +67,10 @@ class PDPool(
         to="netbox_dhcp.Subnet",
         on_delete=models.CASCADE,
         related_name="child_pd_pools",
+    )
+    weight = models.PositiveSmallIntegerField(
+        verbose_name=_("Weight"),
+        default=100,
     )
 
     objects = PDPoolManager()

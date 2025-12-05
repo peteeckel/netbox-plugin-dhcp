@@ -69,6 +69,7 @@ class PoolViewTestCase(
         cls.form_data = {
             "name": "test-pool-5",
             "description": "Test Pool 5",
+            "weight": 100,
             "subnet": ipv4_subnet.pk,
             "ip_range": ipv4_ranges[2].pk,
             "client_classes": [client_class.pk for client_class in client_classes],
@@ -76,6 +77,7 @@ class PoolViewTestCase(
 
         cls.bulk_edit_data = {
             "description": "Test Description Update",
+            "weight": 100,
             "subnet": ipv6_subnet.pk,
             "client_class": client_classes[2].pk,
             "client_classes": [],
@@ -85,17 +87,17 @@ class PoolViewTestCase(
         }
 
         cls.csv_data = (
-            "name,description,subnet,ip_range,client_classes,evaluate_additional_classes",  # noqa: E501
-            f'test-pool-6,Test Pool 6,{ipv4_subnet.name},{ipv4_ranges[0].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'test-pool-7,Test Pool 7,{ipv4_subnet.name},{ipv4_ranges[1].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'test-pool-8,Test Pool 8,{ipv6_subnet.name},{ipv6_ranges[2].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            "name,description,weight,subnet,ip_range,client_classes,evaluate_additional_classes",  # noqa: E501
+            f'test-pool-6,Test Pool 6,100,{ipv4_subnet.name},{ipv4_ranges[0].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'test-pool-7,Test Pool 7,23,{ipv4_subnet.name},{ipv4_ranges[1].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'test-pool-8,Test Pool 8,42,{ipv6_subnet.name},{ipv6_ranges[2].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
         )
 
         cls.csv_update_data = (
-            "id,description,ip_range,client_classes,evaluate_additional_classes",  # noqa: E501
-            f'{pools[0].pk},Test Pool 1 (updated),{ipv4_ranges[0].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'{pools[1].pk},Test Pool 2 (updated),{ipv4_ranges[1].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
-            f'{pools[2].pk},Test Pool 3 (updated),{ipv6_ranges[2].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            "id,description,weight,ip_range,client_classes,evaluate_additional_classes",  # noqa: E501
+            f'{pools[0].pk},Test Pool 1 (updated),42,{ipv4_ranges[0].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'{pools[1].pk},Test Pool 2 (updated),23,{ipv4_ranges[1].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
+            f'{pools[2].pk},Test Pool 3 (updated),100,{ipv6_ranges[2].pk},"{client_classes[0].name},{client_classes[1].name}","{client_classes[1].name},{client_classes[2].name}"',  # noqa: E501
         )
 
     maxDiff = None

@@ -17,6 +17,7 @@ class NetBoxDHCPClientClassFilter(
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
+    weight: FilterLookup[int] | None = strawberry_django.filter_field()
     test: FilterLookup[str] | None = strawberry_django.filter_field()
     template_test: FilterLookup[str] | None = strawberry_django.filter_field()
     only_in_additional_list: FilterLookup[bool] | None = (

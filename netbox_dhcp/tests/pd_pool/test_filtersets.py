@@ -43,6 +43,7 @@ class PDPoolFilterSetTestCase(
             PDPool(
                 name="test-pd-pool-1",
                 description="Test Prefix Delegation Pool 1",
+                weight=90,
                 subnet=cls.ipv6_subnets[0],
                 prefix=cls.ipv6_prefixes[0],
                 delegated_length=64,
@@ -52,6 +53,7 @@ class PDPoolFilterSetTestCase(
             PDPool(
                 name="test-pd-pool-2",
                 description="Test Prefix Delegation Pool 2",
+                weight=100,
                 subnet=cls.ipv6_subnets[0],
                 prefix=cls.ipv6_prefixes[1],
                 delegated_length=64,
@@ -61,6 +63,7 @@ class PDPoolFilterSetTestCase(
             PDPool(
                 name="test-pd-pool-3",
                 description="Test Prefix Delegation Pool 3",
+                weight=110,
                 subnet=cls.ipv6_subnets[1],
                 prefix=cls.ipv6_prefixes[2],
                 delegated_length=56,
@@ -143,3 +146,9 @@ class PDPoolFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_weight(self):
+        params = {"weight": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+        params = {"weight__lt": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

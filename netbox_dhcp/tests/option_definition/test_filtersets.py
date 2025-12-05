@@ -8,6 +8,7 @@ from netbox_dhcp.filtersets import OptionDefinitionFilterSet
 from netbox_dhcp.choices import OptionTypeChoices, OptionSpaceChoices
 from netbox_dhcp.tests.custom import TestObjects
 
+
 class OptionDefinitionFilterSetTestCase(
     TestCase,
     ChangeLoggedFilterSetTests,

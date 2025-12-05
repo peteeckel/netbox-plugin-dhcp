@@ -66,6 +66,7 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-1",
                 description="Test Pool 1",
+                weight=90,
                 subnet=cls.ipv4_subnets[0],
                 ip_range=cls.ipv4_ranges[0],
                 pool_id=23,
@@ -74,6 +75,7 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-2",
                 description="Test Pool 2",
+                weight=100,
                 subnet=cls.ipv4_subnets[1],
                 ip_range=cls.ipv4_ranges[1],
                 pool_id=42,
@@ -82,6 +84,7 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-3",
                 description="Test Pool 3",
+                weight=90,
                 subnet=cls.ipv6_subnets[0],
                 ip_range=cls.ipv6_ranges[0],
                 pool_id=1337,
@@ -90,6 +93,7 @@ class PoolFilterSetTestCase(
             Pool(
                 name="test-pool-4",
                 description="Test Pool 4",
+                weight=100,
                 subnet=cls.ipv6_subnets[1],
                 ip_range=cls.ipv6_ranges[1],
                 pool_id=4711,
@@ -152,3 +156,9 @@ class PoolFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
         params = {"evaluate_additional_class__iregex": r"client-class-[23]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+
+    def test_weight(self):
+        params = {"weight": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"weight__lt": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
