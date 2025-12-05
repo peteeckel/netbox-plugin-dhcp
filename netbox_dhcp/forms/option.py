@@ -140,6 +140,10 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
         help_text=_("Case-insensitive substring match"),
         required=False,
     )
+    weight = forms.IntegerField(
+        label=_("Weight"),
+        required=False,
+    )
     code = forms.IntegerField(
         label=_("Code"),
         min_value=1,
