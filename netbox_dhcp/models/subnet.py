@@ -164,6 +164,17 @@ class Subnet(
     def family(self):
         return self.prefix.family if self.prefix else None
 
+    @property
+    def parent_dhcp_server(self):
+        if self.shared_network is not None:
+            return self.shared_network.dhcp_server
+
+        return self.dhcp_server
+
+    @property
+    def available_client_classes(self):
+        return self.parent_dhcp_server.client_classes.all()
+
 
 @register_search
 class SubnetIndex(SearchIndex):

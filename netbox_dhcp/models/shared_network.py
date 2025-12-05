@@ -133,6 +133,14 @@ class SharedNetwork(
     def family(self):
         return self.prefix.family if self.prefix else None
 
+    @property
+    def parent_dhcp_server(self):
+        return self.dhcp_server
+
+    @property
+    def available_client_classes(self):
+        return self.dhcp_server.client_classes
+
 
 @register_search
 class SharedNetworkIndex(SearchIndex):

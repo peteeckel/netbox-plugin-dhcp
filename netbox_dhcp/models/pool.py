@@ -83,6 +83,14 @@ class Pool(
     def family(self):
         return self.ip_range.family if self.ip_range else None
 
+    @property
+    def parent_dhcp_server(self):
+        return self.subnet.parent_dhcp_server
+
+    @property
+    def available_client_classes(self):
+        return self.subnet.available_client_classes
+
 
 @register_search
 class PoolIndex(SearchIndex):

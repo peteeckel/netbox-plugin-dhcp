@@ -102,6 +102,14 @@ class PDPool(
     def family(self):
         return IPAddressFamilyChoices.FAMILY_6
 
+    @property
+    def parent_dhcp_server(self):
+        return self.subnet.parent_dhcp_server
+
+    @property
+    def available_client_classes(self):
+        return self.subnet.available_client_classes
+
 
 @register_search
 class PDPoolIndex(SearchIndex):
