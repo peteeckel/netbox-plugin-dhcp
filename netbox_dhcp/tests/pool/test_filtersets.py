@@ -43,7 +43,8 @@ class PoolFilterSetTestCase(
                 prefix=cls.ipv4_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv4_subnets)
+        for subnet in cls.ipv4_subnets:
+            subnet.save()
 
         cls.ipv6_subnets = (
             Subnet(
@@ -62,7 +63,8 @@ class PoolFilterSetTestCase(
                 prefix=cls.ipv6_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv6_subnets)
+        for subnet in cls.ipv6_subnets:
+            subnet.save()
 
         pools = (
             Pool(

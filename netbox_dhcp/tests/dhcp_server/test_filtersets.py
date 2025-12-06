@@ -175,7 +175,8 @@ class DHCPServerFilterSetTestCase(
                 prefix=prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.subnets)
+        for subnet in cls.subnets:
+            subnet.save()
 
         cls.shared_networks = (
             SharedNetwork(

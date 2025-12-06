@@ -49,7 +49,8 @@ class HostReservationFilterSetTestCase(
                 prefix=cls.ipv6_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.subnets)
+        for subnet in cls.subnets:
+            subnet.save()
 
         cls.host_reservations = (
             HostReservation(

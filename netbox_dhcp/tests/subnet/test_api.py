@@ -57,7 +57,8 @@ class SubnetAPITestCase(
                 prefix=ipv4_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(subnets)
+        for subnet in subnets:
+            subnet.save()
 
         cls.create_data = [
             {

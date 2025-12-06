@@ -118,7 +118,8 @@ class SharedNetworkFilterSetTestCase(
                 prefix=cls.ipv4_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv4_subnets)
+        for subnet in cls.ipv4_subnets:
+            subnet.save()
 
         cls.ipv6_subnets = (
             Subnet(
@@ -137,7 +138,8 @@ class SharedNetworkFilterSetTestCase(
                 prefix=cls.ipv6_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv6_subnets)
+        for subnet in cls.ipv6_subnets:
+            subnet.save()
 
         for number in range(4):
             shared_networks[number].client_classes.add(cls.client_classes[number % 3])

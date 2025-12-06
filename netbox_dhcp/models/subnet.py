@@ -61,6 +61,9 @@ class Subnet(
         )
 
         constraints = [
+            models.UniqueConstraint(
+                fields=["subnet_id"], name="subnet_unique_subnet_id"
+            ),
             models.CheckConstraint(
                 condition=Q(
                     Q(dhcp_server__isnull=False, shared_network__isnull=True)
@@ -70,7 +73,7 @@ class Subnet(
                 violation_error_message=_(
                     "Either DHCP Server or Shared Network is required, not both"
                 ),
-            )
+            ),
         ]
 
     clone_fields = (
@@ -130,7 +133,7 @@ class Subnet(
     subnet_id = models.PositiveIntegerField(
         verbose_name=_("Subnet ID"),
         blank=True,
-        null=True,
+        null=False,
     )
 
     dhcp_server = models.ForeignKey(
@@ -182,6 +185,24 @@ class Subnet(
     @property
     def available_client_classes(self):
         return self.parent_dhcp_server.client_classes.all()
+
+    def save(self, *args, **kwargs):
+        if self.subnet_id is None:
+            max_subnet_id = (
+                0
+                if (
+                    max_id := Subnet.objects.aggregate(models.Max("subnet_id")).get(
+                        "subnet_id__max"
+                    )
+                )
+                is None
+                else max_id
+            )
+            self.subnet_id = max_subnet_id + 1
+
+        self.full_clean()
+
+        super().save(*args, **kwargs)
 
 
 @register_search

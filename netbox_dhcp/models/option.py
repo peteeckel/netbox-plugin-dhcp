@@ -19,7 +19,10 @@ __all__ = (
 )
 
 
-class Option(ClientClassModelMixin, NetBoxModel):
+class Option(
+    ClientClassModelMixin,
+    NetBoxModel,
+):
     class Meta:
         verbose_name = _("Option")
         verbose_name_plural = _("Options")

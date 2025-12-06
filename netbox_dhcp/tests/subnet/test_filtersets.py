@@ -116,7 +116,8 @@ class SubnetFilterSetTestCase(
                 **LeaseFilterSetTests.DATA[1],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv4_subnets)
+        for subnet in cls.ipv4_subnets:
+            subnet.save()
 
         cls.ipv6_subnets = (
             Subnet(
@@ -147,7 +148,8 @@ class SubnetFilterSetTestCase(
                 **PreferredLifetimeFilterSetTests.DATA[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv6_subnets)
+        for subnet in cls.ipv6_subnets:
+            subnet.save()
 
         cls.host_reservations = (
             HostReservation(

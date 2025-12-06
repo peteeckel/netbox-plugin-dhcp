@@ -39,7 +39,8 @@ class PDPoolFilterSetTestCase(
                 prefix=cls.ipv6_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(cls.ipv6_subnets)
+        for subnet in cls.ipv6_subnets:
+            subnet.save()
 
         cls.pd_pools = (
             PDPool(

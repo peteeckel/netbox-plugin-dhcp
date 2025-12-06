@@ -44,7 +44,8 @@ class HostReservationViewTestCase(
                 prefix=ipv6_prefixes[2],
             ),
         )
-        Subnet.objects.bulk_create(subnets)
+        for subnet in subnets:
+            subnet.save()
 
         host_reservations = (
             HostReservation(
