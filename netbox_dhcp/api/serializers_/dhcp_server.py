@@ -17,10 +17,46 @@ from ..nested_serializers import (
     NestedHostReservationSerializer,
 )
 
-from netbox_dhcp.models import DHCPServer
+from netbox_dhcp.models import DHCPServer, DHCPServerInterface
 
 
-__all__ = ("DHCPServerSerializer",)
+__all__ = (
+    "DHCPServerSerializer",
+    "DHCPServerInterfaceSerializer",
+)
+
+
+class DHCPServerInterfaceSerializer(NetBoxModelSerializer):
+    class Meta:
+        model = DHCPServerInterface
+
+        fields = (
+            "id",
+            "url",
+            "display",
+            "display_url",
+            "device_interface",
+            "virtual_machine_interface",
+        )
+
+        brief_fields = (
+            "id",
+            "url",
+            "display",
+            "device_interface",
+            "virtual_machine_interface",
+        )
+
+    device_interface = InterfaceSerializer(
+        nested=True,
+        read_only=True,
+        help_text=_("Device Interface"),
+    )
+    virtual_machine_interface = VMInterfaceSerializer(
+        nested=True,
+        read_only=True,
+        help_text=_("Device Interface"),
+    )
 
 
 class DHCPServerSerializer(
@@ -44,6 +80,7 @@ class DHCPServerSerializer(
             "device_interfaces",
             "virtual_machine",
             "virtual_machine_interfaces",
+            "interfaces",
             "host_reservation_identifiers",
             "echo_client_id",
             "relay_supplied_options",
@@ -102,6 +139,14 @@ class DHCPServerSerializer(
         required=False,
         default=None,
         help_text=_("Virtual Interfaces"),
+    )
+    interfaces = DHCPServerInterfaceSerializer(
+        nested=True,
+        many=True,
+        read_only=True,
+        required=False,
+        default=None,
+        help_text=_("Interfaces"),
     )
 
     child_shared_networks = NestedSharedNetworkSerializer(

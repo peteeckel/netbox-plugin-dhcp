@@ -7,6 +7,7 @@ from netbox_dhcp.api.serializers import (
     DDNSSerializer,
     DHCPClusterSerializer,
     DHCPServerSerializer,
+    DHCPServerInterfaceSerializer,
     HostReservationSerializer,
     OptionSerializer,
     OptionDefinitionSerializer,
@@ -20,6 +21,7 @@ from netbox_dhcp.filtersets import (
     DDNSFilterSet,
     DHCPClusterFilterSet,
     DHCPServerFilterSet,
+    DHCPServerInterfaceFilterSet,
     HostReservationFilterSet,
     OptionFilterSet,
     OptionDefinitionFilterSet,
@@ -33,6 +35,7 @@ from netbox_dhcp.models import (
     DDNS,
     DHCPCluster,
     DHCPServer,
+    DHCPServerInterface,
     HostReservation,
     Option,
     OptionDefinition,
@@ -70,6 +73,12 @@ class DHCPServerViewSet(NetBoxModelViewSet):
     queryset = DHCPServer.objects.all()
     serializer_class = DHCPServerSerializer
     filterset_class = DHCPServerFilterSet
+
+
+class DHCPServerInterfaceViewSet(NetBoxModelViewSet):
+    queryset = DHCPServerInterface.objects.all()
+    serializer_class = DHCPServerInterfaceSerializer
+    filterset_class = DHCPServerInterfaceFilterSet
 
 
 class HostReservationViewSet(NetBoxModelViewSet):

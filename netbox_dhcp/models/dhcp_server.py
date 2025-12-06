@@ -28,9 +28,35 @@ from .mixins import (
 from .option import Option
 
 __all__ = (
+    "DHCPServerInterface",
     "DHCPServer",
     "DHCPServerIndex",
 )
+
+
+class DHCPServerInterface(
+    NetBoxModel,
+):
+    dhcp_server = models.ForeignKey(
+        to="DHCPServer",
+        related_name="+",
+        blank=True,
+        on_delete=models.CASCADE,
+    )
+    device_interface = models.ForeignKey(
+        to="dcim.Interface",
+        related_name="netbox_dhcp_dhcp_server_interfaces",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    virtual_machine_interface = models.ForeignKey(
+        to="virtualization.VMInterface",
+        related_name="netbox_dhcp_dhcp_server_interfaces",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
 
 class DHCPServer(
@@ -98,8 +124,12 @@ class DHCPServer(
         related_name="netbox_dhcp_dhcp_servers",
         blank=True,
     )
-
-    # TODO: option_definitions, interfaces
+    interfaces = models.ManyToManyField(
+        to=DHCPServerInterface,
+        verbose_name=_("Interfaces"),
+        related_name="dhcp_servers",
+        blank=True,
+    )
     decline_probation_period = models.PositiveIntegerField(
         verbose_name=_("Decline Probation Period"),
         blank=True,

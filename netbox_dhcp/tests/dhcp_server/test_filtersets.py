@@ -61,6 +61,7 @@ class DHCPServerFilterSetTestCase(
         "host_reservation": "child_host_reservation",
         "subnet": "child_subnet",
         "shared_network": "child_shared_network",
+        "dhcp_server_interface": "interface",
     }
 
     @classmethod

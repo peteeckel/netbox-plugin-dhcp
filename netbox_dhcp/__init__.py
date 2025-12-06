@@ -17,6 +17,11 @@ class DHCPConfig(PluginConfig):
     default_settings = {}
     base_url = "netbox-dhcp"
 
+    def ready(self):
+        super().ready()
+
+        from netbox_dhcp.signals import dhcp_server  # noqa: F401
+
 
 #
 # Initialize plugin config

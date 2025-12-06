@@ -7,7 +7,7 @@ from dcim.models import Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
 from utilities.filters import MultiValueCharFilter
 
-from netbox_dhcp.models import DHCPServer, DHCPCluster, ClientClass
+from netbox_dhcp.models import DHCPServer, DHCPCluster, ClientClass, DHCPServerInterface
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
     DHCPServerIDTypeChoices,
@@ -23,7 +23,24 @@ from .mixins import (
     ChildHostReservationFilterMixin,
 )
 
-__all__ = ("DHCPServerFilterSet",)
+__all__ = (
+    "DHCPServerFilterSet",
+    "DHCPServerInterfaceFilterSet",
+)
+
+
+class DHCPServerInterfaceFilterSet(
+    NetBoxModelFilterSet,
+):
+    class Meta:
+        model = DHCPServerInterface
+
+        fields = (
+            "id",
+            "dhcp_server",
+            "device_interface",
+            "virtual_machine_interface",
+        )
 
 
 class DHCPServerFilterSet(
@@ -130,6 +147,11 @@ class DHCPServerFilterSet(
         field_name="virtual_machine_interfaces__name",
         to_field_name="name",
         label=_("Virtual Machine Interface"),
+    )
+    interface_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=DHCPServerInterface.objects.all(),
+        field_name="interfaces",
+        label=_("Interface ID"),
     )
     host_reservation_identifiers = django_filters.MultipleChoiceFilter(
         choices=HostReservationIdentifierChoices,

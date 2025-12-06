@@ -6,6 +6,7 @@ from netbox_dhcp.api.views import (
     DDNSViewSet,
     DHCPClusterViewSet,
     DHCPServerViewSet,
+    DHCPServerInterfaceViewSet,
     HostReservationViewSet,
     OptionViewSet,
     OptionDefinitionViewSet,
@@ -22,6 +23,7 @@ router.register("clientclasses", ClientClassViewSet)
 router.register("ddns", DDNSViewSet)
 router.register("dhcpclusters", DHCPClusterViewSet)
 router.register("dhcpservers", DHCPServerViewSet)
+router.register("dhcpserverinterfaces", DHCPServerInterfaceViewSet)
 router.register("hostreservations", HostReservationViewSet)
 router.register("options", OptionViewSet)
 router.register("optiondefinitions", OptionDefinitionViewSet)
