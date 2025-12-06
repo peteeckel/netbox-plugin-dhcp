@@ -7,6 +7,7 @@ from netbox_dhcp.models import SharedNetwork
 
 from .mixins import (
     NetBoxDHCPTableMixin,
+    DHCPServerTableMixin,
     PrefixTableMixin,
     ClientClassTableMixin,
     EvaluateClientClassTableMixin,
@@ -22,6 +23,7 @@ __all__ = (
 
 class SharedNetworkTable(
     NetBoxDHCPTableMixin,
+    DHCPServerTableMixin,
     PrefixTableMixin,
     ClientClassTableMixin,
     EvaluateClientClassTableMixin,

@@ -14,7 +14,6 @@ from .mixins import (
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,
     PrefixGraphQLFilterMixin,
-    ParentSubnetGraphQLFilterMixin,
 )
 
 if TYPE_CHECKING:
@@ -27,7 +26,6 @@ class NetBoxDHCPPDPoolFilter(
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,
     PrefixGraphQLFilterMixin,
-    ParentSubnetGraphQLFilterMixin,
     NetBoxModelFilterMixin,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()

@@ -15,7 +15,6 @@ from .mixins import (
     LifetimeGraphQLFilterMixin,
     NetworkGraphQLFilterMixin,
     LeaseGraphQLFilterMixin,
-    ParentDHCPServerGraphQLFilterMixin,
     ChildSubnetGraphQLFilterMixin,
 )
 
@@ -31,7 +30,6 @@ class NetBoxDHCPSharedNetworkFilter(
     LifetimeGraphQLFilterMixin,
     NetworkGraphQLFilterMixin,
     LeaseGraphQLFilterMixin,
-    ParentDHCPServerGraphQLFilterMixin,
     ChildSubnetGraphQLFilterMixin,
     NetBoxModelFilterMixin,
 ):
