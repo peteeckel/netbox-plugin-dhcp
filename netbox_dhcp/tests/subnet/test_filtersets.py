@@ -49,7 +49,9 @@ class SubnetFilterSetTestCase(
         cls.dhcp_servers = TestObjects.get_dhcp_servers()
         cls.ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
-        cls.client_classes = TestObjects.get_client_classes()
+        cls.client_classes = TestObjects.get_client_classes(
+            dhcp_server=cls.dhcp_servers[0]
+        )
 
         cls.shared_networks = (
             SharedNetwork(

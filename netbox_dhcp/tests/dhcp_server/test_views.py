@@ -1,7 +1,6 @@
 from utilities.testing import ViewTestCases
 
 from netbox_dhcp.tests.custom import (
-    TestObjects,
     ModelViewTestCase,
 )
 from netbox_dhcp.models import (
@@ -35,8 +34,6 @@ class DHCPServerViewTestCase(
             name="test-cluster-1",
         )
 
-        client_classes = TestObjects.get_client_classes()
-
         dhcp_servers = (
             DHCPServer(
                 name="test-server-1",
@@ -61,7 +58,6 @@ class DHCPServerViewTestCase(
                 HostReservationIdentifierChoices.CLIENT_ID,
             ],
             "echo_client_id": False,
-            "client_classes": [client_class.pk for client_class in client_classes[1:3]],
         }
 
         cls.bulk_edit_data = {
@@ -75,7 +71,6 @@ class DHCPServerViewTestCase(
             ],
             "echo_client_id": True,
             "relay_supplied_options": "110,120,130",
-            "client_classes": [client_class.pk for client_class in client_classes],
         }
 
         cls.csv_data = (

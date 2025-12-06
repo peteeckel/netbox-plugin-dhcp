@@ -5,6 +5,7 @@ from utilities.testing import ChangeLoggedFilterSetTests
 from netbox_dhcp.models import ClientClass
 from netbox_dhcp.filtersets import ClientClassFilterSet
 from netbox_dhcp.tests.custom import (
+    TestObjects,
     BOOTPFilterSetTests,
     ValidLifetimeFilterSetTests,
     OfferLifetimeFilterSetTests,
@@ -39,11 +40,14 @@ class ClientClassFilterSetTestCase(
 
     @classmethod
     def setUpTestData(cls):
+        cls.dhcp_servers = TestObjects.get_dhcp_servers()
+
         client_classs = (
             ClientClass(
                 name="test-client-class-1",
                 description="Test Client Class 1",
                 weight=90,
+                dhcp_server=cls.dhcp_servers[0],
                 test="substring(option[61].hex,0,3) == 'foo'",
                 template_test="substring(option[23].hex,0,3)",
                 only_in_additional_list=False,
@@ -56,6 +60,7 @@ class ClientClassFilterSetTestCase(
                 name="test-client-class-2",
                 description="Test Client Class 2",
                 weight=100,
+                dhcp_server=cls.dhcp_servers[0],
                 test="substring(option[61].hex,0,3) == 'bar'",
                 template_test="substring(option[42].hex,0,3)",
                 only_in_additional_list=True,
@@ -68,6 +73,7 @@ class ClientClassFilterSetTestCase(
                 name="test-client-class-3",
                 description="Test Client Class 3",
                 weight=110,
+                dhcp_server=cls.dhcp_servers[1],
                 test="substring(option[61].hex,0,3) == 'baz'",
                 template_test="substring(option[66].hex,0,3)",
                 only_in_additional_list=True,
@@ -113,4 +119,10 @@ class ClientClassFilterSetTestCase(
         params = {"weight": 100}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
         params = {"weight__lt": 100}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
+
+    def test_dhcp_servers(self):
+        params = {"dhcp_server_id": [self.dhcp_servers[0].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"dhcp_server": self.dhcp_servers[1].name}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

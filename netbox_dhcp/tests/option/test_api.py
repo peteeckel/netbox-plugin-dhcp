@@ -34,8 +34,10 @@ class OptionAPITestCase(
 
     @classmethod
     def setUpTestData(cls):
-        cls.client_classes = TestObjects.get_client_classes()
         cls.dhcp_servers = TestObjects.get_dhcp_servers()
+        cls.client_classes = TestObjects.get_client_classes(
+            dhcp_server=cls.dhcp_servers[0]
+        )
         cls.dhcp_server = cls.dhcp_servers[0]
         cls.dhcp_server_type = ContentType.objects.get_for_model(DHCPServer)
         cls.dhcp_server_contenttype = (

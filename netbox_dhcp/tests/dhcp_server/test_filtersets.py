@@ -5,7 +5,13 @@ from dcim.models import Interface
 from dcim.choices import InterfaceTypeChoices
 from virtualization.models import VMInterface
 
-from netbox_dhcp.models import DHCPServer, Subnet, SharedNetwork, HostReservation
+from netbox_dhcp.models import (
+    DHCPServer,
+    Subnet,
+    SharedNetwork,
+    HostReservation,
+    ClientClass,
+)
 from netbox_dhcp.filtersets import DHCPServerFilterSet
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
@@ -62,7 +68,6 @@ class DHCPServerFilterSetTestCase(
         cls.dhcp_clusters = TestObjects.get_dhcp_clusters()
         cls.devices = TestObjects.get_devices()
         cls.virtual_machines = TestObjects.get_virtual_machines()
-        cls.client_classes = TestObjects.get_client_classes()
 
         prefixes = TestObjects.get_ipv6_prefixes()
 
@@ -129,11 +134,29 @@ class DHCPServerFilterSetTestCase(
         )
         DHCPServer.objects.bulk_create(cls.dhcp_servers)
 
-        cls.dhcp_servers[0].client_classes.set(cls.client_classes[0:2])
-        cls.dhcp_servers[1].client_classes.set(cls.client_classes[1:3])
-        cls.dhcp_servers[2].client_classes.set(
-            [cls.client_classes[0], cls.client_classes[2]]
+        cls.client_classes = (
+            ClientClass(
+                name="test-client-class-1",
+                dhcp_server=cls.dhcp_servers[0],
+            ),
+            ClientClass(
+                name="test-client-class-2",
+                dhcp_server=cls.dhcp_servers[0],
+            ),
+            ClientClass(
+                name="test-client-class-3",
+                dhcp_server=cls.dhcp_servers[1],
+            ),
+            ClientClass(
+                name="test-client-class-4",
+                dhcp_server=cls.dhcp_servers[1],
+            ),
+            ClientClass(
+                name="test-client-class-5",
+                dhcp_server=cls.dhcp_servers[2],
+            ),
         )
+        ClientClass.objects.bulk_create(cls.client_classes)
 
         cls.subnets = (
             Subnet(
@@ -309,10 +332,10 @@ class DHCPServerFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_client_classes(self):
-        params = {"client_class": self.client_classes[0].name}
+        params = {"client_class__iregex": r".*[123]$"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"client_class_id": [self.client_classes[2].pk]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"client_class_id": [self.client_classes[1].pk]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_device_interfaces(self):
         params = {"device_interface": [self.device_interfaces[0].name]}

@@ -161,11 +161,11 @@ class TestObjects:
         return mac_addresses
 
     @staticmethod
-    def get_client_classes():
+    def get_client_classes(dhcp_server):
         client_classes = (
-            ClientClass(name="client-class-1"),
-            ClientClass(name="client-class-2"),
-            ClientClass(name="client-class-3"),
+            ClientClass(dhcp_server=dhcp_server, name="client-class-1"),
+            ClientClass(dhcp_server=dhcp_server, name="client-class-2"),
+            ClientClass(dhcp_server=dhcp_server, name="client-class-3"),
         )
 
         ClientClass.objects.bulk_create(client_classes)

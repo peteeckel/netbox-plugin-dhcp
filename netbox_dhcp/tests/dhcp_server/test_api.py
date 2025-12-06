@@ -50,21 +50,14 @@ class DHCPServerAPITestCase(
         DHCPServer.objects.bulk_create(dhcp_servers)
 
         dhcp_clusters = TestObjects.get_dhcp_clusters()
-        client_classes = TestObjects.get_client_classes()
 
         cls.create_data = [
             {
                 "name": "test-server-4",
-                "client_classes": [
-                    client_class.pk for client_class in client_classes[0:2]
-                ],
                 "dhcp_cluster": dhcp_clusters[0].pk,
             },
             {
                 "name": "test-server-5",
-                "client_classes": [
-                    client_class.pk for client_class in client_classes[1:3]
-                ],
                 "dhcp_cluster": dhcp_clusters[1].pk,
             },
             {
@@ -84,5 +77,4 @@ class DHCPServerAPITestCase(
             ],
             "echo_client_id": True,
             "relay_supplied_options": [110, 120, 130],
-            "client_classes": [client_class.pk for client_class in client_classes],
         }

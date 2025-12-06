@@ -21,7 +21,7 @@ class PDPoolViewTestCase(
     @classmethod
     def setUpTestData(cls):
         dhcp_servers = TestObjects.get_dhcp_servers()
-        client_classes = TestObjects.get_client_classes()
+        client_classes = TestObjects.get_client_classes(dhcp_server=dhcp_servers[0])
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
 
         subnet = Subnet.objects.create(

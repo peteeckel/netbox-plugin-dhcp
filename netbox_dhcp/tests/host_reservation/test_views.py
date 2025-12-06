@@ -25,7 +25,7 @@ class HostReservationViewTestCase(
         ipv4_addresses = TestObjects.get_ipv4_addresses()
         ipv6_addresses = TestObjects.get_ipv6_addresses()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
-        client_classes = TestObjects.get_client_classes()
+        client_classes = TestObjects.get_client_classes(dhcp_server=dhcp_servers[0])
 
         subnets = (
             Subnet(

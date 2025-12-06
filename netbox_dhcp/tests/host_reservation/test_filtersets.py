@@ -28,7 +28,9 @@ class HostReservationFilterSetTestCase(
         cls.ipv4_addresses = TestObjects.get_ipv4_addresses()
         cls.ipv6_addresses = TestObjects.get_ipv6_addresses()
         cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
-        cls.client_classes = TestObjects.get_client_classes()
+        cls.client_classes = TestObjects.get_client_classes(
+            dhcp_server=cls.dhcp_servers[0]
+        )
 
         cls.subnets = (
             Subnet(

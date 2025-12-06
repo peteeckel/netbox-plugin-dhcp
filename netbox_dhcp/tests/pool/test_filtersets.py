@@ -18,7 +18,9 @@ class PoolFilterSetTestCase(
     @classmethod
     def setUpTestData(cls):
         cls.dhcp_servers = TestObjects.get_dhcp_servers()
-        cls.client_classes = TestObjects.get_client_classes()
+        cls.client_classes = TestObjects.get_client_classes(
+            dhcp_server=cls.dhcp_servers[0]
+        )
         cls.ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         cls.ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         cls.ipv4_ranges = TestObjects.get_ipv4_ranges()

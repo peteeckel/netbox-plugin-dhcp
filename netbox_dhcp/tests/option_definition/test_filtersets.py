@@ -22,7 +22,9 @@ class OptionDefinitionFilterSetTestCase(
     @classmethod
     def setUpTestData(cls):
         cls.dhcp_servers = TestObjects.get_dhcp_servers()
-        cls.client_classes = TestObjects.get_client_classes()
+        cls.client_classes = TestObjects.get_client_classes(
+            dhcp_server=cls.dhcp_servers[0]
+        )
 
         cls.option_definitions = (
             OptionDefinition(

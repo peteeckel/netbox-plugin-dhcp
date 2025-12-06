@@ -36,7 +36,7 @@ class HostReservationAPITestCase(
     @classmethod
     def setUpTestData(cls):
         dhcp_servers = TestObjects.get_dhcp_servers()
-        client_classes = TestObjects.get_client_classes()
+        client_classes = TestObjects.get_client_classes(dhcp_server=dhcp_servers[0])
         mac_addresses = TestObjects.get_mac_addresses()
         ipv4_addresses = TestObjects.get_ipv4_addresses()
         ipv6_addresses = TestObjects.get_ipv6_addresses()

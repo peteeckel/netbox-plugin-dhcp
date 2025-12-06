@@ -35,7 +35,7 @@ class SubnetAPITestCase(
         dhcp_servers = TestObjects.get_dhcp_servers()
         ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
-        client_classes = TestObjects.get_client_classes()
+        client_classes = TestObjects.get_client_classes(dhcp_server=dhcp_servers[0])
 
         subnets = (
             Subnet(
