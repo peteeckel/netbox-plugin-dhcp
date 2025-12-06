@@ -19,6 +19,7 @@ class ClientClassSerializer(NetBoxModelSerializer):
             "display_url",
             "name",
             "description",
+            "dhcp_server",
             "weight",
             "test",
             "template_test",

@@ -6,6 +6,7 @@ from netbox.filtersets import NetBoxModelFilterSet
 
 from ..models import ClientClass
 from .mixins import (
+    DHCPServerFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
 )
@@ -15,6 +16,7 @@ __all__ = ("ClientClassFilterSet",)
 
 
 class ClientClassFilterSet(
+    DHCPServerFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     NetBoxModelFilterSet,
@@ -25,6 +27,7 @@ class ClientClassFilterSet(
         fields = (
             "id",
             "only_in_additional_list",
+            *DHCPServerFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
         )

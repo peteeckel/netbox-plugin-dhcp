@@ -20,7 +20,6 @@ from netbox_dhcp.fields import ChoiceArrayField
 
 from .mixins import (
     NetBoxDHCPModelMixin,
-    ClientClassModelMixin,
     BOOTPModelMixin,
     LeaseModelMixin,
     DDNSUpdateModelMixin,
@@ -36,7 +35,6 @@ __all__ = (
 
 class DHCPServer(
     NetBoxDHCPModelMixin,
-    ClientClassModelMixin,
     BOOTPModelMixin,
     LeaseModelMixin,
     DDNSUpdateModelMixin,
@@ -54,7 +52,6 @@ class DHCPServer(
         "description",
         "status",
         "dhcp_cluster",
-        "client_classes",
     )
 
     status = models.CharField(

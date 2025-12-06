@@ -36,6 +36,7 @@ class ClientClass(
     clone_fields = (
         "name",
         "description",
+        "dhcp_server",
         "test",
         "template_test",
         "only_in_additional_list",
@@ -51,10 +52,17 @@ class ClientClass(
         "max_preferred_lifetime",
     )
 
+    dhcp_server = models.ForeignKey(
+        verbose_name=_("DHCP Server"),
+        to="netbox_dhcp.DHCPServer",
+        related_name="client_class_definition_set",
+        on_delete=models.CASCADE,
+    )
     weight = models.PositiveSmallIntegerField(
         verbose_name=_("Weight"),
         default=100,
     )
+
     test = models.TextField(
         verbose_name=_("Test"),
         blank=True,

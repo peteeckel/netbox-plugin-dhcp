@@ -197,6 +197,7 @@ class SharedNetworkGraphQLTypeMixin:
     ClientClass, fields="__all__", filters=NetBoxDHCPClientClassFilter
 )
 class NetBoxDHCPClientClassType(
+    DHCPServerGraphQLTypeMixin,
     BOOTPGraphQLTypeMixin,
     LifetimeGraphQLTypeMixin,
     NetBoxObjectType,

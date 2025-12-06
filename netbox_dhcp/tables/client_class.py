@@ -4,12 +4,19 @@ from netbox.tables import NetBoxTable, BooleanColumn
 
 from netbox_dhcp.models import ClientClass
 
-from .mixins import NetBoxDHCPTableMixin
+from .mixins import (
+    NetBoxDHCPTableMixin,
+    DHCPServerTableMixin,
+)
 
 __all__ = ("ClientClassTable",)
 
 
-class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
+class ClientClassTable(
+    NetBoxDHCPTableMixin,
+    DHCPServerTableMixin,
+    NetBoxTable,
+):
     class Meta(NetBoxTable.Meta):
         model = ClientClass
 
@@ -17,6 +24,7 @@ class ClientClassTable(NetBoxDHCPTableMixin, NetBoxTable):
             "name",
             "description",
             "weight",
+            "dhcp_server",
             "test",
             "tenplate_test",
             "only_in_additional_list",

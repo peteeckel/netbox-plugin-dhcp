@@ -13,6 +13,10 @@ from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 
 from netbox_dhcp.models import ClientClass
 from .mixins import (
+    DHCPServerFormMixin,
+    DHCPServerFilterFormMixin,
+    DHCPServerImportFormMixin,
+    DHCPServerBulkEditFormMixin,
     BOOTPFormMixin,
     BOOTPFilterFormMixin,
     BOOTPImportFormMixin,
@@ -34,7 +38,10 @@ __all__ = (
 )
 
 
-class ClientClassForm(NetBoxModelForm):
+class ClientClassForm(
+    DHCPServerFormMixin,
+    NetBoxModelForm,
+):
     class Meta:
         model = ClientClass
 
@@ -42,6 +49,7 @@ class ClientClassForm(NetBoxModelForm):
             "name",
             "description",
             "weight",
+            *DHCPServerFormMixin.FIELDS,
             "test",
             "template_test",
             "only_in_additional_list",
@@ -60,6 +68,7 @@ class ClientClassForm(NetBoxModelForm):
             "name",
             "description",
             "weight",
+            *DHCPServerFormMixin.FIELDS,
             "test",
             "template_test",
             "only_in_additional_list",
@@ -82,6 +91,7 @@ class ClientClassForm(NetBoxModelForm):
 
 class ClientClassFilterForm(
     NetBoxDHCPFilterFormMixin,
+    DHCPServerFilterFormMixin,
     BOOTPFilterFormMixin,
     LifetimeFilterFormMixin,
     NetBoxModelFilterSetForm,
@@ -98,6 +108,7 @@ class ClientClassFilterForm(
             "name",
             "description",
             "weight",
+            *DHCPServerFilterFormMixin.FIELDS,
             "test",
             "template_test",
             "only_in_additional_list",
@@ -128,7 +139,10 @@ class ClientClassFilterForm(
     tag = TagFilterField(ClientClass)
 
 
-class ClientClassImportForm(NetBoxModelImportForm):
+class ClientClassImportForm(
+    DHCPServerImportFormMixin,
+    NetBoxModelImportForm,
+):
     class Meta:
         model = ClientClass
 
@@ -136,6 +150,7 @@ class ClientClassImportForm(NetBoxModelImportForm):
             "name",
             "description",
             "weight",
+            *DHCPServerImportFormMixin.FIELDS,
             "test",
             "template_test",
             "only_in_additional_list",
@@ -147,6 +162,7 @@ class ClientClassImportForm(NetBoxModelImportForm):
 
 class ClientClassBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
+    DHCPServerBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
     NetBoxModelBulkEditForm,
@@ -157,6 +173,7 @@ class ClientClassBulkEditForm(
         FieldSet(
             "description",
             "weight",
+            *DHCPServerBulkEditFormMixin.FIELDS,
             name=_("Client Class"),
         ),
         FieldSet(

@@ -6,6 +6,7 @@ from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
 from netbox_dhcp.models import ClientClass
 
 from .mixins import (
+    DHCPServerGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     LifetimeGraphQLFilterMixin,
 )
@@ -13,7 +14,10 @@ from .mixins import (
 
 @strawberry_django.filter_type(ClientClass, lookups=True)
 class NetBoxDHCPClientClassFilter(
-    BOOTPGraphQLFilterMixin, LifetimeGraphQLFilterMixin, NetBoxModelFilterMixin
+    DHCPServerGraphQLFilterMixin,
+    BOOTPGraphQLFilterMixin,
+    LifetimeGraphQLFilterMixin,
+    NetBoxModelFilterMixin,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()

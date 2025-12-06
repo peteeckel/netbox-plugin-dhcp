@@ -1,9 +1,10 @@
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import get_object_or_404
 
 from netbox.views import generic
 from utilities.views import register_model_view, ViewTab
 
-from netbox_dhcp.models import ClientClass, Option, OptionDefinition
+from netbox_dhcp.models import ClientClass, Option, OptionDefinition, DHCPServer
 from netbox_dhcp.filtersets import (
     ClientClassFilterSet,
     OptionFilterSet,
@@ -49,6 +50,17 @@ class ClientClassView(generic.ObjectView):
 class ClientClassEditView(generic.ObjectEditView):
     queryset = ClientClass.objects.all()
     form = ClientClassForm
+
+    def alter_object(self, obj, request, url_args, url_kwargs):
+        if not obj.pk:
+            if "dhcp_server" in request.GET:
+                obj.dhcp_server = get_object_or_404(
+                    DHCPServer, pk=request.GET.get("dhcp_server")
+                )
+
+            obj.user = request.user
+
+        return obj
 
 
 @register_model_view(ClientClass, "delete")

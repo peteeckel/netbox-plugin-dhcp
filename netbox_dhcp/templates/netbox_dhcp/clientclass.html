@@ -13,6 +13,10 @@
                         <th scope="row">{% trans "Weight" %}</th>
                         <td>{{ object.weight }}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">{% trans "DHCP Server" %}</th>
+                        <td>{{ object.dhcp_server|linkify }}</td>
+                    </tr>
                 </table>
             </div>
             <div class="card">

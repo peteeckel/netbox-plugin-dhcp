@@ -5,6 +5,7 @@ from netbox.tables import TagColumn, ChoiceFieldColumn, NetBoxTable
 
 __all__ = (
     "NetBoxDHCPTableMixin",
+    "DHCPServerTableMixin",
     "ClientClassTableMixin",
     "EvaluateClientClassTableMixin",
     "DDNSUpdateTableMixin",
@@ -20,6 +21,13 @@ class NetBoxDHCPTableMixin(NetBoxTable):
     )
     tags = TagColumn(
         url_name="plugins:netbox_dhcp:subnet_list",
+    )
+
+
+class DHCPServerTableMixin(NetBoxTable):
+    dhcp_server = tables.Column(
+        verbose_name=_("DHCP Server"),
+        linkify=True,
     )
 
 

@@ -169,12 +169,12 @@ class DHCPServerClientClassListView(generic.ObjectChildrenView):
     tab = ViewTab(
         label=_("Client Classes"),
         permission="netbox_dhcp.view_clientclass",
-        badge=lambda obj: obj.client_classes.count(),
+        badge=lambda obj: obj.client_class_definition_set.count(),
         hide_if_empty=True,
     )
 
     def get_children(self, request, parent):
-        return parent.client_classes.restrict(request.user, "view")
+        return parent.client_class_definition_set.restrict(request.user, "view")
 
 
 @register_model_view(DHCPServer, "options")

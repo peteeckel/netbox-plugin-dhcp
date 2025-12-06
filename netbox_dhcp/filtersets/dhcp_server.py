@@ -7,14 +7,13 @@ from dcim.models import Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
 from utilities.filters import MultiValueCharFilter
 
-from netbox_dhcp.models import DHCPServer, DHCPCluster
+from netbox_dhcp.models import DHCPServer, DHCPCluster, ClientClass
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
     DHCPServerIDTypeChoices,
     HostReservationIdentifierChoices,
 )
 from .mixins import (
-    ClientClassFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
@@ -28,7 +27,6 @@ __all__ = ("DHCPServerFilterSet",)
 
 
 class DHCPServerFilterSet(
-    ClientClassFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
@@ -56,7 +54,6 @@ class DHCPServerFilterSet(
             "virtual_machine",
             "virtual_machine_interfaces",
             "decline_probation_period",
-            *ClientClassFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
             *LeaseFilterMixin.FILTER_FIELDS,
@@ -145,6 +142,17 @@ class DHCPServerFilterSet(
     )
     decline_probation_period = django_filters.NumberFilter(
         label=_("Decline Probation Period"),
+    )
+
+    client_class_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=ClientClass.objects.all(),
+        field_name="client_class_definition_set",
+        label=_("Client Class ID"),
+    )
+    client_class = django_filters.CharFilter(
+        field_name="client_class_definition_set__name",
+        distinct=True,
+        label=_("Client Class"),
     )
 
     def filter_host_reservation_identifiers(self, queryset, name, value):
