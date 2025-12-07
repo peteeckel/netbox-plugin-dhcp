@@ -12,6 +12,7 @@ from virtualization.api.serializers import (
 from .dhcp_cluster import DHCPClusterSerializer
 from .mixins import ClientClassSerializerMixin
 from ..nested_serializers import (
+    NestedDHCPServerSerializer,
     NestedSharedNetworkSerializer,
     NestedSubnetSerializer,
     NestedHostReservationSerializer,
@@ -33,8 +34,10 @@ class DHCPServerInterfaceSerializer(NetBoxModelSerializer):
         fields = (
             "id",
             "url",
+            "name",
+            "parent_name",
             "display",
-            "display_url",
+            "dhcp_server",
             "device_interface",
             "virtual_machine_interface",
         )
@@ -42,11 +45,26 @@ class DHCPServerInterfaceSerializer(NetBoxModelSerializer):
         brief_fields = (
             "id",
             "url",
+            "name",
+            "parent_name",
             "display",
+            "dhcp_server",
             "device_interface",
             "virtual_machine_interface",
         )
 
+    name = serializers.CharField(
+        read_only=True,
+        required=False,
+    )
+    parent_name = serializers.CharField(
+        read_only=True,
+        required=False,
+    )
+    dhcp_server = NestedDHCPServerSerializer(
+        read_only=True,
+        required=False,
+    )
     device_interface = InterfaceSerializer(
         nested=True,
         read_only=True,
@@ -55,7 +73,11 @@ class DHCPServerInterfaceSerializer(NetBoxModelSerializer):
     virtual_machine_interface = VMInterfaceSerializer(
         nested=True,
         read_only=True,
-        help_text=_("Device Interface"),
+        help_text=_("Virtual Machine Interface"),
+    )
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_dhcp-api:dhcpserverinterface-detail"
     )
 
 

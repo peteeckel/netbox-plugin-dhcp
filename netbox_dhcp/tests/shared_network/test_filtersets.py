@@ -28,6 +28,20 @@ class SharedNetworkFilterSetTestCase(
     queryset = SharedNetwork.objects.all()
     filterset = SharedNetworkFilterSet
 
+    # +
+    # This is a dirty hack and does not work for all models.
+    #
+    # What really needs to be fixed is the get_m2m_filter_name() method in
+    # netbox/utilities/testing/filtersets.py, which returns a filter name
+    # based on the target model verbose name instead of the field name.
+    #
+    # Obviously this fails if there are multiple m2m relations to the same
+    # class.
+    # -
+    filter_name_map = {
+        "dhcp_server_interface": "server_interface",
+    }
+
     @classmethod
     def setUpTestData(cls):
         cls.dhcp_servers = TestObjects.get_dhcp_servers()

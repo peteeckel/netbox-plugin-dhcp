@@ -42,6 +42,7 @@ class SubnetFilterSetTestCase(
         "pool": "child_pool",
         "prefix_delegation_pool": "child_pd_pool",
         "host_reservation": "child_host_reservation",
+        "dhcp_server_interface": "server_interface",
     }
 
     @classmethod

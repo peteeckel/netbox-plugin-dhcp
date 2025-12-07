@@ -14,6 +14,7 @@ from netbox_dhcp.models import (
     Subnet,
     SharedNetwork,
     DHCPServer,
+    DHCPServerInterface,
 )
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
@@ -372,17 +373,27 @@ class SharedNetworkFormMixin(forms.Form):
 
 class NetworkFormMixin(forms.Form):
     FIELDS = [
+        "server_interfaces",
         "relay",
         "interface_id",
         "rapid_commit",
     ]
     FIELDSET = FieldSet(
+        "server_interfaces",
         "relay",
         "interface_id",
         "rapid_commit",
         name=_("Network"),
     )
 
+    server_interfaces = DynamicModelMultipleChoiceField(
+        queryset=DHCPServerInterface.objects.all(),
+        required=False,
+        label=_("Interfaces"),
+        context={
+            "parent": "dhcp_server",
+        },
+    )
     rapid_commit = forms.NullBooleanField(
         label=_("Rapid Commit"),
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),

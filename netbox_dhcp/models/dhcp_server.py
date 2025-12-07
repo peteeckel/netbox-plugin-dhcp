@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Case, When, F, Q
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import (
     MinValueValidator,
@@ -10,6 +11,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from netbox.models import NetBoxModel
 from netbox.search import SearchIndex, register_search
+from utilities.querysets import RestrictedQuerySet
 
 from netbox_dhcp.choices import (
     DHCPServerStatusChoices,
@@ -34,9 +36,71 @@ __all__ = (
 )
 
 
+class DHCPServerInterfaceManager(models.Manager.from_queryset(RestrictedQuerySet)):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .annotate(
+                name=models.ExpressionWrapper(
+                    Case(
+                        When(
+                            device_interface__isnull=False,
+                            then=F("device_interface__name"),
+                        ),
+                        When(
+                            virtual_machine_interface__isnull=False,
+                            then=F("virtual_machine_interface__name"),
+                        ),
+                    ),
+                    output_field=models.CharField(),
+                ),
+                parent_name=models.ExpressionWrapper(
+                    Case(
+                        When(
+                            device_interface__isnull=False,
+                            then=F("device_interface__device__name"),
+                        ),
+                        When(
+                            virtual_machine_interface__isnull=False,
+                            then=F("virtual_machine_interface__virtual_machine__name"),
+                        ),
+                    ),
+                    output_field=models.CharField(),
+                ),
+            )
+            .order_by("dhcp_server", "name")
+        )
+
+
 class DHCPServerInterface(
     NetBoxModel,
 ):
+    class Meta:
+        verbose_name = _("DHCP Server Interface")
+        verbose_name_plural = _("DHCP Server Interfaces")
+
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(
+                    Q(
+                        device_interface__isnull=False,
+                        virtual_machine_interface__isnull=True,
+                    )
+                    | Q(
+                        device_interface__isnull=True,
+                        virtual_machine_interface__isnull=False,
+                    )
+                ),
+                name="dhcp_server_interface_device_vm",
+                violation_error_message=_(
+                    "Interface must refer to either a device or vm interface"
+                ),
+            ),
+        ]
+
+    objects = DHCPServerInterfaceManager()
+
     dhcp_server = models.ForeignKey(
         to="DHCPServer",
         related_name="+",
@@ -57,6 +121,12 @@ class DHCPServerInterface(
         null=True,
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        if hasattr(self, "name"):
+            return self.name
+
+        return super().__str__()
 
 
 class DHCPServer(

@@ -12,6 +12,7 @@ from netbox_dhcp.models import (
     HostReservation,
     SharedNetwork,
     DHCPServer,
+    DHCPServerInterface,
 )
 from netbox_dhcp.choices import (
     DDNSReplaceClientNameChoices,
@@ -231,10 +232,17 @@ class DDNSUpdateFilterMixin(NetBoxModelFilterSet):
 
 class NetworkFilterMixin(NetBoxModelFilterSet):
     FILTER_FIELDS = [
+        "server_interfaces",
         "relay",
         "interface_id",
         "rapid_commit",
     ]
+
+    server_interface_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=DHCPServerInterface.objects.all(),
+        field_name="server_interfaces",
+        label=_("Server Interface ID"),
+    )
 
 
 class PrefixFilterMixin(NetBoxModelFilterSet):

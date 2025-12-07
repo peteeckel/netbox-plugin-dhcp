@@ -356,7 +356,11 @@ class NetworkModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    # TODO: Interface -> Element of global: Interfaces
+    server_interfaces = models.ManyToManyField(
+        verbose_name=_("Server Interfaces"),
+        to="DHCPServerInterface",
+        blank=True,
+    )
     relay = models.CharField(
         verbose_name=_("Relay IP Addresses"),
         max_length=255,

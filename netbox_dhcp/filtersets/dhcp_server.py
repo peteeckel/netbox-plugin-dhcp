@@ -29,18 +29,30 @@ __all__ = (
 )
 
 
-class DHCPServerInterfaceFilterSet(
-    NetBoxModelFilterSet,
-):
+class DHCPServerInterfaceFilterSet(NetBoxModelFilterSet):
     class Meta:
         model = DHCPServerInterface
 
         fields = (
             "id",
-            "dhcp_server",
             "device_interface",
             "virtual_machine_interface",
         )
+
+    name = django_filters.CharFilter(
+        label=_("Name"),
+        method="filter_string",
+    )
+    parent_name = django_filters.CharFilter(
+        label=_("Parent Device/VM Name"),
+        method="filter_string",
+    )
+
+    def filter_string(self, queryset, name, value):
+        if value in (None, ""):
+            return queryset
+
+        return queryset.filter(**{name: value})
 
 
 class DHCPServerFilterSet(

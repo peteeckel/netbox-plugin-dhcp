@@ -31,6 +31,7 @@ class SharedNetworkFilterSet(
     BOOTPFilterMixin,
     LifetimeFilterMixin,
     LeaseFilterMixin,
+    NetworkFilterMixin,
     DDNSUpdateFilterMixin,
     ChildSubnetFilterMixin,
     NetBoxModelFilterSet,
