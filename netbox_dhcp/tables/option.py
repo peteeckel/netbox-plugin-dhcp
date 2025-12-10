@@ -13,6 +13,7 @@ from .mixins import (
 __all__ = (
     "OptionTable",
     "ChildOptionTable",
+    "ParentOptionTable",
 )
 
 
@@ -89,3 +90,10 @@ class ChildOptionTable(OptionTable):
             "data",
             "weight",
         )
+
+
+class ParentOptionTable(OptionTable):
+    class Meta(OptionTable.Meta):
+        pass
+
+    actions = None

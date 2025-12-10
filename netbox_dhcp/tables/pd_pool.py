@@ -15,6 +15,7 @@ from .mixins import (
 __all__ = (
     "PDPoolTable",
     "RelatedPDPoolTable",
+    "ParentPDPoolTable",
 )
 
 
@@ -75,5 +76,12 @@ class RelatedPDPoolTable(PDPoolTable):
             "subnet",
             "excluded_prefix",
         )
+
+    actions = None
+
+
+class ParentPDPoolTable(PDPoolTable):
+    class Meta(PDPoolTable.Meta):
+        pass
 
     actions = None

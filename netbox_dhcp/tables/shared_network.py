@@ -18,6 +18,7 @@ from .mixins import (
 __all__ = (
     "SharedNetworkTable",
     "RelatedSharedNetworkTable",
+    "ParentSharedNetworkTable",
 )
 
 
@@ -108,5 +109,12 @@ class RelatedSharedNetworkTable(SharedNetworkTable):
             "description",
             "dhcp_server",
         )
+
+    actions = None
+
+
+class ParentSharedNetworkTable(SharedNetworkTable):
+    class Meta(SharedNetworkTable.Meta):
+        pass
 
     actions = None

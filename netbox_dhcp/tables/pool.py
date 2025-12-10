@@ -15,6 +15,7 @@ from .mixins import (
 __all__ = (
     "PoolTable",
     "RelatedPoolTable",
+    "ParentPoolTable",
 )
 
 
@@ -66,5 +67,12 @@ class RelatedPoolTable(PoolTable):
             "description",
             "subnet",
         )
+
+    actions = None
+
+
+class ParentPoolTable(PoolTable):
+    class Meta(PoolTable.Meta):
+        pass
 
     actions = None

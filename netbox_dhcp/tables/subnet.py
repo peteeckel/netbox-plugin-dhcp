@@ -18,6 +18,7 @@ from .mixins import (
 __all__ = (
     "SubnetTable",
     "RelatedSubnetTable",
+    "ParentSubnetTable",
 )
 
 
@@ -108,5 +109,12 @@ class RelatedSubnetTable(SubnetTable):
             "name",
             "description",
         )
+
+    actions = None
+
+
+class ParentSubnetTable(SubnetTable):
+    class Meta(SubnetTable.Meta):
+        pass
 
     actions = None

@@ -13,6 +13,7 @@ from .mixins import (
 __all__ = (
     "HostReservationTable",
     "RelatedHostReservationTable",
+    "ParentHostReservationTable",
 )
 
 
@@ -85,5 +86,12 @@ class RelatedHostReservationTable(HostReservationTable):
             "description",
             "hostname",
         )
+
+    actions = None
+
+
+class ParentHostReservationTable(HostReservationTable):
+    class Meta(HostReservationTable.Meta):
+        pass
 
     actions = None
