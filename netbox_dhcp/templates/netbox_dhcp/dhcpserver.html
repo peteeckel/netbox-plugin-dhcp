@@ -72,6 +72,10 @@
                         <td>{% null_checkmark object.echo_client_id %}</td>
                     </tr>
                     <tr>
+                        <th scope="row">{% trans "Enable Dynamic DNS Updates" %}</th>
+                        <td>{% null_checkmark object.ddns_enable_updates %}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">{% trans "Relay Supplied Options" %}</th>
                         <td>
                             {% for option in object.relay_supplied_options %}

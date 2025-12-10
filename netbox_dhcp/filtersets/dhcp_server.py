@@ -83,6 +83,7 @@ class DHCPServerFilterSet(
             "virtual_machine",
             "virtual_machine_interfaces",
             "decline_probation_period",
+            "ddns_enable_updates",
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
             *LeaseFilterMixin.FILTER_FIELDS,

@@ -236,6 +236,11 @@ class DHCPServer(
         blank=True,
         null=True,
     )
+    ddns_enable_updates = models.BooleanField(
+        verbose_name=_("Enable DDNS updates"),
+        blank=False,
+        default=False,
+    )
     options = GenericRelation(
         to=Option,
         content_type_field="assigned_object_type",
