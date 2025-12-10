@@ -5,11 +5,7 @@
 
 {% block content %}
     {% include 'inc/table_controls_htmx.html' with table_modal="PoolTable_config" %}
-    <div class="card">
-        <div class="htmx-container table-responsive" id="object_list">
-            {% include 'htmx/table.html' %}
-        </div>
-    </div>
+    {% include '../inc/object_table.html' %}
 {% endblock %}
 
 {% block modals %}
