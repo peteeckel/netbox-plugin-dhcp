@@ -87,8 +87,6 @@ class PrefixImportFormMixin(forms.Form):
 
 class DDNSUpdateImportFormMixin(forms.Form):
     FIELDS = [
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_send_updates",
         "ddns_override_no_update",
         "ddns_override_client_update",
@@ -101,6 +99,8 @@ class DDNSUpdateImportFormMixin(forms.Form):
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
     ]
 
     ddns_replace_client_name = CSVChoiceField(

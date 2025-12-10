@@ -186,8 +186,6 @@ class PrefixFilterFormMixin(forms.Form):
 
 class DDNSUpdateFilterFormMixin(forms.Form):
     FIELDS = [
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_send_updates",
         "ddns_override_no_update",
         "ddns_override_client_update",
@@ -200,10 +198,10 @@ class DDNSUpdateFilterFormMixin(forms.Form):
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
     ]
     FIELDSET = FieldSet(
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_send_updates",
         "ddns_override_no_update",
         "ddns_override_client_update",
@@ -216,6 +214,8 @@ class DDNSUpdateFilterFormMixin(forms.Form):
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
         name=_("Dynamic DNS Update"),
     )
 

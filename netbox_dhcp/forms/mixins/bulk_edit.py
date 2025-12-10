@@ -187,8 +187,6 @@ class PrefixBulkEditFormMixin(forms.Form):
 
 class DDNSUpdateBulkEditFormMixin(forms.Form):
     FIELDSET = FieldSet(
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_send_updates",
         "ddns_override_no_update",
         "ddns_override_client_update",
@@ -201,17 +199,19 @@ class DDNSUpdateBulkEditFormMixin(forms.Form):
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
         name=_("Dynamic DNS Update"),
     )
     NULLABLE_FIELDS = [
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_generated_prefix",
         "ddns_qualifying_suffix",
         "ddns_ttl_percent",
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
     ]
 
     ddns_send_updates = forms.NullBooleanField(

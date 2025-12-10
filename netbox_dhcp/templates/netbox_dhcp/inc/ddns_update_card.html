@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load netbox_dhcp %}
 
+{% if object.ddns_send_updates %}
 <div class="card">
     <h5 class="card-header">{% trans "Dynamic DNS Update" %}</h5>
     <table class="table table-hover attr-table">
@@ -60,3 +61,4 @@
         </tr>
     </table>
 </div>
+{% endif %}

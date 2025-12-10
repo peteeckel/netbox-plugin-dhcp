@@ -5,7 +5,11 @@ from utilities.forms.fields import (
     DynamicModelChoiceField,
     DynamicModelMultipleChoiceField,
 )
-from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms import (
+    add_blank_choice,
+    get_field_value,
+    BOOLEAN_WITH_BLANK_CHOICES,
+)
 from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 
@@ -101,8 +105,6 @@ class PrefixFormMixin(forms.Form):
 
 class DDNSUpdateFormMixin(forms.Form):
     FIELDS = [
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_send_updates",
         "ddns_override_no_update",
         "ddns_override_client_update",
@@ -115,10 +117,10 @@ class DDNSUpdateFormMixin(forms.Form):
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
     ]
     FIELDSET = FieldSet(
-        "hostname_char_set",
-        "hostname_char_replacement",
         "ddns_send_updates",
         "ddns_override_no_update",
         "ddns_override_client_update",
@@ -131,8 +133,24 @@ class DDNSUpdateFormMixin(forms.Form):
         "ddns_ttl",
         "ddns_ttl_min",
         "ddns_ttl_max",
+        "hostname_char_set",
+        "hostname_char_replacement",
         name=_("Dynamic DNS Update"),
     )
+
+    def init_ddns_fields(self):
+        self.fields["ddns_send_updates"].widget.attrs.update(
+            {
+                "hx-get": ".",
+                "hx-include": "#form_fields",
+                "hx-target": "#form_fields",
+            }
+        )
+
+        if not bool(get_field_value(self, "ddns_send_updates")):
+            for field_name in DDNSUpdateFormMixin.FIELDS:
+                if field_name != "ddns_send_updates":
+                    del self.fields[field_name]
 
     ddns_send_updates = forms.NullBooleanField(
         label=_("Send DDNS updates"),

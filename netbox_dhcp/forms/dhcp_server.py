@@ -17,7 +17,10 @@ from utilities.forms.fields import (
     CSVModelMultipleChoiceField,
 )
 from utilities.forms.rendering import FieldSet, TabbedGroups
-from utilities.forms import add_blank_choice, BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms import (
+    add_blank_choice,
+    BOOLEAN_WITH_BLANK_CHOICES,
+)
 
 from dcim.models import Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
@@ -136,6 +139,11 @@ class DHCPServerForm(
             name=_("Tags"),
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.init_ddns_fields()
 
     status = forms.ChoiceField(
         choices=DHCPServerStatusChoices,

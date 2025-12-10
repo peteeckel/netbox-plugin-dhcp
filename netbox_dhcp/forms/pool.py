@@ -93,6 +93,11 @@ class PoolForm(
         ),
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.init_ddns_fields()
+
     ip_range = DynamicModelChoiceField(
         queryset=IPRange.objects.all(),
         required=True,

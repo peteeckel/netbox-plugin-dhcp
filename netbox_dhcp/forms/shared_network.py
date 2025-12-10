@@ -117,6 +117,11 @@ class SharedNetworkForm(
         ),
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.init_ddns_fields()
+
 
 class SharedNetworkFilterForm(
     NetBoxDHCPFilterFormMixin,
