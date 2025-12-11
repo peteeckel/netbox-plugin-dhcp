@@ -147,7 +147,7 @@ class DDNSUpdateFormMixin(forms.Form):
             }
         )
 
-        if not bool(get_field_value(self, "ddns_send_updates")):
+        if not get_field_value(self, "ddns_send_updates") == "True":
             for field_name in DDNSUpdateFormMixin.FIELDS:
                 if field_name != "ddns_send_updates":
                     del self.fields[field_name]
