@@ -110,7 +110,6 @@ class DHCPServerSerializer(
             "child_subnets",
             "child_shared_networks",
             "child_host_reservations",
-            "ddns_enable_updates",
         )
 
         brief_fields = (

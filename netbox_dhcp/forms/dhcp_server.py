@@ -91,7 +91,6 @@ class DHCPServerForm(
             "echo_client_id",
             "relay_supplied_options",
             "decline_probation_period",
-            "ddns_enable_updates",
             *BOOTPFormMixin.FIELDS,
             *LifetimeFormMixin.FIELDS,
             *LeaseFormMixin.FIELDS,
@@ -126,7 +125,6 @@ class DHCPServerForm(
             "echo_client_id",
             "relay_supplied_options",
             "decline_probation_period",
-            "ddns_enable_updates",
             name=_("Configuration"),
         ),
         BOOTPFormMixin.FIELDSET,
@@ -242,7 +240,6 @@ class DHCPServerFilterForm(
             "echo_client_id",
             "relay_supplied_options",
             "decline_probation_period",
-            "ddns_enable_updates",
             name=_("Configuration"),
         ),
         BOOTPFilterFormMixin.FIELDSET,
@@ -302,7 +299,6 @@ class DHCPServerImportForm(
             "echo_client_id",
             "relay_supplied_options",
             "decline_probation_period",
-            "ddns_enable_updates",
             *BOOTPImportFormMixin.FIELDS,
             *LifetimeImportFormMixin.FIELDS,
             *LeaseImportFormMixin.FIELDS,
@@ -409,7 +405,6 @@ class DHCPServerBulkEditForm(
             "echo_client_id",
             "relay_supplied_options",
             "decline_probation_period",
-            "ddns_enable_updates",
             name=_("Configuration"),
         ),
         BOOTPBulkEditFormMixin.FIELDSET,
@@ -457,11 +452,6 @@ class DHCPServerBulkEditForm(
     )
     echo_client_id = forms.NullBooleanField(
         label=_("Echo Client ID"),
-        required=False,
-        widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
-    )
-    ddns_enable_updates = forms.NullBooleanField(
-        label=_("Enable Dynamic DNS Updates"),
         required=False,
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )

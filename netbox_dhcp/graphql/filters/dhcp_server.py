@@ -55,8 +55,8 @@ class NetBoxDHCPServerFilter(
         ]
         | None
     ) = strawberry_django.filter_field()
+    #   host_reservation_identifiers: Array Lookup with Enum elements
     echo_client_id: FilterLookup[bool] | None = strawberry_django.filter_field()
-    ddns_enable_updates: FilterLookup[bool] | None = strawberry_django.filter_field()
     relay_supplied_options: (
         Annotated[
             "IntegerArrayLookup", strawberry.lazy("netbox.graphql.filter_lookups")

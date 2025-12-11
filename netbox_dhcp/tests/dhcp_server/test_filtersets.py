@@ -80,7 +80,6 @@ class DHCPServerFilterSetTestCase(
                 server_id=DHCPServerIDTypeChoices.ID_EN,
                 host_reservation_identifiers=[HostReservationIdentifierChoices.DUID],
                 echo_client_id=True,
-                ddns_enable_updates=True,
                 relay_supplied_options=[1, 2, 3],
                 dhcp_cluster=cls.dhcp_clusters[0],
                 device=cls.devices[0],
@@ -102,7 +101,6 @@ class DHCPServerFilterSetTestCase(
                     HostReservationIdentifierChoices.DUID,
                 ],
                 echo_client_id=True,
-                ddns_enable_updates=True,
                 relay_supplied_options=[2, 3, 4],
                 dhcp_cluster=cls.dhcp_clusters[1],
                 device=cls.devices[1],
@@ -123,7 +121,6 @@ class DHCPServerFilterSetTestCase(
                     HostReservationIdentifierChoices.CLIENT_ID
                 ],
                 echo_client_id=False,
-                ddns_enable_updates=False,
                 relay_supplied_options=[4, 5, 6],
                 dhcp_cluster=cls.dhcp_clusters[2],
                 virtual_machine=cls.virtual_machines[2],
@@ -272,10 +269,6 @@ class DHCPServerFilterSetTestCase(
 
     def test_echo_client_id(self):
         params = {"echo_client_id": True}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-    def test_ddns_enable_updates(self):
-        params = {"ddns_enable_updates": True}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_relay_supplied_options(self):

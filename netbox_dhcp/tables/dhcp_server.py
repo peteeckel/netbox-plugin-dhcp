@@ -30,7 +30,6 @@ class DHCPServerTable(
             "virtual_machine",
             "server_id",
             "echo_client_id",
-            "ddns_enable_updates",
             "client_classes",
             "tags",
         )

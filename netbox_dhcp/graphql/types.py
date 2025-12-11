@@ -236,8 +236,8 @@ class NetBoxDHCPDHCPServerType(
     description: str | None
     status: str
     server_id: str | None
+    #   host_reservation_identifiers:
     echo_client_id: bool | None
-    ddns_enable_updates: bool | None
     relay_supplied_options: List[int] | None
     dhcp_cluster: (
         Annotated[
