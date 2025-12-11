@@ -4,7 +4,6 @@ from netbox.api.viewsets import NetBoxModelViewSet
 
 from netbox_dhcp.api.serializers import (
     ClientClassSerializer,
-    DDNSSerializer,
     DHCPClusterSerializer,
     DHCPServerSerializer,
     DHCPServerInterfaceSerializer,
@@ -18,7 +17,6 @@ from netbox_dhcp.api.serializers import (
 )
 from netbox_dhcp.filtersets import (
     ClientClassFilterSet,
-    DDNSFilterSet,
     DHCPClusterFilterSet,
     DHCPServerFilterSet,
     DHCPServerInterfaceFilterSet,
@@ -32,7 +30,6 @@ from netbox_dhcp.filtersets import (
 )
 from netbox_dhcp.models import (
     ClientClass,
-    DDNS,
     DHCPCluster,
     DHCPServer,
     DHCPServerInterface,
@@ -55,12 +52,6 @@ class ClientClassViewSet(NetBoxModelViewSet):
     queryset = ClientClass.objects.all()
     serializer_class = ClientClassSerializer
     filterset_class = ClientClassFilterSet
-
-
-class DDNSViewSet(NetBoxModelViewSet):
-    queryset = DDNS.objects.all()
-    serializer_class = DDNSSerializer
-    filterset_class = DDNSFilterSet
 
 
 class DHCPClusterViewSet(NetBoxModelViewSet):

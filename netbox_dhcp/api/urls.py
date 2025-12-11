@@ -3,7 +3,6 @@ from netbox.api.routers import NetBoxRouter
 from netbox_dhcp.api.views import (
     NetBoxDHCPRootView,
     ClientClassViewSet,
-    DDNSViewSet,
     DHCPClusterViewSet,
     DHCPServerViewSet,
     DHCPServerInterfaceViewSet,
@@ -20,7 +19,6 @@ router = NetBoxRouter()
 router.APIRootView = NetBoxDHCPRootView
 
 router.register("clientclasses", ClientClassViewSet)
-router.register("ddns", DDNSViewSet)
 router.register("dhcpclusters", DHCPClusterViewSet)
 router.register("dhcpservers", DHCPServerViewSet)
 router.register("dhcpserverinterfaces", DHCPServerInterfaceViewSet)

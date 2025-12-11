@@ -1,5 +1,4 @@
 from .serializers_.client_class import *
-from .serializers_.ddns import *
 from .serializers_.dhcp_cluster import *
 from .serializers_.dhcp_server import *
 from .serializers_.host_reservation import *
