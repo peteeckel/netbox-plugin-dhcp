@@ -12,6 +12,7 @@ from utilities.forms import (
 )
 from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
+from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import (
     ClientClass,
@@ -227,12 +228,14 @@ class LifetimeFormMixin(forms.Form):
 
 class LeaseFormMixin(forms.Form):
     FIELDS = [
+        "allocator",
+        "adaptive_lease_time_threshold",
+        "pd_allocator",
+        "calculate_tee_times",
         "renew_timer",
         "rebind_timer",
-        "calculate_tee_times",
         "t1_percent",
         "t2_percent",
-        "adaptive_lease_time_threshold",
         "match_client_id",
         "reservations_global",
         "reservations_out_of_pool",
@@ -241,16 +244,16 @@ class LeaseFormMixin(forms.Form):
         "cache_max_age",
         "authoritative",
         "store_extended_info",
-        "allocator",
-        "pd_allocator",
     ]
     FIELDSET = FieldSet(
+        "allocator",
+        "adaptive_lease_time_threshold",
+        "pd_allocator",
+        "calculate_tee_times",
         "renew_timer",
         "rebind_timer",
-        "calculate_tee_times",
         "t1_percent",
         "t2_percent",
-        "adaptive_lease_time_threshold",
         "match_client_id",
         "reservations_global",
         "reservations_out_of_pool",
@@ -259,10 +262,34 @@ class LeaseFormMixin(forms.Form):
         "cache_max_age",
         "authoritative",
         "store_extended_info",
-        "allocator",
-        "pd_allocator",
         name=_("Lease"),
     )
+
+    def init_lease_fields(self):
+        dynamic_attributes = {
+            "hx-get": ".",
+            "hx-include": "#form_fields",
+            "hx-target": "#form_fields",
+        }
+        self.fields["calculate_tee_times"].widget.attrs.update(dynamic_attributes)
+        self.fields["allocator"].widget.attrs.update(dynamic_attributes)
+
+        if get_field_value(self, "calculate_tee_times") == "True":
+            del self.fields["renew_timer"]
+            del self.fields["rebind_timer"]
+        else:
+            del self.fields["t1_percent"]
+            del self.fields["t2_percent"]
+
+        if get_field_value(self, "allocator") != AllocatorTypeChoices.FREE_LEASE_QUEUE:
+            del self.fields["adaptive_lease_time_threshold"]
+
+        if (
+            (instance := self.instance).pk
+            and hasattr(instance, "family")
+            and instance.family != IPAddressFamilyChoices.FAMILY_6
+        ):
+            del self.fields["pd_allocator"]
 
     calculate_tee_times = forms.NullBooleanField(
         label=_("Calculate T Times"),

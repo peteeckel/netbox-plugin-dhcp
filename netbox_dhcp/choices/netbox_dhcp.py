@@ -14,18 +14,16 @@ class AllocatorTypeChoices(ChoiceSet):
 
     ITERATIVE = "iterative"
     RANDOM = "random"
+    FREE_LEASE_QUEUE = "flq"
 
     CHOICES = [
         (ITERATIVE, _("Iterative"), "blue"),
         (RANDOM, _("Random"), "red"),
+        (FREE_LEASE_QUEUE, _("Free Lease Queue"), "green"),
     ]
 
 
 class PDAllocatorTypeChoices(AllocatorTypeChoices):
     key = "NetBoxDHCP.pd_allocator_types"
 
-    FREE_LEASE_QUEUE = "flq"
-
-    CHOICES = AllocatorTypeChoices.CHOICES + [
-        (FREE_LEASE_QUEUE, _("Free Lease Queue"), "green")
-    ]
+    CHOICES = AllocatorTypeChoices.CHOICES

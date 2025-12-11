@@ -142,6 +142,7 @@ class DHCPServerForm(
         super().__init__(*args, **kwargs)
 
         self.init_ddns_fields()
+        self.init_lease_fields()
 
     status = forms.ChoiceField(
         choices=DHCPServerStatusChoices,

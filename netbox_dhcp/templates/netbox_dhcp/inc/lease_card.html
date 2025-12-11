@@ -5,13 +5,22 @@
     <h5 class="card-header">{% trans "Lease" %}</h5>
     <table class="table table-hover attr-table">
         <tr>
-            <th scope="row">{% trans "Renew Timer" %}</th>
-            <td>{{ object.renew_timer|placeholder }}</td>
+            <th scope="row">{% trans "Allocator" %}</th>
+            <td>{% badge object.get_allocator_display bg_color=object.get_allocator_color %}</td>
         </tr>
+        {% if object.allocator == "flq" %}
         <tr>
-            <th scope="row">{% trans "Rebind Timer" %}</th>
-            <td>{{ object.rebind_timer|placeholder }}</td>
+            <th scope="row">{% trans "Adaptive Lease Time Threshold" %}</th>
+            <td>{{ object.adaptive_lease_time_threshold|placeholder }}</td>
         </tr>
+        {% endif %}
+        {% if object.family is none or object.family == 6 %}
+        <tr>
+            <th scope="row">{% trans "Prefix Delegation Allocator" %}</th>
+            <td>{% badge object.get_pd_allocator_display bg_color=object.get_pd_allocator_color %}</td>
+        </tr>
+        {% endif %}
+        {% if object.calculate_tee_times %}
         <tr>
             <th scope="row">{% trans "Calculate T times" %}</th>
             <td>{% null_checkmark object.calculate_tee_times %}</td>
@@ -24,10 +33,16 @@
             <th scope="row">{% trans "T2 Percent" %}</th>
             <td>{{ object.t2_percent|placeholder }}</td>
         </tr>
+        {% else %}
         <tr>
-            <th scope="row">{% trans "Adaptive Lease Time Threshold" %}</th>
-            <td>{{ object.adaptive_lease_time_threshold|placeholder }}</td>
+            <th scope="row">{% trans "Renew Timer" %}</th>
+            <td>{{ object.renew_timer|placeholder }}</td>
         </tr>
+        <tr>
+            <th scope="row">{% trans "Rebind Timer" %}</th>
+            <td>{{ object.rebind_timer|placeholder }}</td>
+        </tr>
+        {% endif %}
         {% if object.family is none or object.family == 4 %}
         <tr>
             <th scope="row">{% trans "Match Client ID" %}</th>
@@ -64,15 +79,5 @@
             <th scope="row">{% trans "Maximum Cache Age" %}</th>
             <td>{{ object.cache_max_age|placeholder }}</td>
         </tr>
-        <tr>
-            <th scope="row">{% trans "Allocator" %}</th>
-            <td>{% badge object.get_allocator_display bg_color=object.get_allocator_color %}</td>
-        </tr>
-        {% if object.family is none or object.family == 6 %}
-        <tr>
-            <th scope="row">{% trans "Prefix Delegation Allocator" %}</th>
-            <td>{% badge object.get_pd_allocator_display bg_color=object.get_pd_allocator_color %}</td>
-        </tr>
-        {% endif %}
     </table>
 </div>
