@@ -9,8 +9,9 @@ from netbox.forms import (
 )
 from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet
-from utilities.forms import add_blank_choice
+from utilities.forms import add_blank_choice, get_field_value
 from ipam.choices import IPAddressFamilyChoices
+from ipam.models import Prefix
 
 from netbox_dhcp.models import SharedNetwork
 from .mixins import (
@@ -54,6 +55,8 @@ from .mixins import (
     NetworkBulkEditFormMixin,
 )
 
+from .mixins.model import DYNAMIC_ATTRIBUTES
+
 
 __all__ = (
     "SharedNetworkForm",
@@ -69,6 +72,7 @@ class SharedNetworkForm(
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
     NetworkFormMixin,
+    LifetimeFormMixin,
     DDNSUpdateFormMixin,
     LeaseFormMixin,
     NetBoxModelForm,
@@ -120,8 +124,25 @@ class SharedNetworkForm(
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.fields["dhcp_server"].required = True
+
+        self.fields["prefix"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+
+        family = None
+        if prefix_id := get_field_value(self, "prefix"):
+            prefix = Prefix.objects.get(pk=prefix_id)
+            family = prefix.family
+
+        if family == IPAddressFamilyChoices.FAMILY_6:
+            self.fieldsets = (
+                *self.fieldsets[0:3],
+                *self.fieldsets[4:],
+            )
+
         self.init_ddns_fields()
-        self.init_lease_fields()
+        self.init_lease_fields(family=family)
+        self.init_lifetime_fields(family=family)
+        self.init_network_fields(family=family)
 
 
 class SharedNetworkFilterForm(

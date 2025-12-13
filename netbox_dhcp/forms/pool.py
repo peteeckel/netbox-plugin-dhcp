@@ -13,12 +13,12 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
     CSVModelChoiceField,
 )
-from utilities.forms import add_blank_choice
+from utilities.forms import add_blank_choice, get_field_value
 from utilities.forms.rendering import FieldSet
 from ipam.models import IPRange
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import Pool
+from netbox_dhcp.models import Pool, Subnet
 
 from .mixins import (
     SubnetFormMixin,
@@ -40,6 +40,8 @@ from .mixins import (
     DDNSUpdateImportFormMixin,
     DDNSUpdateBulkEditFormMixin,
 )
+
+from .mixins.model import DYNAMIC_ATTRIBUTES
 
 
 __all__ = (
@@ -95,6 +97,14 @@ class PoolForm(
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields["subnet"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+
+        if subnet_id := get_field_value(self, "subnet"):
+            subnet = Subnet.objects.get(pk=subnet_id)
+            self.fields["ip_range"].widget.add_query_params(
+                {"parent": str(subnet.prefix)}
+            )
 
         self.init_ddns_fields()
 

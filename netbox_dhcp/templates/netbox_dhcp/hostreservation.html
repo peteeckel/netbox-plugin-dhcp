@@ -8,6 +8,22 @@
                 <h5 class="card-header">{% trans "Host Reservation" %}</h5>
                 <table class="table table-hover attr-table">
                     {% include './inc/name_description_fields.html' %}
+                    {% if object.dhcp_server %}
+                        <tr>
+                            <th scope="row">{% trans "DHCP Server" %}</th>
+                            <td>{{ object.dhcp_server|linkify }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if object.subnet %}
+                        <tr>
+                            <th scope="row">{% trans "Subnet" %}</th>
+                            <td>{{ object.subnet|linkify }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{% trans "Prefix" %}</th>
+                            <td>{{ object.subnet.prefix|linkify }}</td>
+                        </tr>
+                    {% endif %}
                 </table>
             </div>
             <div class="card">
@@ -15,7 +31,7 @@
                 <table class="table table-hover attr-table">
                     <tr>
                         <th scope="row">{% trans "DUID" %}</th>
-                        <td>{{ object.duid }}</td>
+                        <td>{{ object.duid|placeholder }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Hardware Address" %}</th>
@@ -23,15 +39,15 @@
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Circuit ID" %}</th>
-                        <td>{{ object.circuit_id }}</td>
+                        <td>{{ object.circuit_id|placeholder }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Client ID" %}</th>
-                        <td>{{ object.client_id }}</td>
+                        <td>{{ object.client_id|placeholder }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{% trans "Flex ID" %}</th>
-                        <td>{{ object.flex_id }}</td>
+                        <td>{{ object.flex_id|placeholder }}</td>
                     </tr>
                 </table>
             </div>
@@ -45,42 +61,46 @@
                 <table class="table table-hover attr-table">
                     <tr>
                         <th scope="row">{% trans "Hostname" %}</th>
-                        <td>{{ object.hostname }}</td>
+                        <td>{{ object.hostname|placeholder }}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">{% trans "IPv4 Address" %}</th>
-                        <td>{{ object.ipv4_address|linkify }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "IPv6 Addresses" %}</th>
-                        <td>
-                            <table>
-                                {% for ipv6_address in object.ipv6_addresses.all %}
-                                <tr><td>{{ ipv6_address|linkify }}</td></tr>
-                                {% endfor %}
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "IPv6 Prefixes" %}</th>
-                        <td>
-                            <table>
-                                {% for ipv6_prefix in object.ipv6_prefixes.all %}
-                                <tr><td>{{ ipv6_prefix|linkify }}</td></tr>
-                                {% endfor %}
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">{% trans "Excluded IPv6 Prefixes" %}</th>
-                        <td>
-                            <table>
-                                {% for excluded_ipv6_prefix in object.excluded_ipv6_prefixes.all %}
-                                <tr><td>{{ excluded_ipv6_prefix|linkify }}</td></tr>
-                                {% endfor %}
-                            </table>
-                        </td>
-                    </tr>
+                    {% if object.family is None or object.family == 4 %}
+                        <tr>
+                            <th scope="row">{% trans "IPv4 Address" %}</th>
+                            <td>{{ object.ipv4_address|linkify }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if object.family is None or object.family == 6 %}
+                        <tr>
+                            <th scope="row">{% trans "IPv6 Addresses" %}</th>
+                            <td>
+                                <table>
+                                    {% for ipv6_address in object.ipv6_addresses.all %}
+                                    <tr><td>{{ ipv6_address|linkify }}</td></tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{% trans "IPv6 Prefixes" %}</th>
+                            <td>
+                                <table>
+                                    {% for ipv6_prefix in object.ipv6_prefixes.all %}
+                                    <tr><td>{{ ipv6_prefix|linkify }}</td></tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{% trans "Excluded IPv6 Prefixes" %}</th>
+                            <td>
+                                <table>
+                                    {% for excluded_ipv6_prefix in object.excluded_ipv6_prefixes.all %}
+                                    <tr><td>{{ excluded_ipv6_prefix|linkify }}</td></tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+                    {% endif %}
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}

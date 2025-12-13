@@ -11,6 +11,7 @@ from utilities.forms import (
     BOOLEAN_WITH_BLANK_CHOICES,
 )
 from utilities.forms.rendering import FieldSet
+
 from ipam.models import Prefix
 from ipam.choices import IPAddressFamilyChoices
 
@@ -41,6 +42,12 @@ __all__ = (
     "SharedNetworkFormMixin",
     "NetworkFormMixin",
 )
+
+DYNAMIC_ATTRIBUTES = {
+    "hx-get": ".",
+    "hx-include": "#form_fields",
+    "hx-target": "#form_fields",
+}
 
 
 class BOOTPFormMixin:
@@ -225,6 +232,14 @@ class LifetimeFormMixin(forms.Form):
         name=_("Lifetimes"),
     )
 
+    def init_lifetime_fields(self, family=None):
+        if family == IPAddressFamilyChoices.FAMILY_6:
+            del self.fields["offer_lifetime"]
+        elif family == IPAddressFamilyChoices.FAMILY_4:
+            del self.fields["preferred_lifetime"]
+            del self.fields["min_preferred_lifetime"]
+            del self.fields["max_preferred_lifetime"]
+
 
 class LeaseFormMixin(forms.Form):
     FIELDS = [
@@ -265,14 +280,9 @@ class LeaseFormMixin(forms.Form):
         name=_("Lease"),
     )
 
-    def init_lease_fields(self):
-        dynamic_attributes = {
-            "hx-get": ".",
-            "hx-include": "#form_fields",
-            "hx-target": "#form_fields",
-        }
-        self.fields["calculate_tee_times"].widget.attrs.update(dynamic_attributes)
-        self.fields["allocator"].widget.attrs.update(dynamic_attributes)
+    def init_lease_fields(self, family=None):
+        self.fields["calculate_tee_times"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+        self.fields["allocator"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
 
         if get_field_value(self, "calculate_tee_times") == "True":
             del self.fields["renew_timer"]
@@ -290,6 +300,10 @@ class LeaseFormMixin(forms.Form):
             and instance.family != IPAddressFamilyChoices.FAMILY_6
         ):
             del self.fields["pd_allocator"]
+
+        if family == IPAddressFamilyChoices.FAMILY_6:
+            del self.fields["match_client_id"]
+            del self.fields["authoritative"]
 
     calculate_tee_times = forms.NullBooleanField(
         label=_("Calculate T Times"),
@@ -430,6 +444,11 @@ class NetworkFormMixin(forms.Form):
         "rapid_commit",
         name=_("Network"),
     )
+
+    def init_network_fields(self, family=None):
+        if family == IPAddressFamilyChoices.FAMILY_4:
+            del self.fields["interface_id"]
+            del self.fields["rapid_commit"]
 
     server_interfaces = DynamicModelMultipleChoiceField(
         queryset=DHCPServerInterface.objects.all(),

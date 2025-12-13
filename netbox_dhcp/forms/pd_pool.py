@@ -13,9 +13,10 @@ from utilities.forms.fields import (
     DynamicModelMultipleChoiceField,
     CSVModelChoiceField,
 )
-from utilities.forms.rendering import FieldSet
 from ipam.models import Prefix
 from ipam.choices import IPAddressFamilyChoices
+from utilities.forms.rendering import FieldSet
+from utilities.forms import get_field_value
 
 from netbox_dhcp.models import PDPool, Subnet
 
@@ -31,6 +32,8 @@ from .mixins import (
     NetBoxDHCPBulkEditFormMixin,
     NetBoxDHCPFilterFormMixin,
 )
+
+from .mixins.model import DYNAMIC_ATTRIBUTES
 
 
 __all__ = (
@@ -83,6 +86,24 @@ class PDPoolForm(
             name=_("Tags"),
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["subnet"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+        self.fields["prefix"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+
+        if subnet_id := get_field_value(self, "subnet"):
+            subnet = Subnet.objects.get(pk=subnet_id)
+            self.fields["prefix"].widget.add_query_params(
+                {"within_include": str(subnet.prefix)}
+            )
+
+        if prefix_id := get_field_value(self, "prefix"):
+            prefix = Prefix.objects.get(pk=prefix_id)
+            self.fields["excluded_prefix"].widget.add_query_params(
+                {"within": str(prefix)}
+            )
 
     subnet = DynamicModelChoiceField(
         queryset=Subnet.objects.filter(

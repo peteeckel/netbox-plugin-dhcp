@@ -9,10 +9,11 @@ from netbox.forms import (
 )
 from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet, TabbedGroups
-from utilities.forms import add_blank_choice
+from utilities.forms import add_blank_choice, get_field_value
 from ipam.choices import IPAddressFamilyChoices
+from ipam.models import Prefix
 
-from netbox_dhcp.models import Subnet
+from netbox_dhcp.models import Subnet, SharedNetwork
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
@@ -57,6 +58,8 @@ from .mixins import (
     NetworkBulkEditFormMixin,
 )
 
+from .mixins.model import DYNAMIC_ATTRIBUTES
+
 
 __all__ = (
     "SubnetForm",
@@ -76,6 +79,7 @@ class SubnetForm(
     NetworkFormMixin,
     LeaseFormMixin,
     NetBoxModelForm,
+    LifetimeFormMixin,
 ):
     class Meta:
         model = Subnet
@@ -136,8 +140,30 @@ class SubnetForm(
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.fields["shared_network"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+        self.fields["prefix"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
+
+        if shared_network_id := get_field_value(self, "shared_network"):
+            shared_network = SharedNetwork.objects.get(pk=shared_network_id)
+            self.fields["prefix"].widget.add_query_params(
+                {"within_include": str(shared_network.prefix)}
+            )
+
+        family = None
+        if prefix_id := get_field_value(self, "prefix"):
+            prefix = Prefix.objects.get(pk=prefix_id)
+            family = prefix.family
+
+        if family == IPAddressFamilyChoices.FAMILY_6:
+            self.fieldsets = (
+                *self.fieldsets[0:3],
+                *self.fieldsets[4:],
+            )
+
         self.init_ddns_fields()
-        self.init_lease_fields()
+        self.init_lease_fields(family=family)
+        self.init_lifetime_fields(family=family)
+        self.init_network_fields(family=family)
 
 
 class SubnetFilterForm(

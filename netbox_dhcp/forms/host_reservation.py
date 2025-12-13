@@ -15,12 +15,13 @@ from utilities.forms.fields import (
     CSVModelMultipleChoiceField,
 )
 from utilities.forms.rendering import FieldSet, TabbedGroups
+from utilities.forms import get_field_value
 
 from ipam.models import IPAddress, Prefix
 from ipam.choices import IPAddressFamilyChoices
 from dcim.models import MACAddress
 
-from netbox_dhcp.models import HostReservation
+from netbox_dhcp.models import HostReservation, Subnet
 
 from .mixins import (
     DHCPServerFormMixin,
@@ -120,6 +121,52 @@ class HostReservationForm(
             name=_("Tags"),
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["subnet"].widget.attrs.update(
+            {
+                "hx-get": ".",
+                "hx-include": "#form_fields",
+                "hx-target": "#form_fields",
+            }
+        )
+
+        if subnet_id := get_field_value(self, "subnet"):
+            subnet = Subnet.objects.get(pk=subnet_id)
+
+            if subnet.family == IPAddressFamilyChoices.FAMILY_4:
+                del self.fields["ipv6_addresses"]
+                del self.fields["ipv6_prefixes"]
+                del self.fields["excluded_ipv6_prefixes"]
+                self.fields["ipv4_address"].widget.add_query_params(
+                    {"parent": str(subnet.prefix)}
+                )
+            else:
+                del self.fields["ipv4_address"]
+                self.fields["ipv6_addresses"].widget.add_query_params(
+                    {
+                        "parent": str(subnet.prefix),
+                    }
+                )
+                self.fields["ipv6_prefixes"].widget.add_query_params(
+                    {"within_include": str(subnet.prefix)}
+                )
+                self.fields["excluded_ipv6_prefixes"].widget.add_query_params(
+                    {"within": str(subnet.prefix)}
+                )
+
+    def clean(self):
+        super().clean()
+
+        if subnet := self.cleaned_data.get("subnet"):
+            if subnet.family == IPAddressFamilyChoices.FAMILY_4:
+                self.cleaned_data["ipv6_addresses"] = IPAddress.objects.none()
+                self.cleaned_data["ipv6_prefixes"] = Prefix.objects.none()
+                self.cleaned_data["excluded_ipv6_prefixes"] = Prefix.objects.none()
+            else:
+                self.cleaned_data["ipv4_address"] = None
 
     hw_address = DynamicModelChoiceField(
         queryset=MACAddress.objects.all(),

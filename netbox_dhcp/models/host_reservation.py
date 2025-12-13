@@ -145,6 +145,10 @@ class HostReservation(
         object_id_field="assigned_object_id",
     )
 
+    @property
+    def family(self):
+        return self.subnet.family if self.subnet else None
+
 
 @register_search
 class HostReservationIndex(SearchIndex):

@@ -24,6 +24,7 @@ class HostReservationViewTestCase(
         mac_addresses = TestObjects.get_mac_addresses()
         ipv4_addresses = TestObjects.get_ipv4_addresses()
         ipv6_addresses = TestObjects.get_ipv6_addresses()
+        ipv4_prefixes = TestObjects.get_ipv4_prefixes()
         ipv6_prefixes = TestObjects.get_ipv6_prefixes()
         client_classes = TestObjects.get_client_classes(dhcp_server=dhcp_servers[0])
 
@@ -42,6 +43,11 @@ class HostReservationViewTestCase(
                 name="test-subnet-3",
                 dhcp_server=dhcp_servers[2],
                 prefix=ipv6_prefixes[2],
+            ),
+            Subnet(
+                name="test-subnet-4",
+                dhcp_server=dhcp_servers[0],
+                prefix=ipv4_prefixes[0],
             ),
         )
         for subnet in subnets:
@@ -86,7 +92,7 @@ class HostReservationViewTestCase(
         cls.form_data = {
             "name": "test-host-reservation-7",
             "description": "Test Host Reservation 7",
-            "subnet": subnets[2].pk,
+            "subnet": subnets[3].pk,
             "hw_address": mac_addresses[2].pk,
             "next_server": "19.0.2.1",
             "server_hostname": "tftp.example.com",
