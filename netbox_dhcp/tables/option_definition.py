@@ -36,6 +36,15 @@ class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
             "code",
         )
 
+    dhcp_server = tables.Column(
+        verbose_name=_("DHCP Server"),
+        linkify=True,
+    )
+    client_class = tables.Column(
+        verbose_name=_("Client Class"),
+        linkify=True,
+    )
+
     code = tables.Column(
         verbose_name=_("Option Code"),
     )

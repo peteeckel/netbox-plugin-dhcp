@@ -41,10 +41,20 @@ class HostReservationTable(
 
         default_columns = (
             "name",
-            "hostname",
+            "subnet",
             "ipv4_address",
             "ipv6_addresses",
+            "hostname",
         )
+
+    subnet = tables.Column(
+        verbose_name=_("Subnet"),
+        linkify=True,
+    )
+    dhcp_server = tables.Column(
+        verbose_name=_("DHCP Server"),
+        linkify=True,
+    )
 
     hw_address = tables.Column(
         verbose_name=_("Hardware Address"),
