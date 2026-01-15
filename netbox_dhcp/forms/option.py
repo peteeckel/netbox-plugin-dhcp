@@ -108,7 +108,7 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
             "space",
             "code",
             "definition_id",
-            "data_ic",
+            "data",
             "weight",
             "csv_format",
             "send_option",
@@ -135,9 +135,8 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
         choices=add_blank_choice(OptionSpaceChoices),
         required=False,
     )
-    data_ic = forms.CharField(
+    data = forms.CharField(
         label=_("Data"),
-        help_text=_("Case-insensitive substring match"),
         required=False,
     )
     weight = forms.IntegerField(
