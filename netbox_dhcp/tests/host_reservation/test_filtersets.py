@@ -135,33 +135,38 @@ class HostReservationFilterSetTestCase(
         )
 
     def test_name(self):
-        params = {"name__iregex": r"test-host-reservation-[12]"}
+        params = {"name": ["test-host-reservation-1", "test-host-reservation-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"name": "test-host-reservation-3"}
+        params = {"name": ["test-host-reservation-3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Host Reservation [12]"}
+        params = {"description": ["Test Host Reservation 1", "Test Host Reservation 2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"description": "Test Host Reservation 3"}
+        params = {"description": ["Test Host Reservation 3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_circuit_id(self):
-        params = {"circuit_id__iregex": r"vlan42"}
+        params = {"circuit_id": ["ge0/0/0:vlan42", "ge0/0/1:vlan42"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"circuit_id": "ge0/0/1:vlan42"}
+        params = {"circuit_id": ["ge0/0/1:vlan42"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_client_id(self):
-        params = {"client_id__iregex": r"sample\.client\.[23]"}
+        params = {"client_id": ["sample.client.2", "sample.client.3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"client_id": "sample.client.1"}
+        params = {"client_id": ["sample.client.1"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_duid(self):
-        params = {"duid__iregex": r"[23]$"}
+        params = {
+            "duid": [
+                "00:02:00:00:3e:20:ff:00:00:00:00:02",
+                "00:02:00:00:3e:20:ff:00:00:00:00:03",
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"duid": "00:02:00:00:3e:20:ff:00:00:00:00:01"}
+        params = {"duid": ["00:02:00:00:3e:20:ff:00:00:00:00:01"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_hw_address(self):

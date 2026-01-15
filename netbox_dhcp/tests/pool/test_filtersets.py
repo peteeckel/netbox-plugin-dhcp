@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from ipam.choices import IPAddressFamilyChoices
 from utilities.testing import ChangeLoggedFilterSetTests
 
 from netbox_dhcp.models import Pool, Subnet
@@ -112,22 +113,20 @@ class PoolFilterSetTestCase(
             )
 
     def test_name(self):
-        params = {"name__iregex": r"test-pool-[12]"}
+        params = {"name": ["test-pool-1", "test-pool-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"name": "test-pool-3"}
+        params = {"name": ["test-pool-3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Pool [12]"}
+        params = {"description": ["Test Pool 1", "Test Pool 2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"description": "Test Pool 3"}
+        params = {"description": ["Test Pool 3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_pool_id(self):
-        params = {"pool_id": 42}
+        params = {"pool_id": [42]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"pool_id__gt": 42}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ip_range(self):
         params = {"ip_range_id": [self.ipv6_ranges[0].pk, self.ipv4_ranges[0].pk]}
@@ -162,7 +161,13 @@ class PoolFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
 
     def test_weight(self):
-        params = {"weight": 100}
+        params = {"weight": [100]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"weight__lt": 100}
+        params = {"weight": [80, 90]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_family(self):
+        params = {"family": [IPAddressFamilyChoices.FAMILY_4]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+        params = {"family": [IPAddressFamilyChoices.FAMILY_6]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

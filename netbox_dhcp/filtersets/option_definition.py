@@ -35,19 +35,7 @@ class OptionDefinitionFilterSet(
             "standard",
         )
 
-    name = django_filters.CharFilter(
-        label=_("Name"),
-    )
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    code = django_filters.NumberFilter(
-        label=_("Code"),
-    )
-    encapsulate = django_filters.CharFilter(
-        label=_("Encapsulate"),
-    )
-    family = django_filters.ChoiceFilter(
+    family = django_filters.MultipleChoiceFilter(
         label=_("Address Family"),
         choices=IPAddressFamilyChoices,
     )

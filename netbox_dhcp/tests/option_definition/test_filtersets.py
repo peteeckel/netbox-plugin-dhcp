@@ -90,20 +90,23 @@ class OptionDefinitionFilterSetTestCase(
         OptionDefinition.objects.bulk_create(cls.option_definitions)
 
     def test_name(self):
-        params = {"standard": False, "name__iregex": r"test-option-definition-[12]"}
+        params = {
+            "standard": False,
+            "name__iregex": ["test-option-definition-1", "test-option-definition-2"],
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_description(self):
         params = {
             "standard": False,
-            "description__iregex": r"Test Option Definition [12]",
+            "description": ["Test Option Definition 1", "Test Option Definition 2"],
         }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_family(self):
-        params = {"standard": False, "family": IPAddressFamilyChoices.FAMILY_4}
+        params = {"standard": False, "family": [IPAddressFamilyChoices.FAMILY_4]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"standard": False, "family": IPAddressFamilyChoices.FAMILY_6}
+        params = {"standard": False, "family": [IPAddressFamilyChoices.FAMILY_6]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_space(self):
@@ -113,11 +116,11 @@ class OptionDefinitionFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_code(self):
-        params = {"standard": False, "code": 252}
+        params = {"standard": False, "code": [252]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"standard": False, "code__gt": 252}
+        params = {"standard": False, "code": [253, 254]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"standard": False, "code__gte": 252}
+        params = {"standard": False, "code": [252, 253, 254]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 4)
 
     def test_type(self):
@@ -148,10 +151,8 @@ class OptionDefinitionFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_encapsulate(self):
-        params = {"standard": False, "encapsulate": "isc"}
+        params = {"standard": False, "encapsulate": ["isc"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"standard": False, "encapsulate__iregex": r"\S+"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
 
     def test_array(self):
         params = {"standard": False, "array": True}

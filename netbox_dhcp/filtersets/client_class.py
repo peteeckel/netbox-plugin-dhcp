@@ -1,6 +1,4 @@
-import django_filters
 from django.db.models import Q
-from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
 from utilities.filtersets import register_filterset
@@ -28,27 +26,16 @@ class ClientClassFilterSet(
 
         fields = (
             "id",
+            "name",
+            "description",
+            "weight",
+            "test",
+            "template_test",
             "only_in_additional_list",
             *DHCPServerFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
         )
-
-    name = django_filters.CharFilter(
-        label=_("Name"),
-    )
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    weight = django_filters.NumberFilter(
-        label=_("Weight"),
-    )
-    test = django_filters.CharFilter(
-        label=_("Test"),
-    )
-    template_test = django_filters.CharFilter(
-        label=_("Template Test"),
-    )
 
     def search(self, queryset, name, value):
         if not value.strip():

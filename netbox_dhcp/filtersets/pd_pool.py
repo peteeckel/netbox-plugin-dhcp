@@ -29,23 +29,15 @@ class PDPoolFilterSet(
     class Meta:
         model = PDPool
 
-        fields = ("id",)
+        fields = (
+            "id",
+            "name",
+            "description",
+            "weight",
+            "pool_id",
+            "delegated_length",
+        )
 
-    name = django_filters.CharFilter(
-        label=_("Name"),
-    )
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    weight = django_filters.NumberFilter(
-        label=_("Weight"),
-    )
-    pool_id = django_filters.NumberFilter(
-        label=_("Pool ID"),
-    )
-    delegated_length = django_filters.NumberFilter(
-        label=_("Delegated Length"),
-    )
     excluded_prefix_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Prefix.objects.all(),
         field_name="excluded_prefix",

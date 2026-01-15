@@ -42,7 +42,7 @@ class ClientClassFilterSetTestCase(
     def setUpTestData(cls):
         cls.dhcp_servers = TestObjects.get_dhcp_servers()
 
-        client_classs = (
+        cls.client_classes = (
             ClientClass(
                 name="test-client-class-1",
                 description="Test Client Class 1",
@@ -83,18 +83,18 @@ class ClientClassFilterSetTestCase(
                 **OfferLifetimeFilterSetTests.DATA[2],
             ),
         )
-        ClientClass.objects.bulk_create(client_classs)
+        ClientClass.objects.bulk_create(cls.client_classes)
 
     def test_name(self):
-        params = {"name__iregex": r"test-client-class-[12]"}
+        params = {"name": ["test-client-class-1", "test-client-class-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"name": "test-client-class-3"}
+        params = {"name": ["test-client-class-3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Client Class [12]"}
+        params = {"description": ["Test Client Class 1", "Test Client Class 2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"description": "Test Client Class 3"}
+        params = {"description": ["Test Client Class 3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_test(self):
@@ -116,9 +116,9 @@ class ClientClassFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_weight(self):
-        params = {"weight": 100}
+        params = {"weight": [100]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"weight__lt": 100}
+        params = {"weight": [90]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_dhcp_servers(self):

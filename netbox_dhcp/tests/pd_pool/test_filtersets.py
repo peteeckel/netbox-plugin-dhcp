@@ -85,21 +85,26 @@ class PDPoolFilterSetTestCase(
             )
 
     def test_name(self):
-        params = {"name__iregex": r"test-pd-pool-[12]"}
+        params = {"name": ["test-pd-pool-1", "test-pd-pool-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"name": "test-pd-pool-3"}
+        params = {"name": ["test-pd-pool-3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Prefix Delegation Pool [12]"}
+        params = {
+            "description": [
+                "Test Prefix Delegation Pool 1",
+                "Test Prefix Delegation Pool 2",
+            ]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"description": "Test Prefix Delegation Pool 3"}
+        params = {"description": ["Test Prefix Delegation Pool 3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_pool_id(self):
-        params = {"pool_id": 42}
+        params = {"pool_id": [42]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"pool_id__gt": 42}
+        params = {"pool_id": [1337]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_prefix(self):
@@ -109,9 +114,9 @@ class PDPoolFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_delegated_length(self):
-        params = {"delegated_length": 64}
+        params = {"delegated_length": [64]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"delegated_length__lt": 64}
+        params = {"delegated_length": [56]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_excluded_prefix(self):
@@ -151,7 +156,7 @@ class PDPoolFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_weight(self):
-        params = {"weight": 100}
+        params = {"weight": [100]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"weight__lt": 100}
+        params = {"weight": [90]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

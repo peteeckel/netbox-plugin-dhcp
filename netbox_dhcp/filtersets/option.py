@@ -24,16 +24,15 @@ class OptionFilterSet(
 
         fields = (
             "id",
+            "description",
+            "weight",
             "data",
             "csv_format",
             "send_option",
             *ClientClassFilterMixin.FILTER_FIELDS,
         )
 
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    family = django_filters.ChoiceFilter(
+    family = django_filters.MultipleChoiceFilter(
         label=_("Address Family"),
         field_name="definition__family",
         choices=IPAddressFamilyChoices,
@@ -53,14 +52,6 @@ class OptionFilterSet(
     )
     data = django_filters.CharFilter(
         label=_("Data"),
-    )
-    data_ic = django_filters.CharFilter(
-        label=_("Data"),
-        lookup_expr="icontains",
-        field_name="data",
-    )
-    weight = django_filters.NumberFilter(
-        label=_("Weight"),
     )
     definition_id = django_filters.ModelMultipleChoiceFilter(
         label=_("Option Definition ID"),

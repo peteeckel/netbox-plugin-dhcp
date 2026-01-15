@@ -44,25 +44,6 @@ class HostReservationFilterSet(
             *BOOTPFilterMixin.FILTER_FIELDS,
         )
 
-    name = django_filters.CharFilter(
-        label=_("Name"),
-    )
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    duid = django_filters.CharFilter(
-        label=_("DUID"),
-    )
-    circuit_id = django_filters.CharFilter(
-        label=_("Circuit ID"),
-    )
-    client_id = django_filters.CharFilter(
-        label=_("Client ID"),
-    )
-    flex_id = django_filters.CharFilter(
-        label=_("Flex ID"),
-    )
-
     hw_address_id = django_filters.ModelMultipleChoiceFilter(
         queryset=MACAddress.objects.all(),
         field_name="hw_address",

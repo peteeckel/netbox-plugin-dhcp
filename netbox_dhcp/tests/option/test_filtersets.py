@@ -118,6 +118,10 @@ class OptionFilterSetTestCase(
         )
         Option.objects.bulk_create(cls.options)
 
+    def test_description(self):
+        params = {"description": ["Test Option 1", "Test Option 2"]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
     def test_definition(self):
         params = {"definition_id": self.option_definitions[0:2]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
@@ -139,19 +143,15 @@ class OptionFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)
 
     def test_family(self):
-        params = {"family": IPAddressFamilyChoices.FAMILY_4}
+        params = {"family": [IPAddressFamilyChoices.FAMILY_4]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)
-        params = {"family": IPAddressFamilyChoices.FAMILY_6}
+        params = {"family": [IPAddressFamilyChoices.FAMILY_6]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_space(self):
         params = {"space": [OptionSpaceChoices.DHCPV4]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)
         params = {"space": [OptionSpaceChoices.DHCPV6]}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-
-    def test_description(self):
-        params = {"description__iregex": r"Test Option [12]"}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_data(self):
@@ -173,9 +173,7 @@ class OptionFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_weight(self):
-        params = {"weight": 100}
+        params = {"weight": [100]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
-        params = {"weight__gt": 100}
+        params = {"weight": [200]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"weight__lte": 100}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 5)

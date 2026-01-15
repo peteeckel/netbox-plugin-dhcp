@@ -48,25 +48,11 @@ class BOOTPFilterMixin(NetBoxModelFilterSet):
         "boot_file_name",
     ]
 
-    next_server = django_filters.CharFilter(
-        label=_("Next Server"),
-    )
-    server_hostname = django_filters.CharFilter(
-        label=_("Server Hostname"),
-    )
-    boot_file_name = django_filters.CharFilter(
-        label=_("Boot File Name"),
-    )
-
 
 class OfferLifetimeFilterMixin(NetBoxModelFilterSet):
     FILTER_FIELDS = [
         "offer_lifetime",
     ]
-
-    offer_lifetime = django_filters.NumberFilter(
-        label=_("Offer Lifetime"),
-    )
 
 
 class LifetimeFilterMixin(OfferLifetimeFilterMixin):
@@ -79,25 +65,6 @@ class LifetimeFilterMixin(OfferLifetimeFilterMixin):
         "min_preferred_lifetime",
         "max_preferred_lifetime",
     ]
-
-    valid_lifetime = django_filters.NumberFilter(
-        label=_("Valid Lifetime"),
-    )
-    min_valid_lifetime = django_filters.NumberFilter(
-        label=_("Minimum Valid Lifetime"),
-    )
-    max_valid_lifetime = django_filters.NumberFilter(
-        label=_("Maximum Valid Lifetime"),
-    )
-    preferred_lifetime = django_filters.NumberFilter(
-        label=_("Preferred Lifetime"),
-    )
-    min_preferred_lifetime = django_filters.NumberFilter(
-        label=_("Minimum Preferred Lifetime"),
-    )
-    max_preferred_lifetime = django_filters.NumberFilter(
-        label=_("Maximum Preferred Lifetime"),
-    )
 
 
 class LeaseFilterMixin(NetBoxModelFilterSet):
@@ -120,27 +87,6 @@ class LeaseFilterMixin(NetBoxModelFilterSet):
         "pd_allocator",
     )
 
-    renew_timer = django_filters.NumberFilter(
-        label=_("Renew Timer"),
-    )
-    rebind_timer = django_filters.NumberFilter(
-        label=_("Rebind Timer"),
-    )
-    t1_percent = django_filters.NumberFilter(
-        label=_("T1"),
-    )
-    t2_percent = django_filters.NumberFilter(
-        label=_("T2"),
-    )
-    cache_threshold = django_filters.NumberFilter(
-        label=_("Cache Threshold"),
-    )
-    cache_max_age = django_filters.NumberFilter(
-        label=_("Cache Maximum Age"),
-    )
-    adaptive_lease_time_threshold = django_filters.NumberFilter(
-        label=_("Adaptive Lease Time Threshold"),
-    )
     allocator = django_filters.MultipleChoiceFilter(
         choices=AllocatorTypeChoices,
         label=_("Allocator"),
@@ -196,37 +142,13 @@ class DDNSUpdateFilterMixin(NetBoxModelFilterSet):
         "ddns_ttl_max",
     ]
 
-    hostname_char_set = django_filters.CharFilter(
-        label=_("Hostname Character Set"),
-    )
-    hostname_char_replacement = django_filters.CharFilter(
-        label=_("Hostname Replacement Characters"),
-    )
     ddns_replace_client_name = django_filters.MultipleChoiceFilter(
         choices=DDNSReplaceClientNameChoices,
         label=_("Replace Client Name"),
     )
-    ddns_generated_prefix = django_filters.CharFilter(
-        label=_("Generated Prefix"),
-    )
-    ddns_qualifying_suffix = django_filters.CharFilter(
-        label=_("Qualifying Suffix"),
-    )
     ddns_conflict_resolution_mode = django_filters.MultipleChoiceFilter(
         choices=DDNSConflictResolutionModeChoices,
         label=_("Conflict Resolution Mode"),
-    )
-    ddns_ttl_percent = django_filters.NumberFilter(
-        label=_("TTL Percent"),
-    )
-    ddns_ttl = django_filters.NumberFilter(
-        label=_("TTL"),
-    )
-    ddns_ttl_min = django_filters.NumberFilter(
-        label=_("Minimum TTL"),
-    )
-    ddns_ttl_max = django_filters.NumberFilter(
-        label=_("Maximum TTL"),
     )
 
 

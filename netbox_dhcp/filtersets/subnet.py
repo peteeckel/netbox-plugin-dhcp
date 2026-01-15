@@ -50,6 +50,9 @@ class SubnetFilterSet(
         fields = (
             "id",
             "subnet_id",
+            "name",
+            "description",
+            "weight",
             *PrefixFilterMixin.FILTER_FIELDS,
             *BOOTPFilterMixin.FILTER_FIELDS,
             *LifetimeFilterMixin.FILTER_FIELDS,
@@ -58,16 +61,7 @@ class SubnetFilterSet(
             *NetworkFilterMixin.FILTER_FIELDS,
         )
 
-    name = django_filters.CharFilter(
-        label=_("Name"),
-    )
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    weight = django_filters.NumberFilter(
-        label=_("Weight"),
-    )
-    family = django_filters.ChoiceFilter(
+    family = django_filters.MultipleChoiceFilter(
         choices=IPAddressFamilyChoices,
         field_name="prefix__prefix",
         lookup_expr="family",

@@ -239,11 +239,11 @@ class DHCPServerFilterSetTestCase(
         )
 
     def test_name(self):
-        params = {"name__iregex": r"test-server-[12]"}
+        params = {"name": ["test-server-1", "test-server-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Server [12]"}
+        params = {"description": ["Test Server 1", "Test Server 2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_status(self):
@@ -310,9 +310,9 @@ class DHCPServerFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_decline_probation_period(self):
-        params = {"decline_probation_period": 86400}
+        params = {"decline_probation_period": [86400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"decline_probation_period": 43200}
+        params = {"decline_probation_period": [43200]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_child_subnets(self):

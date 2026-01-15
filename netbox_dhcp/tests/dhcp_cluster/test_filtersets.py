@@ -36,11 +36,11 @@ class DHCPClusterFilterSetTestCase(
         DHCPCluster.objects.bulk_create(cls.dhcp_clusters)
 
     def test_name(self):
-        params = {"name__iregex": r"test-cluster-[12]"}
+        params = {"name": ["test-cluster-1", "test-cluster-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Cluster [12]"}
+        params = {"description": ["Test Cluster 1", "Test Cluster 2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_status(self):

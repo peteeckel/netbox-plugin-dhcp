@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from ipam.choices import IPAddressFamilyChoices
 from utilities.testing import ChangeLoggedFilterSetTests
 
 from netbox_dhcp.models import SharedNetwork, Subnet
@@ -162,15 +163,15 @@ class SharedNetworkFilterSetTestCase(
             )
 
     def test_name(self):
-        params = {"name__iregex": r"test-shared-network-[12]"}
+        params = {"name": ["test-shared-network-1", "test-shared-network-2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"name": "test-shared-network-3"}
+        params = {"name": ["test-shared-network-3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_description(self):
-        params = {"description__iregex": r"Test Shared Network [12]"}
+        params = {"description": ["Test Shared Network 1", "Test Shared Network 2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"description": "Test Shared Network 3"}
+        params = {"description": ["Test Shared Network 3"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_prefix(self):
@@ -216,7 +217,11 @@ class SharedNetworkFilterSetTestCase(
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
 
     def test_weight(self):
-        params = {"weight": 100}
+        params = {"weight": [100]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"weight__lt": 100}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_family(self):
+        params = {"family": [IPAddressFamilyChoices.FAMILY_4]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+        params = {"family": [IPAddressFamilyChoices.FAMILY_6]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)

@@ -35,21 +35,19 @@ class BOOTPFilterSetTests:
     ]
 
     def test_next_server(self):
-        params = {"next_server": "10.0.0.1"}
+        params = {"next_server": ["10.0.0.1"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"next_server__iregex": r"10.0.0.[12]"}
+        params = {"next_server": ["10.0.0.1", "10.0.0.2"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_server_hostname(self):
-        params = {"server_hostname": "server1.test.example.com"}
-        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"server_hostname__ic": "Server2"}
+        params = {"server_hostname": ["server1.test.example.com"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_boot_file_name(self):
-        params = {"boot_file_name": "/tftpboot/file-2.img"}
+        params = {"boot_file_name": ["/tftpboot/file-2.img"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"boot_file_name__iregex": r"File-[23]\.img"}
+        params = {"boot_file_name": ["/tftpboot/file-2.img", "/tftpboot/file-3.img"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
 
@@ -73,21 +71,21 @@ class ValidLifetimeFilterSetTests:
     ]
 
     def test_valid_lifetime(self):
-        params = {"valid_lifetime": 86400}
+        params = {"valid_lifetime": [86400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"valid_lifetime__gt": 86400}
+        params = {"valid_lifetime": [86401, 86402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_min_valid_lifetime(self):
-        params = {"min_valid_lifetime": 43200}
+        params = {"min_valid_lifetime": [43200]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"min_valid_lifetime__gt": 43200}
+        params = {"min_valid_lifetime": [43200, 43201]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_max_valid_lifetime(self):
-        params = {"max_valid_lifetime": 172402}
+        params = {"max_valid_lifetime": [172400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"max_valid_lifetime__lt": 172402}
+        params = {"max_valid_lifetime": [172401, 172402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
 
@@ -111,21 +109,21 @@ class PreferredLifetimeFilterSetTests:
     ]
 
     def test_preferred_lifetime(self):
-        params = {"preferred_lifetime": 86400}
+        params = {"preferred_lifetime": [86400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"preferred_lifetime__gt": 86400}
+        params = {"preferred_lifetime": [86401, 86402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_min_preferred_lifetime(self):
-        params = {"min_preferred_lifetime": 43200}
+        params = {"min_preferred_lifetime": [43200]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"min_preferred_lifetime__gt": 43200}
+        params = {"min_preferred_lifetime": [43201, 43202]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_max_preferred_lifetime(self):
-        params = {"max_preferred_lifetime": 172402}
+        params = {"max_preferred_lifetime": [172402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"max_preferred_lifetime__lt": 172402}
+        params = {"max_preferred_lifetime": [172400, 172401]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
 
@@ -143,9 +141,9 @@ class OfferLifetimeFilterSetTests:
     ]
 
     def test_offer_lifetime(self):
-        params = {"offer_lifetime": 86400}
+        params = {"offer_lifetime": [86400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"offer_lifetime__gt": 86400}
+        params = {"offer_lifetime": [86401, 86402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
 
@@ -208,15 +206,15 @@ class LeaseFilterSetTests:
     ]
 
     def test_renew_timer(self):
-        params = {"renew_timer": 43200}
+        params = {"renew_timer": [43200]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"renew_timer__gt": 43200}
+        params = {"renew_timer": [43201, 43202]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_rebind_timer(self):
-        params = {"rebind_timer": 86400}
+        params = {"rebind_timer": [86400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"rebind_timer__gt": 86400}
+        params = {"rebind_timer": [86401, 86402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_match_client_id(self):
@@ -256,33 +254,33 @@ class LeaseFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_t1_percent(self):
-        params = {"t1_percent": 0.4}
+        params = {"t1_percent": [0.4]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"t1_percent__gt": 0.4}
+        params = {"t1_percent": [0.5, 0.6]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_t2_percent(self):
-        params = {"t2_percent": 0.5}
+        params = {"t2_percent": [0.5]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"t2_percent__gt": 0.5}
+        params = {"t2_percent": [0.6, 0.7]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_cache_threshold(self):
-        params = {"cache_threshold": 0.7}
+        params = {"cache_threshold": [0.7]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"cache_threshold__gt": 0.7}
+        params = {"cache_threshold": [0.8, 0.9]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_cache_max_age(self):
-        params = {"cache_max_age": 3600}
+        params = {"cache_max_age": [3600]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"cache_max_age__lt": 3602}
+        params = {"cache_max_age": [3600, 3601]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_adaptive_lease_time_threshold(self):
-        params = {"adaptive_lease_time_threshold": 0.5}
+        params = {"adaptive_lease_time_threshold": [0.5]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"adaptive_lease_time_threshold__lt": 0.7}
+        params = {"adaptive_lease_time_threshold": [0.5, 0.6]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_store_extended_info(self):
@@ -362,15 +360,15 @@ class DDNSUpdateFilterSetTests:
     ]
 
     def test_hostname_char_set(self):
-        params = {"hostname_char_set__ic": "_"}
+        params = {"hostname_char_set": [r"[a-z0-9_-]", r"[a-z0-9-]"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"hostname_char_set__ic": "_-"}
+        params = {"hostname_char_set": [r"[a-z0-9_-]"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_hostname_char_replacement(self):
-        params = {"hostname_char_replacement": "invalid"}
+        params = {"hostname_char_replacement": ["invalid"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"hostname_char_replacement": "replaced"}
+        params = {"hostname_char_replacement": ["replaced"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_ddns_send_updates(self):
@@ -405,15 +403,17 @@ class DDNSUpdateFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_ddns_generated_prefix(self):
-        params = {"ddns_generated_prefix": "server"}
+        params = {"ddns_generated_prefix": ["server"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
-        params = {"ddns_generated_prefix": "client"}
+        params = {"ddns_generated_prefix": ["client"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_ddns_qualifying_suffix(self):
-        params = {"ddns_qualifying_suffix": "zone1.example.com"}
+        params = {"ddns_qualifying_suffix": ["zone1.example.com"]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"ddns_qualifying_suffix__iregex": r"zone[23]\.example\.com"}
+        params = {
+            "ddns_qualifying_suffix__iregex": ["zone1.example.com", "zone2.example.com"]
+        }
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ddns_update_on_renew(self):
@@ -438,25 +438,25 @@ class DDNSUpdateFilterSetTests:
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
 
     def test_ddns_ttl_percent(self):
-        params = {"ddns_ttl_percent": 0.5}
+        params = {"ddns_ttl_percent": [0.5]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"ddns_ttl_percent__lt": 0.7}
+        params = {"ddns_ttl_percent": [0.5, 0.6]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ddns_ttl(self):
-        params = {"ddns_ttl": 86400}
+        params = {"ddns_ttl": [86400]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"ddns_ttl__gt": 86400}
+        params = {"ddns_ttl": [86401, 86402]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ddns_ttl_min(self):
-        params = {"ddns_ttl_min": 43200}
+        params = {"ddns_ttl_min": [43200]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"ddns_ttl_min__gt": 43200}
+        params = {"ddns_ttl_min": [43201, 43202]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
     def test_ddns_ttl_max(self):
-        params = {"ddns_ttl_max": 172800}
+        params = {"ddns_ttl_max": [172800]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)
-        params = {"ddns_ttl_max__lt": 172802}
+        params = {"ddns_ttl_max": [172800, 172801]}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)

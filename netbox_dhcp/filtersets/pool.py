@@ -32,23 +32,15 @@ class PoolFilterSet(
 
         fields = (
             "id",
+            "name",
+            "description",
+            "pool_id",
+            "weight",
             *SubnetFilterMixin.FILTER_FIELDS,
             *DDNSUpdateFilterMixin.FILTER_FIELDS,
         )
 
-    name = django_filters.CharFilter(
-        label=_("Name"),
-    )
-    description = django_filters.CharFilter(
-        label=_("Description"),
-    )
-    pool_id = django_filters.NumberFilter(
-        label=_("Pool ID"),
-    )
-    weight = django_filters.NumberFilter(
-        label=_("Weight"),
-    )
-    family = django_filters.ChoiceFilter(
+    family = django_filters.MultipleChoiceFilter(
         label=_("Address Family"),
         choices=IPAddressFamilyChoices,
         field_name="ip_range__start_address",
