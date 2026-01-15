@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
+from utilities.filtersets import register_filterset
 from utilities.filters import MultiValueCharFilter
 from ipam.choices import IPAddressFamilyChoices
 
@@ -17,6 +18,7 @@ from .mixins import (
 __all__ = ("OptionDefinitionFilterSet",)
 
 
+@register_filterset
 class OptionDefinitionFilterSet(
     DHCPServerFilterMixin, ClientClassFilterMixin, NetBoxModelFilterSet
 ):

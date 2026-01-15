@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
+from utilities.filtersets import register_filterset
 from dcim.models import Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
 from utilities.filters import MultiValueCharFilter
@@ -55,6 +56,7 @@ class DHCPServerInterfaceFilterSet(NetBoxModelFilterSet):
         return queryset.filter(**{name: value})
 
 
+@register_filterset
 class DHCPServerFilterSet(
     BOOTPFilterMixin,
     LifetimeFilterMixin,

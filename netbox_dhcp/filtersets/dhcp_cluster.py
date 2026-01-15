@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
+from utilities.filtersets import register_filterset
 
 from netbox_dhcp.models import DHCPCluster
 from netbox_dhcp.choices import DHCPClusterStatusChoices
@@ -11,6 +12,7 @@ from netbox_dhcp.choices import DHCPClusterStatusChoices
 __all__ = ("DHCPClusterFilterSet",)
 
 
+@register_filterset
 class DHCPClusterFilterSet(NetBoxModelFilterSet):
     class Meta:
         model = DHCPCluster

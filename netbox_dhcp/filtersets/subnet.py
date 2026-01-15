@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from netbox.filtersets import NetBoxModelFilterSet
+from utilities.filtersets import register_filterset
 from ipam.choices import IPAddressFamilyChoices
 
 from netbox_dhcp.models import Subnet
@@ -26,6 +27,7 @@ from .mixins import (
 __all__ = ("SubnetFilterSet",)
 
 
+@register_filterset
 class SubnetFilterSet(
     DHCPServerFilterMixin,
     SharedNetworkFilterMixin,
