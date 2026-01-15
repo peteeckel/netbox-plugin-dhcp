@@ -5,7 +5,7 @@ import strawberry_django
 from strawberry_django import FilterLookup
 from strawberry.scalars import ID
 
-from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+from netbox.graphql.filters import BaseModelFilter
 
 if TYPE_CHECKING:
     from netbox.graphql.filter_lookups import IntegerArrayLookup
@@ -36,7 +36,7 @@ class NetBoxDHCPServerFilter(
     ClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
-    NetBoxModelFilterMixin,
+    BaseModelFilter,
     ChildSharedNetworkGraphQLFilterMixin,
     ChildSubnetGraphQLFilterMixin,
     ChildHostReservationGraphQLFilterMixin,

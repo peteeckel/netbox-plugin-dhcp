@@ -4,7 +4,7 @@ import strawberry
 import strawberry_django
 from strawberry_django import FilterLookup
 
-from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+from netbox.graphql.filters import BaseModelFilter
 
 if TYPE_CHECKING:
     from .enums import (
@@ -18,7 +18,7 @@ __all__ = ("NetBoxDHCPClusterFilter",)
 
 
 @strawberry_django.filter_type(DHCPCluster, lookups=True)
-class NetBoxDHCPClusterFilter(NetBoxModelFilterMixin):
+class NetBoxDHCPClusterFilter(BaseModelFilter):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     status: (

@@ -4,7 +4,7 @@ import strawberry
 import strawberry_django
 from strawberry_django import FilterLookup
 
-from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+from netbox.graphql.filters import BaseModelFilter
 
 from netbox_dhcp.models import OptionDefinition
 
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 @strawberry_django.filter_type(OptionDefinition, lookups=True)
-class NetBoxDHCPOptionDefinitionFilter(NetBoxModelFilterMixin):
+class NetBoxDHCPOptionDefinitionFilter(BaseModelFilter):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
     code: FilterLookup[int] | None = strawberry_django.filter_field()

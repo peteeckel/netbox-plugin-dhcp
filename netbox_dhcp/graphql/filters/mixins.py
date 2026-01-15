@@ -7,8 +7,6 @@ from strawberry.scalars import ID
 import strawberry_django
 from strawberry_django import FilterLookup
 
-# from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
-
 if TYPE_CHECKING:
     from ipam.graphql.filters import (
         PrefixFilter,

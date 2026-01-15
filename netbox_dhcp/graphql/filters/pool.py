@@ -5,7 +5,7 @@ from strawberry.scalars import ID
 import strawberry_django
 from strawberry_django import FilterLookup
 
-from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+from netbox.graphql.filters import BaseModelFilter
 
 from netbox_dhcp.models import Pool
 
@@ -26,7 +26,7 @@ class NetBoxDHCPPoolFilter(
     ClientClassGraphQLFilterMixin,
     EvaluateClientClassGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
-    NetBoxModelFilterMixin,
+    BaseModelFilter,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
     description: FilterLookup[str] | None = strawberry_django.filter_field()
