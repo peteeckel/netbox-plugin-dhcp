@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 
 from netbox_dhcp.models import DHCPCluster
 
@@ -11,7 +11,7 @@ from ..nested_serializers import NestedDHCPServerSerializer
 __all__ = ("DHCPClusterSerializer",)
 
 
-class DHCPClusterSerializer(NetBoxModelSerializer):
+class DHCPClusterSerializer(PrimaryModelSerializer):
     class Meta:
         model = DHCPCluster
 
@@ -22,6 +22,7 @@ class DHCPClusterSerializer(NetBoxModelSerializer):
             "display_url",
             "name",
             "description",
+            "comments",
             "status",
             "dhcp_servers",
         )

@@ -23,9 +23,12 @@ class OptionAPITestCase(
     model = Option
 
     brief_fields = [
+        "code",
         "description",
         "display",
         "id",
+        "name",
+        "space",
         "url",
         "weight",
     ]

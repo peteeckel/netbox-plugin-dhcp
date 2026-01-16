@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import Subnet
@@ -24,7 +24,7 @@ __all__ = ("SubnetSerializer",)
 class SubnetSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    NetBoxModelSerializer,
+    PrimaryModelSerializer,
 ):
     class Meta:
         model = Subnet
@@ -36,6 +36,7 @@ class SubnetSerializer(
             "display_url",
             "name",
             "description",
+            "comments",
             "weight",
             "subnet_id",
             "dhcp_server",

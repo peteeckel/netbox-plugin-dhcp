@@ -3,7 +3,7 @@ from django.db.models import Q
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 from netbox.api.fields import ContentTypeField
 from utilities.api import get_serializer_for_model
 
@@ -30,7 +30,10 @@ OPTION_ASSIGNMENT_MODELS = Q(
 )
 
 
-class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
+class OptionSerializer(
+    ClientClassSerializerMixin,
+    PrimaryModelSerializer,
+):
     class Meta:
         model = Option
 
@@ -40,7 +43,11 @@ class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
             "display",
             "display_url",
             "definition",
+            "name",
             "description",
+            "comments",
+            "space",
+            "code",
             "data",
             "weight",
             "csv_format",
@@ -57,7 +64,10 @@ class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
             "id",
             "url",
             "display",
+            "name",
             "description",
+            "space",
+            "code",
             "weight",
         )
 
@@ -65,6 +75,15 @@ class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
         view_name="plugins-api:netbox_dhcp-api:option-detail"
     )
 
+    name = serializers.SerializerMethodField(
+        read_only=True,
+    )
+    space = serializers.SerializerMethodField(
+        read_only=True,
+    )
+    code = serializers.SerializerMethodField(
+        read_only=True,
+    )
     assigned_object_type = ContentTypeField(
         queryset=ContentType.objects.filter(OPTION_ASSIGNMENT_MODELS),
         required=False,
@@ -79,6 +98,15 @@ class OptionSerializer(ClientClassSerializerMixin, NetBoxModelSerializer):
     never_send = serializers.SerializerMethodField(
         read_only=True,
     )
+
+    def get_name(self, instance):
+        return instance.definition.name
+
+    def get_space(self, instance):
+        return instance.definition.space
+
+    def get_code(self, instance):
+        return instance.definition.code
 
     @extend_schema_field(serializers.JSONField(allow_null=True))
     def get_assigned_object(self, instance):

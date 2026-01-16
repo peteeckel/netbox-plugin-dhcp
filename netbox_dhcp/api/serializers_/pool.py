@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 from ipam.api.serializers import IPRangeSerializer
 
 from netbox_dhcp.models import Pool
@@ -18,7 +18,7 @@ __all__ = ("PoolSerializer",)
 class PoolSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    NetBoxModelSerializer,
+    PrimaryModelSerializer,
 ):
     class Meta:
         model = Pool
@@ -30,6 +30,7 @@ class PoolSerializer(
             "display_url",
             "name",
             "description",
+            "comments",
             "weight",
             "subnet",
             "ip_range",

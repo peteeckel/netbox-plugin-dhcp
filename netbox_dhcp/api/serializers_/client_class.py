@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 
 from netbox_dhcp.models import ClientClass
 
@@ -8,7 +8,7 @@ from netbox_dhcp.models import ClientClass
 __all__ = ("ClientClassSerializer",)
 
 
-class ClientClassSerializer(NetBoxModelSerializer):
+class ClientClassSerializer(PrimaryModelSerializer):
     class Meta:
         model = ClientClass
 
@@ -19,6 +19,7 @@ class ClientClassSerializer(NetBoxModelSerializer):
             "display_url",
             "name",
             "description",
+            "comments",
             "dhcp_server",
             "weight",
             "test",

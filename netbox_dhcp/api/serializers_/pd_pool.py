@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import PDPool
@@ -18,7 +18,7 @@ __all__ = ("PDPoolSerializer",)
 class PDPoolSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    NetBoxModelSerializer,
+    PrimaryModelSerializer,
 ):
     class Meta:
         model = PDPool
@@ -30,6 +30,7 @@ class PDPoolSerializer(
             "display_url",
             "name",
             "description",
+            "comments",
             "weight",
             "subnet",
             "prefix",

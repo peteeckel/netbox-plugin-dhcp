@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 
 from netbox_dhcp.models import OptionDefinition
 
@@ -8,7 +8,7 @@ from netbox_dhcp.models import OptionDefinition
 __all__ = ("OptionDefinitionSerializer",)
 
 
-class OptionDefinitionSerializer(NetBoxModelSerializer):
+class OptionDefinitionSerializer(PrimaryModelSerializer):
     class Meta:
         model = OptionDefinition
 
@@ -22,8 +22,9 @@ class OptionDefinitionSerializer(NetBoxModelSerializer):
             "family",
             "space",
             "name",
-            "code",
             "description",
+            "comments",
+            "code",
             "type",
             "record_types",
             "encapsulate",

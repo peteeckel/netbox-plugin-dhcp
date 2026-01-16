@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.utils.translation import gettext as _
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 from ipam.api.serializers import IPAddressSerializer, PrefixSerializer
 
 from netbox_dhcp.models import HostReservation
@@ -13,7 +13,7 @@ __all__ = ("HostReservationSerializer",)
 
 class HostReservationSerializer(
     ClientClassSerializerMixin,
-    NetBoxModelSerializer,
+    PrimaryModelSerializer,
 ):
     class Meta:
         model = HostReservation
@@ -25,6 +25,7 @@ class HostReservationSerializer(
             "display_url",
             "name",
             "description",
+            "comments",
             "dhcp_server",
             "subnet",
             "duid",

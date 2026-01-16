@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import NetBoxModelSerializer, PrimaryModelSerializer
 
 from dcim.api.serializers import DeviceSerializer, InterfaceSerializer
 from virtualization.api.serializers import (
@@ -83,7 +83,7 @@ class DHCPServerInterfaceSerializer(NetBoxModelSerializer):
 
 class DHCPServerSerializer(
     ClientClassSerializerMixin,
-    NetBoxModelSerializer,
+    PrimaryModelSerializer,
 ):
     class Meta:
         model = DHCPServer

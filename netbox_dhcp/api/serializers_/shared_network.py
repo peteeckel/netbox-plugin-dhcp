@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from netbox.api.serializers import NetBoxModelSerializer
+from netbox.api.serializers import PrimaryModelSerializer
 from ipam.api.serializers import PrefixSerializer
 
 from netbox_dhcp.models import SharedNetwork
@@ -19,7 +19,7 @@ __all__ = ("SharedNetworkSerializer",)
 class SharedNetworkSerializer(
     ClientClassSerializerMixin,
     EvaluateClientClassSerializerMixin,
-    NetBoxModelSerializer,
+    PrimaryModelSerializer,
 ):
     class Meta:
         model = SharedNetwork
@@ -31,6 +31,7 @@ class SharedNetworkSerializer(
             "display_url",
             "name",
             "description",
+            "comments",
             "weight",
             "dhcp_server",
             "prefix",
