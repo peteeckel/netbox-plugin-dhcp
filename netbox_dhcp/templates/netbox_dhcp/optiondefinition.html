@@ -1,6 +1,7 @@
 {% extends 'generic/object.html' %}
 {% load i18n %}
 {% load netbox_dhcp %}
+{% load plugins %}
 
 {% block control-buttons %}
 {% if object.standard %}
@@ -59,6 +60,7 @@
             </div>
             {% endif %}
             {% include 'inc/panels/custom_fields.html' %}
+            {% plugin_left_page object %}
         </div>
         <div class="col col-md-6">
             <div class="card">
@@ -85,6 +87,12 @@
                 </table>
             </div>
             {% include 'inc/panels/tags.html' %}
+            {% plugin_right_page object %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
+            {% plugin_full_width_page object %}
         </div>
     </div>
 {% endblock %}

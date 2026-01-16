@@ -1,5 +1,6 @@
 {% extends 'generic/object.html' %}
 {% load i18n %}
+{% load plugins %}
 
 {% block content %}
     <div class="row">
@@ -15,6 +16,7 @@
                 </table>
             </div>
             {% include 'inc/panels/custom_fields.html' %}
+            {% plugin_left_page object %}
         </div>
         <div class="col col-md-6">
             {% if object.dhcp_servers.exists %}
@@ -30,6 +32,12 @@
             </div>
             {% endif %}
             {% include 'inc/panels/tags.html' %}
+            {% plugin_right_page object %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
+            {% plugin_full_width_page object %}
         </div>
     </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends './pool/base.html' %}
 {% load i18n %}
+{% load plugins %}
 
 {% block content %}
     <div class="row">
@@ -32,10 +33,17 @@
             </div>
             {% include './inc/client_class_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
+            {% plugin_left_page object %}
         </div>
         <div class="col col-md-6">
             {% include './inc/ddns_update_card.html' %}
             {% include 'inc/panels/tags.html' %}
+            {% plugin_right_page object %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
+            {% plugin_full_width_page object %}
         </div>
     </div>
 {% endblock %}

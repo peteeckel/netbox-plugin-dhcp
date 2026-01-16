@@ -1,5 +1,6 @@
 {% extends './sharednetwork/base.html' %}
 {% load i18n %}
+{% load plugins %}
 
 {% block content %}
     <div class="row">
@@ -31,11 +32,18 @@
             {% include './inc/bootp_card.html' %}
             {% include './inc/lifetime_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
+            {% plugin_left_page object %}
         </div>
         <div class="col col-md-6">
             {% include './inc/lease_card.html' %}
             {% include './inc/ddns_update_card.html' %}
             {% include 'inc/panels/tags.html' %}
+            {% plugin_right_page object %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
+            {% plugin_full_width_page object %}
         </div>
     </div>
 {% endblock %}

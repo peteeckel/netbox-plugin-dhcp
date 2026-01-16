@@ -1,6 +1,7 @@
 {% extends './clientclass/base.html' %}
 {% load i18n %}
 {% load netbox_dhcp %}
+{% load plugins %}
 
 {% block content %}
     <div class="row">
@@ -38,10 +39,17 @@
             </div>
             {% include './inc/bootp_card.html' %}
             {% include 'inc/panels/custom_fields.html' %}
+            {% plugin_left_page object %}
         </div>
         <div class="col col-md-6">
             {% include './inc/lifetime_card.html' %}
             {% include 'inc/panels/tags.html' %}
+            {% plugin_right_page object %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
+            {% plugin_full_width_page object %}
         </div>
     </div>
 {% endblock %}
