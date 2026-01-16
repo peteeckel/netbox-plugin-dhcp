@@ -2,7 +2,7 @@ import django_filters
 from django.db.models import Q
 from django.utils.translation import gettext as _
 
-from netbox.filtersets import NetBoxModelFilterSet
+from netbox.filtersets import PrimaryModelFilterSet
 from utilities.filtersets import register_filterset
 from ipam.choices import IPAddressFamilyChoices
 
@@ -42,7 +42,7 @@ class SubnetFilterSet(
     ChildPoolFilterMixin,
     ChildPDPoolFilterMixin,
     ChildHostReservationFilterMixin,
-    NetBoxModelFilterSet,
+    PrimaryModelFilterSet,
 ):
     class Meta:
         model = Subnet

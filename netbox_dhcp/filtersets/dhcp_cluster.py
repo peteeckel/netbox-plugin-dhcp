@@ -1,7 +1,7 @@
 import django_filters
 from django.db.models import Q
 
-from netbox.filtersets import NetBoxModelFilterSet
+from netbox.filtersets import PrimaryModelFilterSet
 from utilities.filtersets import register_filterset
 
 from netbox_dhcp.models import DHCPCluster
@@ -12,7 +12,7 @@ __all__ = ("DHCPClusterFilterSet",)
 
 
 @register_filterset
-class DHCPClusterFilterSet(NetBoxModelFilterSet):
+class DHCPClusterFilterSet(PrimaryModelFilterSet):
     class Meta:
         model = DHCPCluster
 

@@ -1,7 +1,7 @@
 import django_filters
 from django.db.models import Q
 
-from netbox.filtersets import NetBoxModelFilterSet
+from netbox.filtersets import NetBoxModelFilterSet, PrimaryModelFilterSet
 from utilities.filtersets import register_filterset
 from dcim.models import Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
@@ -62,7 +62,7 @@ class DHCPServerFilterSet(
     ChildSubnetFilterMixin,
     ChildSharedNetworkFilterMixin,
     ChildHostReservationFilterMixin,
-    NetBoxModelFilterSet,
+    PrimaryModelFilterSet,
 ):
     class Meta:
         model = DHCPServer

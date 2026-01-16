@@ -2,7 +2,7 @@ import django_filters
 from django.db.models import Q
 from django.utils.translation import gettext as _
 
-from netbox.filtersets import NetBoxModelFilterSet
+from netbox.filtersets import PrimaryModelFilterSet
 from utilities.filtersets import register_filterset
 from ipam.models import IPRange
 from ipam.choices import IPAddressFamilyChoices
@@ -25,7 +25,7 @@ class PoolFilterSet(
     ClientClassFilterMixin,
     EvaluateClientClassFilterMixin,
     DDNSUpdateFilterMixin,
-    NetBoxModelFilterSet,
+    PrimaryModelFilterSet,
 ):
     class Meta:
         model = Pool

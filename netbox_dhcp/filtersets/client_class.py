@@ -1,6 +1,6 @@
 from django.db.models import Q
 
-from netbox.filtersets import NetBoxModelFilterSet
+from netbox.filtersets import PrimaryModelFilterSet
 from utilities.filtersets import register_filterset
 
 from ..models import ClientClass
@@ -19,7 +19,7 @@ class ClientClassFilterSet(
     DHCPServerFilterMixin,
     BOOTPFilterMixin,
     LifetimeFilterMixin,
-    NetBoxModelFilterSet,
+    PrimaryModelFilterSet,
 ):
     class Meta:
         model = ClientClass
