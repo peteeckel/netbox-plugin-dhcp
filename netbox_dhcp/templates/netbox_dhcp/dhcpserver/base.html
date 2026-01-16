@@ -2,48 +2,33 @@
 {% load perms %}
 {% load i18n %}
 
+
 {% block extra_controls %}
-{% if perms.netbox_dhcp.add_optiondefinition %}
-<a href="{% url 'plugins:netbox_dhcp:optiondefinition_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_option_definitions' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-optiondefinition">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option Definition" %}
-    </button>
-</a>
-{% endif %}
-{% if perms.netbox_dhcp.add_option %}
-<a href="{% url 'plugins:netbox_dhcp:option_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_options' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-option">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option" %}
-    </button>
-</a>
-{% endif %}
-{% if perms.netbox_dhcp.add_hostreservation %}
-<a href="{% url 'plugins:netbox_dhcp:hostreservation_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_host_reservations' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-hostreservation">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Host Reservation" %}
-    </button>
-</a>
-{% endif %}
-{% if perms.netbox_dhcp.add_sharednetwork %}
-<a href="{% url 'plugins:netbox_dhcp:sharednetwork_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_shared_networks' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-sharednetwork">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Shared Network" %}
-    </button>
-</a>
-{% endif %}
-{% if perms.netbox_dhcp.add_subnet %}
-<a href="{% url 'plugins:netbox_dhcp:subnet_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_subnets' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-subnet">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Subnet" %}
-    </button>
-</a>
-{% endif %}
-{% if perms.netbox_dhcp.add_clientclass %}
-<a href="{% url 'plugins:netbox_dhcp:clientclass_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_client_classes' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-clientclass">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Client Class" %}
-    </button>
-</a>
-{% endif %}
-{{ block.super }}
+    {% if perms.netbox_dhcp.add_optiondefinition or perms.netbox_dhcp.add_option or perms.netbox_dhcp.add_hostreservation or perms.netbox_dhcp.add_sharednetwork or perms.netbox_dhcp.add_subnet or perms.netbox_dhcp.add_clientclass %}
+        <div class="dropdown">
+            <button id="add-objects" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="mdi mdi-plus-thick" aria-hidden="true"></i> {% trans "Add Object" %}
+            </button>
+            <ul class="dropdown-menu" aria-labeled-by="add-objects">
+                {% if perms.netbox_dhcp.add_optiondefinition %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:optiondefinition_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_option_definitions' pk=object.pk %}">{% trans "Option Definition" %}</a></li>
+                {% endif %}
+                {% if perms.netbox_dhcp.add_option %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:option_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_options' pk=object.pk %}">{% trans "Option" %}</a></li>
+                {% endif %}
+                {% if perms.netbox_dhcp.add_hostreservation %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:hostreservation_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_host_reservations' pk=object.pk %}">{% trans "Host Reservation" %}</a></li>
+                {% endif %}
+                {% if perms.netbox_dhcp.add_sharednetwork %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:sharednetwork_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_shared_networks' pk=object.pk %}">{% trans "Shared Network" %}</a></li>
+                {% endif %}
+                {% if perms.netbox_dhcp.add_subnet %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:subnet_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_child_subnets' pk=object.pk %}">{% trans "Subnet" %}</a></li>
+                {% endif %}
+                {% if perms.netbox_dhcp.add_clientclass %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:clientclass_add' %}?dhcp_server={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:dhcpserver_client_classes' pk=object.pk %}">{% trans "Client Class" %}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}

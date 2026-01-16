@@ -3,19 +3,19 @@
 {% load i18n %}
 
 {% block extra_controls %}
-{% if perms.netbox_dhcp.add_optiondefinition %}
-<a href="{% url 'plugins:netbox_dhcp:optiondefinition_add' %}?client_class={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:clientclass_option_definitions' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-optiondefinition">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option Definition" %}
-    </button>
-</a>
-{% endif %}
-{% if perms.netbox_dhcp.add_option %}
-<a href="{% url 'plugins:netbox_dhcp:option_add' %}?client_class={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:clientclass_options' pk=object.pk %}">
-    <button type="submit" class="btn btn-primary" name="add-option">
-        <i class="mdi mdi-plus-thick" aria-hidden="true"></i>{% trans "Add Option" %}
-    </button>
-</a>
-{% endif %}
-{{ block.super }}
+    {% if perms.netbox_dhcp.add_optiondefinition or perms.netbox_dhcp.add_option %}
+        <div class="dropdown">
+            <button id="add-objects" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="mdi mdi-plus-thick" aria-hidden="true"></i> {% trans "Add Object" %}
+            </button>
+            <ul class="dropdown-menu" aria-labeled-by="add-objects">
+                {% if perms.netbox_dhcp.add_optiondefinition %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:optiondefinition_add' %}?client_class={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:clientclass_option_definitions' pk=object.pk %}">{% trans "Option Definition" %}</a></li>
+                {% endif %}
+                {% if perms.netbox_dhcp.add_option %}
+                    <li><a class="dropdown-item" href="{% url 'plugins:netbox_dhcp:option_add' %}?client_class={{ object.pk }}&return_url={% url 'plugins:netbox_dhcp:clientclass_options' pk=object.pk %}">{% trans "Option" %}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
