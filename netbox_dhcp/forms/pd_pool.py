@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import (
     TagFilterField,
@@ -47,7 +47,7 @@ __all__ = (
 class PDPoolForm(
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
-    NetBoxModelForm,
+    PrimaryModelForm,
 ):
     class Meta:
         model = PDPool
@@ -149,7 +149,7 @@ class PDPoolFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     EvaluateClientClassFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = PDPool
 
@@ -158,6 +158,7 @@ class PDPoolFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -227,7 +228,7 @@ class PDPoolFilterForm(
 class PDPoolImportForm(
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = PDPool
@@ -242,6 +243,7 @@ class PDPoolImportForm(
             "excluded_prefix",
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -280,7 +282,7 @@ class PDPoolBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = PDPool
 

@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet, TabbedGroups
@@ -78,8 +78,8 @@ class SubnetForm(
     DDNSUpdateFormMixin,
     NetworkFormMixin,
     LeaseFormMixin,
-    NetBoxModelForm,
     LifetimeFormMixin,
+    PrimaryModelForm,
 ):
     class Meta:
         model = Subnet
@@ -178,7 +178,7 @@ class SubnetFilterForm(
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = Subnet
 
@@ -187,6 +187,7 @@ class SubnetFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -231,7 +232,7 @@ class SubnetImportForm(
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = Subnet
@@ -251,6 +252,7 @@ class SubnetImportForm(
             *LifetimeImportFormMixin.FIELDS,
             *LeaseImportFormMixin.FIELDS,
             *DDNSUpdateImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -266,7 +268,7 @@ class SubnetBulkEditForm(
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = Subnet
 

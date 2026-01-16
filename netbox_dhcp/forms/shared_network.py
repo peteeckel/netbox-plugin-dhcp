@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -76,7 +76,7 @@ class SharedNetworkForm(
     LifetimeFormMixin,
     DDNSUpdateFormMixin,
     LeaseFormMixin,
-    NetBoxModelForm,
+    PrimaryModelForm,
 ):
     class Meta:
         model = SharedNetwork
@@ -158,7 +158,7 @@ class SharedNetworkFilterForm(
     DDNSUpdateFilterFormMixin,
     LeaseFilterFormMixin,
     NetworkFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = SharedNetwork
 
@@ -167,6 +167,7 @@ class SharedNetworkFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -209,7 +210,7 @@ class SharedNetworkImportForm(
     EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
     LeaseImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = SharedNetwork
@@ -227,6 +228,7 @@ class SharedNetworkImportForm(
             *LifetimeImportFormMixin.FIELDS,
             *LeaseImportFormMixin.FIELDS,
             *DDNSUpdateImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -242,7 +244,7 @@ class SharedNetworkBulkEditForm(
     DDNSUpdateBulkEditFormMixin,
     LeaseBulkEditFormMixin,
     NetworkBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = SharedNetwork
 

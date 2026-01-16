@@ -3,10 +3,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.forms import SimpleArrayField
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import (
     TagFilterField,
@@ -72,7 +72,7 @@ class DHCPServerForm(
     LeaseFormMixin,
     DDNSUpdateFormMixin,
     ClientClassFormMixin,
-    NetBoxModelForm,
+    PrimaryModelForm,
 ):
     class Meta:
         model = DHCPServer
@@ -218,7 +218,7 @@ class DHCPServerFilterForm(
     DDNSUpdateFilterFormMixin,
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = DHCPServer
 
@@ -227,6 +227,7 @@ class DHCPServerFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -281,7 +282,7 @@ class DHCPServerImportForm(
     LeaseImportFormMixin,
     DDNSUpdateImportFormMixin,
     ClientClassImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = DHCPServer
@@ -305,6 +306,7 @@ class DHCPServerImportForm(
             *LeaseImportFormMixin.FIELDS,
             *DDNSUpdateImportFormMixin.FIELDS,
             *ClientClassImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -389,7 +391,7 @@ class DHCPServerBulkEditForm(
     DDNSUpdateBulkEditFormMixin,
     NetBoxDHCPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = DHCPServer
 

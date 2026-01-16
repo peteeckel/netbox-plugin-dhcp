@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import (
     TagFilterField,
@@ -57,7 +57,7 @@ class PoolForm(
     ClientClassFormMixin,
     EvaluateClientClassFormMixin,
     DDNSUpdateFormMixin,
-    NetBoxModelForm,
+    PrimaryModelForm,
 ):
     class Meta:
         model = Pool
@@ -123,7 +123,7 @@ class PoolFilterForm(
     ClientClassFilterFormMixin,
     EvaluateClientClassFilterFormMixin,
     DDNSUpdateFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = Pool
 
@@ -132,6 +132,7 @@ class PoolFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -176,7 +177,7 @@ class PoolImportForm(
     ClientClassImportFormMixin,
     EvaluateClientClassImportFormMixin,
     DDNSUpdateImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = Pool
@@ -190,6 +191,7 @@ class PoolImportForm(
             *ClientClassImportFormMixin.FIELDS,
             *EvaluateClientClassImportFormMixin.FIELDS,
             *DDNSUpdateImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -210,7 +212,7 @@ class PoolBulkEditForm(
     ClientClassBulkEditFormMixin,
     EvaluateClientClassBulkEditFormMixin,
     DDNSUpdateBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = Pool
 

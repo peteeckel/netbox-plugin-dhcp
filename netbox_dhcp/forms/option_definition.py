@@ -3,10 +3,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.forms import SimpleArrayField
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import (
     TagFilterField,
@@ -39,18 +39,18 @@ __all__ = (
 )
 
 
-class OptionDefinitionForm(NetBoxModelForm):
+class OptionDefinitionForm(PrimaryModelForm):
     class Meta:
         model = OptionDefinition
 
         fields = (
+            "description",
             "dhcp_server",
             "client_class",
             "family",
             "space",
             "name",
             "code",
-            "description",
             "type",
             "record_types",
             "encapsulate",
@@ -123,7 +123,10 @@ class OptionDefinitionForm(NetBoxModelForm):
     )
 
 
-class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
+class OptionDefinitionFilterForm(
+    NetBoxDHCPFilterFormMixin,
+    PrimaryModelFilterSetForm,
+):
     model = OptionDefinition
 
     fieldsets = (
@@ -131,13 +134,14 @@ class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSet
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "family",
             "space",
             "name",
-            "code",
             "description",
+            "code",
             "type",
             "record_types",
             "encapsulate",
@@ -185,7 +189,7 @@ class OptionDefinitionFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSet
     tag = TagFilterField(OptionDefinition)
 
 
-class OptionDefinitionImportForm(NetBoxModelImportForm):
+class OptionDefinitionImportForm(PrimaryModelImportForm):
     class Meta:
         model = OptionDefinition
 
@@ -193,12 +197,13 @@ class OptionDefinitionImportForm(NetBoxModelImportForm):
             "family",
             "space",
             "name",
-            "code",
             "description",
+            "code",
             "type",
             "record_types",
             "encapsulate",
             "array",
+            "comments",
             "tags",
         )
 
@@ -226,7 +231,7 @@ class OptionDefinitionImportForm(NetBoxModelImportForm):
 
 class OptionDefinitionBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = OptionDefinition
 
@@ -235,8 +240,8 @@ class OptionDefinitionBulkEditForm(
             "family",
             "space",
             "name",
-            "code",
             "description",
+            "code",
             "type",
             "record_types",
             "encapsulate",

@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import TagFilterField, CSVChoiceField
 from utilities.forms.rendering import FieldSet
@@ -28,7 +28,7 @@ __all__ = (
 )
 
 
-class DHCPClusterForm(NetBoxModelForm):
+class DHCPClusterForm(PrimaryModelForm):
     class Meta:
         model = DHCPCluster
 
@@ -53,7 +53,7 @@ class DHCPClusterForm(NetBoxModelForm):
     )
 
 
-class DHCPClusterFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm):
+class DHCPClusterFilterForm(NetBoxDHCPFilterFormMixin, PrimaryModelFilterSetForm):
     model = DHCPCluster
 
     fieldsets = (
@@ -61,6 +61,7 @@ class DHCPClusterFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm)
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -79,7 +80,7 @@ class DHCPClusterFilterForm(NetBoxDHCPFilterFormMixin, NetBoxModelFilterSetForm)
     tag = TagFilterField(DHCPCluster)
 
 
-class DHCPClusterImportForm(NetBoxModelImportForm):
+class DHCPClusterImportForm(PrimaryModelImportForm):
     class Meta:
         model = DHCPCluster
 
@@ -87,6 +88,7 @@ class DHCPClusterImportForm(NetBoxModelImportForm):
             "name",
             "description",
             "status",
+            "comments",
             "tags",
         )
 
@@ -97,7 +99,7 @@ class DHCPClusterImportForm(NetBoxModelImportForm):
     )
 
 
-class DHCPClusterBulkEditForm(NetBoxDHCPBulkEditFormMixin, NetBoxModelBulkEditForm):
+class DHCPClusterBulkEditForm(NetBoxDHCPBulkEditFormMixin, PrimaryModelBulkEditForm):
     model = DHCPCluster
 
     fieldsets = (

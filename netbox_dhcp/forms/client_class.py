@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import TagFilterField
 from utilities.forms.rendering import FieldSet
@@ -40,7 +40,7 @@ __all__ = (
 
 class ClientClassForm(
     DHCPServerFormMixin,
-    NetBoxModelForm,
+    PrimaryModelForm,
 ):
     class Meta:
         model = ClientClass
@@ -94,7 +94,7 @@ class ClientClassFilterForm(
     DHCPServerFilterFormMixin,
     BOOTPFilterFormMixin,
     LifetimeFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = ClientClass
 
@@ -103,6 +103,7 @@ class ClientClassFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -141,7 +142,7 @@ class ClientClassFilterForm(
 
 class ClientClassImportForm(
     DHCPServerImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = ClientClass
@@ -156,6 +157,7 @@ class ClientClassImportForm(
             "only_in_additional_list",
             *BOOTPImportFormMixin.FIELDS,
             *LifetimeImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -165,7 +167,7 @@ class ClientClassBulkEditForm(
     DHCPServerBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     LifetimeBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = ClientClass
 

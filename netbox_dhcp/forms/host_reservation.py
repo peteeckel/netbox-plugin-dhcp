@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import (
     TagFilterField,
@@ -57,7 +57,7 @@ class HostReservationForm(
     DHCPServerFormMixin,
     SubnetFormMixin,
     ClientClassFormMixin,
-    NetBoxModelForm,
+    PrimaryModelForm,
 ):
     class Meta:
         model = HostReservation
@@ -222,7 +222,7 @@ class HostReservationFilterForm(
     NetBoxDHCPFilterFormMixin,
     ClientClassFilterFormMixin,
     BOOTPFilterFormMixin,
-    NetBoxModelFilterSetForm,
+    PrimaryModelFilterSetForm,
 ):
     model = HostReservation
 
@@ -231,6 +231,7 @@ class HostReservationFilterForm(
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -327,7 +328,7 @@ class HostReservationImportForm(
     DHCPServerImportFormMixin,
     SubnetImportFormMixin,
     ClientClassImportFormMixin,
-    NetBoxModelImportForm,
+    PrimaryModelImportForm,
 ):
     class Meta:
         model = HostReservation
@@ -349,6 +350,7 @@ class HostReservationImportForm(
             "excluded_ipv6_prefixes",
             *ClientClassImportFormMixin.FIELDS,
             *BOOTPImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -411,7 +413,7 @@ class HostReservationBulkEditForm(
     NetBoxDHCPBulkEditFormMixin,
     BOOTPBulkEditFormMixin,
     ClientClassBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = HostReservation
 

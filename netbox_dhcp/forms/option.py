@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from netbox.forms import (
-    NetBoxModelBulkEditForm,
-    NetBoxModelFilterSetForm,
-    NetBoxModelImportForm,
-    NetBoxModelForm,
+    PrimaryModelForm,
+    PrimaryModelFilterSetForm,
+    PrimaryModelImportForm,
+    PrimaryModelBulkEditForm,
 )
 from utilities.forms.fields import TagFilterField, CSVModelChoiceField, CSVChoiceField
 from utilities.forms.rendering import FieldSet
@@ -40,7 +40,10 @@ __all__ = (
 )
 
 
-class OptionForm(ClientClassFormMixin, NetBoxModelForm):
+class OptionForm(
+    ClientClassFormMixin,
+    PrimaryModelForm,
+):
     class Meta:
         model = Option
 
@@ -92,7 +95,10 @@ class OptionForm(ClientClassFormMixin, NetBoxModelForm):
     )
 
 
-class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
+class OptionFilterForm(
+    ClientClassFilterFormMixin,
+    PrimaryModelFilterSetForm,
+):
     model = Option
 
     fieldsets = (
@@ -100,6 +106,7 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
             "q",
             "filter_id",
             "tag",
+            "owner_id",
         ),
         FieldSet(
             "name",
@@ -169,11 +176,15 @@ class OptionFilterForm(ClientClassFilterFormMixin, NetBoxModelFilterSetForm):
     tag = TagFilterField(Option)
 
 
-class OptionImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
+class OptionImportForm(
+    ClientClassImportFormMixin,
+    PrimaryModelImportForm,
+):
     class Meta:
         model = Option
 
         fields = (
+            "description",
             "definition",
             "space",
             "name",
@@ -185,12 +196,12 @@ class OptionImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
             "pd_pool",
             "host_reservation",
             "client_class",
-            "description",
             "data",
             "weight",
             "csv_format",
             "send_option",
             *ClientClassImportFormMixin.FIELDS,
+            "comments",
             "tags",
         )
 
@@ -366,14 +377,14 @@ class OptionImportForm(ClientClassImportFormMixin, NetBoxModelImportForm):
 
 class OptionBulkEditForm(
     ClientClassBulkEditFormMixin,
-    NetBoxModelBulkEditForm,
+    PrimaryModelBulkEditForm,
 ):
     model = Option
 
     fieldsets = (
         FieldSet(
-            "definition",
             "description",
+            "definition",
             "data",
             "weight",
             "csv_format",
