@@ -1,7 +1,7 @@
 # import django_tables2 as tables
 # from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable
+from netbox.tables import PrimaryModelTable
 
 from netbox_dhcp.models import SharedNetwork
 
@@ -30,9 +30,9 @@ class SharedNetworkTable(
     EvaluateClientClassTableMixin,
     DDNSUpdateTableMixin,
     LeaseTableMixin,
-    NetBoxTable,
+    PrimaryModelTable,
 ):
-    class Meta(NetBoxTable.Meta):
+    class Meta(PrimaryModelTable.Meta):
         model = SharedNetwork
 
         fields = (

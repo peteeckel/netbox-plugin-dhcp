@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, ChoiceFieldColumn, columns
+from netbox.tables import PrimaryModelTable, ChoiceFieldColumn, columns
 
 from netbox_dhcp.models import DHCPServer
 
@@ -16,9 +16,9 @@ __all__ = ("DHCPServerTable",)
 class DHCPServerTable(
     ClientClassTableMixin,
     NetBoxDHCPTableMixin,
-    NetBoxTable,
+    PrimaryModelTable,
 ):
-    class Meta(NetBoxTable.Meta):
+    class Meta(PrimaryModelTable.Meta):
         model = DHCPServer
 
         fields = (

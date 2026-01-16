@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, BooleanColumn
+from netbox.tables import PrimaryModelTable, BooleanColumn
 
 from netbox_dhcp.models import ClientClass
 
@@ -15,9 +15,9 @@ __all__ = ("ClientClassTable",)
 class ClientClassTable(
     NetBoxDHCPTableMixin,
     DHCPServerTableMixin,
-    NetBoxTable,
+    PrimaryModelTable,
 ):
-    class Meta(NetBoxTable.Meta):
+    class Meta(PrimaryModelTable.Meta):
         model = ClientClass
 
         fields = (

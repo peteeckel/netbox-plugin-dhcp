@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable
+from netbox.tables import PrimaryModelTable
 
 from netbox_dhcp.models import HostReservation
 
@@ -20,9 +20,9 @@ __all__ = (
 class HostReservationTable(
     ClientClassTableMixin,
     NetBoxDHCPTableMixin,
-    NetBoxTable,
+    PrimaryModelTable,
 ):
-    class Meta(NetBoxTable.Meta):
+    class Meta(PrimaryModelTable.Meta):
         model = HostReservation
 
         fields = (

@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django.utils.translation import gettext_lazy as _
 
-from netbox.tables import NetBoxTable, TemplateColumn
+from netbox.tables import PrimaryModelTable, TemplateColumn
 
 from netbox_dhcp.models import OptionDefinition
 
@@ -13,8 +13,8 @@ __all__ = (
 )
 
 
-class OptionDefinitionTable(NetBoxDHCPTableMixin, NetBoxTable):
-    class Meta(NetBoxTable.Meta):
+class OptionDefinitionTable(NetBoxDHCPTableMixin, PrimaryModelTable):
+    class Meta(PrimaryModelTable.Meta):
         model = OptionDefinition
 
         fields = (
