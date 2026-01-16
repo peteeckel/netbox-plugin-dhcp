@@ -1,7 +1,7 @@
 import strawberry_django
 from strawberry_django import FilterLookup
 
-from netbox.graphql.filters import BaseModelFilter
+from netbox.graphql.filters import PrimaryModelFilter
 
 from netbox_dhcp.models import Subnet
 
@@ -33,9 +33,8 @@ class NetBoxDHCPSubnetFilter(
     ChildPoolGraphQLFilterMixin,
     ChildPDPoolGraphQLFilterMixin,
     ChildHostReservationGraphQLFilterMixin,
-    BaseModelFilter,
+    PrimaryModelFilter,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
-    description: FilterLookup[str] | None = strawberry_django.filter_field()
     weight: FilterLookup[int] | None = strawberry_django.filter_field()
     subnet_id: FilterLookup[int] | None = strawberry_django.filter_field()

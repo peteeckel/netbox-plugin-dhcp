@@ -5,7 +5,7 @@ import strawberry_django
 from strawberry_django import FilterLookup
 from strawberry.scalars import ID
 
-from netbox.graphql.filters import BaseModelFilter
+from netbox.graphql.filters import PrimaryModelFilter
 
 if TYPE_CHECKING:
     from netbox.graphql.filter_lookups import IntegerArrayLookup
@@ -36,13 +36,12 @@ class NetBoxDHCPServerFilter(
     ClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     DDNSUpdateGraphQLFilterMixin,
-    BaseModelFilter,
     ChildSharedNetworkGraphQLFilterMixin,
     ChildSubnetGraphQLFilterMixin,
     ChildHostReservationGraphQLFilterMixin,
+    PrimaryModelFilter,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
-    description: FilterLookup[str] | None = strawberry_django.filter_field()
     server_id: (
         Annotated[
             "NetBoxDHCPServerIDTypeEnum", strawberry.lazy("netbox_dhcp.graphql.enums")

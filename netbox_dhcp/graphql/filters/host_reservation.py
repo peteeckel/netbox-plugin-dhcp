@@ -5,7 +5,8 @@ import strawberry_django
 from strawberry.scalars import ID
 from strawberry_django import FilterLookup
 
-from netbox.graphql.filters import BaseModelFilter
+from netbox.graphql.filters import PrimaryModelFilter
+
 
 if TYPE_CHECKING:
     from ipam.graphql.filters import IPAddressFilter, PrefixFilter
@@ -26,10 +27,9 @@ __all__ = ("NetBoxDHCPHostReservationFilter",)
 class NetBoxDHCPHostReservationFilter(
     ClientClassGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
-    BaseModelFilter,
+    PrimaryModelFilter,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
-    description: FilterLookup[str] | None = strawberry_django.filter_field()
     duid: FilterLookup[str] | None = strawberry_django.filter_field()
     hw_address: (
         Annotated["MACAddressFilter", strawberry.lazy("dcim.graphql.filters")] | None

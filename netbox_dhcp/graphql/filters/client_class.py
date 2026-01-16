@@ -1,7 +1,7 @@
 import strawberry_django
 from strawberry_django import FilterLookup
 
-from netbox.graphql.filters import BaseModelFilter
+from netbox.graphql.filters import PrimaryModelFilter
 
 from netbox_dhcp.models import ClientClass
 
@@ -17,10 +17,9 @@ class NetBoxDHCPClientClassFilter(
     DHCPServerGraphQLFilterMixin,
     BOOTPGraphQLFilterMixin,
     LifetimeGraphQLFilterMixin,
-    BaseModelFilter,
+    PrimaryModelFilter,
 ):
     name: FilterLookup[str] | None = strawberry_django.filter_field()
-    description: FilterLookup[str] | None = strawberry_django.filter_field()
     weight: FilterLookup[int] | None = strawberry_django.filter_field()
     test: FilterLookup[str] | None = strawberry_django.filter_field()
     template_test: FilterLookup[str] | None = strawberry_django.filter_field()
