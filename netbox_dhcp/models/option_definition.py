@@ -5,7 +5,7 @@ from django.core.validators import (
     MaxValueValidator,
 )
 
-from netbox.models import NetBoxModel
+from netbox.models import PrimaryModel
 from netbox.search import SearchIndex, register_search
 from ipam.choices import IPAddressFamilyChoices
 
@@ -18,7 +18,7 @@ __all__ = (
 )
 
 
-class OptionDefinition(NetBoxModel):
+class OptionDefinition(PrimaryModel):
     class Meta:
         verbose_name = _("Option Definition")
         verbose_name_plural = _("Option Definitions")
@@ -36,12 +36,6 @@ class OptionDefinition(NetBoxModel):
         max_length=255,
         blank=False,
         null=False,
-    )
-    description = models.CharField(
-        verbose_name=_("Description"),
-        max_length=255,
-        blank=True,
-        null=True,
     )
     family = models.PositiveIntegerField(
         verbose_name=_("Address Family"),

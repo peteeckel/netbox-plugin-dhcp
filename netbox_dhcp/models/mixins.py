@@ -36,11 +36,6 @@ class NetBoxDHCPModelMixin(models.Model):
         max_length=255,
         db_collation="natural_sort",
     )
-    description = models.CharField(
-        verbose_name=_("Description"),
-        blank=True,
-        max_length=255,
-    )
 
     def __str__(self):
         return str(self.name)

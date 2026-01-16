@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.contenttypes.fields import GenericRelation
 
-from netbox.models import NetBoxModel
+from netbox.models import NetBoxModel, PrimaryModel
 from netbox.search import SearchIndex, register_search
 from utilities.querysets import RestrictedQuerySet
 
@@ -73,9 +73,7 @@ class DHCPServerInterfaceManager(models.Manager.from_queryset(RestrictedQuerySet
         )
 
 
-class DHCPServerInterface(
-    NetBoxModel,
-):
+class DHCPServerInterface(NetBoxModel):
     class Meta:
         verbose_name = _("DHCP Server Interface")
         verbose_name_plural = _("DHCP Server Interfaces")
@@ -135,7 +133,7 @@ class DHCPServer(
     LeaseModelMixin,
     DDNSUpdateModelMixin,
     LifetimeModelMixin,
-    NetBoxModel,
+    PrimaryModel,
 ):
     class Meta:
         verbose_name = _("DHCP Server")

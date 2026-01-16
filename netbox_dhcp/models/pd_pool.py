@@ -6,7 +6,7 @@ from django.core.validators import (
 )
 from django.contrib.contenttypes.fields import GenericRelation
 
-from netbox.models import NetBoxModel
+from netbox.models import PrimaryModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
 from ipam.choices import IPAddressFamilyChoices
@@ -43,7 +43,7 @@ class PDPool(
     NetBoxDHCPModelMixin,
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
-    NetBoxModel,
+    PrimaryModel,
 ):
     class Meta:
         verbose_name = _("Prefix Delegation Pool")

@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation
 
-from netbox.models import NetBoxModel
+from netbox.models import PrimaryModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import Prefix
 from utilities.querysets import RestrictedQuerySet
@@ -49,7 +49,7 @@ class Subnet(
     DDNSUpdateModelMixin,
     LeaseModelMixin,
     NetworkModelMixin,
-    NetBoxModel,
+    PrimaryModel,
 ):
     class Meta:
         verbose_name = _("Subnet")

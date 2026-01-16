@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation
 
-from netbox.models import NetBoxModel
+from netbox.models import PrimaryModel
 from netbox.search import SearchIndex, register_search
 from ipam.models import IPRange
 
@@ -25,7 +25,7 @@ class Pool(
     ClientClassModelMixin,
     EvaluateClientClassModelMixin,
     DDNSUpdateModelMixin,
-    NetBoxModel,
+    PrimaryModel,
 ):
     class Meta:
         verbose_name = _("Pool")

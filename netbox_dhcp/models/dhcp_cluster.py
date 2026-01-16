@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from netbox.models import NetBoxModel
+from netbox.models import PrimaryModel
 from netbox.search import SearchIndex, register_search
 
 from netbox_dhcp.choices import DHCPClusterStatusChoices
@@ -16,7 +16,7 @@ __all__ = (
 )
 
 
-class DHCPCluster(NetBoxDHCPModelMixin, NetBoxModel):
+class DHCPCluster(NetBoxDHCPModelMixin, PrimaryModel):
     class Meta:
         verbose_name = _("DHCP Cluster")
         verbose_name_plural = _("DHCP Clusters")

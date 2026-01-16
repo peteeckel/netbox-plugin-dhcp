@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
-from netbox.models import NetBoxModel
+from netbox.models import PrimaryModel
 from netbox.search import SearchIndex, register_search
 
 from netbox_dhcp.choices import OptionTypeChoices, OptionSendChoices
@@ -21,7 +21,7 @@ __all__ = (
 
 class Option(
     ClientClassModelMixin,
-    NetBoxModel,
+    PrimaryModel,
 ):
     class Meta:
         verbose_name = _("Option")
@@ -55,12 +55,6 @@ class Option(
         verbose_name=_("Option Data"),
         null=False,
         blank=True,
-    )
-    description = models.CharField(
-        verbose_name=_("Description"),
-        max_length=255,
-        blank=True,
-        null=True,
     )
     csv_format = models.BooleanField(
         verbose_name=_("CSV Format"),
