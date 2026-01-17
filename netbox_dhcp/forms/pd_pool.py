@@ -94,16 +94,22 @@ class PDPoolForm(
         self.fields["prefix"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
 
         if subnet_id := get_field_value(self, "subnet"):
-            subnet = Subnet.objects.get(pk=subnet_id)
-            self.fields["prefix"].widget.add_query_params(
-                {"within_include": str(subnet.prefix)}
+            parent_prefix = (
+                Prefix.objects.filter(netbox_dhcp_subnets=subnet_id)
+                .values_list("prefix", flat=True)
+                .first()
+            )
+            self.fields["prefix"].widget.add_query_param(
+                "within_include", str(parent_prefix)
             )
 
         if prefix_id := get_field_value(self, "prefix"):
-            prefix = Prefix.objects.get(pk=prefix_id)
-            self.fields["excluded_prefix"].widget.add_query_params(
-                {"within": str(prefix)}
+            prefix = (
+                Prefix.objects.filter(pk=prefix_id)
+                .values_list("prefix", flat=True)
+                .first()
             )
+            self.fields["excluded_prefix"].widget.add_query_param("within", str(prefix))
 
     subnet = DynamicModelChoiceField(
         queryset=Subnet.objects.filter(

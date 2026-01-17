@@ -15,10 +15,10 @@ from utilities.forms.fields import (
 )
 from utilities.forms import add_blank_choice, get_field_value
 from utilities.forms.rendering import FieldSet
-from ipam.models import IPRange
+from ipam.models import IPRange, Prefix
 from ipam.choices import IPAddressFamilyChoices
 
-from netbox_dhcp.models import Pool, Subnet
+from netbox_dhcp.models import Pool
 
 from .mixins import (
     SubnetFormMixin,
@@ -101,10 +101,12 @@ class PoolForm(
         self.fields["subnet"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
 
         if subnet_id := get_field_value(self, "subnet"):
-            subnet = Subnet.objects.get(pk=subnet_id)
-            self.fields["ip_range"].widget.add_query_params(
-                {"parent": str(subnet.prefix)}
+            prefix = (
+                Prefix.objects.filter(netbox_dhcp_subnets=subnet_id)
+                .values_list("prefix")
+                .first()
             )
+            self.fields["ip_range"].widget.add_query_param("parent", str(prefix))
 
         self.init_ddns_fields()
 

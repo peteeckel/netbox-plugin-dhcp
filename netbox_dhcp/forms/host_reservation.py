@@ -21,7 +21,7 @@ from ipam.models import IPAddress, Prefix
 from ipam.choices import IPAddressFamilyChoices
 from dcim.models import MACAddress
 
-from netbox_dhcp.models import HostReservation, Subnet
+from netbox_dhcp.models import HostReservation
 
 from .mixins import (
     DHCPServerFormMixin,
@@ -134,27 +134,28 @@ class HostReservationForm(
         )
 
         if subnet_id := get_field_value(self, "subnet"):
-            subnet = Subnet.objects.get(pk=subnet_id)
-
-            if subnet.family == IPAddressFamilyChoices.FAMILY_4:
+            prefix = (
+                Prefix.objects.filter(netbox_dhcp_subnets=subnet_id)
+                .values_list("prefix", flat=True)
+                .first()
+            )
+            if prefix.version == IPAddressFamilyChoices.FAMILY_4:
                 del self.fields["ipv6_addresses"]
                 del self.fields["ipv6_prefixes"]
                 del self.fields["excluded_ipv6_prefixes"]
-                self.fields["ipv4_address"].widget.add_query_params(
-                    {"parent": str(subnet.prefix)}
+                self.fields["ipv4_address"].widget.add_query_param(
+                    "parent", str(prefix)
                 )
             else:
                 del self.fields["ipv4_address"]
-                self.fields["ipv6_addresses"].widget.add_query_params(
-                    {
-                        "parent": str(subnet.prefix),
-                    }
+                self.fields["ipv6_addresses"].widget.add_query_param(
+                    "parent", str(prefix)
                 )
-                self.fields["ipv6_prefixes"].widget.add_query_params(
-                    {"within_include": str(subnet.prefix)}
+                self.fields["ipv6_prefixes"].widget.add_query_param(
+                    "within_include", str(prefix)
                 )
-                self.fields["excluded_ipv6_prefixes"].widget.add_query_params(
-                    {"within": str(subnet.prefix)}
+                self.fields["excluded_ipv6_prefixes"].widget.add_query_param(
+                    "within", str(prefix)
                 )
 
     def clean(self):

@@ -13,7 +13,7 @@ from utilities.forms import add_blank_choice, get_field_value
 from ipam.choices import IPAddressFamilyChoices
 from ipam.models import Prefix
 
-from netbox_dhcp.models import Subnet, SharedNetwork
+from netbox_dhcp.models import Subnet
 from .mixins import (
     NetBoxDHCPFilterFormMixin,
     NetBoxDHCPBulkEditFormMixin,
@@ -144,15 +144,23 @@ class SubnetForm(
         self.fields["prefix"].widget.attrs.update(DYNAMIC_ATTRIBUTES)
 
         if shared_network_id := get_field_value(self, "shared_network"):
-            shared_network = SharedNetwork.objects.get(pk=shared_network_id)
-            self.fields["prefix"].widget.add_query_params(
-                {"within_include": str(shared_network.prefix)}
+            parent_prefix = (
+                Prefix.objects.filter(netbox_dhcp_shared_networks=shared_network_id)
+                .values_list("prefix", flat=True)
+                .first()
+            )
+            self.fields["prefix"].widget.add_query_param(
+                "within_include", str(parent_prefix)
             )
 
         family = None
         if prefix_id := get_field_value(self, "prefix"):
-            prefix = Prefix.objects.get(pk=prefix_id)
-            family = prefix.family
+            family = (
+                Prefix.objects.filter(pk=prefix_id)
+                .values_list("prefix", flat=True)
+                .first()
+                .version
+            )
 
         if family == IPAddressFamilyChoices.FAMILY_6:
             self.fieldsets = (
