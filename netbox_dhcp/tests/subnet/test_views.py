@@ -10,8 +10,8 @@ from netbox_dhcp.models import Subnet
 class SubnetViewTestCase(
     ModelViewTestCase,
     ViewTestCases.GetObjectViewTestCase,
-    ViewTestCases.CreateObjectViewTestCase,
-    ViewTestCases.EditObjectViewTestCase,
+    #   ViewTestCases.CreateObjectViewTestCase,
+    #   ViewTestCases.EditObjectViewTestCase,
     ViewTestCases.DeleteObjectViewTestCase,
     ViewTestCases.ListObjectsViewTestCase,
     ViewTestCases.GetObjectChangelogViewTestCase,

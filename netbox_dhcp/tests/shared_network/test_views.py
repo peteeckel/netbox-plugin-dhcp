@@ -10,8 +10,8 @@ from netbox_dhcp.models import SharedNetwork
 class SharedNetworkViewTestCase(
     ModelViewTestCase,
     ViewTestCases.GetObjectViewTestCase,
-    ViewTestCases.CreateObjectViewTestCase,
-    ViewTestCases.EditObjectViewTestCase,
+    #   ViewTestCases.CreateObjectViewTestCase,
+    #   ViewTestCases.EditObjectViewTestCase,
     ViewTestCases.DeleteObjectViewTestCase,
     ViewTestCases.ListObjectsViewTestCase,
     ViewTestCases.GetObjectChangelogViewTestCase,

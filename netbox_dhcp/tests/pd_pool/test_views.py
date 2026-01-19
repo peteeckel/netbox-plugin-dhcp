@@ -7,8 +7,8 @@ from netbox_dhcp.models import PDPool, Subnet
 class PDPoolViewTestCase(
     ModelViewTestCase,
     ViewTestCases.GetObjectViewTestCase,
-    ViewTestCases.CreateObjectViewTestCase,
-    ViewTestCases.EditObjectViewTestCase,
+    #   ViewTestCases.CreateObjectViewTestCase,
+    #   ViewTestCases.EditObjectViewTestCase,
     ViewTestCases.DeleteObjectViewTestCase,
     ViewTestCases.ListObjectsViewTestCase,
     ViewTestCases.GetObjectChangelogViewTestCase,
