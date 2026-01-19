@@ -62,6 +62,10 @@ Contributions are always welcome! Please see the [Contribution Guidelines](CONTR
 
 There is no documentation at this point.
 
+## License
+
+MIT
+
 ## Known Issues
 
 * There is currently an issue that sometimes causes a lock conflict while running the test suite. The symptom is that the tests stop at some point and the `./manage.py test netbox_dhcp` command never returns. The issue does not seem to affect normal operation, just the tests. The specific tests have been disabled for the time being until the issue is resolved.
