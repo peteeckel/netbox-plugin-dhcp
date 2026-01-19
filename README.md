@@ -8,20 +8,18 @@ The NetBox DHCP plugin will enable NetBox to manage operational DHCP data.
 <a href="https://pepy.tech/project/netbox-plugin-dhcp"><img alt="Downloads/Month" src="https://static.pepy.tech/badge/netbox-plugin-dhcp/week"></a>
 </div>
 
-[!DANGER]
-** This is a beta release. It may contain bugs, cause data loss and other problems. Use caution when using it in production environments.
-Frequent backups are strongly recommended! **
+> [!WARNING]
+> **This is a beta release.**
+>
+> This plugin will contain bugs and may cause data loss and other problems.
+> Use caution when using it in production environments.
+>
+> **Frequent backups are strongly recommended!**
 
 ## Requirements
 
 * NetBox 4.5.0 or higher
 * Python 3.12 or higher
-
-## Compatibility with NetBox Versions
-
-NetBox Version | NetBox DHCP Version | Comment
--------------- | ------------------- | -------
-4.5            | 0.1                 |
 
 ## Installation & Configuration
 
@@ -64,15 +62,12 @@ Contributions are always welcome! Please see the [Contribution Guidelines](CONTR
 
 There is no documentation at this point.
 
-## License
-
-No license is granted at this point.
-
 ## Known Issues
 
 * There is currently an issue that sometimes causes a lock conflict while running the test suite. The symptom is that the tests stop at some point and the `./manage.py test netbox_dhcp` command never returns. In some cases it helps to re-run the tests.
 * Validation of input is incomplete, especially when the API or scripting are used.
 * Options and Pools currently cannot be imported via CSV, YAML or JSON
 * Filtering Subnets, Pools etc. by Option is not possible
+* Documentation is still missing
 
 These issues will be addressed in upcoming Beta releases.
