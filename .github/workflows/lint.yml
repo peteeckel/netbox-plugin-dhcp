@@ -1,0 +1,27 @@
+name: Lint
+
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: read
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@main
+
+          - name: Check conformance to Black standards
+            uses: psf/black@903bef54aa72e111c034ccec9997aac82bafbacc
+            with:
+                options: "--check"
+                src: "netbox_dhcp"
+
+          - name: Check conformance to Ruff standards
+            uses: astral-sh/ruff-action@6576144cee480b9d2fc567667a9868f2c3725d1b
+            with:
+                version: "latest"

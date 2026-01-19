@@ -1,0 +1,74 @@
+name: Test with all supported Python versions
+
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: read
+
+jobs:
+    test-netbox:
+        runs-on: ubuntu-latest
+
+        strategy:
+          matrix:
+            python-version: ["3.12", "3.13", "3.14"]
+
+        services:
+            redis:
+                image: redis
+                ports:
+                  - 6379:6379
+
+            postgres:
+                image: postgres
+                env:
+                    POSTGRES_USER: netbox
+                    POSTGRES_PASSWORD: netbox
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                ports:
+                  - 5432:5432
+
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@main
+            with:
+                path: netbox-plugin-dhcp
+
+          - name: Set up Python ${{ matrix.python-version }}
+            uses: actions/setup-python@main
+            with:
+                python-version: ${{ matrix.python-version }}
+
+          - name: Checkout NetBox
+            uses: actions/checkout@main
+            with:
+                repository: "netbox-community/netbox"
+                path: netbox
+                ref: main
+
+          - name: Install NetBox DHCP
+            working-directory: netbox-plugin-dhcp
+            run: |
+                # include tests directory for test
+                sed -i 's/exclude/#exclude/g' pyproject.toml
+                pip install .
+
+          - name: Install dependencies and set up configuration
+            working-directory: netbox
+            run: |
+                ln -s $(pwd)/../netbox-plugin-dhcp/configuration/configuration.testing.py netbox/netbox/configuration.py
+
+                python -m pip install --upgrade pip
+                python -m pip install tblib
+                pip install -r requirements.txt -U
+
+          - name: Run tests
+            working-directory: netbox
+            run: |
+                python netbox/manage.py test netbox_dhcp.tests --parallel -v2
