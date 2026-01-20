@@ -1,6 +1,8 @@
 # NetBox DHCP
 
-The NetBox DHCP plugin will enable NetBox to manage operational DHCP data.
+The NetBox DHCP plugin enables NetBox to manage operational DHCP data such as servers, shared networks, subnets, pools, options and host reservations. It serves as a "source of truth" for DHCP servers, such as Kea DHCP, providing data for network automation tools that can be used to configure the DHCP infrastructure.
+
+This works in much the same way in which NetBox provides configuration data for automatic configuration of network components, or [NetBox DNS](https://github.com/peteeckel/netbox-plugin-dns) provides the input necessary to configure DNS infrastructure and zone data.
 
 <div align="center">
 <a href="https://pypi.org/project/netbox-plugin-dhcp/"><img src="https://img.shields.io/pypi/v/netbox-plugin-dhcp" alt="PyPi"/></a>
