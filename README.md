@@ -1,4 +1,4 @@
-# NetBox DNS
+# NetBox DHCP
 The NetBox DHCP plugin will enable NetBox to manage operational DHCP data.
 
 <div align="center">
