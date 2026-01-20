@@ -4,3 +4,6 @@ compatibility:
   - release: 0.1.0
     netbox_min: 4.5.0
     netbox_max: 4.5.0
+  - release: 0.1.1
+    netbox_min: 4.5.0
+    netbox_max: 4.5.0
