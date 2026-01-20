@@ -17,10 +17,10 @@ dependencies = []
 requires-python = ">=3.12"
 
 [project.urls]
-Homepage = "https://github.com/peteeckel/netbox-plugin-dhcp"
-# Documentation = "https://github.com/peteeckel/netbox-plugin-dns/blob/main/docs/using_netbox_dns.md"
-Repository = "https://github.com/peteeckel/netbox-plugin-dhcp"
-Issues = "https://github.com/peteeckel/netbox-plugin-dhcp/issues"
+Homepage = "https://github.com/sys4/netbox-plugin-dhcp"
+# Documentation = "https://github.com/sys4/netbox-plugin-dns/blob/main/docs/using_netbox_dhcp.md"
+Repository = "https://github.com/sys4/netbox-plugin-dhcp"
+Issues = "https://github.com/sys4/netbox-plugin-dhcp/issues"
 
 [build-system]
 requires = ['setuptools']
