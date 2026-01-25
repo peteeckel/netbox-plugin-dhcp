@@ -11,6 +11,7 @@ from .mixins import (
 )
 
 from .subnet import SubnetSerializer
+from .option import OptionSerializer
 
 __all__ = ("PoolSerializer",)
 
@@ -35,6 +36,7 @@ class PoolSerializer(
             "subnet",
             "ip_range",
             "client_classes",
+            "options",
             "evaluate_additional_classes",
             "hostname_char_set",
             "hostname_char_replacement",
@@ -74,6 +76,12 @@ class PoolSerializer(
     ip_range = IPRangeSerializer(
         nested=True,
         read_only=False,
+        required=False,
+    )
+    options = OptionSerializer(
+        nested=True,
+        many=True,
+        read_only=True,
         required=False,
     )
 

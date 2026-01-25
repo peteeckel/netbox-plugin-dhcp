@@ -4,6 +4,7 @@ from netbox.api.serializers import PrimaryModelSerializer
 
 from netbox_dhcp.models import ClientClass
 
+from .option import OptionSerializer
 
 __all__ = ("ClientClassSerializer",)
 
@@ -35,6 +36,7 @@ class ClientClassSerializer(PrimaryModelSerializer):
             "preferred_lifetime",
             "min_preferred_lifetime",
             "max_preferred_lifetime",
+            "options",
         )
 
         brief_fields = (
@@ -50,4 +52,11 @@ class ClientClassSerializer(PrimaryModelSerializer):
 
     url = serializers.HyperlinkedIdentityField(
         view_name="plugins-api:netbox_dhcp-api:clientclass-detail"
+    )
+
+    options = OptionSerializer(
+        nested=True,
+        many=True,
+        read_only=True,
+        required=False,
     )

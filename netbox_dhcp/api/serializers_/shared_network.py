@@ -11,6 +11,7 @@ from .mixins import (
 )
 
 from .dhcp_server import DHCPServerSerializer
+from .option import OptionSerializer
 from ..nested_serializers import NestedSubnetSerializer
 
 __all__ = ("SharedNetworkSerializer",)
@@ -49,6 +50,7 @@ class SharedNetworkSerializer(
             "client_classes",
             "evaluate_additional_classes",
             "child_subnets",
+            "options",
             "renew_timer",
             "rebind_timer",
             "match_client_id",
@@ -117,6 +119,12 @@ class SharedNetworkSerializer(
     child_subnets = NestedSubnetSerializer(
         many=True,
         read_only=False,
+        required=False,
+    )
+    options = OptionSerializer(
+        nested=True,
+        many=True,
+        read_only=True,
         required=False,
     )
 
