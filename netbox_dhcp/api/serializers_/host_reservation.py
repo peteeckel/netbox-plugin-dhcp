@@ -6,6 +6,7 @@ from ipam.api.serializers import IPAddressSerializer, PrefixSerializer
 
 from netbox_dhcp.models import HostReservation
 
+from .option import OptionSerializer
 from .mixins import ClientClassSerializerMixin
 
 __all__ = ("HostReservationSerializer",)
@@ -42,6 +43,7 @@ class HostReservationSerializer(
             "ipv6_prefixes",
             "excluded_ipv6_prefixes",
             "client_classes",
+            "options",
         )
 
         brief_fields = (
@@ -87,6 +89,12 @@ class HostReservationSerializer(
         read_only=False,
         required=False,
         help_text=_("IPAM IPv6 Prefixes excluded by the host reservation"),
+    )
+    options = OptionSerializer(
+        nested=True,
+        many=True,
+        read_only=True,
+        required=False,
     )
 
     def create(self, validated_data):

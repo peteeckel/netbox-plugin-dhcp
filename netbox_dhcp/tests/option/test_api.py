@@ -24,6 +24,7 @@ class OptionAPITestCase(
 
     brief_fields = [
         "code",
+        "data",
         "description",
         "display",
         "id",

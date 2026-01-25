@@ -11,6 +11,7 @@ from .mixins import (
 )
 
 from .subnet import SubnetSerializer
+from .option import OptionSerializer
 
 __all__ = ("PDPoolSerializer",)
 
@@ -39,6 +40,7 @@ class PDPoolSerializer(
             "excluded_prefix",
             "client_classes",
             "evaluate_additional_classes",
+            "options",
             "tags",
         )
 
@@ -74,6 +76,12 @@ class PDPoolSerializer(
     excluded_prefix = PrefixSerializer(
         nested=True,
         read_only=False,
+        required=False,
+    )
+    options = OptionSerializer(
+        nested=True,
+        many=True,
+        read_only=True,
         required=False,
     )
 

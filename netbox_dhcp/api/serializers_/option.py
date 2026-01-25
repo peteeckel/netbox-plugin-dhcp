@@ -69,6 +69,7 @@ class OptionSerializer(
             "space",
             "code",
             "weight",
+            "data",
         )
 
     url = serializers.HyperlinkedIdentityField(

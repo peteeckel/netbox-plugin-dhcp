@@ -6,6 +6,7 @@ from ipam.api.serializers import PrefixSerializer
 from netbox_dhcp.models import Subnet
 from .dhcp_server import DHCPServerSerializer
 from .shared_network import SharedNetworkSerializer
+from .option import OptionSerializer
 
 from ..nested_serializers import (
     NestedPDPoolSerializer,
@@ -44,6 +45,7 @@ class SubnetSerializer(
             "child_pools",
             "child_pd_pools",
             "child_host_reservations",
+            "options",
             "prefix",
             "prefix_display",
             "next_server",
@@ -139,6 +141,12 @@ class SubnetSerializer(
         required=False,
     )
     child_host_reservations = NestedHostReservationSerializer(
+        many=True,
+        read_only=True,
+        required=False,
+    )
+    options = OptionSerializer(
+        nested=True,
         many=True,
         read_only=True,
         required=False,
